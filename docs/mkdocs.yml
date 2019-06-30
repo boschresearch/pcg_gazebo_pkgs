@@ -1,0 +1,95 @@
+site_name: Procedural Generation for Gazebo
+
+# Extensions
+markdown_extensions:
+  - codehilite
+  - markdown.extensions.admonition
+  - markdown.extensions.codehilite:
+      guess_lang: false
+  - markdown.extensions.def_list
+  - markdown.extensions.footnotes
+  - markdown.extensions.meta
+  - markdown.extensions.toc:
+      permalink: true
+      baselevel: 4
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: squidfunk
+      repo: mkdocs-material
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+nav:
+  - Home: index.md
+  - Python API:
+    - pcg_gazebo: python_api/pcg_gazebo.md
+    - pcg_gazebo.generators: python_api/pcg_gazebo.generators.md
+    - pcg_gazebo.generators.constraints: python_api/pcg_gazebo.generators.constraints.md
+    - pcg_gazebo.generators.engines: python_api/pcg_gazebo.generators.engines.md
+    - pcg_gazebo.parsers: python_api/pcg_gazebo.parsers.md
+    - pcg_gazebo.parsers.sdf_config: python_api/pcg_gazebo.parsers.sdf_config.md
+    - pcg_gazebo.parsers.sdf: python_api/pcg_gazebo.parsers.sdf.md
+    - pcg_gazebo.parsers.types: python_api/pcg_gazebo.parsers.types.md
+    - pcg_gazebo.parsers.urdf: python_api/pcg_gazebo.parsers.urdf.md
+    - pcg_gazebo.simulation: python_api/pcg_gazebo.simulation.md
+    - pcg_gazebo.simulation.physics: python_api/pcg_gazebo.simulation.physics.md
+    - pcg_gazebo.simulation.properties: python_api/pcg_gazebo.simulation.properties.md
+    - pcg_gazebo.simulation.sensors: python_api/pcg_gazebo.simulation.sensors.md
+  - Tutorials:
+    - Parsers:
+      - SDF: 
+        - Introduction: tutorials/parsers/sdf/index.md
+        - Geometries: tutorials/parsers/sdf/geometries.md
+        - Materials: tutorials/parsers/sdf/materials.md
+        - Collisions: tutorials/parsers/sdf/collisions.md
+        - Visuals: tutorials/parsers/sdf/visuals.md
+        - Links, joints and sensors: tutorials/parsers/sdf/links_joints_sensors.md
+        - Models: tutorials/parsers/sdf/models.md
+        - Physics engines: tutorials/parsers/sdf/physics_engines.md
+        - Plugins: tutorials/parsers/sdf/plugins.md
+        - World: tutorials/parsers/sdf/world.md
+        - Convert from SDF file: tutorials/parsers/sdf/convert_from_sdf_file.md
+      - URDF:
+        - Introduction: tutorials/parsers/urdf/index.md
+        - Geometries: tutorials/parsers/urdf/geometries.md
+        - Collisions: tutorials/parsers/urdf/collision.md
+        - Visuals: tutorials/parsers/urdf/visual.md
+        - Links, joints and sensors: tutorials/parsers/urdf/links_joints_sensors.md
+        - Robots: tutorials/parsers/urdf/robots.md
+    - Task manager:
+      - Gazebo proxy: tutorials/task_manager/gazebo_proxy.md
+      - Process manager: tutorials/task_manager/process_manager.md
+      - Stage conditions: tutorials/task_manager/stage_conditions.md
+    - Simulation:
+      - Dynamically creating objects: tutorials/simulation/objects.md
+      - Setting up different physics engines: tutorials/simulation/physics_engines.md
+      - Surface and collision properties: tutorials/simulation/surface_collision_properties.md
+      - Materials: tutorials/simulation/materials.md
+      - Building a model: tutorials/simulation/building_a_model.md
+      - Sensors: tutorials/simulation/sensors.md
+      - Meshes: tutorials/simulation/meshes.md
+theme:
+  name: 'material'
+  feature:
+    tabs: false
+
+plugins:
+  - search
+  - awesome-pages
+
+extra_javascript:
+- 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'

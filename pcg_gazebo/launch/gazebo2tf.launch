@@ -1,0 +1,12 @@
+<launch>
+    <arg name="namespace" default="pcg"/>
+    <arg name="gazebo_topic" default="/gazebo/model_states"/>
+    <group ns="$(arg namespace)">
+        <node name="gazebo2tf"
+              pkg="pcg_gazebo"
+              type="gazebo2tf"
+              output="screen">
+              <remap from="/gazebo/model_states" to="/$(arg gazebo_topic)"/>
+        </node>
+    </group>
+</launch>

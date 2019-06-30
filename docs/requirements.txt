@@ -1,0 +1,10 @@
+mkdocs
+mkdocs-material
+Jinja2
+rospkg
+PyYAML
+lxml
+xmltodict
+pymdown-extensions
+pydoc-markdown
+mkdocs-awesome-pages-plugin

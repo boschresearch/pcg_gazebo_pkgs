@@ -1,0 +1,7 @@
+<launch>
+    <test test-name="test_sdf_parser"
+        pkg="pcg_libraries"
+        type="test_sdf_parser.py"
+        name="test_sdf_parser">
+    </test>
+</launch>

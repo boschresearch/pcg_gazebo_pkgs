@@ -1,0 +1,42 @@
+<launch>
+    <arg name="timeout" default="0"/>
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="extra_gazebo_args" default=""/>
+    <arg name="gui" default="true"/>
+    <arg name="recording" default="false"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+    <arg name="physics" default="ode"/>
+    <arg name="verbose" default="false"/>
+    <arg name="world_name" default="worlds/empty.world"/>
+    <arg name="respawn_gazebo" default="false"/>
+
+    <arg name="use_clock_frequency" default="false"/>
+    <arg name="pub_clock_frequency" default="100"/>
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="paused" default="$(arg paused)"/>
+        <arg name="use_sim_time" default="$(arg use_sim_time)"/>
+        <arg name="extra_gazebo_args" default="$(arg extra_gazebo_args)"/>
+        <arg name="gui" default="$(arg gui)"/>
+        <arg name="recording" default="$(arg recording)"/>
+        <arg name="headless" default="$(arg headless)"/>
+        <arg name="debug" default="$(arg debug)"/>
+        <arg name="physics" default="$(arg physics)"/>
+        <arg name="verbose" default="$(arg verbose)"/>
+        <arg name="world_name" default="$(arg world_name)"/>
+        <arg name="respawn_gazebo" default="$(arg respawn_gazebo)"/>
+        <arg name="use_clock_frequency" default="$(arg use_clock_frequency)"/>
+        <arg name="pub_clock_frequency" default="$(arg pub_clock_frequency)"/>
+    </include>
+
+    <group if="$(eval arg('timeout') > 0)">
+        <node name="simulation_timer"
+              pkg="pcg_libraries"
+              type="simulation_timer"
+              required="true"
+              output="screen"
+              args="--timeout $(arg timeout)"/>
+    </group>
+</launch>

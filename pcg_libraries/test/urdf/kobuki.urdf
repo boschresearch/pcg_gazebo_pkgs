@@ -1,0 +1,402 @@
+<?xml version="1.0" ?>
+<robot name="kobuki" xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller" xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor" xmlns:xacro="http://ros.org/wiki/xacro">
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://kobuki_description/meshes/main_body.dae"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0.001 0 0.05199"/>
+    </visual>
+    <collision name="base">
+      <geometry>
+        <cylinder length="0.10938" radius="0.178"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0.0 0 0.05949"/>
+    </collision>
+    <inertial>
+      <origin xyz="0.01 0 0"/>
+      <mass value="2.4"/>
+      <inertia ixx="0.019995" ixy="0.0" ixz="0.0" iyy="0.019995" iyz="0.0" izz="0.03675"/>
+    </inertial>
+  </link>
+  <link name="base_footprint"/>
+  <joint name="base_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0.0102"/>
+    <parent link="base_link"/>
+    <child link="base_footprint"/>
+  </joint>
+  <joint name="wheel_left_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_left_link"/>
+    <origin rpy="-1.57079632679 0 0" xyz="0.00 0.115 0.0250"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <link name="wheel_left_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://kobuki_description/meshes/wheel.dae"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0206" radius="0.0352"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="wheel_right_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_right_link"/>
+    <origin rpy="-1.57079632679 0 0" xyz="0.00 -0.115 0.0250"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <link name="wheel_right_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://kobuki_description/meshes/wheel.dae"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0206" radius="0.0350"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="caster_front_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="caster_front_link"/>
+    <origin rpy="-1.57079632679 0 0" xyz="0.115 0.0 0.007"/>
+    <limit effort="0" lower="0" upper="0" velocity="0"/>
+  </joint>
+  <link name="caster_front_link">
+    <collision>
+      <geometry>
+        <cylinder length="0.0176" radius="0.017"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="caster_back_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="caster_back_link"/>
+    <origin rpy="-1.57079632679 0 0" xyz="-0.135 0.0 0.009"/>
+    <limit effort="0" lower="0" upper="0" velocity="0"/>
+  </joint>
+  <link name="caster_back_link">
+    <collision>
+      <geometry>
+        <cylinder length="0.0176" radius="0.017"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+  </link>
+  <!-- Kobuki's sensors -->
+  <joint name="gyro_joint" type="revolute">
+    <axis xyz="0 1 0"/>
+    <origin rpy="0 0 0" xyz="0.056 0.062 0.0202"/>
+    <parent link="base_link"/>
+    <child link="gyro_link"/>
+    <limit effort="0" lower="0" upper="0" velocity="0"/>
+  </joint>
+  <link name="gyro_link">
+    <inertial>
+      <mass value="0.001"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.0001"/>
+    </inertial>
+  </link>
+  <joint name="cliff_sensor_left_joint" type="revolute">
+    <origin rpy="0 1.57079632679 0" xyz="0.08734 0.13601 0.0214"/>
+    <parent link="base_link"/>
+    <child link="cliff_sensor_left_link"/>
+    <limit effort="0" lower="0" upper="0" velocity="0"/>
+  </joint>
+  <link name="cliff_sensor_left_link">
+    <inertial>
+      <mass value="0.0001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+    </inertial>
+  </link>
+  <joint name="cliff_sensor_right_joint" type="revolute">
+    <origin rpy="0 1.57079632679 0" xyz="0.085 -0.13601 0.0214"/>
+    <parent link="base_link"/>
+    <child link="cliff_sensor_right_link"/>
+    <limit effort="0" lower="0" upper="0" velocity="0"/>
+  </joint>
+  <link name="cliff_sensor_right_link">
+    <inertial>
+      <mass value="0.0001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+    </inertial>
+  </link>
+  <joint name="cliff_sensor_front_joint" type="revolute">
+    <origin rpy="0 1.57079632679 0" xyz="0.156 0.00 0.0214"/>
+    <parent link="base_link"/>
+    <child link="cliff_sensor_front_link"/>
+    <limit effort="0" lower="0" upper="0" velocity="0"/>
+  </joint>
+  <link name="cliff_sensor_front_link">
+    <inertial>
+      <mass value="0.0001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+    </inertial>
+  </link>
+  <gazebo reference="wheel_left_link">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <kp>1000000.0</kp>
+    <kd>100.0</kd>
+    <minDepth>0.001</minDepth>
+    <maxVel>1.0</maxVel>
+  </gazebo>
+  <gazebo reference="wheel_right_link">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+    <kp>1000000.0</kp>
+    <kd>100.0</kd>
+    <minDepth>0.001</minDepth>
+    <maxVel>1.0</maxVel>
+  </gazebo>
+  <gazebo reference="caster_front_link">
+    <mu1>0.0</mu1>
+    <mu2>0.0</mu2>
+    <kp>1000000.0</kp>
+    <kd>100.0</kd>
+    <minDepth>0.001</minDepth>
+    <maxVel>1.0</maxVel>
+  </gazebo>
+  <gazebo reference="caster_back_link">
+    <mu1>0.0</mu1>
+    <mu2>0.0</mu2>
+    <kp>1000000.0</kp>
+    <kd>100.0</kd>
+    <minDepth>0.001</minDepth>
+    <maxVel>1.0</maxVel>
+  </gazebo>
+  <gazebo reference="base_link">
+    <mu1>0.3</mu1>
+    <mu2>0.3</mu2>
+    <sensor name="bumpers" type="contact">
+      <always_on>1</always_on>
+      <update_rate>50.0</update_rate>
+      <visualize>true</visualize>
+      <contact>
+        <collision>base_link_fixed_joint_lump__base_collision</collision>
+      </contact>
+      <plugin filename="libgazebo_ros_kobuki_bumper_sensor.so" name="kobuki_bumper_sensor">
+        <robot_namespace/>
+        <topic_name>events/bumper</topic_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+  <gazebo reference="cliff_sensor_left_link">
+    <sensor name="cliff_sensor_left" type="ray">
+      <always_on>true</always_on>
+      <update_rate>50</update_rate>
+      <visualize>true</visualize>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>50</samples>
+            <resolution>1.0</resolution>
+            <min_angle>-0.0436</min_angle>
+            <!-- -2.5 degree -->
+            <max_angle>0.0436</max_angle>
+            <!-- 2.5 degree -->
+          </horizontal>
+          <!--            Can't use vertical rays until this bug is resolved: -->
+          <!--            https://bitbucket.org/osrf/gazebo/issue/509/vertical-sensor-doesnt-works -->
+          <!-- 	          <vertical> -->
+          <!-- 	            <samples>50</samples> -->
+          <!-- 	            <resolution>1.0</resolution> -->
+          <!-- 	            <min_angle>-0.0436</min_angle>  -2.5 degree -->
+          <!-- 	            <max_angle>0.0436</max_angle> 2.5 degree -->
+          <!-- 	          </vertical> -->
+        </scan>
+        <range>
+          <min>0.01</min>
+          <max>0.15</max>
+          <resolution>1.0</resolution>
+        </range>
+      </ray>
+    </sensor>
+  </gazebo>
+  <gazebo reference="cliff_sensor_right_link">
+    <sensor name="cliff_sensor_right" type="ray">
+      <always_on>true</always_on>
+      <update_rate>50</update_rate>
+      <visualize>true</visualize>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>50</samples>
+            <resolution>1.0</resolution>
+            <min_angle>-0.0436</min_angle>
+            <!-- -2.5 degree -->
+            <max_angle>0.0436</max_angle>
+            <!-- 2.5 degree -->
+          </horizontal>
+          <!--            Can't use vertical rays until this bug is resolved: -->
+          <!--            https://bitbucket.org/osrf/gazebo/issue/509/vertical-sensor-doesnt-works -->
+          <!-- 	          <vertical> -->
+          <!-- 	            <samples>50</samples> -->
+          <!-- 	            <resolution>1.0</resolution> -->
+          <!-- 	            <min_angle>-0.0436</min_angle>  -2.5 degree -->
+          <!-- 	            <max_angle>0.0436</max_angle> 2.5 degree -->
+          <!-- 	          </vertical> -->
+        </scan>
+        <range>
+          <min>0.01</min>
+          <max>0.15</max>
+          <resolution>1.0</resolution>
+        </range>
+      </ray>
+    </sensor>
+  </gazebo>
+  <gazebo reference="cliff_sensor_front_link">
+    <sensor name="cliff_sensor_front" type="ray">
+      <always_on>true</always_on>
+      <update_rate>50</update_rate>
+      <visualize>true</visualize>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>50</samples>
+            <resolution>1.0</resolution>
+            <min_angle>-0.0436</min_angle>
+            <!-- -2.5 degree -->
+            <max_angle>0.0436</max_angle>
+            <!-- 2.5 degree -->
+          </horizontal>
+          <!-- 	          Can't use vertical rays until this bug is resolved: -->
+          <!--            https://bitbucket.org/osrf/gazebo/issue/509/vertical-sensor-doesnt-works -->
+          <!-- 	          <vertical> -->
+          <!-- 	            <samples>50</samples> -->
+          <!-- 	            <resolution>1.0</resolution> -->
+          <!-- 	            <min_angle>-0.0436</min_angle>  -2.5 degree -->
+          <!-- 	            <max_angle>0.0436</max_angle> 2.5 degree -->
+          <!-- 	          </vertical> -->
+        </scan>
+        <range>
+          <min>0.01</min>
+          <max>0.15</max>
+          <resolution>1.0</resolution>
+        </range>
+      </ray>
+    </sensor>
+  </gazebo>
+  <gazebo reference="gyro_link">
+    <sensor name="imu" type="imu">
+      <always_on>true</always_on>
+      <update_rate>50</update_rate>
+      <visualize>false</visualize>
+      <imu>
+        <noise>
+          <type>gaussian</type>
+          <rate>
+            <mean>0.0</mean>
+            <stddev>1.96e-06</stddev>
+            <!-- 0.25 x 0.25 (deg/s) -->
+            <bias_mean>0.0</bias_mean>
+            <bias_stddev>0.0</bias_stddev>
+          </rate>
+          <accel>
+            <!-- not used in the plugin and real robot, hence using tutorial values -->
+            <mean>0.0</mean>
+            <stddev>1.7e-2</stddev>
+            <bias_mean>0.1</bias_mean>
+            <bias_stddev>0.001</bias_stddev>
+          </accel>
+        </noise>
+      </imu>
+      <!-- Gazebo ROS IMU plugin  -->
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="kobuki_imu">
+        <alwaysOn>true</alwaysOn>
+        <robotNamespace/>
+        <updateRateHZ>100</updateRateHZ>
+        <bodyName>base_link</bodyName>
+        <topicName>imu</topicName>
+        <gaussianNoise>0.0</gaussianNoise>
+        <frameName>world</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+  <!-- Kobuki's cliff sensor plugin -->
+  <gazebo>
+    <plugin filename="libgazebo_ros_kobuki_cliff_sensor.so" name="kobuki_cliff_sensor">
+      <cliff_sensor_left_name>cliff_sensor_left</cliff_sensor_left_name>
+      <cliff_sensor_center_name>cliff_sensor_front</cliff_sensor_center_name>
+      <cliff_sensor_right_name>cliff_sensor_right</cliff_sensor_right_name>
+      <cliff_detection_threshold>0.04</cliff_detection_threshold>
+      <topic_name>events/cliff</topic_name>
+    </plugin>
+  </gazebo>
+  <gazebo>
+    <plugin filename="libgazebo_ros_diff_drive.so" name="kobuki_diff_drive_controller">
+      <commandTopic>/cmd_vel</commandTopic>
+      <odometryTopic>/groundtruth</odometryTopic>
+      <odometryFrame/>
+      <robotBaseFrame>base_footprint</robotBaseFrame>
+      <wheelSeparation>.230</wheelSeparation>
+      <wheelDiameter>0.070</wheelDiameter>
+      <leftJoint>wheel_left_joint</leftJoint>
+      <rightJoint>wheel_right_joint</rightJoint>
+      <wheelTorque>2.0</wheelTorque>
+      <legacyMode>false</legacyMode>
+    </plugin>
+  </gazebo>
+  <!-- Add joint state publisher -->
+  <gazebo>
+    <plugin filename="libgazebo_ros_joint_state_publisher.so" name="kobuki_joint_state_publisher">
+      <robotNamespace/>
+      <updateRate>50</updateRate>
+    </plugin>
+  </gazebo>
+  <!-- Add ground truth sensor -->
+  <gazebo>
+    <plugin filename="libgazebo_ros_p3d.so" name="kobuki_pose_gt">
+      <alwaysOn>true</alwaysOn>
+      <updateRate>100</updateRate>
+      <bodyName>base_link</bodyName>
+      <topicName>groundtruth</topicName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <frameName>world</frameName>
+    </plugin>
+  </gazebo>
+  <gazebo>
+    <plugin filename="libgazebo_ros_p3d.so" name="p3d_base_controller">
+      <alwaysOn>true</alwaysOn>
+      <updateRate>100.0</updateRate>
+      <bodyName>base_link</bodyName>
+      <topicName>/ground_truth</topicName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <frameName>world</frameName>
+    </plugin>
+  </gazebo>
+</robot>

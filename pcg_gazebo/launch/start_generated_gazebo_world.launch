@@ -1,0 +1,31 @@
+<launch>
+    <arg name="generate_world" default="false"/>
+    <arg name="output_world_file" default="/tmp/pcg.world" doc="Path to generated output world file"/>
+    <arg name="world_config_file" doc="YAML file with the configuration of the assets and engines used to generate the Gazebo world"/>
+    <arg name="output_topic" default="/world_sdf" doc="Topic name to publish the resulting XML file" />
+    <arg name="plot_footprints" default="false" doc="True to output the model footprints as a bokeh plot" />
+
+    <group if="$(arg generate_world)">
+        <include file="$(find pcg_gazebo)/launch/generate_world.launch">
+            <arg name="world_config_file" value="$(arg world_config_file)" />
+            <arg name="output_world_file" value="$(arg output_world_file)"/>
+            <arg name="output_topic" value="$(arg output_topic)"/>
+            <arg name="plot_footprints" value="$(arg plot_footprints)"/>
+        </include>
+
+        <node pkg="pcg_gazebo" 
+            type="start_gazebo_world" 
+            name="start_gazebo_world"
+            output="screen"
+            args="--input_topic $(arg output_topic)"/>            
+    </group>
+
+    <group unless="$(arg generate_world)">
+        <node pkg="pcg_gazebo" 
+            type="start_gazebo_world" 
+            name="start_gazebo_world"
+            output="screen"
+            args="--input_world_filename $(arg output_world_file)"/>            
+    </group>
+
+</launch>

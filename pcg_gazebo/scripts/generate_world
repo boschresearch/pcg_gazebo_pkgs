@@ -1,0 +1,126 @@
+#!/usr/bin/env python
+# Copyright (c) 2019 - The Procedural Generation for Gazebo authors
+# For information on the respective copyright owner see the NOTICE file
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+"""**Description**
+
+**Input parameters**
+
+**Examples**
+
+"""
+from __future__ import print_function
+import argparse
+import yaml
+import os
+from bokeh.io import show
+from bokeh.plotting import output_file
+import rospy
+from time import time, sleep
+import sys
+from pcg_gazebo.generators import WorldGenerator
+from pcg_gazebo.visualization import plot_footprints
+from std_msgs.msg import String
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser('Generate the Smart Life Lab world using the PCG engine')
+    parser.add_argument(
+        '--config-file', 
+        type=str, 
+        help='Configuration file (YAML format) with the PCG engines specification and assets lists')    
+    parser.add_argument(
+        '--output-world-file',
+        type=str,
+        default='/tmp/sll.world',
+        help='Output SDF world file')
+    parser.add_argument(
+        '--verbose', 
+        action='store_true',
+        help='Set the output of the world generator as verbose')
+    parser.add_argument(
+        '--plot',
+        action='store_true',
+        help='Create bokeh plot of the object and workspace footprints')
+    parser.add_argument(
+        '--plot-width',
+        type=int,
+        default=1400,
+        help='Width of the plot')
+    parser.add_argument(
+        '--plot-height',
+        type=int,
+        default=1200,
+        help='Height of the plot')
+    parser.add_argument(
+        '--output-topic', type=str,
+        help='Optional output topic to publish the resulting XML')
+    parser.add_argument(
+        '--with-sun',
+        action='store_true',
+        help='Add default sun model to world')
+    parser.add_argument(
+        '--with-ground-plane',
+        action='store_true',
+        help='Add default ground_plane model to world')
+
+    args = parser.parse_args(rospy.myargv()[1::])
+    
+    assert os.path.isfile(args.config_file), 'Invalid input file, value={}'.format(args.config_file)
+    
+    # Obtain the file with the poses of the original world configuration
+    with open(args.config_file) as config_file:
+        world_config = yaml.load(config_file)
+
+    print('Parsing configuration file=', args.config_file)
+
+    # Create world generator
+    world_generator = WorldGenerator()
+    world_generator.parse_configuration(world_config, verbose=args.verbose)
+
+    world_generator.run_engines()
+
+    world_filename = world_generator.export_world(
+        output_dir=os.path.dirname(args.output_world_file), 
+        filename=os.path.basename(args.output_world_file), 
+        with_default_ground_plane=args.with_ground_plane, 
+        with_default_sun=args.with_sun)
+
+    if args.output_topic:
+        if rospy.is_shutdown():
+            raise rospy.ROSInitException('ROS master is not running!')
+            sys.exit(-1)
+
+        rospy.init_node('generate_world', anonymous=True)
+
+        pub = rospy.Publisher(args.output_topic, String, queue_size=1)
+        
+        start_time = time()
+        while pub.get_num_connections() == 0 and time() - start_time < 30:
+            sleep(0.1)
+
+        pub.publish(world_filename)
+
+    if args.plot:
+        assert args.plot_width > 0 and args.plot_height > 0, \
+            'Plot width and height must be greater than zero'
+        # Plot footprints
+        fig = plot_footprints(
+            models=world_generator.world.models,
+            fig_width=args.plot_width, 
+            fig_height=args.plot_height,
+            mesh_type='collision',
+            engine='bokeh')
+        output_file('/tmp/pcg_world.html')
+        show(fig, browser='firefox')

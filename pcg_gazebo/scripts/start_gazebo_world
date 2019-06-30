@@ -1,0 +1,79 @@
+#!/usr/bin/env python
+"""**Description**
+
+**Input parameters**
+
+**Examples**
+
+"""
+from __future__ import print_function
+import rospy
+import os
+import argparse
+from std_msgs.msg import String
+from pcg_gazebo.task_manager import Server
+
+
+# Add a run_simulation method to test the generated world
+def run_simulation(world_filename, ros_host='localhost', ros_port=11311, 
+                   gazebo_host='localhost', gazebo_port=11345, 
+                   anonymous=False, output_log_dir=None, physics='ode'):
+    name = 'gazebo_sim'
+
+    server = Server()    
+    server.create_simulation(name, ros_host, ros_port, gazebo_host, gazebo_port, anonymous, output_log_dir)
+        
+    simulation = server.get_simulation(name)
+    simulation.create_gazebo_task(
+        name='gazebo',
+        world=world_filename,
+        gui=True,
+        physics=physics,
+        paused=False,
+        required=True)
+    simulation.run_all_tasks()
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Start Gazebo world from file')
+    parser.add_argument(
+        '--input_topic', 
+        '-t', 
+        type=str, 
+        help='ROS topic that will deliver the XML text input with the SDF robot description')
+    parser.add_argument(
+        '--input_world_filename',
+        '-f',
+        type=str,
+        help='Input')
+    parser.add_argument(
+        '--physics', 
+        default='ode',
+        type=str,
+        help='Name of the physics engine')
+    
+    args = parser.parse_args(rospy.myargv()[1:])
+
+    assert args.physics in ['ode', 'bullet', 'simbody'], \
+        'Valid physics engines are ode, bullet or simbody'
+
+    rospy.init_node('start_gazebo_world', anonymous=True)
+
+    world_filename = None
+    if args.input_world_filename:
+        print('Running Gazebo from world file: {}'.format(args.input_world_filename))
+        world_filename = args.input_world_filename
+    elif args.input_topic:
+        print('Waiting for world filename via topic: {}'.format(args.input_topic))        
+        topic_xml = rospy.wait_for_message(args.input_topic, String)
+        world_filename = topic_xml.data
+        print('Message received')
+
+    print('World filename: {}'.format(world_filename))
+
+    assert os.path.isfile(world_filename), \
+        'Input world file is invalid, value={}'.format(world_filename)
+
+    run_simulation(world_filename, physics=args.physics)
+
+    rospy.spin()

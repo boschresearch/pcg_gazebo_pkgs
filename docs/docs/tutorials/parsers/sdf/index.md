@@ -1,0 +1,4 @@
+The creation of the necessary SDF files to build a simulation requires the creation and editing for files in the [SDF format](http://sdformat.org/), a specific format created to describe models and worlds in Gazebo.
+In order to allow the edition and creation of scenarios programatically, the SDF parser is the module that allows quick creation of all the necessary simulation entities with default parameters already provided. 
+This modules can generate or parse SDF format files and allow the use of Python scripting for editing.
+This module was created according to the [SDF format specification](http://sdformat.org/)

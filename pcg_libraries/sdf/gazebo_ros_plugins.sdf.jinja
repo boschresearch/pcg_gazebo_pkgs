@@ -1,0 +1,75 @@
+{#
+Copyright (c) 2019 - The Procedural Generation for Gazebo authors
+For information on the respective copyright owner see the NOTICE file
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+#}
+
+{% macro pose_gt(
+    base_link='base_link', 
+    topic_name='groundtruth', 
+    frame_name='world',
+    gaussian_noise=0.0,
+    update_rate=100,
+    prefix='') 
+%}
+    {% if prefix != '' %}
+        {% set name = prefix ~ '_pose_gt' %}
+    {% else %}
+        {% set name = 'pose_gt' %}
+    {% endif %}
+
+    <plugin name="{{ name }}" filename="libgazebo_ros_p3d.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>{{ update_rate }}</updateRate>
+        <bodyName>{{ base_link }}</bodyName>
+        <topicName>{{ topic_name }}</topicName>
+        <gaussianNoise>{{ gaussian_noise }}</gaussianNoise>
+        <frameName>{{ frame_name }}</frameName>
+    </plugin>
+{% endmacro %}
+
+{% macro diff_drive(
+    base_link='base_link',
+    command_topic='/cmd_vel',
+    odometry_topic='/groundtruth',
+    odometry_frame='',
+    wheel_separation=0,
+    wheel_diameter=0,
+    left_joint='wheel_left_joint',
+    right_joint='wheel_right_joint',
+    wheel_torque=0,
+    publish_odom_tf=0,
+    legacy_mode=0,
+    prefix='') 
+%}
+    {% if prefix != '' %}
+        {% set name = prefix ~ '_diff_drive_controller' %}
+    {% else %}
+        {% set name = 'diff_drive_controller' %}
+    {% endif %}
+
+    <plugin name="{{ name }}" filename="libgazebo_ros_diff_drive.so">
+        <commandTopic>{{ command_topic }}</commandTopic>
+        <odometryTopic>{{ odometry_topic }}</odometryTopic>
+        <odometryFrame>{{ odometry_frame }}</odometryFrame>
+        <robotBaseFrame>{{ base_link }}</robotBaseFrame>
+        <wheelSeparation>{{ wheel_separation }}</wheelSeparation>
+        <wheelDiameter>{{ wheel_diameter }}</wheelDiameter>
+        <leftJoint>{{ left_joint }}</leftJoint>
+        <rightJoint>{{ right_joint }}</rightJoint>
+        <wheelTorque>{{ wheel_torque }}</wheelTorque>
+        <legacyMode>{{ legacy_mode }}</legacyMode>
+        <publishOdomTF>{{ publish_odom_tf }}</publishOdomTF>
+    </plugin>
+{% endmacro %}

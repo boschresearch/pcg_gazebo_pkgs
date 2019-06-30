@@ -1,0 +1,483 @@
+#!/bin/bash
+# Copyright (c) 2019 - The Procedural Generation for Gazebo authors
+# For information on the respective copyright owner see the NOTICE file
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generate documentation for pcg_gazebo.generators
+
+ROOT_DIR=docs/python_api
+
+if [ ! -d "$ROOT_DIR" ]; then
+    mkdir -p $ROOT_DIR
+fi
+
+pydocmd simple \
+    pcg_gazebo++ \
+    pcg_gazebo.log++ \
+    pcg_gazebo.transformations++ \
+    pcg_gazebo.visualization++ \
+    > $ROOT_DIR/pcg_gazebo.md
+
+pydocmd simple \
+    pcg_gazebo.generators++ \
+    pcg_gazebo.generators.collision_checker++ \
+    pcg_gazebo.generators.creators++ \
+    pcg_gazebo.generators.occupancy++ \
+    pcg_gazebo.generators.patterns++ \
+    pcg_gazebo.generators.world_generator++ \
+    > $ROOT_DIR/pcg_gazebo.generators.md
+
+pydocmd simple \
+    pcg_gazebo.generators.constraints++ \
+        pcg_gazebo.generators.constraints.constraint.Constraint++ \
+        pcg_gazebo.generators.constraints.tangent_constraint.TangentConstraint++ \
+        pcg_gazebo.generators.constraints.workspace_constraint.WorkspaceConstraint++ \
+    > $ROOT_DIR/pcg_gazebo.generators.constraints.md
+
+pydocmd simple \
+    pcg_gazebo.generators.engines++ \
+        pcg_gazebo.generators.engines.engine.Engine++ \
+        pcg_gazebo.generators.engines.fixed_pose_engine.FixedPoseEngine++ \
+        pcg_gazebo.generators.engines.pattern_engine.PatternEngine++ \
+        pcg_gazebo.generators.engines.random_pose_engine.RandomPoseEngine++ \
+    > $ROOT_DIR/pcg_gazebo.generators.engines.md
+
+pydocmd simple \
+    pcg_gazebo.parsers++ \
+    > $ROOT_DIR/pcg_gazebo.parsers.md
+
+pydocmd simple \
+    pcg_gazebo.parsers.sdf++ \
+    pcg_gazebo.parsers.sdf.accel.Accel++ \
+    pcg_gazebo.parsers.sdf.accuracy.Accuracy++ \
+    pcg_gazebo.parsers.sdf.actor.Actor++ \
+    pcg_gazebo.parsers.sdf.allow_auto_disable.AllowAutoDisable++ \
+    pcg_gazebo.parsers.sdf.altimeter.Altimeter++ \
+    pcg_gazebo.parsers.sdf.always_on.AlwaysOn++ \
+    pcg_gazebo.parsers.sdf.ambient.Ambient++ \
+    pcg_gazebo.parsers.sdf.angular_velocity.AngularVelocity++ \
+    pcg_gazebo.parsers.sdf.animation.Animation++ \
+    pcg_gazebo.parsers.sdf.attenuation.Attenuation++ \
+    pcg_gazebo.parsers.sdf.auto_start.AutoStart++ \
+    pcg_gazebo.parsers.sdf.axis.Axis++ \
+    pcg_gazebo.parsers.sdf.axis2.Axis2++ \
+    pcg_gazebo.parsers.sdf.bias_mean.BiasMean++ \
+    pcg_gazebo.parsers.sdf.bias_stddev.BiasStdDev++ \
+    pcg_gazebo.parsers.sdf.bounce.Bounce++ \
+    pcg_gazebo.parsers.sdf.box.Box++ \
+    pcg_gazebo.parsers.sdf.bullet.Bullet++ \
+    pcg_gazebo.parsers.sdf.camera.Camera++ \
+    pcg_gazebo.parsers.sdf.cast_shadows.CastShadows++ \
+    pcg_gazebo.parsers.sdf.center.Center++ \
+    pcg_gazebo.parsers.sdf.cfm.CFM++ \
+    pcg_gazebo.parsers.sdf.child.Child++ \
+    pcg_gazebo.parsers.sdf.clip.Clip++ \
+    pcg_gazebo.parsers.sdf.coefficient.Coefficient++ \
+    pcg_gazebo.parsers.sdf.collision.Collision++ \
+    pcg_gazebo.parsers.sdf.constant.Constant++ \
+    pcg_gazebo.parsers.sdf.constraints.Constraints++ \
+    pcg_gazebo.parsers.sdf.contact_max_correcting_vel.ContactMaxCorrectingVel++ \
+    pcg_gazebo.parsers.sdf.contact_surface_layer.ContactSurfaceLayer++ \
+    pcg_gazebo.parsers.sdf.contact.Contact++ \
+    pcg_gazebo.parsers.sdf.cylinder.Cylinder++ \
+    pcg_gazebo.parsers.sdf.damping.Damping++ \
+    pcg_gazebo.parsers.sdf.delay_start.DelayStart++ \
+    pcg_gazebo.parsers.sdf.depth_camera.DepthCamera++ \
+    pcg_gazebo.parsers.sdf.diffuse.Diffuse++ \
+    pcg_gazebo.parsers.sdf.direction.Direction++ \
+    pcg_gazebo.parsers.sdf.dissipation.Dissipation++ \
+    pcg_gazebo.parsers.sdf.distortion.Distortion++ \
+    pcg_gazebo.parsers.sdf.dynamic_friction.DynamicFriction++ \
+    pcg_gazebo.parsers.sdf.dynamics.Dynamics++ \
+    pcg_gazebo.parsers.sdf.effort.Effort++ \
+    pcg_gazebo.parsers.sdf.emissive.Emissive++ \
+    pcg_gazebo.parsers.sdf.empty.Empty++ \
+    pcg_gazebo.parsers.sdf.enable_wind.EnableWind++ \
+    pcg_gazebo.parsers.sdf.erp.ERP++ \
+    pcg_gazebo.parsers.sdf.falloff.FallOff++ \
+    pcg_gazebo.parsers.sdf.far.Far++ \
+    pcg_gazebo.parsers.sdf.fdir1.FDir1++ \
+    pcg_gazebo.parsers.sdf.filename.Filename++ \
+    pcg_gazebo.parsers.sdf.force_torque.ForceTorque++ \
+    pcg_gazebo.parsers.sdf.format.Format++ \
+    pcg_gazebo.parsers.sdf.frame.Frame++ \
+    pcg_gazebo.parsers.sdf.friction_model.FrictionModel++ \
+    pcg_gazebo.parsers.sdf.friction.Friction++ \
+    pcg_gazebo.parsers.sdf.friction2.Friction2++ \
+    pcg_gazebo.parsers.sdf.geometry.Geometry++ \
+    pcg_gazebo.parsers.sdf.granularity.Granularity++ \
+    pcg_gazebo.parsers.sdf.gravity.Gravity++ \
+    pcg_gazebo.parsers.sdf.height.Height++ \
+    pcg_gazebo.parsers.sdf.horizontal_fov.HorizontalFOV++ \
+    pcg_gazebo.parsers.sdf.horizontal.Horizontal++ \
+    pcg_gazebo.parsers.sdf.image.Image++ \
+    pcg_gazebo.parsers.sdf.imu.IMU++ \
+    pcg_gazebo.parsers.sdf.include.Include++ \
+    pcg_gazebo.parsers.sdf.inertia.Inertia++ \
+    pcg_gazebo.parsers.sdf.inertial.Inertial++ \
+    pcg_gazebo.parsers.sdf.initial_position.InitialPosition++ \
+    pcg_gazebo.parsers.sdf.inner_angle.InnerAngle++ \
+    pcg_gazebo.parsers.sdf.interpolate_x.InterpolateX++ \
+    pcg_gazebo.parsers.sdf.iters.Iters++ \
+    pcg_gazebo.parsers.sdf.ixx.IXX++ \
+    pcg_gazebo.parsers.sdf.ixy.IXY++ \
+    pcg_gazebo.parsers.sdf.ixz.IXZ++ \
+    pcg_gazebo.parsers.sdf.iyy.IYY++ \
+    pcg_gazebo.parsers.sdf.iyz.IYZ++ \
+    pcg_gazebo.parsers.sdf.izz.IZZ++ \
+    pcg_gazebo.parsers.sdf.joint.Joint++ \
+    pcg_gazebo.parsers.sdf.k1.K1++ \
+    pcg_gazebo.parsers.sdf.k2.K2++ \
+    pcg_gazebo.parsers.sdf.k3.K3++ \
+    pcg_gazebo.parsers.sdf.kd.Kd++ \
+    pcg_gazebo.parsers.sdf.kinematic.Kinematic++ \
+    pcg_gazebo.parsers.sdf.kp.Kp++ \
+    pcg_gazebo.parsers.sdf.laser_retro.LaserRetro++ \
+    pcg_gazebo.parsers.sdf.length.Length++ \
+    pcg_gazebo.parsers.sdf.light.Light++ \
+    pcg_gazebo.parsers.sdf.lighting.Lighting++ \
+    pcg_gazebo.parsers.sdf.limit.Limit++ \
+    pcg_gazebo.parsers.sdf.linear_acceleration.LinearAcceleration++ \
+    pcg_gazebo.parsers.sdf.linear.Linear++ \
+    pcg_gazebo.parsers.sdf.link.Link++ \
+    pcg_gazebo.parsers.sdf.localization.Localization++ \
+    pcg_gazebo.parsers.sdf.loop.Loop++ \
+    pcg_gazebo.parsers.sdf.lower.Lower++ \
+    pcg_gazebo.parsers.sdf.mass.Mass++ \
+    pcg_gazebo.parsers.sdf.material.Material++ \
+    pcg_gazebo.parsers.sdf.max_angle.MaxAngle++ \
+    pcg_gazebo.parsers.sdf.max_contacts.MaxContacts++ \
+    pcg_gazebo.parsers.sdf.max_step_size.MaxStepSize++ \
+    pcg_gazebo.parsers.sdf.max_transient_velocity.MaxTransientVelocity++ \
+    pcg_gazebo.parsers.sdf.max_vel.MaxVel++ \
+    pcg_gazebo.parsers.sdf.max.Max++ \
+    pcg_gazebo.parsers.sdf.mean.Mean++ \
+    pcg_gazebo.parsers.sdf.measure_direction.MeasureDirection++ \
+    pcg_gazebo.parsers.sdf.mesh.Mesh++ \
+    pcg_gazebo.parsers.sdf.min_angle.MinAngle++ \
+    pcg_gazebo.parsers.sdf.min_depth.MinDepth++ \
+    pcg_gazebo.parsers.sdf.min_step_size.MinStepSize++ \
+    pcg_gazebo.parsers.sdf.min.Min++ \
+    pcg_gazebo.parsers.sdf.model.Model++ \
+    pcg_gazebo.parsers.sdf.mu.Mu++ \
+    pcg_gazebo.parsers.sdf.mu2.Mu2++ \
+    pcg_gazebo.parsers.sdf.must_be_loop_joint.MustBeLoopJoint++ \
+    pcg_gazebo.parsers.sdf.name.Name++ \
+    pcg_gazebo.parsers.sdf.near.Near++ \
+    pcg_gazebo.parsers.sdf.noise.Noise++ \
+    pcg_gazebo.parsers.sdf.normal_map.NormalMap++ \
+    pcg_gazebo.parsers.sdf.normal.Normal++ \
+    pcg_gazebo.parsers.sdf.ode.ODE++ \
+    pcg_gazebo.parsers.sdf.orientation_reference_frame.OrientationReferenceFrame++ \
+    pcg_gazebo.parsers.sdf.outer_angle.OuterAngle++ \
+    pcg_gazebo.parsers.sdf.output.Output++ \
+    pcg_gazebo.parsers.sdf.override_impact_capture_velocity.OverrideImpactCaptureVelocity++ \
+    pcg_gazebo.parsers.sdf.override_stiction_transition_velocity.OverrideStictionTransitionVelocity++ \
+    pcg_gazebo.parsers.sdf.p1.P1++ \
+    pcg_gazebo.parsers.sdf.p2.P2++ \
+    pcg_gazebo.parsers.sdf.parent.Parent++ \
+    pcg_gazebo.parsers.sdf.patch_radius.PatchRadius++ \
+    pcg_gazebo.parsers.sdf.path.Path++ \
+    pcg_gazebo.parsers.sdf.physics.Physics++ \
+    pcg_gazebo.parsers.sdf.plane.Plane++ \
+    pcg_gazebo.parsers.sdf.plastic_coef_restitution.PlasticCoefRestitution++ \
+    pcg_gazebo.parsers.sdf.plastic_impact_velocity.PlasticImpactVelocity++ \
+    pcg_gazebo.parsers.sdf.plugin.Plugin++ \
+    pcg_gazebo.parsers.sdf.point.Point++ \
+    pcg_gazebo.parsers.sdf.polyline.Polyline++ \
+    pcg_gazebo.parsers.sdf.pose.Pose++ \
+    pcg_gazebo.parsers.sdf.precision.Precision++ \
+    pcg_gazebo.parsers.sdf.precon_iters.PreConIters++ \
+    pcg_gazebo.parsers.sdf.provide_feedback.ProvideFeedback++ \
+    pcg_gazebo.parsers.sdf.quadratic.Quadratic++ \
+    pcg_gazebo.parsers.sdf.radius.Radius++ \
+    pcg_gazebo.parsers.sdf.range.Range++ \
+    pcg_gazebo.parsers.sdf.rate.Rate++ \
+    pcg_gazebo.parsers.sdf.ray.Ray++ \
+    pcg_gazebo.parsers.sdf.real_time_factor.RealTimeFactor++ \
+    pcg_gazebo.parsers.sdf.real_time_update_rate.RealTimeUpdateRate++ \
+    pcg_gazebo.parsers.sdf.resolution.Resolution++ \
+    pcg_gazebo.parsers.sdf.restitution_coefficient.RestitutionCoefficient++ \
+    pcg_gazebo.parsers.sdf.rolling_friction.RollingFriction++ \
+    pcg_gazebo.parsers.sdf.samples.Samples++ \
+    pcg_gazebo.parsers.sdf.save.Save++ \
+    pcg_gazebo.parsers.sdf.scale.Scale++ \
+    pcg_gazebo.parsers.sdf.scan.Scan++ \
+    pcg_gazebo.parsers.sdf.script.Script++ \
+    pcg_gazebo.parsers.sdf.sdf.SDF++ \
+    pcg_gazebo.parsers.sdf.self_collide.SelfCollide++ \
+    pcg_gazebo.parsers.sdf.sensor.Sensor++ \
+    pcg_gazebo.parsers.sdf.shader.Shader++ \
+    pcg_gazebo.parsers.sdf.simbody.Simbody++ \
+    pcg_gazebo.parsers.sdf.size.Size++ \
+    pcg_gazebo.parsers.sdf.skin.Skin++ \
+    pcg_gazebo.parsers.sdf.slip.Slip++ \
+    pcg_gazebo.parsers.sdf.slip1.Slip1++ \
+    pcg_gazebo.parsers.sdf.slip2.Slip2++ \
+    pcg_gazebo.parsers.sdf.soft_cfm.SoftCFM++ \
+    pcg_gazebo.parsers.sdf.soft_erp.SoftERP++ \
+    pcg_gazebo.parsers.sdf.solver.Solver++ \
+    pcg_gazebo.parsers.sdf.sor.Sor++ \
+    pcg_gazebo.parsers.sdf.specular.Specular++ \
+    pcg_gazebo.parsers.sdf.sphere.Sphere++ \
+    pcg_gazebo.parsers.sdf.split_impulse_penetration_threshold.SplitImpulsePenetrationThreshold++ \
+    pcg_gazebo.parsers.sdf.split_impulse.SplitImpulse++ \
+    pcg_gazebo.parsers.sdf.spot.Spot++ \
+    pcg_gazebo.parsers.sdf.spring_reference.SpringReference++ \
+    pcg_gazebo.parsers.sdf.spring_stiffness.SpringStiffness++ \
+    pcg_gazebo.parsers.sdf.static_friction.StaticFriction++ \
+    pcg_gazebo.parsers.sdf.static.Static++ \
+    pcg_gazebo.parsers.sdf.stddev.StdDev++ \
+    pcg_gazebo.parsers.sdf.stiffness.Stiffness++ \
+    pcg_gazebo.parsers.sdf.submesh.SubMesh++ \
+    pcg_gazebo.parsers.sdf.surface_radius.SurfaceRadius++ \
+    pcg_gazebo.parsers.sdf.surface.Surface++ \
+    pcg_gazebo.parsers.sdf.threshold.Threshold++ \
+    pcg_gazebo.parsers.sdf.time.Time++ \
+    pcg_gazebo.parsers.sdf.topic.Topic++ \
+    pcg_gazebo.parsers.sdf.torsional.Torsional++ \
+    pcg_gazebo.parsers.sdf.trajectory.Trajectory++ \
+    pcg_gazebo.parsers.sdf.transparency.Transparency++ \
+    pcg_gazebo.parsers.sdf.type.Type++ \
+    pcg_gazebo.parsers.sdf.update_rate.UpdateRate++ \
+    pcg_gazebo.parsers.sdf.upper.Upper++ \
+    pcg_gazebo.parsers.sdf.urdf.URDF++ \
+    pcg_gazebo.parsers.sdf.uri.URI++ \
+    pcg_gazebo.parsers.sdf.use_dynamic_moi_rescaling.UseDynamicMOIRescaling++ \
+    pcg_gazebo.parsers.sdf.use_parent_model_frame.UseParentModelFrame++ \
+    pcg_gazebo.parsers.sdf.use_patch_radius.UsePatchRadius++ \
+    pcg_gazebo.parsers.sdf.velocity.Velocity++ \
+    pcg_gazebo.parsers.sdf.vertical_position.VerticalPosition++ \
+    pcg_gazebo.parsers.sdf.vertical_velocity.VerticalVelocity++ \
+    pcg_gazebo.parsers.sdf.vertical.Vertical++ \
+    pcg_gazebo.parsers.sdf.viscous_friction.ViscousFriction++ \
+    pcg_gazebo.parsers.sdf.visual.Visual++ \
+    pcg_gazebo.parsers.sdf.visualize.Visualize++ \
+    pcg_gazebo.parsers.sdf.waypoint.Waypoint++ \
+    pcg_gazebo.parsers.sdf.width.Width++ \
+    pcg_gazebo.parsers.sdf.world.World++ \
+    pcg_gazebo.parsers.sdf.x.X++ \
+    pcg_gazebo.parsers.sdf.xyz.XYZ++ \
+    pcg_gazebo.parsers.sdf.y.Y++ \
+    pcg_gazebo.parsers.sdf.z.Z++ \
+    > $ROOT_DIR/pcg_gazebo.parsers.sdf.md
+
+pydocmd simple \
+    pcg_gazebo.parsers.sdf_config++ \
+        pcg_gazebo.parsers.sdf_config.author.Author++ \
+        pcg_gazebo.parsers.sdf_config.description.Description++ \
+        pcg_gazebo.parsers.sdf_config.email.EMail++ \
+        pcg_gazebo.parsers.sdf_config.model.Model++ \
+        pcg_gazebo.parsers.sdf_config.name.Name++ \
+        pcg_gazebo.parsers.sdf_config.sdf.SDF++ \
+        pcg_gazebo.parsers.sdf_config.version.Version++ \
+        > $ROOT_DIR/pcg_gazebo.parsers.sdf_config.md
+
+pydocmd simple \
+    pcg_gazebo.parsers.types++ \
+        pcg_gazebo.parsers.types.base.XMLBase++ \
+        pcg_gazebo.parsers.types.boolean.XMLBoolean++ \
+        pcg_gazebo.parsers.types.custom.XMLCustom++ \
+        pcg_gazebo.parsers.types.integer.XMLInteger++ \
+        pcg_gazebo.parsers.types.scalar.XMLScalar++ \
+        pcg_gazebo.parsers.types.string.XMLString++ \
+        pcg_gazebo.parsers.types.vector.XMLVector++ \
+    > $ROOT_DIR/pcg_gazebo.parsers.types.md
+
+pydocmd simple \
+    pcg_gazebo.parsers.urdf++ \
+        pcg_gazebo.parsers.urdf.actuator.Actuator++ \
+        pcg_gazebo.parsers.urdf.axis.Axis++ \
+        pcg_gazebo.parsers.urdf.box.Box++ \
+        pcg_gazebo.parsers.urdf.child.Child++ \
+        pcg_gazebo.parsers.urdf.collision.Collision++ \
+        pcg_gazebo.parsers.urdf.color.Color++ \
+        pcg_gazebo.parsers.urdf.cylinder.Cylinder++ \
+        pcg_gazebo.parsers.urdf.dynamics.Dynamics++ \
+        pcg_gazebo.parsers.urdf.gazebo.Gazebo++ \
+        pcg_gazebo.parsers.urdf.geometry.Geometry++ \
+        pcg_gazebo.parsers.urdf.hardware_interface.HardwareInterface++ \
+        pcg_gazebo.parsers.urdf.inertia.Inertia++ \
+        pcg_gazebo.parsers.urdf.inertial.Inertial++ \
+        pcg_gazebo.parsers.urdf.joint.Joint++ \
+        pcg_gazebo.parsers.urdf.kd.Kd++ \
+        pcg_gazebo.parsers.urdf.kp.Kp++ \
+        pcg_gazebo.parsers.urdf.limit.Limit++ \
+        pcg_gazebo.parsers.urdf.link.Link++ \
+        pcg_gazebo.parsers.urdf.mass.Mass++ \
+        pcg_gazebo.parsers.urdf.material.Material++ \
+        pcg_gazebo.parsers.urdf.max_contacts.MaxContacts++ \
+        pcg_gazebo.parsers.urdf.max_vel.MaxVel++ \
+        pcg_gazebo.parsers.urdf.mechanical_reduction.MechanicalReduction++ \
+        pcg_gazebo.parsers.urdf.mesh.Mesh++ \
+        pcg_gazebo.parsers.urdf.mimic.Mimic++ \
+        pcg_gazebo.parsers.urdf.min_depth.MinDepth++ \
+        pcg_gazebo.parsers.urdf.mu1.Mu1++ \
+        pcg_gazebo.parsers.urdf.mu2.Mu2++ \
+        pcg_gazebo.parsers.urdf.origin.Origin++ \
+        pcg_gazebo.parsers.urdf.parent.Parent++ \
+        pcg_gazebo.parsers.urdf.provide_feedback.ProvideFeedback++ \
+        pcg_gazebo.parsers.urdf.robot.Robot++ \
+        pcg_gazebo.parsers.urdf.safety_controller.SafetyController++ \
+        pcg_gazebo.parsers.urdf.self_collide.SelfCollide++ \
+        pcg_gazebo.parsers.urdf.sphere.Sphere++ \
+        pcg_gazebo.parsers.urdf.stopCfm.StopCFM++ \
+        pcg_gazebo.parsers.urdf.stopErp.StopERP++ \
+        pcg_gazebo.parsers.urdf.texture.Texture++ \
+        pcg_gazebo.parsers.urdf.transmission.Transmission++ \
+        pcg_gazebo.parsers.urdf.type.Type++ \
+        pcg_gazebo.parsers.urdf.visual.Visual++ \
+        > $ROOT_DIR/pcg_gazebo.parsers.urdf.md
+
+pydocmd simple \
+    pcg_gazebo.simulation++ \
+    pcg_gazebo.simulation.box.Box++ \
+    pcg_gazebo.simulation.cylinder.Cylinder++ \
+    pcg_gazebo.simulation.joint.Joint++ \
+    pcg_gazebo.simulation.light.Light++ \
+    pcg_gazebo.simulation.model.SimulationModel++ \
+    pcg_gazebo.simulation.object.SimulationObject++ \
+    pcg_gazebo.simulation.plane.Plane++ \
+    pcg_gazebo.simulation.polyline.Polyline++ \
+    pcg_gazebo.simulation.sphere.Sphere++ \
+    pcg_gazebo.simulation.world.World++ \
+    > $ROOT_DIR/pcg_gazebo.simulation.md
+
+pydocmd simple \
+    pcg_gazebo.simulation.physics++ \
+        pcg_gazebo.simulation.physics.physics.Physics++ \
+        pcg_gazebo.simulation.physics.bullet.Bullet++ \
+        pcg_gazebo.simulation.physics.ode.ODE++ \
+        pcg_gazebo.simulation.physics.simbody.Simbody++ \
+    > $ROOT_DIR/pcg_gazebo.simulation.physics.md
+
+pydocmd simple \
+    pcg_gazebo.simulation.properties++ \
+        pcg_gazebo.simulation.properties.axis.Axis++ \
+        pcg_gazebo.simulation.properties.bounding_box.BoundingBox++ \
+        pcg_gazebo.simulation.properties.collision.Collision++ \
+        pcg_gazebo.simulation.properties.footprint.Footprint++ \
+        pcg_gazebo.simulation.properties.geometry.Geometry++ \
+        pcg_gazebo.simulation.properties.inertial.Inertial++ \
+        pcg_gazebo.simulation.properties.material.Material++ \
+        pcg_gazebo.simulation.properties.mesh.Mesh++ \
+        pcg_gazebo.simulation.properties.noise.Noise++ \
+        pcg_gazebo.simulation.properties.plugin.Plugin++ \
+        pcg_gazebo.simulation.properties.pose.Pose++ \
+        pcg_gazebo.simulation.properties.visual.Visual++ \
+    > $ROOT_DIR/pcg_gazebo.simulation.properties.md
+
+pydocmd simple \
+    pcg_gazebo.simulation.sensors++ \
+        pcg_gazebo.simulation.sensors.sensor.Sensor++ \
+        pcg_gazebo.simulation.sensors.camera.Camera++ \
+        pcg_gazebo.simulation.sensors.contact.Contact++ \
+        pcg_gazebo.simulation.sensors.imu.IMU++ \
+        pcg_gazebo.simulation.sensors.ray.Ray++ \
+    > $ROOT_DIR/pcg_gazebo.simulation.sensors.md
+
+# Convert Jupyter notebooks into pages
+
+# SDF parser tutorials
+
+ROOT_DIR=docs/tutorials/parsers/sdf
+
+if [ ! -d "$ROOT_DIR" ]; then
+    mkdir -p $ROOT_DIR
+fi
+
+NOTEBOOKS_DIR=../pcg_notebooks/sdf_parser
+NOTEBOOKS="
+    geometries.ipynb
+    materials.ipynb
+    collisions.ipynb
+    visuals.ipynb
+    links_joints_sensors.ipynb
+    models.ipynb
+    physics_engines.ipynb
+    plugins.ipynb
+    world.ipynb
+    convert_from_sdf_file.ipynb"
+
+for NOTEBOOK in $NOTEBOOKS
+do
+    echo "Converting $NOTEBOOK to Markdown" 
+    jupyter-nbconvert $NOTEBOOKS_DIR/$NOTEBOOK --to markdown --output-dir $ROOT_DIR
+done
+
+# URDF parser tutorials
+
+ROOT_DIR=docs/tutorials/parsers/urdf
+
+if [ ! -d "$ROOT_DIR" ]; then
+    mkdir -p $ROOT_DIR
+fi
+
+NOTEBOOKS_DIR=../pcg_notebooks/urdf_parser
+NOTEBOOKS="
+    geometries.ipynb    
+    collision.ipynb
+    visual.ipynb
+    links_joints_sensors.ipynb
+    robots.ipynb"
+
+for NOTEBOOK in $NOTEBOOKS
+do
+    echo "Converting $NOTEBOOK to Markdown" 
+    jupyter-nbconvert $NOTEBOOKS_DIR/$NOTEBOOK --to markdown --output-dir $ROOT_DIR
+done
+
+# Task manager tutorials
+
+ROOT_DIR=docs/tutorials/task_manager
+
+if [ ! -d "$ROOT_DIR" ]; then
+    mkdir -p $ROOT_DIR
+fi
+
+NOTEBOOKS_DIR=../pcg_notebooks/task_manager
+NOTEBOOKS="
+    gazebo_proxy.ipynb    
+    process_manager.ipynb
+    stage_conditions.ipynb"
+
+for NOTEBOOK in $NOTEBOOKS
+do
+    echo "Converting $NOTEBOOK to Markdown" 
+    jupyter-nbconvert $NOTEBOOKS_DIR/$NOTEBOOK --to markdown --output-dir $ROOT_DIR
+done
+
+# Simulation tutorials
+
+ROOT_DIR=docs/tutorials/simulation
+
+if [ ! -d "$ROOT_DIR" ]; then
+    mkdir -p $ROOT_DIR
+fi
+
+NOTEBOOKS_DIR=../pcg_notebooks/simulation
+NOTEBOOKS="
+    objects.ipynb
+    physics_engines.ipynb
+    surface_collision_properties.ipynb
+    materials.ipynb
+    building_a_model.ipynb
+    sensors.ipynb
+    meshes.ipynb"
+
+for NOTEBOOK in $NOTEBOOKS
+do
+    echo "Converting $NOTEBOOK to Markdown" 
+    jupyter-nbconvert $NOTEBOOKS_DIR/$NOTEBOOK --to markdown --output-dir $ROOT_DIR
+done

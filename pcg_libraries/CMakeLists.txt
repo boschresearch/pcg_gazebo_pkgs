@@ -1,0 +1,36 @@
+cmake_minimum_required(VERSION 2.8.3)
+project(pcg_libraries)
+
+find_package(catkin REQUIRED)
+    
+set(SETUP_PYTHON_REQUIREMENTS ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/_create_env.py)
+
+execute_process(
+    COMMAND ${SETUP_PYTHON_REQUIREMENTS} ${CATKIN_DEVEL_PREFIX}
+)
+
+catkin_python_setup()
+
+catkin_package()
+
+# Generate the virtualenv
+install(
+    FILES requirements.txt
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+catkin_install_python(PROGRAMS scripts/get_list_of_joints                               
+                               scripts/set_random_joint_positions
+                               scripts/simulation_timer
+                      DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+
+if(CATKIN_ENABLE_TESTING)
+    find_package(rostest REQUIRED)
+    find_package(rosunit REQUIRED)
+    foreach(T
+        test/test_jinja_sdf_file_generation.test
+        test/test_sdf_parser.test
+        test/test_simulation_objects.test
+        test/test_urdf_parser.test
+        )
+    endforeach()
+endif()

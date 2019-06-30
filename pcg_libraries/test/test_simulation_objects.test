@@ -1,0 +1,31 @@
+<launch>
+  <test test-name="test_simulation_object_properties"
+        pkg="pcg_libraries"
+        type="test_simulation_object_properties.py"
+        name="simulation_object_properties">
+  </test>
+
+  <test test-name="test_simulation_objects"
+        pkg="pcg_libraries"
+        type="test_simulation_objects.py"
+        name="simulation_objects">
+  </test>  
+
+  <test test-name="test_pose"
+        pkg="pcg_libraries"
+        type="test_pose.py"
+        name="pose">
+  </test> 
+
+  <test test-name="test_pose"
+        pkg="pcg_libraries"
+        type="test_inertia.py"
+        name="pose">
+  </test> 
+
+  <test test-name="test_model_factory"
+        pkg="pcg_libraries"
+        type="test_model_factory.py"
+        name="model_factory">
+  </test>  
+</launch>

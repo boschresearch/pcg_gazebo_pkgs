@@ -1,0 +1,17 @@
+<launch>
+    
+    <arg name="namespace" default="pcg"/>
+
+    <node type="simulation_builder_server"
+        pkg="pcg_gazebo"
+        name="simulation_builder_server"
+        output="screen">
+        <rosparam subst_value="true">
+            namespace: $(arg namespace)
+        </rosparam>
+    </node>
+
+    <node name="rviz" pkg="rviz" type="rviz" output="screen" 
+        args="-d $(find pcg_gazebo)/rviz/world_builder.rviz" required="true"/>
+    
+</launch>

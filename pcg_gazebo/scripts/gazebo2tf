@@ -1,0 +1,71 @@
+#!/usr/bin/env python
+# Copyright (c) 2019 - The Procedural Generation for Gazebo authors
+# For information on the respective copyright owner see the NOTICE file
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+"""**Description**
+
+This node listens to the `/gazebo/model_states` topic and converts the model poses into TF frames.
+
+**Usage**
+
+```xml
+rosrun pcg_gazebo gazebo2tf
+``` 
+
+"""
+import rospy
+from gazebo_msgs.msg import ModelStates
+from geometry_msgs.msg import TransformStamped
+import tf2_ros
+
+
+class SimulationTFManager:
+    def __init__(self):
+        self._model_names = list()
+        self._broadcaster = tf2_ros.TransformBroadcaster()
+
+        self._sub = rospy.Subscriber(
+            '/gazebo/model_states', 
+            ModelStates, 
+            self.gazebo_model_states_callback)
+            
+    def gazebo_model_states_callback(self, msg):
+        for name in msg.name:            
+            i = msg.name.index(name)
+            pose = msg.pose[i]
+            # Set frame IDs and timestamp
+            model_transform = TransformStamped()
+            model_transform.header.stamp = rospy.Time.now()
+            model_transform.header.frame_id = 'world'
+            model_transform.child_frame_id = name
+            # Set pose of the model
+            model_transform.transform.translation.x = pose.position.x
+            model_transform.transform.translation.y = pose.position.y
+            model_transform.transform.translation.z = pose.position.z
+
+            model_transform.transform.rotation.x = pose.orientation.x
+            model_transform.transform.rotation.y = pose.orientation.y
+            model_transform.transform.rotation.z = pose.orientation.z
+            model_transform.transform.rotation.w = pose.orientation.w
+
+            self._broadcaster.sendTransform(model_transform)
+
+if __name__ == '__main__':
+    rospy.init_node('gazebo2tf')
+    
+    try:
+        SimulationTFManager()
+        rospy.spin()
+    except rospy.ROSInterruptException:
+        pass

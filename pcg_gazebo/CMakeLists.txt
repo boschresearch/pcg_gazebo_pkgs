@@ -1,0 +1,27 @@
+cmake_minimum_required(VERSION 2.8.3)
+project(pcg_gazebo)
+
+find_package(catkin REQUIRED)
+
+catkin_package()
+
+#############
+## Install ##
+#############
+
+install(PROGRAMS
+    scripts/generate_model_description
+    scripts/sdf2urdf
+    scripts/urdf2sdf
+    scripts/simulation_builder_server
+    scripts/gazebo2tf
+    scripts/generate_world
+    scripts/spawn_sdf_model
+    scripts/run_model_factory
+    scripts/generate_occupancy_map
+    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(DIRECTORY launch
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+PATTERN "*~" EXCLUDE)

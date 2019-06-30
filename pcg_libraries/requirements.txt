@@ -1,0 +1,16 @@
+lxml
+numpy
+psutil
+yasha
+xmltodict
+Jinja2
+rospkg
+Shapely
+trimesh
+bokeh
+matplotlib
+RTree
+descartes
+pyglet
+python-fcl
+PyYAML

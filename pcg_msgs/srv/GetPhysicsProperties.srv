@@ -1,0 +1,33 @@
+# Copyright (c) 2019 - The Procedural Generation for Gazebo authors
+# For information on the respective copyright owner see the NOTICE file
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+---
+# The following snippet is from gazebo_ros_pkgs
+#   https://github.com/ros-simulation/gazebo_ros_pkgs
+# Copyright 2012 Open Source Robotics Foundation, licensed under the Apache 2.0 license,
+# cf. 3rd-party-licenses.txt file in the root directory of this source tree.
+
+# sets pose and twist of a link.  All children link poses/twists of the URDF tree will be updated accordingly
+float64 time_step                  # dt in seconds
+bool pause                         # true if physics engine is paused
+float64 max_update_rate            # throttle maximum physics update rate
+geometry_msgs/Vector3 gravity      # gravity vector (e.g. earth ~[0,0,-9.81])
+gazebo_msgs/ODEPhysics ode_config  # contains physics configurations pertaining to ODE
+bool success                       # return true if set wrench successful
+string status_message              # comments if available
+
+string physics_engine
+pcg_msgs/BulletPhysics bullet_config
+pcg_msgs/SimbodyPhysics simbody_config
