@@ -19,13 +19,21 @@ standards (e.g. ISO 26262).
 
 ### Installation from source
 
+Clone the repository into your catkin workspace
+
+```
+cd ~/catkin_ws/src
+git clone https://github.com/boschresearch/pcg_gazebo_pkgs.git
+```
+
+and then run `catkin build`.
+
 #### Installation of Python dependencies
 
 The Python dependencies for the `pcg_gazebo` library can be found in [`pcg_libraries/requirements.txt`](https://github.com/boschresearch/pcg_gazebo_pkgs/blob/master/pcg_libraries/requirements.txt).
 Since some of them cannot be resolved using `rosdep`, the missing dependencies are going
-to be installed in `pip` using the default `python` version in the target system.
-The packages are installed in the local `catkin` Python `dist-packages` folder so that
-they are located without need of further modifications on the `PYTHONPATH`.
+to be installed in `pip` using the default `python` version in the target system in the `user` 
+space.
 
 ## License
 
