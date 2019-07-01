@@ -4,7 +4,6 @@ psutil
 yasha
 xmltodict
 Jinja2
-rospkg
 Shapely
 trimesh
 bokeh
