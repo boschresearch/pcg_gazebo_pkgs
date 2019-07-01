@@ -42,17 +42,17 @@ print(plugin)
 ```
 
     <plugin filename="libanother_plugin.so" name="another_plugin">
-      <topic>/topic</topic>
-      <robotNamespace>robot</robotNamespace>
       <args>
-        <param4>3.1 4.5 8.5</param4>
-        <param1>1</param1>
-        <param2>1</param2>
         <param3>
           <param31>option</param31>
           <param32>3.434534</param32>
         </param3>
+        <param1>1</param1>
+        <param2>1</param2>
+        <param4>3.1 4.5 8.5</param4>
       </args>
+      <topic>/topic</topic>
+      <robotNamespace>robot</robotNamespace>
     </plugin>
     
 
@@ -96,9 +96,9 @@ print(Plugin.gazebo_ros_bumper(
 ```
 
     <plugin filename="libgazebo_ros_bumper.so" name="gazebo_ros_bumper">
-      <bumperTopicName>bumper_states</bumperTopicName>
-      <frameName>world</frameName>
       <robotNamespace>/my_robot</robotNamespace>
+      <frameName>world</frameName>
+      <bumperTopicName>bumper_states</bumperTopicName>
     </plugin>
     
 
@@ -117,11 +117,11 @@ print(Plugin.gazebo_ros_ft_sensor(
 ```
 
     <plugin filename="libgazebo_ros_ft_sensor.so" name="gazebo_ros_ft_sensor">
-      <gaussianNoise>0.05</gaussianNoise>
       <jointName>some_joint</jointName>
       <updateRate>0</updateRate>
       <robotNamespace>my_robot</robotNamespace>
       <topicName>force_torque_sensor_output</topicName>
+      <gaussianNoise>0.05</gaussianNoise>
     </plugin>
     
 

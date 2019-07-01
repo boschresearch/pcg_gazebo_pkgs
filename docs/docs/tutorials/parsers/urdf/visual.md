@@ -17,10 +17,10 @@ print(visual)
 ```
 
     <visual name="visual">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
         <box size="0 0 0"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
     </visual>
     
 
@@ -35,10 +35,10 @@ print(visual)
 ```
 
     <visual name="visual">
+      <origin rpy="0.2 0 0.6" xyz="1 0 1"/>
       <geometry>
         <box size="0 0 0"/>
       </geometry>
-      <origin rpy="0.2 0 0.6" xyz="1 0 1"/>
     </visual>
     
 
@@ -51,10 +51,10 @@ print(visual)
 ```
 
     <visual name="visual">
+      <origin rpy="0.2 0 0.6" xyz="1 0 1"/>
       <geometry>
         <box size="0 0 0"/>
       </geometry>
-      <origin rpy="0.2 0 0.6" xyz="1 0 1"/>
     </visual>
     
 
@@ -66,10 +66,10 @@ print(visual)
 ```
 
     <visual name="visual">
+      <origin rpy="0.2 0 0.6" xyz="1 0 1"/>
       <geometry>
         <sphere radius="0"/>
       </geometry>
-      <origin rpy="0.2 0 0.6" xyz="1 0 1"/>
     </visual>
     
 
@@ -81,10 +81,10 @@ print(visual)
 ```
 
     <visual name="visual">
+      <origin rpy="0.2 0 0.6" xyz="1 0 1"/>
       <geometry>
         <cylinder length="0" radius="0"/>
       </geometry>
-      <origin rpy="0.2 0 0.6" xyz="1 0 1"/>
     </visual>
     
 
@@ -96,10 +96,10 @@ print(visual)
 ```
 
     <visual name="visual">
+      <origin rpy="0.2 0 0.6" xyz="1 0 1"/>
       <geometry>
         <mesh filename=""/>
       </geometry>
-      <origin rpy="0.2 0 0.6" xyz="1 0 1"/>
     </visual>
     
 

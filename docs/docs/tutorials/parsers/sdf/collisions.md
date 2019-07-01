@@ -33,78 +33,78 @@ print(collision)
 ```
 
     <collision name="collision">
-      <laser_retro>0</laser_retro>
+      <max_contacts>10</max_contacts>
+      <pose frame="">0 0 0 0 0 0</pose>
       <surface>
+        <bounce>
+          <threshold>100000</threshold>
+          <restitution_coefficient>0</restitution_coefficient>
+        </bounce>
         <contact>
-          <bullet>
-            <soft_erp>0.2</soft_erp>
-            <kd>1</kd>
-            <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-            <kp>1000000000000.0</kp>
-            <soft_cfm>0</soft_cfm>
-            <split_impulse>1</split_impulse>
-          </bullet>
           <ode>
+            <kp>1000000000000.0</kp>
             <soft_erp>0.2</soft_erp>
             <kd>1</kd>
-            <soft_cfm>0</soft_cfm>
-            <kp>1000000000000.0</kp>
             <min_depth>0</min_depth>
+            <soft_cfm>0</soft_cfm>
             <max_vel>0.01</max_vel>
           </ode>
+          <bullet>
+            <kp>1000000000000.0</kp>
+            <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+            <kd>1</kd>
+            <split_impulse>1</split_impulse>
+            <soft_cfm>0</soft_cfm>
+            <soft_erp>0.2</soft_erp>
+          </bullet>
         </contact>
-        <bounce>
-          <restitution_coefficient>0</restitution_coefficient>
-          <threshold>100000</threshold>
-        </bounce>
         <friction>
           <torsional>
-            <coefficient>1</coefficient>
-            <patch_radius>0</patch_radius>
-            <use_patch_radius>1</use_patch_radius>
-            <surface_radius>0</surface_radius>
             <ode>
               <slip>0</slip>
             </ode>
+            <surface_radius>0</surface_radius>
+            <coefficient>1</coefficient>
+            <use_patch_radius>1</use_patch_radius>
+            <patch_radius>0</patch_radius>
           </torsional>
           <ode>
             <fdir1>0 0 0</fdir1>
-            <slip1>0</slip1>
             <mu>1</mu>
+            <slip1>0</slip1>
             <slip2>0</slip2>
             <mu2>1</mu2>
           </ode>
           <bullet>
             <fdir1>0 0 0</fdir1>
-            <friction2>1</friction2>
-            <friction>1</friction>
             <rolling_friction>1</rolling_friction>
+            <friction>1</friction>
+            <friction2>1</friction2>
           </bullet>
         </friction>
       </surface>
-      <max_contacts>10</max_contacts>
+      <contact>
+        <ode>
+          <kp>1000000000000.0</kp>
+          <soft_erp>0.2</soft_erp>
+          <kd>1</kd>
+          <min_depth>0</min_depth>
+          <soft_cfm>0</soft_cfm>
+          <max_vel>0.01</max_vel>
+        </ode>
+        <bullet>
+          <kp>1000000000000.0</kp>
+          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+          <kd>1</kd>
+          <split_impulse>1</split_impulse>
+          <soft_cfm>0</soft_cfm>
+          <soft_erp>0.2</soft_erp>
+        </bullet>
+      </contact>
       <geometry>
         <empty></empty>
       </geometry>
-      <contact>
-        <bullet>
-          <soft_erp>0.2</soft_erp>
-          <kd>1</kd>
-          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-          <kp>1000000000000.0</kp>
-          <soft_cfm>0</soft_cfm>
-          <split_impulse>1</split_impulse>
-        </bullet>
-        <ode>
-          <soft_erp>0.2</soft_erp>
-          <kd>1</kd>
-          <soft_cfm>0</soft_cfm>
-          <kp>1000000000000.0</kp>
-          <min_depth>0</min_depth>
-          <max_vel>0.01</max_vel>
-        </ode>
-      </contact>
-      <pose frame="">0 0 0 0 0 0</pose>
+      <laser_retro>0</laser_retro>
     </collision>
     
 
@@ -124,78 +124,78 @@ print(collision)
 ```
 
     <collision name="collision">
-      <laser_retro>0</laser_retro>
+      <max_contacts>30</max_contacts>
+      <pose frame="base_link">0 0 1 0 0 0</pose>
       <surface>
+        <bounce>
+          <threshold>100000</threshold>
+          <restitution_coefficient>0</restitution_coefficient>
+        </bounce>
         <contact>
-          <bullet>
-            <soft_erp>0.2</soft_erp>
-            <kd>1</kd>
-            <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-            <kp>1000000000000.0</kp>
-            <soft_cfm>0</soft_cfm>
-            <split_impulse>1</split_impulse>
-          </bullet>
           <ode>
+            <kp>1000000000000.0</kp>
             <soft_erp>0.2</soft_erp>
             <kd>1</kd>
-            <soft_cfm>0</soft_cfm>
-            <kp>1000000000000.0</kp>
             <min_depth>0</min_depth>
+            <soft_cfm>0</soft_cfm>
             <max_vel>0.01</max_vel>
           </ode>
+          <bullet>
+            <kp>1000000000000.0</kp>
+            <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+            <kd>1</kd>
+            <split_impulse>1</split_impulse>
+            <soft_cfm>0</soft_cfm>
+            <soft_erp>0.2</soft_erp>
+          </bullet>
         </contact>
-        <bounce>
-          <restitution_coefficient>0</restitution_coefficient>
-          <threshold>100000</threshold>
-        </bounce>
         <friction>
           <torsional>
-            <coefficient>1</coefficient>
-            <patch_radius>0</patch_radius>
-            <use_patch_radius>1</use_patch_radius>
-            <surface_radius>0</surface_radius>
             <ode>
               <slip>0</slip>
             </ode>
+            <surface_radius>0</surface_radius>
+            <coefficient>1</coefficient>
+            <use_patch_radius>1</use_patch_radius>
+            <patch_radius>0</patch_radius>
           </torsional>
           <ode>
             <fdir1>0 0 0</fdir1>
-            <slip1>0</slip1>
             <mu>1</mu>
+            <slip1>0</slip1>
             <slip2>0</slip2>
             <mu2>1</mu2>
           </ode>
           <bullet>
             <fdir1>0 0 0</fdir1>
-            <friction2>1</friction2>
-            <friction>1</friction>
             <rolling_friction>1</rolling_friction>
+            <friction>1</friction>
+            <friction2>1</friction2>
           </bullet>
         </friction>
       </surface>
-      <max_contacts>30</max_contacts>
+      <contact>
+        <ode>
+          <kp>1000000000000.0</kp>
+          <soft_erp>0.2</soft_erp>
+          <kd>1</kd>
+          <min_depth>0</min_depth>
+          <soft_cfm>0</soft_cfm>
+          <max_vel>0.01</max_vel>
+        </ode>
+        <bullet>
+          <kp>1000000000000.0</kp>
+          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+          <kd>1</kd>
+          <split_impulse>1</split_impulse>
+          <soft_cfm>0</soft_cfm>
+          <soft_erp>0.2</soft_erp>
+        </bullet>
+      </contact>
       <geometry>
         <empty></empty>
       </geometry>
-      <contact>
-        <bullet>
-          <soft_erp>0.2</soft_erp>
-          <kd>1</kd>
-          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-          <kp>1000000000000.0</kp>
-          <soft_cfm>0</soft_cfm>
-          <split_impulse>1</split_impulse>
-        </bullet>
-        <ode>
-          <soft_erp>0.2</soft_erp>
-          <kd>1</kd>
-          <soft_cfm>0</soft_cfm>
-          <kp>1000000000000.0</kp>
-          <min_depth>0</min_depth>
-          <max_vel>0.01</max_vel>
-        </ode>
-      </contact>
-      <pose frame="base_link">0 0 1 0 0 0</pose>
+      <laser_retro>0</laser_retro>
     </collision>
     
 
@@ -221,553 +221,553 @@ print(collision)
 ```
 
     <collision name="collision">
-      <laser_retro>0</laser_retro>
+      <max_contacts>30</max_contacts>
+      <pose frame="base_link">0 0 1 0 0 0</pose>
       <surface>
+        <bounce>
+          <threshold>100000</threshold>
+          <restitution_coefficient>0</restitution_coefficient>
+        </bounce>
         <contact>
-          <bullet>
-            <soft_erp>0.2</soft_erp>
-            <kd>1</kd>
-            <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-            <kp>1000000000000.0</kp>
-            <soft_cfm>0</soft_cfm>
-            <split_impulse>1</split_impulse>
-          </bullet>
           <ode>
+            <kp>1000000000000.0</kp>
             <soft_erp>0.2</soft_erp>
             <kd>1</kd>
-            <soft_cfm>0</soft_cfm>
-            <kp>1000000000000.0</kp>
             <min_depth>0</min_depth>
+            <soft_cfm>0</soft_cfm>
             <max_vel>0.01</max_vel>
           </ode>
+          <bullet>
+            <kp>1000000000000.0</kp>
+            <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+            <kd>1</kd>
+            <split_impulse>1</split_impulse>
+            <soft_cfm>0</soft_cfm>
+            <soft_erp>0.2</soft_erp>
+          </bullet>
         </contact>
-        <bounce>
-          <restitution_coefficient>0</restitution_coefficient>
-          <threshold>100000</threshold>
-        </bounce>
         <friction>
           <torsional>
-            <coefficient>1</coefficient>
-            <patch_radius>0</patch_radius>
-            <use_patch_radius>1</use_patch_radius>
-            <surface_radius>0</surface_radius>
             <ode>
               <slip>0</slip>
             </ode>
+            <surface_radius>0</surface_radius>
+            <coefficient>1</coefficient>
+            <use_patch_radius>1</use_patch_radius>
+            <patch_radius>0</patch_radius>
           </torsional>
           <ode>
             <fdir1>0 0 0</fdir1>
-            <slip1>0</slip1>
             <mu>1</mu>
+            <slip1>0</slip1>
             <slip2>0</slip2>
             <mu2>1</mu2>
           </ode>
           <bullet>
             <fdir1>0 0 0</fdir1>
-            <friction2>1</friction2>
-            <friction>1</friction>
             <rolling_friction>1</rolling_friction>
+            <friction>1</friction>
+            <friction2>1</friction2>
           </bullet>
         </friction>
       </surface>
-      <max_contacts>30</max_contacts>
+      <contact>
+        <ode>
+          <kp>1000000000000.0</kp>
+          <soft_erp>0.2</soft_erp>
+          <kd>1</kd>
+          <min_depth>0</min_depth>
+          <soft_cfm>0</soft_cfm>
+          <max_vel>0.01</max_vel>
+        </ode>
+        <bullet>
+          <kp>1000000000000.0</kp>
+          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+          <kd>1</kd>
+          <split_impulse>1</split_impulse>
+          <soft_cfm>0</soft_cfm>
+          <soft_erp>0.2</soft_erp>
+        </bullet>
+      </contact>
       <geometry>
         <box>
           <size>0 0 0</size>
         </box>
       </geometry>
-      <contact>
-        <bullet>
-          <soft_erp>0.2</soft_erp>
-          <kd>1</kd>
-          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-          <kp>1000000000000.0</kp>
-          <soft_cfm>0</soft_cfm>
-          <split_impulse>1</split_impulse>
-        </bullet>
-        <ode>
-          <soft_erp>0.2</soft_erp>
-          <kd>1</kd>
-          <soft_cfm>0</soft_cfm>
-          <kp>1000000000000.0</kp>
-          <min_depth>0</min_depth>
-          <max_vel>0.01</max_vel>
-        </ode>
-      </contact>
-      <pose frame="base_link">0 0 1 0 0 0</pose>
+      <laser_retro>0</laser_retro>
     </collision>
     
     <collision name="collision">
-      <laser_retro>0</laser_retro>
+      <max_contacts>30</max_contacts>
+      <pose frame="base_link">0 0 1 0 0 0</pose>
       <surface>
+        <bounce>
+          <threshold>100000</threshold>
+          <restitution_coefficient>0</restitution_coefficient>
+        </bounce>
         <contact>
-          <bullet>
-            <soft_erp>0.2</soft_erp>
-            <kd>1</kd>
-            <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-            <kp>1000000000000.0</kp>
-            <soft_cfm>0</soft_cfm>
-            <split_impulse>1</split_impulse>
-          </bullet>
           <ode>
+            <kp>1000000000000.0</kp>
             <soft_erp>0.2</soft_erp>
             <kd>1</kd>
-            <soft_cfm>0</soft_cfm>
-            <kp>1000000000000.0</kp>
             <min_depth>0</min_depth>
+            <soft_cfm>0</soft_cfm>
             <max_vel>0.01</max_vel>
           </ode>
+          <bullet>
+            <kp>1000000000000.0</kp>
+            <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+            <kd>1</kd>
+            <split_impulse>1</split_impulse>
+            <soft_cfm>0</soft_cfm>
+            <soft_erp>0.2</soft_erp>
+          </bullet>
         </contact>
-        <bounce>
-          <restitution_coefficient>0</restitution_coefficient>
-          <threshold>100000</threshold>
-        </bounce>
         <friction>
           <torsional>
-            <coefficient>1</coefficient>
-            <patch_radius>0</patch_radius>
-            <use_patch_radius>1</use_patch_radius>
-            <surface_radius>0</surface_radius>
             <ode>
               <slip>0</slip>
             </ode>
+            <surface_radius>0</surface_radius>
+            <coefficient>1</coefficient>
+            <use_patch_radius>1</use_patch_radius>
+            <patch_radius>0</patch_radius>
           </torsional>
           <ode>
             <fdir1>0 0 0</fdir1>
-            <slip1>0</slip1>
             <mu>1</mu>
+            <slip1>0</slip1>
             <slip2>0</slip2>
             <mu2>1</mu2>
           </ode>
           <bullet>
             <fdir1>0 0 0</fdir1>
-            <friction2>1</friction2>
-            <friction>1</friction>
             <rolling_friction>1</rolling_friction>
+            <friction>1</friction>
+            <friction2>1</friction2>
           </bullet>
         </friction>
       </surface>
-      <max_contacts>30</max_contacts>
+      <contact>
+        <ode>
+          <kp>1000000000000.0</kp>
+          <soft_erp>0.2</soft_erp>
+          <kd>1</kd>
+          <min_depth>0</min_depth>
+          <soft_cfm>0</soft_cfm>
+          <max_vel>0.01</max_vel>
+        </ode>
+        <bullet>
+          <kp>1000000000000.0</kp>
+          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+          <kd>1</kd>
+          <split_impulse>1</split_impulse>
+          <soft_cfm>0</soft_cfm>
+          <soft_erp>0.2</soft_erp>
+        </bullet>
+      </contact>
       <geometry>
         <sphere>
           <radius>0</radius>
         </sphere>
       </geometry>
-      <contact>
-        <bullet>
-          <soft_erp>0.2</soft_erp>
-          <kd>1</kd>
-          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-          <kp>1000000000000.0</kp>
-          <soft_cfm>0</soft_cfm>
-          <split_impulse>1</split_impulse>
-        </bullet>
-        <ode>
-          <soft_erp>0.2</soft_erp>
-          <kd>1</kd>
-          <soft_cfm>0</soft_cfm>
-          <kp>1000000000000.0</kp>
-          <min_depth>0</min_depth>
-          <max_vel>0.01</max_vel>
-        </ode>
-      </contact>
-      <pose frame="base_link">0 0 1 0 0 0</pose>
+      <laser_retro>0</laser_retro>
     </collision>
     
     <collision name="collision">
-      <laser_retro>0</laser_retro>
+      <max_contacts>30</max_contacts>
+      <pose frame="base_link">0 0 1 0 0 0</pose>
       <surface>
+        <bounce>
+          <threshold>100000</threshold>
+          <restitution_coefficient>0</restitution_coefficient>
+        </bounce>
         <contact>
-          <bullet>
-            <soft_erp>0.2</soft_erp>
-            <kd>1</kd>
-            <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-            <kp>1000000000000.0</kp>
-            <soft_cfm>0</soft_cfm>
-            <split_impulse>1</split_impulse>
-          </bullet>
           <ode>
+            <kp>1000000000000.0</kp>
             <soft_erp>0.2</soft_erp>
             <kd>1</kd>
-            <soft_cfm>0</soft_cfm>
-            <kp>1000000000000.0</kp>
             <min_depth>0</min_depth>
+            <soft_cfm>0</soft_cfm>
             <max_vel>0.01</max_vel>
           </ode>
+          <bullet>
+            <kp>1000000000000.0</kp>
+            <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+            <kd>1</kd>
+            <split_impulse>1</split_impulse>
+            <soft_cfm>0</soft_cfm>
+            <soft_erp>0.2</soft_erp>
+          </bullet>
         </contact>
-        <bounce>
-          <restitution_coefficient>0</restitution_coefficient>
-          <threshold>100000</threshold>
-        </bounce>
         <friction>
           <torsional>
-            <coefficient>1</coefficient>
-            <patch_radius>0</patch_radius>
-            <use_patch_radius>1</use_patch_radius>
-            <surface_radius>0</surface_radius>
             <ode>
               <slip>0</slip>
             </ode>
+            <surface_radius>0</surface_radius>
+            <coefficient>1</coefficient>
+            <use_patch_radius>1</use_patch_radius>
+            <patch_radius>0</patch_radius>
           </torsional>
           <ode>
             <fdir1>0 0 0</fdir1>
-            <slip1>0</slip1>
             <mu>1</mu>
+            <slip1>0</slip1>
             <slip2>0</slip2>
             <mu2>1</mu2>
           </ode>
           <bullet>
             <fdir1>0 0 0</fdir1>
-            <friction2>1</friction2>
-            <friction>1</friction>
             <rolling_friction>1</rolling_friction>
+            <friction>1</friction>
+            <friction2>1</friction2>
           </bullet>
         </friction>
       </surface>
-      <max_contacts>30</max_contacts>
+      <contact>
+        <ode>
+          <kp>1000000000000.0</kp>
+          <soft_erp>0.2</soft_erp>
+          <kd>1</kd>
+          <min_depth>0</min_depth>
+          <soft_cfm>0</soft_cfm>
+          <max_vel>0.01</max_vel>
+        </ode>
+        <bullet>
+          <kp>1000000000000.0</kp>
+          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+          <kd>1</kd>
+          <split_impulse>1</split_impulse>
+          <soft_cfm>0</soft_cfm>
+          <soft_erp>0.2</soft_erp>
+        </bullet>
+      </contact>
       <geometry>
         <cylinder>
-          <length>0</length>
           <radius>0</radius>
+          <length>0</length>
         </cylinder>
       </geometry>
-      <contact>
-        <bullet>
-          <soft_erp>0.2</soft_erp>
-          <kd>1</kd>
-          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-          <kp>1000000000000.0</kp>
-          <soft_cfm>0</soft_cfm>
-          <split_impulse>1</split_impulse>
-        </bullet>
-        <ode>
-          <soft_erp>0.2</soft_erp>
-          <kd>1</kd>
-          <soft_cfm>0</soft_cfm>
-          <kp>1000000000000.0</kp>
-          <min_depth>0</min_depth>
-          <max_vel>0.01</max_vel>
-        </ode>
-      </contact>
-      <pose frame="base_link">0 0 1 0 0 0</pose>
+      <laser_retro>0</laser_retro>
     </collision>
     
     <collision name="collision">
-      <laser_retro>0</laser_retro>
+      <max_contacts>30</max_contacts>
+      <pose frame="base_link">0 0 1 0 0 0</pose>
       <surface>
+        <bounce>
+          <threshold>100000</threshold>
+          <restitution_coefficient>0</restitution_coefficient>
+        </bounce>
         <contact>
-          <bullet>
-            <soft_erp>0.2</soft_erp>
-            <kd>1</kd>
-            <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-            <kp>1000000000000.0</kp>
-            <soft_cfm>0</soft_cfm>
-            <split_impulse>1</split_impulse>
-          </bullet>
           <ode>
+            <kp>1000000000000.0</kp>
             <soft_erp>0.2</soft_erp>
             <kd>1</kd>
-            <soft_cfm>0</soft_cfm>
-            <kp>1000000000000.0</kp>
             <min_depth>0</min_depth>
+            <soft_cfm>0</soft_cfm>
             <max_vel>0.01</max_vel>
           </ode>
+          <bullet>
+            <kp>1000000000000.0</kp>
+            <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+            <kd>1</kd>
+            <split_impulse>1</split_impulse>
+            <soft_cfm>0</soft_cfm>
+            <soft_erp>0.2</soft_erp>
+          </bullet>
         </contact>
-        <bounce>
-          <restitution_coefficient>0</restitution_coefficient>
-          <threshold>100000</threshold>
-        </bounce>
         <friction>
           <torsional>
-            <coefficient>1</coefficient>
-            <patch_radius>0</patch_radius>
-            <use_patch_radius>1</use_patch_radius>
-            <surface_radius>0</surface_radius>
             <ode>
               <slip>0</slip>
             </ode>
+            <surface_radius>0</surface_radius>
+            <coefficient>1</coefficient>
+            <use_patch_radius>1</use_patch_radius>
+            <patch_radius>0</patch_radius>
           </torsional>
           <ode>
             <fdir1>0 0 0</fdir1>
-            <slip1>0</slip1>
             <mu>1</mu>
+            <slip1>0</slip1>
             <slip2>0</slip2>
             <mu2>1</mu2>
           </ode>
           <bullet>
             <fdir1>0 0 0</fdir1>
-            <friction2>1</friction2>
-            <friction>1</friction>
             <rolling_friction>1</rolling_friction>
+            <friction>1</friction>
+            <friction2>1</friction2>
           </bullet>
         </friction>
       </surface>
-      <max_contacts>30</max_contacts>
+      <contact>
+        <ode>
+          <kp>1000000000000.0</kp>
+          <soft_erp>0.2</soft_erp>
+          <kd>1</kd>
+          <min_depth>0</min_depth>
+          <soft_cfm>0</soft_cfm>
+          <max_vel>0.01</max_vel>
+        </ode>
+        <bullet>
+          <kp>1000000000000.0</kp>
+          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+          <kd>1</kd>
+          <split_impulse>1</split_impulse>
+          <soft_cfm>0</soft_cfm>
+          <soft_erp>0.2</soft_erp>
+        </bullet>
+      </contact>
       <geometry>
         <plane>
-          <size>0 0</size>
           <normal>0 0 1</normal>
+          <size>0 0</size>
         </plane>
       </geometry>
-      <contact>
-        <bullet>
-          <soft_erp>0.2</soft_erp>
-          <kd>1</kd>
-          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-          <kp>1000000000000.0</kp>
-          <soft_cfm>0</soft_cfm>
-          <split_impulse>1</split_impulse>
-        </bullet>
-        <ode>
-          <soft_erp>0.2</soft_erp>
-          <kd>1</kd>
-          <soft_cfm>0</soft_cfm>
-          <kp>1000000000000.0</kp>
-          <min_depth>0</min_depth>
-          <max_vel>0.01</max_vel>
-        </ode>
-      </contact>
-      <pose frame="base_link">0 0 1 0 0 0</pose>
+      <laser_retro>0</laser_retro>
     </collision>
     
     <collision name="collision">
-      <laser_retro>0</laser_retro>
+      <max_contacts>30</max_contacts>
+      <pose frame="base_link">0 0 1 0 0 0</pose>
       <surface>
+        <bounce>
+          <threshold>100000</threshold>
+          <restitution_coefficient>0</restitution_coefficient>
+        </bounce>
         <contact>
-          <bullet>
-            <soft_erp>0.2</soft_erp>
-            <kd>1</kd>
-            <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-            <kp>1000000000000.0</kp>
-            <soft_cfm>0</soft_cfm>
-            <split_impulse>1</split_impulse>
-          </bullet>
           <ode>
+            <kp>1000000000000.0</kp>
             <soft_erp>0.2</soft_erp>
             <kd>1</kd>
-            <soft_cfm>0</soft_cfm>
-            <kp>1000000000000.0</kp>
             <min_depth>0</min_depth>
+            <soft_cfm>0</soft_cfm>
             <max_vel>0.01</max_vel>
           </ode>
+          <bullet>
+            <kp>1000000000000.0</kp>
+            <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+            <kd>1</kd>
+            <split_impulse>1</split_impulse>
+            <soft_cfm>0</soft_cfm>
+            <soft_erp>0.2</soft_erp>
+          </bullet>
         </contact>
-        <bounce>
-          <restitution_coefficient>0</restitution_coefficient>
-          <threshold>100000</threshold>
-        </bounce>
         <friction>
           <torsional>
-            <coefficient>1</coefficient>
-            <patch_radius>0</patch_radius>
-            <use_patch_radius>1</use_patch_radius>
-            <surface_radius>0</surface_radius>
             <ode>
               <slip>0</slip>
             </ode>
+            <surface_radius>0</surface_radius>
+            <coefficient>1</coefficient>
+            <use_patch_radius>1</use_patch_radius>
+            <patch_radius>0</patch_radius>
           </torsional>
           <ode>
             <fdir1>0 0 0</fdir1>
-            <slip1>0</slip1>
             <mu>1</mu>
+            <slip1>0</slip1>
             <slip2>0</slip2>
             <mu2>1</mu2>
           </ode>
           <bullet>
             <fdir1>0 0 0</fdir1>
-            <friction2>1</friction2>
-            <friction>1</friction>
             <rolling_friction>1</rolling_friction>
+            <friction>1</friction>
+            <friction2>1</friction2>
           </bullet>
         </friction>
       </surface>
-      <max_contacts>30</max_contacts>
+      <contact>
+        <ode>
+          <kp>1000000000000.0</kp>
+          <soft_erp>0.2</soft_erp>
+          <kd>1</kd>
+          <min_depth>0</min_depth>
+          <soft_cfm>0</soft_cfm>
+          <max_vel>0.01</max_vel>
+        </ode>
+        <bullet>
+          <kp>1000000000000.0</kp>
+          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+          <kd>1</kd>
+          <split_impulse>1</split_impulse>
+          <soft_cfm>0</soft_cfm>
+          <soft_erp>0.2</soft_erp>
+        </bullet>
+      </contact>
       <geometry>
         <mesh>
-          <scale>1 1 1</scale>
           <uri></uri>
+          <scale>1 1 1</scale>
           <submesh>
-            <center>0</center>
             <name>none</name>
+            <center>0</center>
           </submesh>
         </mesh>
       </geometry>
-      <contact>
-        <bullet>
-          <soft_erp>0.2</soft_erp>
-          <kd>1</kd>
-          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-          <kp>1000000000000.0</kp>
-          <soft_cfm>0</soft_cfm>
-          <split_impulse>1</split_impulse>
-        </bullet>
-        <ode>
-          <soft_erp>0.2</soft_erp>
-          <kd>1</kd>
-          <soft_cfm>0</soft_cfm>
-          <kp>1000000000000.0</kp>
-          <min_depth>0</min_depth>
-          <max_vel>0.01</max_vel>
-        </ode>
-      </contact>
-      <pose frame="base_link">0 0 1 0 0 0</pose>
+      <laser_retro>0</laser_retro>
     </collision>
     
     <collision name="collision">
-      <laser_retro>0</laser_retro>
+      <max_contacts>30</max_contacts>
+      <pose frame="base_link">0 0 1 0 0 0</pose>
       <surface>
+        <bounce>
+          <threshold>100000</threshold>
+          <restitution_coefficient>0</restitution_coefficient>
+        </bounce>
         <contact>
-          <bullet>
-            <soft_erp>0.2</soft_erp>
-            <kd>1</kd>
-            <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-            <kp>1000000000000.0</kp>
-            <soft_cfm>0</soft_cfm>
-            <split_impulse>1</split_impulse>
-          </bullet>
           <ode>
+            <kp>1000000000000.0</kp>
             <soft_erp>0.2</soft_erp>
             <kd>1</kd>
-            <soft_cfm>0</soft_cfm>
-            <kp>1000000000000.0</kp>
             <min_depth>0</min_depth>
+            <soft_cfm>0</soft_cfm>
             <max_vel>0.01</max_vel>
           </ode>
+          <bullet>
+            <kp>1000000000000.0</kp>
+            <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+            <kd>1</kd>
+            <split_impulse>1</split_impulse>
+            <soft_cfm>0</soft_cfm>
+            <soft_erp>0.2</soft_erp>
+          </bullet>
         </contact>
-        <bounce>
-          <restitution_coefficient>0</restitution_coefficient>
-          <threshold>100000</threshold>
-        </bounce>
         <friction>
           <torsional>
-            <coefficient>1</coefficient>
-            <patch_radius>0</patch_radius>
-            <use_patch_radius>1</use_patch_radius>
-            <surface_radius>0</surface_radius>
             <ode>
               <slip>0</slip>
             </ode>
+            <surface_radius>0</surface_radius>
+            <coefficient>1</coefficient>
+            <use_patch_radius>1</use_patch_radius>
+            <patch_radius>0</patch_radius>
           </torsional>
           <ode>
             <fdir1>0 0 0</fdir1>
-            <slip1>0</slip1>
             <mu>1</mu>
+            <slip1>0</slip1>
             <slip2>0</slip2>
             <mu2>1</mu2>
           </ode>
           <bullet>
             <fdir1>0 0 0</fdir1>
-            <friction2>1</friction2>
-            <friction>1</friction>
             <rolling_friction>1</rolling_friction>
+            <friction>1</friction>
+            <friction2>1</friction2>
           </bullet>
         </friction>
       </surface>
-      <max_contacts>30</max_contacts>
+      <contact>
+        <ode>
+          <kp>1000000000000.0</kp>
+          <soft_erp>0.2</soft_erp>
+          <kd>1</kd>
+          <min_depth>0</min_depth>
+          <soft_cfm>0</soft_cfm>
+          <max_vel>0.01</max_vel>
+        </ode>
+        <bullet>
+          <kp>1000000000000.0</kp>
+          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+          <kd>1</kd>
+          <split_impulse>1</split_impulse>
+          <soft_cfm>0</soft_cfm>
+          <soft_erp>0.2</soft_erp>
+        </bullet>
+      </contact>
       <geometry>
         <image>
-          <granularity>1</granularity>
           <threshold>0</threshold>
-          <height>1</height>
-          <scale>1</scale>
           <uri></uri>
+          <scale>1</scale>
+          <granularity>1</granularity>
+          <height>1</height>
         </image>
       </geometry>
-      <contact>
-        <bullet>
-          <soft_erp>0.2</soft_erp>
-          <kd>1</kd>
-          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-          <kp>1000000000000.0</kp>
-          <soft_cfm>0</soft_cfm>
-          <split_impulse>1</split_impulse>
-        </bullet>
-        <ode>
-          <soft_erp>0.2</soft_erp>
-          <kd>1</kd>
-          <soft_cfm>0</soft_cfm>
-          <kp>1000000000000.0</kp>
-          <min_depth>0</min_depth>
-          <max_vel>0.01</max_vel>
-        </ode>
-      </contact>
-      <pose frame="base_link">0 0 1 0 0 0</pose>
+      <laser_retro>0</laser_retro>
     </collision>
     
     <collision name="collision">
-      <laser_retro>0</laser_retro>
+      <max_contacts>30</max_contacts>
+      <pose frame="base_link">0 0 1 0 0 0</pose>
       <surface>
+        <bounce>
+          <threshold>100000</threshold>
+          <restitution_coefficient>0</restitution_coefficient>
+        </bounce>
         <contact>
-          <bullet>
-            <soft_erp>0.2</soft_erp>
-            <kd>1</kd>
-            <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-            <kp>1000000000000.0</kp>
-            <soft_cfm>0</soft_cfm>
-            <split_impulse>1</split_impulse>
-          </bullet>
           <ode>
+            <kp>1000000000000.0</kp>
             <soft_erp>0.2</soft_erp>
             <kd>1</kd>
-            <soft_cfm>0</soft_cfm>
-            <kp>1000000000000.0</kp>
             <min_depth>0</min_depth>
+            <soft_cfm>0</soft_cfm>
             <max_vel>0.01</max_vel>
           </ode>
+          <bullet>
+            <kp>1000000000000.0</kp>
+            <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+            <kd>1</kd>
+            <split_impulse>1</split_impulse>
+            <soft_cfm>0</soft_cfm>
+            <soft_erp>0.2</soft_erp>
+          </bullet>
         </contact>
-        <bounce>
-          <restitution_coefficient>0</restitution_coefficient>
-          <threshold>100000</threshold>
-        </bounce>
         <friction>
           <torsional>
-            <coefficient>1</coefficient>
-            <patch_radius>0</patch_radius>
-            <use_patch_radius>1</use_patch_radius>
-            <surface_radius>0</surface_radius>
             <ode>
               <slip>0</slip>
             </ode>
+            <surface_radius>0</surface_radius>
+            <coefficient>1</coefficient>
+            <use_patch_radius>1</use_patch_radius>
+            <patch_radius>0</patch_radius>
           </torsional>
           <ode>
             <fdir1>0 0 0</fdir1>
-            <slip1>0</slip1>
             <mu>1</mu>
+            <slip1>0</slip1>
             <slip2>0</slip2>
             <mu2>1</mu2>
           </ode>
           <bullet>
             <fdir1>0 0 0</fdir1>
-            <friction2>1</friction2>
-            <friction>1</friction>
             <rolling_friction>1</rolling_friction>
+            <friction>1</friction>
+            <friction2>1</friction2>
           </bullet>
         </friction>
       </surface>
-      <max_contacts>30</max_contacts>
+      <contact>
+        <ode>
+          <kp>1000000000000.0</kp>
+          <soft_erp>0.2</soft_erp>
+          <kd>1</kd>
+          <min_depth>0</min_depth>
+          <soft_cfm>0</soft_cfm>
+          <max_vel>0.01</max_vel>
+        </ode>
+        <bullet>
+          <kp>1000000000000.0</kp>
+          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+          <kd>1</kd>
+          <split_impulse>1</split_impulse>
+          <soft_cfm>0</soft_cfm>
+          <soft_erp>0.2</soft_erp>
+        </bullet>
+      </contact>
       <geometry>
         <polyline>
           <height>1</height>
         </polyline>
       </geometry>
-      <contact>
-        <bullet>
-          <soft_erp>0.2</soft_erp>
-          <kd>1</kd>
-          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-          <kp>1000000000000.0</kp>
-          <soft_cfm>0</soft_cfm>
-          <split_impulse>1</split_impulse>
-        </bullet>
-        <ode>
-          <soft_erp>0.2</soft_erp>
-          <kd>1</kd>
-          <soft_cfm>0</soft_cfm>
-          <kp>1000000000000.0</kp>
-          <min_depth>0</min_depth>
-          <max_vel>0.01</max_vel>
-        </ode>
-      </contact>
-      <pose frame="base_link">0 0 1 0 0 0</pose>
+      <laser_retro>0</laser_retro>
     </collision>
     
 

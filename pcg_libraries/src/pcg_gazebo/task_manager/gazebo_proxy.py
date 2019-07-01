@@ -273,9 +273,8 @@ class GazeboProxy(object):
                 '{} is not a valid number'.format(elem)
 
         if len(list(rot)) == 3:
-            q = PosePCG.rpy2quat(*rot)
-            rot = [q.x, q.y, q.z, q.w]
-
+            rot = PosePCG.rpy2quat(*rot)
+            
         state = ModelState()
 
         state.model_name = model_name
@@ -343,9 +342,8 @@ class GazeboProxy(object):
                 '{} is not a valid number'.format(elem)
 
         if len(list(rot)) == 3:
-            q = PosePCG.rpy2quat(*rot)
-            rot = [q.x, q.y, q.z, q.w]
-
+            rot = PosePCG.rpy2quat(*rot)
+            
         pose = Pose()
         pose.position.x = pos[0]
         pose.position.y = pos[1]

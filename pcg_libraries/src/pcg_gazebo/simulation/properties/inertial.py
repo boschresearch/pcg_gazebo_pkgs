@@ -32,7 +32,7 @@ class Inertial(object):
     def __str__(self):
         pose = self._pose.position + self._pose.rpy
         msg = 'Mass [Kg]={}\n'.format(self._mass)
-        msg += 'Pose=({}, {}, {}, {}, {}, {})\n'.format(*pose)
+        msg += 'Pose={}\n'.format(pose)
         msg += 'I =\n'
         msg += '\tIxx={}\n'.format(self._ixx)
         msg += '\tIyy={}\n'.format(self._iyy)

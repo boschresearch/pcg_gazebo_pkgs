@@ -72,8 +72,8 @@ print(model)
 ```
 
     <model name="my_robot">
-      <self_collide>1</self_collide>
       <static>1</static>
+      <self_collide>1</self_collide>
       <allow_auto_disable>1</allow_auto_disable>
     </model>
     
@@ -87,10 +87,10 @@ print(model)
 ```
 
     <model name="my_robot">
-      <self_collide>1</self_collide>
-      <pose frame="">0 1 1 0 0 0</pose>
       <static>1</static>
+      <self_collide>1</self_collide>
       <allow_auto_disable>1</allow_auto_disable>
+      <pose frame="">0 1 1 0 0 0</pose>
     </model>
     
 
@@ -114,13 +114,13 @@ print(model)
 ```
 
     <model name="my_robot">
+      <static>1</static>
+      <self_collide>1</self_collide>
+      <allow_auto_disable>1</allow_auto_disable>
+      <pose frame="">0 1 1 0 0 0</pose>
       <link name="link_1">
         <gravity>1</gravity>
       </link>
-      <self_collide>1</self_collide>
-      <pose frame="">0 1 1 0 0 0</pose>
-      <static>1</static>
-      <allow_auto_disable>1</allow_auto_disable>
     </model>
     
 
@@ -146,17 +146,17 @@ print(model)
 ```
 
     <model name="my_robot">
-      <self_collide>1</self_collide>
-      <static>1</static>
-      <allow_auto_disable>1</allow_auto_disable>
-      <include>
-        <name>some_model</name>
-        <uri>file://some_file</uri>
-      </include>
       <link name="link_1">
         <gravity>1</gravity>
       </link>
       <pose frame="">0 1 1 0 0 0</pose>
+      <include>
+        <name>some_model</name>
+        <uri>file://some_file</uri>
+      </include>
+      <static>1</static>
+      <self_collide>1</self_collide>
+      <allow_auto_disable>1</allow_auto_disable>
     </model>
     
 

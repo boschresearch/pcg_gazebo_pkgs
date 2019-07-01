@@ -1,7 +1,6 @@
 mkdocs
 mkdocs-material
 Jinja2
-rospkg
 PyYAML
 lxml
 xmltodict

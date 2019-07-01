@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+cp ../README.md docs/index.md
+
 # Generate documentation for pcg_gazebo.generators
 
 ROOT_DIR=docs/python_api
@@ -22,14 +24,14 @@ if [ ! -d "$ROOT_DIR" ]; then
     mkdir -p $ROOT_DIR
 fi
 
-pydocmd simple \
+python -m pydocmd simple \
     pcg_gazebo++ \
     pcg_gazebo.log++ \
     pcg_gazebo.transformations++ \
     pcg_gazebo.visualization++ \
     > $ROOT_DIR/pcg_gazebo.md
 
-pydocmd simple \
+python -m pydocmd simple \
     pcg_gazebo.generators++ \
     pcg_gazebo.generators.collision_checker++ \
     pcg_gazebo.generators.creators++ \
@@ -38,14 +40,14 @@ pydocmd simple \
     pcg_gazebo.generators.world_generator++ \
     > $ROOT_DIR/pcg_gazebo.generators.md
 
-pydocmd simple \
+python -m pydocmd simple \
     pcg_gazebo.generators.constraints++ \
         pcg_gazebo.generators.constraints.constraint.Constraint++ \
         pcg_gazebo.generators.constraints.tangent_constraint.TangentConstraint++ \
         pcg_gazebo.generators.constraints.workspace_constraint.WorkspaceConstraint++ \
     > $ROOT_DIR/pcg_gazebo.generators.constraints.md
 
-pydocmd simple \
+python -m pydocmd simple \
     pcg_gazebo.generators.engines++ \
         pcg_gazebo.generators.engines.engine.Engine++ \
         pcg_gazebo.generators.engines.fixed_pose_engine.FixedPoseEngine++ \
@@ -53,11 +55,11 @@ pydocmd simple \
         pcg_gazebo.generators.engines.random_pose_engine.RandomPoseEngine++ \
     > $ROOT_DIR/pcg_gazebo.generators.engines.md
 
-pydocmd simple \
+python -m pydocmd simple \
     pcg_gazebo.parsers++ \
     > $ROOT_DIR/pcg_gazebo.parsers.md
 
-pydocmd simple \
+python -m pydocmd simple \
     pcg_gazebo.parsers.sdf++ \
     pcg_gazebo.parsers.sdf.accel.Accel++ \
     pcg_gazebo.parsers.sdf.accuracy.Accuracy++ \
@@ -273,7 +275,7 @@ pydocmd simple \
     pcg_gazebo.parsers.sdf.z.Z++ \
     > $ROOT_DIR/pcg_gazebo.parsers.sdf.md
 
-pydocmd simple \
+python -m pydocmd simple \
     pcg_gazebo.parsers.sdf_config++ \
         pcg_gazebo.parsers.sdf_config.author.Author++ \
         pcg_gazebo.parsers.sdf_config.description.Description++ \
@@ -284,7 +286,7 @@ pydocmd simple \
         pcg_gazebo.parsers.sdf_config.version.Version++ \
         > $ROOT_DIR/pcg_gazebo.parsers.sdf_config.md
 
-pydocmd simple \
+python -m pydocmd simple \
     pcg_gazebo.parsers.types++ \
         pcg_gazebo.parsers.types.base.XMLBase++ \
         pcg_gazebo.parsers.types.boolean.XMLBoolean++ \
@@ -295,7 +297,7 @@ pydocmd simple \
         pcg_gazebo.parsers.types.vector.XMLVector++ \
     > $ROOT_DIR/pcg_gazebo.parsers.types.md
 
-pydocmd simple \
+python -m pydocmd simple \
     pcg_gazebo.parsers.urdf++ \
         pcg_gazebo.parsers.urdf.actuator.Actuator++ \
         pcg_gazebo.parsers.urdf.axis.Axis++ \
@@ -340,7 +342,7 @@ pydocmd simple \
         pcg_gazebo.parsers.urdf.visual.Visual++ \
         > $ROOT_DIR/pcg_gazebo.parsers.urdf.md
 
-pydocmd simple \
+python -m pydocmd simple \
     pcg_gazebo.simulation++ \
     pcg_gazebo.simulation.box.Box++ \
     pcg_gazebo.simulation.cylinder.Cylinder++ \
@@ -354,7 +356,7 @@ pydocmd simple \
     pcg_gazebo.simulation.world.World++ \
     > $ROOT_DIR/pcg_gazebo.simulation.md
 
-pydocmd simple \
+python -m pydocmd simple \
     pcg_gazebo.simulation.physics++ \
         pcg_gazebo.simulation.physics.physics.Physics++ \
         pcg_gazebo.simulation.physics.bullet.Bullet++ \
@@ -362,7 +364,7 @@ pydocmd simple \
         pcg_gazebo.simulation.physics.simbody.Simbody++ \
     > $ROOT_DIR/pcg_gazebo.simulation.physics.md
 
-pydocmd simple \
+python -m pydocmd simple \
     pcg_gazebo.simulation.properties++ \
         pcg_gazebo.simulation.properties.axis.Axis++ \
         pcg_gazebo.simulation.properties.bounding_box.BoundingBox++ \
@@ -378,7 +380,7 @@ pydocmd simple \
         pcg_gazebo.simulation.properties.visual.Visual++ \
     > $ROOT_DIR/pcg_gazebo.simulation.properties.md
 
-pydocmd simple \
+python -m pydocmd simple \
     pcg_gazebo.simulation.sensors++ \
         pcg_gazebo.simulation.sensors.sensor.Sensor++ \
         pcg_gazebo.simulation.sensors.camera.Camera++ \
@@ -413,7 +415,7 @@ NOTEBOOKS="
 for NOTEBOOK in $NOTEBOOKS
 do
     echo "Converting $NOTEBOOK to Markdown" 
-    jupyter-nbconvert $NOTEBOOKS_DIR/$NOTEBOOK --to markdown --output-dir $ROOT_DIR
+    python -m jupyter nbconvert $NOTEBOOKS_DIR/$NOTEBOOK --to markdown --output-dir $ROOT_DIR
 done
 
 # URDF parser tutorials

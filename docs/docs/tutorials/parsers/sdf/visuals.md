@@ -32,26 +32,26 @@ print(visual)
 ```
 
     <visual name="visual">
-      <cast_shadows>1</cast_shadows>
-      <transparency>0</transparency>
-      <material>
-        <ambient>0 0 0 1</ambient>
-        <shader type="pixel">
-          <normal_map>default</normal_map>
-        </shader>
-        <script>
-          <name>default</name>
-          <uri>file://media/materials/scripts/gazebo.material</uri>
-        </script>
-        <specular>0.1 0.1 0.1 1</specular>
-        <diffuse>0 0 0 1</diffuse>
-        <emissive>0 0 0 1</emissive>
-        <lighting>0</lighting>
-      </material>
+      <pose frame="">0 0 0 0 0 0</pose>
       <geometry>
         <empty></empty>
       </geometry>
-      <pose frame="">0 0 0 0 0 0</pose>
+      <transparency>0</transparency>
+      <cast_shadows>1</cast_shadows>
+      <material>
+        <specular>0.1 0.1 0.1 1</specular>
+        <diffuse>0 0 0 1</diffuse>
+        <shader type="pixel">
+          <normal_map>default</normal_map>
+        </shader>
+        <emissive>0 0 0 1</emissive>
+        <script>
+          <uri>file://media/materials/scripts/gazebo.material</uri>
+          <name>default</name>
+        </script>
+        <lighting>0</lighting>
+        <ambient>0 0 0 1</ambient>
+      </material>
     </visual>
     
 
@@ -74,26 +74,26 @@ print(visual)
 ```
 
     <visual name="custom_visual">
-      <cast_shadows>1</cast_shadows>
-      <transparency>0.2</transparency>
-      <material>
-        <ambient>0 0 0 1</ambient>
-        <shader type="pixel">
-          <normal_map>default</normal_map>
-        </shader>
-        <script>
-          <name>default</name>
-          <uri>file://media/materials/scripts/gazebo.material</uri>
-        </script>
-        <specular>0.1 0.1 0.1 1</specular>
-        <diffuse>0 0 0 1</diffuse>
-        <emissive>0 0 0 1</emissive>
-        <lighting>0</lighting>
-      </material>
+      <pose frame="base_link">0 0.2 0 0 0 0</pose>
       <geometry>
         <empty></empty>
       </geometry>
-      <pose frame="base_link">0 0.2 0 0 0 0</pose>
+      <transparency>0.2</transparency>
+      <cast_shadows>1</cast_shadows>
+      <material>
+        <specular>0.1 0.1 0.1 1</specular>
+        <diffuse>0 0 0 1</diffuse>
+        <shader type="pixel">
+          <normal_map>default</normal_map>
+        </shader>
+        <emissive>0 0 0 1</emissive>
+        <script>
+          <uri>file://media/materials/scripts/gazebo.material</uri>
+          <name>default</name>
+        </script>
+        <lighting>0</lighting>
+        <ambient>0 0 0 1</ambient>
+      </material>
     </visual>
     
 
@@ -119,124 +119,109 @@ print(visual)
 ```
 
     <visual name="custom_visual">
-      <cast_shadows>1</cast_shadows>
-      <transparency>0.2</transparency>
-      <material>
-        <ambient>0 0 0 1</ambient>
-        <shader type="pixel">
-          <normal_map>default</normal_map>
-        </shader>
-        <script>
-          <name>default</name>
-          <uri>file://media/materials/scripts/gazebo.material</uri>
-        </script>
-        <specular>0.1 0.1 0.1 1</specular>
-        <diffuse>0 0 0 1</diffuse>
-        <emissive>0 0 0 1</emissive>
-        <lighting>0</lighting>
-      </material>
+      <pose frame="base_link">0 0.2 0 0 0 0</pose>
       <geometry>
         <box>
           <size>0 0 0</size>
         </box>
       </geometry>
-      <pose frame="base_link">0 0.2 0 0 0 0</pose>
-    </visual>
-    
-    <visual name="custom_visual">
-      <cast_shadows>1</cast_shadows>
       <transparency>0.2</transparency>
+      <cast_shadows>1</cast_shadows>
       <material>
-        <ambient>0 0 0 1</ambient>
+        <specular>0.1 0.1 0.1 1</specular>
+        <diffuse>0 0 0 1</diffuse>
         <shader type="pixel">
           <normal_map>default</normal_map>
         </shader>
-        <script>
-          <name>default</name>
-          <uri>file://media/materials/scripts/gazebo.material</uri>
-        </script>
-        <specular>0.1 0.1 0.1 1</specular>
-        <diffuse>0 0 0 1</diffuse>
         <emissive>0 0 0 1</emissive>
+        <script>
+          <uri>file://media/materials/scripts/gazebo.material</uri>
+          <name>default</name>
+        </script>
         <lighting>0</lighting>
+        <ambient>0 0 0 1</ambient>
       </material>
+    </visual>
+    
+    <visual name="custom_visual">
+      <pose frame="base_link">0 0.2 0 0 0 0</pose>
       <geometry>
         <sphere>
           <radius>0</radius>
         </sphere>
       </geometry>
-      <pose frame="base_link">0 0.2 0 0 0 0</pose>
-    </visual>
-    
-    <visual name="custom_visual">
-      <cast_shadows>1</cast_shadows>
       <transparency>0.2</transparency>
+      <cast_shadows>1</cast_shadows>
       <material>
-        <ambient>0 0 0 1</ambient>
+        <specular>0.1 0.1 0.1 1</specular>
+        <diffuse>0 0 0 1</diffuse>
         <shader type="pixel">
           <normal_map>default</normal_map>
         </shader>
-        <script>
-          <name>default</name>
-          <uri>file://media/materials/scripts/gazebo.material</uri>
-        </script>
-        <specular>0.1 0.1 0.1 1</specular>
-        <diffuse>0 0 0 1</diffuse>
         <emissive>0 0 0 1</emissive>
+        <script>
+          <uri>file://media/materials/scripts/gazebo.material</uri>
+          <name>default</name>
+        </script>
         <lighting>0</lighting>
+        <ambient>0 0 0 1</ambient>
       </material>
+    </visual>
+    
+    <visual name="custom_visual">
+      <pose frame="base_link">0 0.2 0 0 0 0</pose>
       <geometry>
         <cylinder>
-          <length>0</length>
           <radius>0</radius>
+          <length>0</length>
         </cylinder>
       </geometry>
-      <pose frame="base_link">0 0.2 0 0 0 0</pose>
-    </visual>
-    
-    <visual name="custom_visual">
-      <cast_shadows>1</cast_shadows>
       <transparency>0.2</transparency>
+      <cast_shadows>1</cast_shadows>
       <material>
-        <ambient>0 0 0 1</ambient>
+        <specular>0.1 0.1 0.1 1</specular>
+        <diffuse>0 0 0 1</diffuse>
         <shader type="pixel">
           <normal_map>default</normal_map>
         </shader>
-        <script>
-          <name>default</name>
-          <uri>file://media/materials/scripts/gazebo.material</uri>
-        </script>
-        <specular>0.1 0.1 0.1 1</specular>
-        <diffuse>0 0 0 1</diffuse>
         <emissive>0 0 0 1</emissive>
+        <script>
+          <uri>file://media/materials/scripts/gazebo.material</uri>
+          <name>default</name>
+        </script>
         <lighting>0</lighting>
+        <ambient>0 0 0 1</ambient>
       </material>
+    </visual>
+    
+    <visual name="custom_visual">
+      <pose frame="base_link">0 0.2 0 0 0 0</pose>
       <geometry>
         <plane>
-          <normal>0 0 1</normal>
           <size>0 0</size>
+          <normal>0 0 1</normal>
         </plane>
       </geometry>
-      <pose frame="base_link">0 0.2 0 0 0 0</pose>
-    </visual>
-    
-    <visual name="custom_visual">
-      <cast_shadows>1</cast_shadows>
       <transparency>0.2</transparency>
+      <cast_shadows>1</cast_shadows>
       <material>
-        <ambient>0 0 0 1</ambient>
+        <specular>0.1 0.1 0.1 1</specular>
+        <diffuse>0 0 0 1</diffuse>
         <shader type="pixel">
           <normal_map>default</normal_map>
         </shader>
-        <script>
-          <name>default</name>
-          <uri>file://media/materials/scripts/gazebo.material</uri>
-        </script>
-        <specular>0.1 0.1 0.1 1</specular>
-        <diffuse>0 0 0 1</diffuse>
         <emissive>0 0 0 1</emissive>
+        <script>
+          <uri>file://media/materials/scripts/gazebo.material</uri>
+          <name>default</name>
+        </script>
         <lighting>0</lighting>
+        <ambient>0 0 0 1</ambient>
       </material>
+    </visual>
+    
+    <visual name="custom_visual">
+      <pose frame="base_link">0 0.2 0 0 0 0</pose>
       <geometry>
         <mesh>
           <uri></uri>
@@ -247,61 +232,76 @@ print(visual)
           <scale>1 1 1</scale>
         </mesh>
       </geometry>
-      <pose frame="base_link">0 0.2 0 0 0 0</pose>
-    </visual>
-    
-    <visual name="custom_visual">
-      <cast_shadows>1</cast_shadows>
       <transparency>0.2</transparency>
+      <cast_shadows>1</cast_shadows>
       <material>
-        <ambient>0 0 0 1</ambient>
+        <specular>0.1 0.1 0.1 1</specular>
+        <diffuse>0 0 0 1</diffuse>
         <shader type="pixel">
           <normal_map>default</normal_map>
         </shader>
-        <script>
-          <name>default</name>
-          <uri>file://media/materials/scripts/gazebo.material</uri>
-        </script>
-        <specular>0.1 0.1 0.1 1</specular>
-        <diffuse>0 0 0 1</diffuse>
         <emissive>0 0 0 1</emissive>
+        <script>
+          <uri>file://media/materials/scripts/gazebo.material</uri>
+          <name>default</name>
+        </script>
         <lighting>0</lighting>
+        <ambient>0 0 0 1</ambient>
       </material>
+    </visual>
+    
+    <visual name="custom_visual">
+      <pose frame="base_link">0 0.2 0 0 0 0</pose>
       <geometry>
         <image>
-          <threshold>0</threshold>
-          <granularity>1</granularity>
           <uri></uri>
           <height>1</height>
+          <granularity>1</granularity>
+          <threshold>0</threshold>
           <scale>1</scale>
         </image>
       </geometry>
-      <pose frame="base_link">0 0.2 0 0 0 0</pose>
-    </visual>
-    
-    <visual name="custom_visual">
-      <cast_shadows>1</cast_shadows>
       <transparency>0.2</transparency>
+      <cast_shadows>1</cast_shadows>
       <material>
-        <ambient>0 0 0 1</ambient>
+        <specular>0.1 0.1 0.1 1</specular>
+        <diffuse>0 0 0 1</diffuse>
         <shader type="pixel">
           <normal_map>default</normal_map>
         </shader>
-        <script>
-          <name>default</name>
-          <uri>file://media/materials/scripts/gazebo.material</uri>
-        </script>
-        <specular>0.1 0.1 0.1 1</specular>
-        <diffuse>0 0 0 1</diffuse>
         <emissive>0 0 0 1</emissive>
+        <script>
+          <uri>file://media/materials/scripts/gazebo.material</uri>
+          <name>default</name>
+        </script>
         <lighting>0</lighting>
+        <ambient>0 0 0 1</ambient>
       </material>
+    </visual>
+    
+    <visual name="custom_visual">
+      <pose frame="base_link">0 0.2 0 0 0 0</pose>
       <geometry>
         <polyline>
           <height>1</height>
         </polyline>
       </geometry>
-      <pose frame="base_link">0 0.2 0 0 0 0</pose>
+      <transparency>0.2</transparency>
+      <cast_shadows>1</cast_shadows>
+      <material>
+        <specular>0.1 0.1 0.1 1</specular>
+        <diffuse>0 0 0 1</diffuse>
+        <shader type="pixel">
+          <normal_map>default</normal_map>
+        </shader>
+        <emissive>0 0 0 1</emissive>
+        <script>
+          <uri>file://media/materials/scripts/gazebo.material</uri>
+          <name>default</name>
+        </script>
+        <lighting>0</lighting>
+        <ambient>0 0 0 1</ambient>
+      </material>
     </visual>
     
 
@@ -329,10 +329,10 @@ print(visual)
 ```
 
     <visual name="visual">
-      <cast_shadows>1</cast_shadows>
       <geometry>
         <empty></empty>
       </geometry>
+      <cast_shadows>1</cast_shadows>
     </visual>
     
 
@@ -344,11 +344,11 @@ print(visual)
 ```
 
     <visual name="visual">
-      <cast_shadows>1</cast_shadows>
+      <pose frame="">0 0.2 0 0 0 0</pose>
       <geometry>
         <empty></empty>
       </geometry>
-      <pose frame="">0 0.2 0 0 0 0</pose>
+      <cast_shadows>1</cast_shadows>
     </visual>
     
 
@@ -361,13 +361,13 @@ print(visual)
 ```
 
     <visual name="visual">
-      <cast_shadows>1</cast_shadows>
+      <pose frame="">0 0.2 0 0 0 0</pose>
       <geometry>
         <box>
           <size>2 3 4</size>
         </box>
       </geometry>
-      <pose frame="">0 0.2 0 0 0 0</pose>
+      <cast_shadows>1</cast_shadows>
     </visual>
     
 
@@ -385,13 +385,13 @@ print(visual)
 ```
 
     <visual name="visual">
-      <cast_shadows>1</cast_shadows>
+      <pose frame="new_frame">0 0.2 0 0 0 0</pose>
       <geometry>
         <box>
           <size>2 3 4</size>
         </box>
       </geometry>
-      <pose frame="new_frame">0 0.2 0 0 0 0</pose>
+      <cast_shadows>1</cast_shadows>
     </visual>
     
 

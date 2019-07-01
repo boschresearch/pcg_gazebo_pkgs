@@ -31,7 +31,7 @@ print('Is Gazebo running: {}'.format(simulation.is_task_running('gazebo')))
 simulation.run_all_tasks()
 ```
 
-    ['gazebo', 'rqt']
+    ['rqt', 'gazebo']
     Is Gazebo running: False
 
 
@@ -79,119 +79,119 @@ generator.spawn_model(
 ```
 
     <model name="default_imu">
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       <link name="imu_link">
-        <inertial>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-          <inertia>
-            <izz>1.6666666666666667e-05</izz>
-            <iyy>1.6666666666666667e-05</iyy>
-            <ixz>0.0</ixz>
-            <iyz>0.0</iyz>
-            <ixx>1.6666666666666667e-05</ixx>
-            <ixy>0.0</ixy>
-          </inertia>
-          <mass>0.01</mass>
-        </inertial>
-        <sensor name="imu" type="imu">
-          <imu>
-            <angular_velocity>
-              <z>
-                <noise type="none">
-                  <precision>0.0</precision>
-                  <bias_mean>0.0</bias_mean>
-                  <bias_stddev>0.0</bias_stddev>
-                  <mean>0.0</mean>
-                  <stddev>0.0</stddev>
-                </noise>
-              </z>
-              <x>
-                <noise type="none">
-                  <precision>0.0</precision>
-                  <bias_mean>0.0</bias_mean>
-                  <bias_stddev>0.0</bias_stddev>
-                  <mean>0.0</mean>
-                  <stddev>0.0</stddev>
-                </noise>
-              </x>
-              <y>
-                <noise type="none">
-                  <precision>0.0</precision>
-                  <bias_mean>0.0</bias_mean>
-                  <bias_stddev>0.0</bias_stddev>
-                  <mean>0.0</mean>
-                  <stddev>0.0</stddev>
-                </noise>
-              </y>
-            </angular_velocity>
-            <linear_acceleration>
-              <z>
-                <noise type="none">
-                  <precision>0.0</precision>
-                  <bias_mean>0.0</bias_mean>
-                  <bias_stddev>0.0</bias_stddev>
-                  <mean>0.0</mean>
-                  <stddev>0.0</stddev>
-                </noise>
-              </z>
-              <x>
-                <noise type="none">
-                  <precision>0.0</precision>
-                  <bias_mean>0.0</bias_mean>
-                  <bias_stddev>0.0</bias_stddev>
-                  <mean>0.0</mean>
-                  <stddev>0.0</stddev>
-                </noise>
-              </x>
-              <y>
-                <noise type="none">
-                  <precision>0.0</precision>
-                  <bias_mean>0.0</bias_mean>
-                  <bias_stddev>0.0</bias_stddev>
-                  <mean>0.0</mean>
-                  <stddev>0.0</stddev>
-                </noise>
-              </y>
-            </linear_acceleration>
-          </imu>
-          <topic>/imu</topic>
-          <plugin filename="libgazebo_ros_imu_sensor.so" name="imu">
-            <topicName>/imu</topicName>
-            <updateRateHZ>50</updateRateHZ>
-            <gaussianNoise>0</gaussianNoise>
-            <alwaysOn>1</alwaysOn>
-            <frameName>world</frameName>
-            <robotNamespace></robotNamespace>
-            <bodyName>imu_link</bodyName>
-          </plugin>
-          <update_rate>50.0</update_rate>
-          <visualize>1</visualize>
-          <always_on>1</always_on>
-        </sensor>
-        <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         <collision name="collision">
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
           <geometry>
             <box>
               <size>0.1 0.1 0.1</size>
             </box>
           </geometry>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <max_contacts>10</max_contacts>
         </collision>
         <visual name="visual">
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-          <transparency>0.0</transparency>
-          <cast_shadows>1</cast_shadows>
           <geometry>
             <box>
               <size>0.1 0.1 0.1</size>
             </box>
           </geometry>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
+          <transparency>0.0</transparency>
+          <cast_shadows>1</cast_shadows>
         </visual>
+        <sensor name="imu" type="imu">
+          <always_on>1</always_on>
+          <imu>
+            <angular_velocity>
+              <y>
+                <noise type="none">
+                  <stddev>0.0</stddev>
+                  <bias_mean>0.0</bias_mean>
+                  <bias_stddev>0.0</bias_stddev>
+                  <precision>0.0</precision>
+                  <mean>0.0</mean>
+                </noise>
+              </y>
+              <x>
+                <noise type="none">
+                  <stddev>0.0</stddev>
+                  <bias_mean>0.0</bias_mean>
+                  <bias_stddev>0.0</bias_stddev>
+                  <precision>0.0</precision>
+                  <mean>0.0</mean>
+                </noise>
+              </x>
+              <z>
+                <noise type="none">
+                  <stddev>0.0</stddev>
+                  <bias_mean>0.0</bias_mean>
+                  <bias_stddev>0.0</bias_stddev>
+                  <precision>0.0</precision>
+                  <mean>0.0</mean>
+                </noise>
+              </z>
+            </angular_velocity>
+            <linear_acceleration>
+              <y>
+                <noise type="none">
+                  <stddev>0.0</stddev>
+                  <bias_mean>0.0</bias_mean>
+                  <bias_stddev>0.0</bias_stddev>
+                  <precision>0.0</precision>
+                  <mean>0.0</mean>
+                </noise>
+              </y>
+              <x>
+                <noise type="none">
+                  <stddev>0.0</stddev>
+                  <bias_mean>0.0</bias_mean>
+                  <bias_stddev>0.0</bias_stddev>
+                  <precision>0.0</precision>
+                  <mean>0.0</mean>
+                </noise>
+              </x>
+              <z>
+                <noise type="none">
+                  <stddev>0.0</stddev>
+                  <bias_mean>0.0</bias_mean>
+                  <bias_stddev>0.0</bias_stddev>
+                  <precision>0.0</precision>
+                  <mean>0.0</mean>
+                </noise>
+              </z>
+            </linear_acceleration>
+          </imu>
+          <visualize>1</visualize>
+          <topic>/imu</topic>
+          <update_rate>50.0</update_rate>
+          <plugin filename="libgazebo_ros_imu_sensor.so" name="imu">
+            <updateRateHZ>50</updateRateHZ>
+            <topicName>/imu</topicName>
+            <bodyName>imu_link</bodyName>
+            <frameName>world</frameName>
+            <alwaysOn>1</alwaysOn>
+            <robotNamespace></robotNamespace>
+            <gaussianNoise>0</gaussianNoise>
+          </plugin>
+        </sensor>
+        <inertial>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
+          <mass>0.01</mass>
+          <inertia>
+            <izz>1.6666666666666667e-05</izz>
+            <ixx>1.6666666666666667e-05</ixx>
+            <ixy>0.0</ixy>
+            <iyz>0.0</iyz>
+            <iyy>1.6666666666666667e-05</iyy>
+            <ixz>0.0</ixz>
+          </inertia>
+        </inertial>
+        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       </link>
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <allow_auto_disable>0</allow_auto_disable>
-      <static>0</static>
       <self_collide>0</self_collide>
+      <static>0</static>
     </model>
     
 
@@ -253,78 +253,78 @@ generator.spawn_model(
 ```
 
     <model name="default_ray">
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       <link name="ray_link">
-        <inertial>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-          <inertia>
-            <izz>1.0000000000000003e-05</izz>
-            <iyy>1.0000000000000003e-05</iyy>
-            <ixz>0.0</ixz>
-            <iyz>0.0</iyz>
-            <ixx>1.0000000000000003e-05</ixx>
-            <ixy>0.0</ixy>
-          </inertia>
-          <mass>0.01</mass>
-        </inertial>
-        <sensor name="ray" type="altimeter">
-          <topic>/scan</topic>
-          <update_rate>50.0</update_rate>
-          <ray>
-            <scan>
-              <horizontal>
-                <max_angle>1.5707963267948966</max_angle>
-                <min_angle>-1.5707963267948966</min_angle>
-                <samples>640</samples>
-                <resolution>1.0</resolution>
-              </horizontal>
-              <vertical>
-                <max_angle>0.0</max_angle>
-                <min_angle>0.0</min_angle>
-                <samples>1</samples>
-                <resolution>1.0</resolution>
-              </vertical>
-            </scan>
-            <noise type="none">
-              <precision>0</precision>
-              <bias_mean>0</bias_mean>
-              <bias_stddev>0</bias_stddev>
-              <mean>0.0</mean>
-              <stddev>0.0</stddev>
-            </noise>
-            <range>
-              <max>10.0</max>
-              <min>0.05</min>
-              <resolution>0.001</resolution>
-            </range>
-          </ray>
-          <visualize>0</visualize>
-          <always_on>1</always_on>
-        </sensor>
-        <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         <collision name="collision">
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
           <geometry>
             <sphere>
               <radius>0.05</radius>
             </sphere>
           </geometry>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <max_contacts>10</max_contacts>
         </collision>
         <visual name="visual">
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-          <transparency>0.0</transparency>
-          <cast_shadows>1</cast_shadows>
           <geometry>
             <sphere>
               <radius>0.05</radius>
             </sphere>
           </geometry>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
+          <transparency>0.0</transparency>
+          <cast_shadows>1</cast_shadows>
         </visual>
+        <sensor name="ray" type="altimeter">
+          <always_on>1</always_on>
+          <topic>/scan</topic>
+          <update_rate>50.0</update_rate>
+          <visualize>0</visualize>
+          <ray>
+            <noise type="none">
+              <stddev>0.0</stddev>
+              <bias_mean>0</bias_mean>
+              <bias_stddev>0</bias_stddev>
+              <precision>0</precision>
+              <mean>0.0</mean>
+            </noise>
+            <scan>
+              <vertical>
+                <resolution>1.0</resolution>
+                <min_angle>0.0</min_angle>
+                <samples>1</samples>
+                <max_angle>0.0</max_angle>
+              </vertical>
+              <horizontal>
+                <resolution>1.0</resolution>
+                <min_angle>-1.5707963267948966</min_angle>
+                <samples>640</samples>
+                <max_angle>1.5707963267948966</max_angle>
+              </horizontal>
+            </scan>
+            <range>
+              <max>10.0</max>
+              <resolution>0.001</resolution>
+              <min>0.05</min>
+            </range>
+          </ray>
+        </sensor>
+        <inertial>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
+          <mass>0.01</mass>
+          <inertia>
+            <izz>1.0000000000000003e-05</izz>
+            <ixx>1.0000000000000003e-05</ixx>
+            <ixy>0.0</ixy>
+            <iyz>0.0</iyz>
+            <iyy>1.0000000000000003e-05</iyy>
+            <ixz>0.0</ixz>
+          </inertia>
+        </inertial>
+        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       </link>
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <allow_auto_disable>0</allow_auto_disable>
-      <static>0</static>
       <self_collide>0</self_collide>
+      <static>0</static>
     </model>
     
 
@@ -386,61 +386,61 @@ generator.spawn_model(
 ```
 
     <model name="contact_standalone">
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       <link name="contact_link">
-        <inertial>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-          <inertia>
-            <izz>1.2500000000000002e-05</izz>
-            <iyy>1.4583333333333333e-05</iyy>
-            <ixz>0.0</ixz>
-            <iyz>0.0</iyz>
-            <ixx>1.4583333333333333e-05</ixx>
-            <ixy>0.0</ixy>
-          </inertia>
-          <mass>0.01</mass>
-        </inertial>
-        <sensor name="contact" type="contact">
-          <contact>
-            <topic>/bumper</topic>
-            <collision>collision</collision>
-          </contact>
-          <topic>/bumper</topic>
-          <plugin filename="libgazebo_ros_bumper.so" name="contact">
-            <frameName>world</frameName>
-            <robotNamespace></robotNamespace>
-            <bumperTopicName>/bumper</bumperTopicName>
-          </plugin>
-          <update_rate>50.0</update_rate>
-          <visualize>0</visualize>
-          <always_on>1</always_on>
-        </sensor>
-        <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         <collision name="collision">
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
           <geometry>
             <cylinder>
-              <radius>0.05</radius>
               <length>0.1</length>
+              <radius>0.05</radius>
             </cylinder>
           </geometry>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <max_contacts>10</max_contacts>
         </collision>
         <visual name="visual">
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-          <transparency>0.0</transparency>
-          <cast_shadows>1</cast_shadows>
           <geometry>
             <cylinder>
-              <radius>0.05</radius>
               <length>0.1</length>
+              <radius>0.05</radius>
             </cylinder>
           </geometry>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
+          <transparency>0.0</transparency>
+          <cast_shadows>1</cast_shadows>
         </visual>
+        <sensor name="contact" type="contact">
+          <always_on>1</always_on>
+          <contact>
+            <collision>collision</collision>
+            <topic>/bumper</topic>
+          </contact>
+          <visualize>0</visualize>
+          <topic>/bumper</topic>
+          <update_rate>50.0</update_rate>
+          <plugin filename="libgazebo_ros_bumper.so" name="contact">
+            <bumperTopicName>/bumper</bumperTopicName>
+            <frameName>world</frameName>
+            <robotNamespace></robotNamespace>
+          </plugin>
+        </sensor>
+        <inertial>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
+          <mass>0.01</mass>
+          <inertia>
+            <izz>1.2500000000000002e-05</izz>
+            <ixx>1.4583333333333333e-05</ixx>
+            <ixy>0.0</ixy>
+            <iyz>0.0</iyz>
+            <iyy>1.4583333333333333e-05</iyy>
+            <ixz>0.0</ixz>
+          </inertia>
+        </inertial>
+        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       </link>
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <allow_auto_disable>0</allow_auto_disable>
-      <static>0</static>
       <self_collide>0</self_collide>
+      <static>0</static>
     </model>
     
 
@@ -480,63 +480,28 @@ generator.spawn_model(
 ```
 
     <model name="camera_standalone">
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       <link name="camera_link">
-        <inertial>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-          <inertia>
-            <izz>1.6666666666666667e-05</izz>
-            <iyy>1.6666666666666667e-05</iyy>
-            <ixz>0.0</ixz>
-            <iyz>0.0</iyz>
-            <ixx>1.6666666666666667e-05</ixx>
-            <ixy>0.0</ixy>
-          </inertia>
-          <mass>0.01</mass>
-        </inertial>
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.1</size>
+            </box>
+          </geometry>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.1</size>
+            </box>
+          </geometry>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
+          <transparency>0.0</transparency>
+          <cast_shadows>1</cast_shadows>
+        </visual>
         <sensor name="camera" type="camera">
-          <topic>/camera</topic>
-          <plugin filename="libgazebo_ros_camera.so" name="camera">
-            <imageTopicName>image_raw</imageTopicName>
-            <distortionK3>0</distortionK3>
-            <robotNamespace></robotNamespace>
-            <distortionK2>0</distortionK2>
-            <updateRate>0</updateRate>
-            <cameraInfoTopicName>camera_info</cameraInfoTopicName>
-            <distortionT2>0</distortionT2>
-            <hackBaseline>0.07</hackBaseline>
-            <cameraName>camera</cameraName>
-            <frameName>camera_link</frameName>
-            <distortionK1>0</distortionK1>
-            <distortionT1>0</distortionT1>
-          </plugin>
-          <update_rate>50.0</update_rate>
-          <visualize>1</visualize>
           <camera name="default">
-            <horizontal_fov>1.047</horizontal_fov>
-            <depth_camera>
-              <output>depths</output>
-            </depth_camera>
-            <image>
-              <height>240.0</height>
-              <format>R8G8B8</format>
-              <width>320.0</width>
-            </image>
-            <distortion>
-              <p2>0.0</p2>
-              <k3>0.0</k3>
-              <k2>0.0</k2>
-              <k1>0.0</k1>
-              <p1>0.0</p1>
-              <center>0.5 0.5</center>
-            </distortion>
-            <noise type="none">
-              <precision>0.0</precision>
-              <bias_mean>0.0</bias_mean>
-              <bias_stddev>0.0</bias_stddev>
-              <mean>0.0</mean>
-              <stddev>0.0</stddev>
-            </noise>
             <save enabled="False">
               <path>__default__</path>
             </save>
@@ -544,33 +509,68 @@ generator.spawn_model(
               <far>100.0</far>
               <near>0.1</near>
             </clip>
+            <noise type="none">
+              <stddev>0.0</stddev>
+              <bias_mean>0.0</bias_mean>
+              <bias_stddev>0.0</bias_stddev>
+              <precision>0.0</precision>
+              <mean>0.0</mean>
+            </noise>
+            <depth_camera>
+              <output>depths</output>
+            </depth_camera>
+            <horizontal_fov>1.047</horizontal_fov>
+            <image>
+              <height>240.0</height>
+              <width>320.0</width>
+              <format>R8G8B8</format>
+            </image>
+            <distortion>
+              <k1>0.0</k1>
+              <p1>0.0</p1>
+              <k3>0.0</k3>
+              <center>0.5 0.5</center>
+              <k2>0.0</k2>
+              <p2>0.0</p2>
+            </distortion>
           </camera>
           <always_on>1</always_on>
+          <visualize>1</visualize>
+          <topic>/camera</topic>
+          <update_rate>50.0</update_rate>
+          <plugin filename="libgazebo_ros_camera.so" name="camera">
+            <frameName>camera_link</frameName>
+            <robotNamespace></robotNamespace>
+            <imageTopicName>image_raw</imageTopicName>
+            <distortionK3>0</distortionK3>
+            <hackBaseline>0.07</hackBaseline>
+            <distortionK1>0</distortionK1>
+            <distortionK2>0</distortionK2>
+            <distortionT2>0</distortionT2>
+            <updateRate>0</updateRate>
+            <cameraName>camera</cameraName>
+            <distortionT1>0</distortionT1>
+            <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+          </plugin>
         </sensor>
-        <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-        <collision name="collision">
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-          <geometry>
-            <box>
-              <size>0.1 0.1 0.1</size>
-            </box>
-          </geometry>
-          <max_contacts>10</max_contacts>
-        </collision>
-        <visual name="visual">
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-          <transparency>0.0</transparency>
-          <cast_shadows>1</cast_shadows>
-          <geometry>
-            <box>
-              <size>0.1 0.1 0.1</size>
-            </box>
-          </geometry>
-        </visual>
+        <inertial>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
+          <mass>0.01</mass>
+          <inertia>
+            <izz>1.6666666666666667e-05</izz>
+            <ixx>1.6666666666666667e-05</ixx>
+            <ixy>0.0</ixy>
+            <iyz>0.0</iyz>
+            <iyy>1.6666666666666667e-05</iyy>
+            <ixz>0.0</ixz>
+          </inertia>
+        </inertial>
+        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       </link>
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <allow_auto_disable>0</allow_auto_disable>
-      <static>1</static>
       <self_collide>0</self_collide>
+      <static>1</static>
     </model>
     
 
@@ -591,10 +591,6 @@ for topic in simulation.get_rostopic_list():
 
     List of ROS topics:
      - /bumper
-     - /camera_standalone/camera/camera_info
-     - /camera_standalone/camera/image_raw
-     - /camera_standalone/camera/parameter_descriptions
-     - /camera_standalone/camera/parameter_updates
      - /clock
      - /gazebo/link_states
      - /gazebo/model_states

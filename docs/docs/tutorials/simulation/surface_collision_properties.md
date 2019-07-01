@@ -60,19 +60,10 @@ print(obj.to_sdf('model'))
 ```
 
     <model name="box">
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <allow_auto_disable>0</allow_auto_disable>
       <static>0</static>
       <link name="box">
-        <visual name="visual">
-          <geometry>
-            <box>
-              <size>0.8 0.7 0.9</size>
-            </box>
-          </geometry>
-          <cast_shadows>1</cast_shadows>
-          <transparency>0.0</transparency>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-        </visual>
         <collision name="collision">
           <geometry>
             <box>
@@ -80,22 +71,31 @@ print(obj.to_sdf('model'))
             </box>
           </geometry>
           <max_contacts>10</max_contacts>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
         </collision>
+        <visual name="visual">
+          <cast_shadows>1</cast_shadows>
+          <geometry>
+            <box>
+              <size>0.8 0.7 0.9</size>
+            </box>
+          </geometry>
+          <transparency>0.0</transparency>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
+        </visual>
         <inertial>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <inertia>
-            <izz>2.825</izz>
-            <ixx>3.25</ixx>
+            <iyy>3.6250000000000004</iyy>
             <iyz>0.0</iyz>
             <ixz>0.0</ixz>
-            <iyy>3.6250000000000004</iyy>
             <ixy>0.0</ixy>
+            <ixx>3.25</ixx>
+            <izz>2.825</izz>
           </inertia>
           <mass>30.0</mass>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         </inertial>
       </link>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
     </model>
     
 
@@ -108,19 +108,10 @@ print(obj.to_sdf('model'))
 ```
 
     <model name="box">
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <allow_auto_disable>0</allow_auto_disable>
       <static>0</static>
       <link name="box">
-        <visual name="visual">
-          <geometry>
-            <box>
-              <size>0.8 0.7 0.9</size>
-            </box>
-          </geometry>
-          <cast_shadows>1</cast_shadows>
-          <transparency>0.0</transparency>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-        </visual>
         <collision name="collision">
           <geometry>
             <box>
@@ -129,47 +120,56 @@ print(obj.to_sdf('model'))
           </geometry>
           <surface>
             <friction>
+              <ode>
+                <slip1>0</slip1>
+                <fdir1>0 0 0</fdir1>
+                <mu>1</mu>
+                <slip2>0</slip2>
+                <mu2>1</mu2>
+              </ode>
               <torsional>
-                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
                 <ode>
                   <slip>0</slip>
                 </ode>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
+                <patch_radius>0</patch_radius>
                 <coefficient>1</coefficient>
+                <use_patch_radius>1</use_patch_radius>
               </torsional>
-              <ode>
-                <mu2>1</mu2>
-                <slip1>0</slip1>
-                <slip2>0</slip2>
-                <mu>1</mu>
-                <fdir1>0 0 0</fdir1>
-              </ode>
               <bullet>
-                <friction2>1</friction2>
-                <rolling_friction>1</rolling_friction>
                 <friction>1</friction>
+                <friction2>1</friction2>
                 <fdir1>0 0 0</fdir1>
+                <rolling_friction>1</rolling_friction>
               </bullet>
             </friction>
           </surface>
           <max_contacts>10</max_contacts>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
         </collision>
+        <visual name="visual">
+          <cast_shadows>1</cast_shadows>
+          <geometry>
+            <box>
+              <size>0.8 0.7 0.9</size>
+            </box>
+          </geometry>
+          <transparency>0.0</transparency>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
+        </visual>
         <inertial>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <inertia>
-            <izz>2.825</izz>
-            <ixx>3.25</ixx>
+            <iyy>3.6250000000000004</iyy>
             <iyz>0.0</iyz>
             <ixz>0.0</ixz>
-            <iyy>3.6250000000000004</iyy>
             <ixy>0.0</ixy>
+            <ixx>3.25</ixx>
+            <izz>2.825</izz>
           </inertia>
           <mass>30.0</mass>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         </inertial>
       </link>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
     </model>
     
 
@@ -187,19 +187,10 @@ print(obj.to_sdf('model'))
 ```
 
     <model name="box">
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <allow_auto_disable>0</allow_auto_disable>
       <static>0</static>
       <link name="box">
-        <visual name="visual">
-          <geometry>
-            <box>
-              <size>0.8 0.7 0.9</size>
-            </box>
-          </geometry>
-          <cast_shadows>1</cast_shadows>
-          <transparency>0.0</transparency>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-        </visual>
         <collision name="collision">
           <geometry>
             <box>
@@ -208,47 +199,56 @@ print(obj.to_sdf('model'))
           </geometry>
           <surface>
             <friction>
+              <ode>
+                <slip1>0.3</slip1>
+                <fdir1>0 0 0</fdir1>
+                <mu>0.9</mu>
+                <slip2>0.5</slip2>
+                <mu2>0.5</mu2>
+              </ode>
               <torsional>
-                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
                 <ode>
                   <slip>0</slip>
                 </ode>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
+                <patch_radius>0</patch_radius>
                 <coefficient>1</coefficient>
+                <use_patch_radius>1</use_patch_radius>
               </torsional>
-              <ode>
-                <mu2>0.5</mu2>
-                <slip2>0.5</slip2>
-                <slip1>0.3</slip1>
-                <mu>0.9</mu>
-                <fdir1>0 0 0</fdir1>
-              </ode>
               <bullet>
-                <friction2>1</friction2>
-                <rolling_friction>1</rolling_friction>
                 <friction>1</friction>
+                <friction2>1</friction2>
                 <fdir1>0 0 0</fdir1>
+                <rolling_friction>1</rolling_friction>
               </bullet>
             </friction>
           </surface>
           <max_contacts>10</max_contacts>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
         </collision>
+        <visual name="visual">
+          <cast_shadows>1</cast_shadows>
+          <geometry>
+            <box>
+              <size>0.8 0.7 0.9</size>
+            </box>
+          </geometry>
+          <transparency>0.0</transparency>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
+        </visual>
         <inertial>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <inertia>
-            <izz>2.825</izz>
-            <ixx>3.25</ixx>
+            <iyy>3.6250000000000004</iyy>
             <iyz>0.0</iyz>
             <ixz>0.0</ixz>
-            <iyy>3.6250000000000004</iyy>
             <ixy>0.0</ixy>
+            <ixx>3.25</ixx>
+            <izz>2.825</izz>
           </inertia>
           <mass>30.0</mass>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         </inertial>
       </link>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
     </model>
     
 
@@ -265,19 +265,10 @@ print(obj.to_sdf('model'))
 ```
 
     <model name="box">
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <allow_auto_disable>0</allow_auto_disable>
       <static>0</static>
       <link name="box">
-        <visual name="visual">
-          <geometry>
-            <box>
-              <size>0.8 0.7 0.9</size>
-            </box>
-          </geometry>
-          <cast_shadows>1</cast_shadows>
-          <transparency>0.0</transparency>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-        </visual>
         <collision name="collision">
           <geometry>
             <box>
@@ -286,47 +277,56 @@ print(obj.to_sdf('model'))
           </geometry>
           <surface>
             <friction>
+              <ode>
+                <slip1>0.3</slip1>
+                <fdir1>0 0 0</fdir1>
+                <mu>0.9</mu>
+                <slip2>0.5</slip2>
+                <mu2>0.5</mu2>
+              </ode>
               <torsional>
-                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
                 <ode>
                   <slip>0</slip>
                 </ode>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
+                <patch_radius>0</patch_radius>
                 <coefficient>1</coefficient>
+                <use_patch_radius>1</use_patch_radius>
               </torsional>
-              <ode>
-                <mu2>0.5</mu2>
-                <slip2>0.5</slip2>
-                <slip1>0.3</slip1>
-                <mu>0.9</mu>
-                <fdir1>0 0 0</fdir1>
-              </ode>
               <bullet>
-                <friction2>0.9</friction2>
-                <rolling_friction>1.0</rolling_friction>
                 <friction>0.8</friction>
+                <friction2>0.9</friction2>
                 <fdir1>0 0 0</fdir1>
+                <rolling_friction>1.0</rolling_friction>
               </bullet>
             </friction>
           </surface>
           <max_contacts>10</max_contacts>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
         </collision>
+        <visual name="visual">
+          <cast_shadows>1</cast_shadows>
+          <geometry>
+            <box>
+              <size>0.8 0.7 0.9</size>
+            </box>
+          </geometry>
+          <transparency>0.0</transparency>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
+        </visual>
         <inertial>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <inertia>
-            <izz>2.825</izz>
-            <ixx>3.25</ixx>
+            <iyy>3.6250000000000004</iyy>
             <iyz>0.0</iyz>
             <ixz>0.0</ixz>
-            <iyy>3.6250000000000004</iyy>
             <ixy>0.0</ixy>
+            <ixx>3.25</ixx>
+            <izz>2.825</izz>
           </inertia>
           <mass>30.0</mass>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         </inertial>
       </link>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
     </model>
     
 
@@ -339,19 +339,10 @@ print(obj.to_sdf('model'))
 ```
 
     <model name="box">
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <allow_auto_disable>0</allow_auto_disable>
       <static>0</static>
       <link name="box">
-        <visual name="visual">
-          <geometry>
-            <box>
-              <size>0.8 0.7 0.9</size>
-            </box>
-          </geometry>
-          <cast_shadows>1</cast_shadows>
-          <transparency>0.0</transparency>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-        </visual>
         <collision name="collision">
           <geometry>
             <box>
@@ -359,52 +350,61 @@ print(obj.to_sdf('model'))
             </box>
           </geometry>
           <surface>
+            <friction>
+              <ode>
+                <slip1>0.3</slip1>
+                <fdir1>0 0 0</fdir1>
+                <mu>0.9</mu>
+                <slip2>0.5</slip2>
+                <mu2>0.5</mu2>
+              </ode>
+              <torsional>
+                <surface_radius>0</surface_radius>
+                <ode>
+                  <slip>0</slip>
+                </ode>
+                <patch_radius>0</patch_radius>
+                <coefficient>1</coefficient>
+                <use_patch_radius>1</use_patch_radius>
+              </torsional>
+              <bullet>
+                <friction>0.8</friction>
+                <friction2>0.9</friction2>
+                <fdir1>0 0 0</fdir1>
+                <rolling_friction>1.0</rolling_friction>
+              </bullet>
+            </friction>
             <bounce>
               <restitution_coefficient>0</restitution_coefficient>
               <threshold>100000</threshold>
             </bounce>
-            <friction>
-              <torsional>
-                <patch_radius>0</patch_radius>
-                <ode>
-                  <slip>0</slip>
-                </ode>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
-                <coefficient>1</coefficient>
-              </torsional>
-              <ode>
-                <mu2>0.5</mu2>
-                <slip2>0.5</slip2>
-                <slip1>0.3</slip1>
-                <mu>0.9</mu>
-                <fdir1>0 0 0</fdir1>
-              </ode>
-              <bullet>
-                <friction2>0.9</friction2>
-                <rolling_friction>1.0</rolling_friction>
-                <friction>0.8</friction>
-                <fdir1>0 0 0</fdir1>
-              </bullet>
-            </friction>
           </surface>
           <max_contacts>10</max_contacts>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
         </collision>
+        <visual name="visual">
+          <cast_shadows>1</cast_shadows>
+          <geometry>
+            <box>
+              <size>0.8 0.7 0.9</size>
+            </box>
+          </geometry>
+          <transparency>0.0</transparency>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
+        </visual>
         <inertial>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <inertia>
-            <izz>2.825</izz>
-            <ixx>3.25</ixx>
+            <iyy>3.6250000000000004</iyy>
             <iyz>0.0</iyz>
             <ixz>0.0</ixz>
-            <iyy>3.6250000000000004</iyy>
             <ixy>0.0</ixy>
+            <ixx>3.25</ixx>
+            <izz>2.825</izz>
           </inertia>
           <mass>30.0</mass>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         </inertial>
       </link>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
     </model>
     
 

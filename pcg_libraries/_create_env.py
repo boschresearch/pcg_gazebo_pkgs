@@ -19,13 +19,13 @@ import subprocess
 
 
 if __name__ == '__main__':
-    devel_path = sys.argv[1::][0]
+    # devel_path = sys.argv[1::][0]
 
-    install_path = os.path.join(
-        devel_path,
-        'lib',
-        'python{}.{}'.format(sys.version_info[0], sys.version_info[1]),
-        'dist-packages')
+    # install_path = os.path.join(
+    #     devel_path,
+    #     'lib',
+    #     'python{}.{}'.format(sys.version_info[0], sys.version_info[1]),
+    #     'dist-packages')
 
     pkg_path = os.path.dirname(os.path.realpath(__file__))
     req_file = os.path.join(pkg_path, 'requirements.txt')
@@ -47,11 +47,17 @@ if __name__ == '__main__':
                     pkg_exists = False
 
                 if not pkg_exists:
-                    cmd = 'python{}.{} -m pip install {} --upgrade --target {}'.format(
+                    # cmd = 'python{}.{} -m pip install {} --upgrade --target {}'.format(
+                    #     sys.version_info[0], 
+                    #     sys.version_info[1],
+                    #     pkg,
+                    #     install_path
+                    # )
+
+                    cmd = 'python{}.{} -m pip install {} --upgrade --user'.format(
                         sys.version_info[0], 
                         sys.version_info[1],
-                        pkg,
-                        install_path
+                        pkg
                     )
 
                     subprocess.check_output(cmd.split())
