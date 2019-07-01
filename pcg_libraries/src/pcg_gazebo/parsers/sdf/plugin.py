@@ -53,7 +53,7 @@ class Plugin(XMLCustom):
         self.attributes['filename'] = value
 
     def _add_child_element(self, tag, value):
-        assert isinstance(tag, str) or isinstance(tag, unicode), \
+        assert isinstance(tag, str), \
             'Input tag must be string or unicode'
         self._value[tag] = value
 
@@ -69,7 +69,7 @@ class Plugin(XMLCustom):
         params = dict()
         params['robotNamespace'] = robot_namespace
         if control_period is not None:
-            assert self._is_scalar(control_period), \
+            assert isinstance(control_period, float) or isinstance(control_period, int), \
                 'Control period must be numeric'
             assert control_period > 0, \
                 'Control period must be a positive number'
