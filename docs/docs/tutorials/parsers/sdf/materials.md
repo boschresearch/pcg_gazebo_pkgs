@@ -29,17 +29,17 @@ print(material)
 
     <material>
       <specular>0.1 0.1 0.1 1</specular>
+      <diffuse>0 0 0 1</diffuse>
+      <lighting>0</lighting>
+      <script>
+        <uri>file://media/materials/scripts/gazebo.material</uri>
+        <name>default</name>
+      </script>
       <shader type="pixel">
         <normal_map>default</normal_map>
       </shader>
-      <diffuse>0 0 0 1</diffuse>
-      <script>
-        <name>default</name>
-        <uri>file://media/materials/scripts/gazebo.material</uri>
-      </script>
-      <ambient>0 0 0 1</ambient>
-      <lighting>0</lighting>
       <emissive>0 0 0 1</emissive>
+      <ambient>0 0 0 1</ambient>
     </material>
     
 
@@ -75,17 +75,17 @@ print(material)
 
     <material>
       <specular>0.2 0.2 0.6 1</specular>
+      <diffuse>0.2 0.4 0.2 1</diffuse>
+      <lighting>0</lighting>
+      <script>
+        <uri>file://media/materials/scripts/gazebo.material</uri>
+        <name>Gazebo/Wood</name>
+      </script>
       <shader type="vertex">
         <normal_map>file://normal_map</normal_map>
       </shader>
-      <diffuse>0.2 0.4 0.2 1</diffuse>
-      <script>
-        <name>Gazebo/Wood</name>
-        <uri>file://media/materials/scripts/gazebo.material</uri>
-      </script>
-      <ambient>0.2 0.2 0.2 1</ambient>
-      <lighting>0</lighting>
       <emissive>0.5 0.5 0.5 1</emissive>
+      <ambient>0.2 0.2 0.2 1</ambient>
     </material>
     
 

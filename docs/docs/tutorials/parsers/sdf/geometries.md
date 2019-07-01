@@ -82,18 +82,18 @@ print(cylinder)
 
     Default cylinder
     <cylinder>
-      <radius>0</radius>
       <length>0</length>
+      <radius>0</radius>
     </cylinder>
     
     Default cylinder - as dict
-    {'cylinder': {'radius': {'value': 0}, 'length': {'value': 0}}}
+    {'cylinder': {'length': {'value': 0}, 'radius': {'value': 0}}}
     Default cylinder - as SDF
-    <cylinder><radius>0</radius><length>0</length></cylinder>
+    <cylinder><length>0</length><radius>0</radius></cylinder>
     Custom cylinder
     <cylinder>
-      <radius>2.0</radius>
       <length>3.0</length>
+      <radius>2.0</radius>
     </cylinder>
     
 
@@ -167,18 +167,18 @@ print(plane)
 
     Default plane
     <plane>
-      <normal>0 0 1</normal>
       <size>0 0</size>
+      <normal>0 0 1</normal>
     </plane>
     
     Default plane - as dict
-    {'plane': {'normal': {'value': [0, 0, 1]}, 'size': {'value': [0, 0]}}}
+    {'plane': {'size': {'value': [0, 0]}, 'normal': {'value': [0, 0, 1]}}}
     Default plane - as SDF
-    <plane><normal>0 0 1</normal><size>0 0</size></plane>
+    <plane><size>0 0</size><normal>0 0 1</normal></plane>
     Custom plane
     <plane>
-      <normal>1 0 0</normal>
       <size>10 10</size>
+      <normal>1 0 0</normal>
     </plane>
     
 
@@ -220,24 +220,24 @@ print(image)
 
     Default image
     <image>
-      <height>1</height>
-      <uri></uri>
       <granularity>1</granularity>
-      <threshold>0</threshold>
+      <height>1</height>
       <scale>1</scale>
+      <uri></uri>
+      <threshold>0</threshold>
     </image>
     
     Default image - as dict
-    {'image': {'height': {'value': 1}, 'uri': {'value': ''}, 'threshold': {'value': 0}, 'granularity': {'value': 1}, 'scale': {'value': [1]}}}
+    {'image': {'granularity': {'value': 1}, 'height': {'value': 1}, 'scale': {'value': [1]}, 'uri': {'value': ''}, 'threshold': {'value': 0}}}
     Default image - as SDF
-    <image><height>1</height><uri></uri><granularity>1</granularity><threshold>0</threshold><scale>1</scale></image>
+    <image><granularity>1</granularity><height>1</height><scale>1</scale><uri></uri><threshold>0</threshold></image>
     Custom image
     <image>
-      <height>10.0</height>
-      <uri>filename</uri>
       <granularity>1</granularity>
-      <threshold>100.0</threshold>
+      <height>10.0</height>
       <scale>2</scale>
+      <uri>filename</uri>
+      <threshold>100.0</threshold>
     </image>
     
 
@@ -259,14 +259,14 @@ print(mesh.to_xml_as_str())
 
     Default mesh - with default parameters
     <mesh>
-      <uri></uri>
       <scale>1 1 1</scale>
+      <uri></uri>
     </mesh>
     
     Default mesh - as dict
-    {'mesh': {'uri': {'value': ''}, 'scale': {'value': [1, 1, 1]}}}
+    {'mesh': {'scale': {'value': [1, 1, 1]}, 'uri': {'value': ''}}}
     Default mesh - as SDF
-    <mesh><uri></uri><scale>1 1 1</scale></mesh>
+    <mesh><scale>1 1 1</scale><uri></uri></mesh>
 
 
 
@@ -290,22 +290,22 @@ print(mesh)
 
     Mesh with optional parameters
     <mesh>
+      <scale>1 1 1</scale>
       <uri></uri>
       <submesh>
-        <name>none</name>
         <center>0</center>
+        <name>none</name>
       </submesh>
-      <scale>1 1 1</scale>
     </mesh>
     
     Custom mesh
     <mesh>
+      <scale>2 1 1</scale>
       <uri>file://mesh.stl</uri>
       <submesh>
-        <name>submesh.stl</name>
         <center>1</center>
+        <name>submesh.stl</name>
       </submesh>
-      <scale>2 1 1</scale>
     </mesh>
     
 
@@ -357,15 +357,15 @@ print(polyline)
 
     Polyline with optional parameters
     <polyline>
-      <height>1</height>
       <point>0 0</point>
+      <height>1</height>
     </polyline>
     
     Custom polyline
     <polyline>
-      <height>2.3</height>
       <point>2.3 4.5</point>
       <point>3.7 10.1</point>
+      <height>2.3</height>
     </polyline>
     
 
@@ -427,8 +427,8 @@ print(geometry)
     
     <geometry>
       <cylinder>
-        <radius>2.0</radius>
         <length>3.0</length>
+        <radius>2.0</radius>
       </cylinder>
     </geometry>
     
@@ -440,29 +440,29 @@ print(geometry)
     
     <geometry>
       <plane>
-        <normal>1 0 0</normal>
         <size>10 10</size>
+        <normal>1 0 0</normal>
       </plane>
     </geometry>
     
     <geometry>
       <image>
+        <granularity>1</granularity>
         <height>10.0</height>
+        <scale>2</scale>
         <uri>filename</uri>
         <threshold>100.0</threshold>
-        <granularity>1</granularity>
-        <scale>2</scale>
       </image>
     </geometry>
     
     <geometry>
       <mesh>
+        <scale>2 1 1</scale>
         <uri>file://mesh.stl</uri>
         <submesh>
-          <name>submesh.stl</name>
           <center>1</center>
+          <name>submesh.stl</name>
         </submesh>
-        <scale>2 1 1</scale>
       </mesh>
     </geometry>
     

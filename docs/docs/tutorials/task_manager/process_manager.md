@@ -38,7 +38,7 @@ print(process_manager.stages)
 ```
 
     Check all the process stages available
-    OrderedDict([('roscore', <pcg_gazebo.task_manager.stage.Stage object at 0x7f21cc6855c0>), ('pre-simulation', <pcg_gazebo.task_manager.stage.Stage object at 0x7f21876db2e8>)])
+    OrderedDict([('roscore', <pcg_gazebo.task_manager.stage.Stage object at 0x7fd71058a748>), ('pre-simulation', <pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb596630>)])
 
 
 
@@ -124,7 +124,7 @@ print(process_manager.ros_config)
 ```
 
     ROS network configuration:
-    ROS_MASTER_URI=http://localhost:17587, GAZEBO_MASTER_URI=http://localhost:28153
+    ROS_MASTER_URI=http://localhost:17272, GAZEBO_MASTER_URI=http://localhost:26283
 
 
 
@@ -140,7 +140,7 @@ print(process_manager.stages)
     Check all tasks available
     ['gazebo']
     Check all the process stages available
-    OrderedDict([('roscore', <pcg_gazebo.task_manager.stage.Stage object at 0x7f21875d31d0>), ('pre-simulation', <pcg_gazebo.task_manager.stage.Stage object at 0x7f21875d3278>), ('gazebo', <pcg_gazebo.task_manager.stage.Stage object at 0x7f21875d3dd8>)])
+    OrderedDict([('roscore', <pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb5b2978>), ('pre-simulation', <pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb5b2898>), ('gazebo', <pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb5559b0>)])
 
 
 
@@ -152,7 +152,7 @@ process_manager.wait()
 
 ```
 
-    OrderedDict([('roscore', <pcg_gazebo.task_manager.stage.Stage object at 0x7f21875d31d0>), ('pre-simulation', <pcg_gazebo.task_manager.stage.Stage object at 0x7f21875d3278>), ('gazebo', <pcg_gazebo.task_manager.stage.Stage object at 0x7f21875d3dd8>)])
+    OrderedDict([('roscore', <pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb5b2978>), ('pre-simulation', <pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb5b2898>), ('gazebo', <pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb5559b0>)])
 
 
 
@@ -179,7 +179,7 @@ process_manager.wait()
 ```
 
     ROS network configuration:
-    ROS_MASTER_URI=http://localhost:16226, GAZEBO_MASTER_URI=http://localhost:25435
+    ROS_MASTER_URI=http://localhost:19181, GAZEBO_MASTER_URI=http://localhost:28054
 
 
 

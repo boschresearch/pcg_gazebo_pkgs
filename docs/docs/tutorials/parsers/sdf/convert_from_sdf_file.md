@@ -205,103 +205,115 @@ print(obj)
     <sdf version="1.5">
       <model name="bookshelf">
         <link name="link">
+          <inertial>
+            <mass>1.0</mass>
+            <inertia>
+              <ixz>0</ixz>
+              <iyz>0</iyz>
+              <iyy>0</iyy>
+              <izz>0</izz>
+              <ixx>0</ixx>
+              <ixy>0</ixy>
+            </inertia>
+            <pose frame="">0 0 0 0 0 0</pose>
+          </inertial>
           <visual name="visual1">
             <pose frame="">0.0 0.005 0.6 0.0 0.0 0.0</pose>
-            <material>
-              <script>
-                <name>Gazebo/Wood</name>
-                <uri>file://media/materials/scripts/gazebo.material</uri>
-              </script>
-            </material>
             <geometry>
               <box>
                 <size>0.9 0.01 1.2</size>
               </box>
             </geometry>
+            <material>
+              <script>
+                <name>Gazebo/Wood</name>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+              </script>
+            </material>
           </visual>
           <visual name="visual2">
             <pose frame="">0.45 -0.195 0.6 0.0 0.0 0.0</pose>
+            <geometry>
+              <box>
+                <size>0.02 0.4 1.2</size>
+              </box>
+            </geometry>
             <material>
               <script>
                 <name>Gazebo/Wood</name>
                 <uri>file://media/materials/scripts/gazebo.material</uri>
               </script>
             </material>
-            <geometry>
-              <box>
-                <size>0.02 0.4 1.2</size>
-              </box>
-            </geometry>
           </visual>
           <visual name="visual3">
             <pose frame="">-0.45 -0.195 0.6 0.0 0.0 0.0</pose>
-            <material>
-              <script>
-                <name>Gazebo/Wood</name>
-                <uri>file://media/materials/scripts/gazebo.material</uri>
-              </script>
-            </material>
             <geometry>
               <box>
                 <size>0.02 0.4 1.2</size>
               </box>
             </geometry>
-          </visual>
-          <visual name="visual4">
-            <pose frame="">0.0 -0.195 0.03 0.0 0.0 0.0</pose>
             <material>
               <script>
                 <name>Gazebo/Wood</name>
                 <uri>file://media/materials/scripts/gazebo.material</uri>
               </script>
             </material>
+          </visual>
+          <visual name="visual4">
+            <pose frame="">0.0 -0.195 0.03 0.0 0.0 0.0</pose>
             <geometry>
               <box>
                 <size>0.88 0.4 0.06</size>
               </box>
             </geometry>
+            <material>
+              <script>
+                <name>Gazebo/Wood</name>
+                <uri>file://media/materials/scripts/gazebo.material</uri>
+              </script>
+            </material>
           </visual>
           <visual name="visual5">
             <pose frame="">0.0 -0.195 1.19 0.0 0.0 0.0</pose>
+            <geometry>
+              <box>
+                <size>0.88 0.4 0.02</size>
+              </box>
+            </geometry>
             <material>
               <script>
                 <name>Gazebo/Wood</name>
                 <uri>file://media/materials/scripts/gazebo.material</uri>
               </script>
             </material>
-            <geometry>
-              <box>
-                <size>0.88 0.4 0.02</size>
-              </box>
-            </geometry>
           </visual>
           <visual name="visual6">
             <pose frame="">0.0 -0.195 0.43 0.0 0.0 0.0</pose>
+            <geometry>
+              <box>
+                <size>0.88 0.4 0.02</size>
+              </box>
+            </geometry>
             <material>
               <script>
                 <name>Gazebo/Wood</name>
                 <uri>file://media/materials/scripts/gazebo.material</uri>
               </script>
             </material>
-            <geometry>
-              <box>
-                <size>0.88 0.4 0.02</size>
-              </box>
-            </geometry>
           </visual>
           <visual name="visual7">
             <pose frame="">0.0 -0.195 0.8 0.0 0.0 0.0</pose>
+            <geometry>
+              <box>
+                <size>0.88 0.4 0.02</size>
+              </box>
+            </geometry>
             <material>
               <script>
                 <name>Gazebo/Wood</name>
                 <uri>file://media/materials/scripts/gazebo.material</uri>
               </script>
             </material>
-            <geometry>
-              <box>
-                <size>0.88 0.4 0.02</size>
-              </box>
-            </geometry>
           </visual>
           <collision name="back">
             <pose frame="">0.0 0.005 0.6 0.0 0.0 0.0</pose>
@@ -359,18 +371,6 @@ print(obj)
               </box>
             </geometry>
           </collision>
-          <inertial>
-            <mass>1.0</mass>
-            <pose frame="">0 0 0 0 0 0</pose>
-            <inertia>
-              <iyz>0</iyz>
-              <izz>0</izz>
-              <iyy>0</iyy>
-              <ixx>0</ixx>
-              <ixz>0</ixz>
-              <ixy>0</ixy>
-            </inertia>
-          </inertial>
         </link>
         <static>1</static>
       </model>
@@ -439,41 +439,41 @@ print(obj)
       <model name="beer">
         <link name="link">
           <pose frame="">0.0 0.0 0.115 0.0 0.0 0.0</pose>
+          <inertial>
+            <mass>0.39</mass>
+            <inertia>
+              <ixz>0.0</ixz>
+              <iyz>0.0</iyz>
+              <iyy>0.00058</iyy>
+              <izz>0.00019</izz>
+              <ixx>0.00058</ixx>
+              <ixy>0.0</ixy>
+            </inertia>
+            <pose frame="">0 0 0 0 0 0</pose>
+          </inertial>
+          <visual name="visual">
+            <geometry>
+              <cylinder>
+                <length>0.23</length>
+                <radius>0.055</radius>
+              </cylinder>
+            </geometry>
+            <material>
+              <script>
+                <name>Beer/Diffuse</name>
+                <uri>model://beer/materials/scripts</uri>
+                <uri>model://beer/materials/textures</uri>
+              </script>
+            </material>
+          </visual>
           <collision name="collision">
             <geometry>
               <cylinder>
-                <radius>0.055</radius>
                 <length>0.23</length>
+                <radius>0.055</radius>
               </cylinder>
             </geometry>
           </collision>
-          <visual name="visual">
-            <material>
-              <script>
-                <uri>model://beer/materials/scripts</uri>
-                <uri>model://beer/materials/textures</uri>
-                <name>Beer/Diffuse</name>
-              </script>
-            </material>
-            <geometry>
-              <cylinder>
-                <radius>0.055</radius>
-                <length>0.23</length>
-              </cylinder>
-            </geometry>
-          </visual>
-          <inertial>
-            <mass>0.39</mass>
-            <pose frame="">0 0 0 0 0 0</pose>
-            <inertia>
-              <iyz>0.0</iyz>
-              <izz>0.00019</izz>
-              <iyy>0.00058</iyy>
-              <ixx>0.00058</ixx>
-              <ixz>0.0</ixz>
-              <ixy>0.0</ixy>
-            </inertia>
-          </inertial>
         </link>
       </model>
     </sdf>

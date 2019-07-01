@@ -96,12 +96,12 @@ print(box.to_sdf('collision'))
 ```
 
     <collision name="collision">
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <geometry>
         <box>
           <size>1 1 1</size>
         </box>
       </geometry>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       <max_contacts>10</max_contacts>
     </collision>
     
@@ -114,13 +114,13 @@ print(box.to_sdf('visual'))
 
     <visual name="visual">
       <transparency>0.0</transparency>
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <geometry>
         <box>
           <size>1 1 1</size>
         </box>
       </geometry>
       <cast_shadows>1</cast_shadows>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
     </visual>
     
 
@@ -132,24 +132,24 @@ print(box.to_sdf('link'))
 
     <link name="box">
       <collision name="collision">
+        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
         <geometry>
           <box>
             <size>1 1 1</size>
           </box>
         </geometry>
-        <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         <max_contacts>10</max_contacts>
       </collision>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <visual name="visual">
         <transparency>0.0</transparency>
+        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
         <geometry>
           <box>
             <size>1 1 1</size>
           </box>
         </geometry>
         <cast_shadows>1</cast_shadows>
-        <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       </visual>
     </link>
     
@@ -161,29 +161,29 @@ print(box.to_sdf('model'))
 ```
 
     <model name="box">
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <link name="box">
         <collision name="collision">
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <geometry>
             <box>
               <size>1 1 1</size>
             </box>
           </geometry>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
           <max_contacts>10</max_contacts>
         </collision>
         <visual name="visual">
           <transparency>0.0</transparency>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <geometry>
             <box>
               <size>1 1 1</size>
             </box>
           </geometry>
           <cast_shadows>1</cast_shadows>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         </visual>
       </link>
       <static>0</static>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       <allow_auto_disable>0</allow_auto_disable>
     </model>
     
@@ -199,7 +199,7 @@ print(box.inertial)
 ```
 
     Mass [Kg]=20
-    Pose=(0, 0, 0, 0.0, 0.0, 0.0)
+    Pose=[0. 0. 0.]
     I =
     	Ixx=0.6666666666666666
     	Iyy=0.21666666666666665
@@ -218,76 +218,76 @@ print(box.to_sdf('model'))
 ```
 
     <link name="box">
-      <inertial>
-        <mass>20.0</mass>
-        <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-        <inertia>
-          <ixy>0.0</ixy>
-          <iyy>0.21666666666666665</iyy>
-          <ixx>0.6666666666666666</ixx>
-          <izz>0.7499999999999999</izz>
-          <iyz>0.0</iyz>
-          <ixz>0.0</ixz>
-        </inertia>
-      </inertial>
       <collision name="collision">
+        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
         <geometry>
           <box>
             <size>0.3 0.6 0.2</size>
           </box>
         </geometry>
-        <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         <max_contacts>10</max_contacts>
       </collision>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <visual name="visual">
         <transparency>0.0</transparency>
+        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
         <geometry>
           <box>
             <size>0.3 0.6 0.2</size>
           </box>
         </geometry>
         <cast_shadows>1</cast_shadows>
-        <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       </visual>
+      <inertial>
+        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
+        <mass>20.0</mass>
+        <inertia>
+          <iyz>0.0</iyz>
+          <izz>0.7499999999999999</izz>
+          <ixz>0.0</ixz>
+          <ixy>0.0</ixy>
+          <ixx>0.6666666666666666</ixx>
+          <iyy>0.21666666666666665</iyy>
+        </inertia>
+      </inertial>
     </link>
     
     <model name="box">
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <link name="box">
-        <inertial>
-          <inertia>
-            <ixy>0.0</ixy>
-            <iyy>0.21666666666666665</iyy>
-            <ixx>0.6666666666666666</ixx>
-            <izz>0.7499999999999999</izz>
-            <iyz>0.0</iyz>
-            <ixz>0.0</ixz>
-          </inertia>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-          <mass>20.0</mass>
-        </inertial>
         <collision name="collision">
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <geometry>
             <box>
               <size>0.3 0.6 0.2</size>
             </box>
           </geometry>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
           <max_contacts>10</max_contacts>
         </collision>
         <visual name="visual">
           <transparency>0.0</transparency>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <geometry>
             <box>
               <size>0.3 0.6 0.2</size>
             </box>
           </geometry>
           <cast_shadows>1</cast_shadows>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         </visual>
+        <inertial>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
+          <mass>20.0</mass>
+          <inertia>
+            <iyz>0.0</iyz>
+            <izz>0.7499999999999999</izz>
+            <ixz>0.0</ixz>
+            <ixy>0.0</ixy>
+            <ixx>0.6666666666666666</ixx>
+            <iyy>0.21666666666666665</iyy>
+          </inertia>
+        </inertial>
       </link>
       <static>0</static>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       <allow_auto_disable>0</allow_auto_disable>
     </model>
     
@@ -373,12 +373,12 @@ print(sphere.to_sdf('collision'))
 ```
 
     <collision name="collision">
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <geometry>
         <sphere>
           <radius>1.0</radius>
         </sphere>
       </geometry>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       <max_contacts>10</max_contacts>
     </collision>
     
@@ -391,13 +391,13 @@ print(sphere.to_sdf('visual'))
 
     <visual name="visual">
       <transparency>0.0</transparency>
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <geometry>
         <sphere>
           <radius>1.0</radius>
         </sphere>
       </geometry>
       <cast_shadows>1</cast_shadows>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
     </visual>
     
 
@@ -409,24 +409,24 @@ print(sphere.to_sdf('link'))
 
     <link name="sphere">
       <collision name="collision">
+        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
         <geometry>
           <sphere>
             <radius>1.0</radius>
           </sphere>
         </geometry>
-        <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         <max_contacts>10</max_contacts>
       </collision>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <visual name="visual">
         <transparency>0.0</transparency>
+        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
         <geometry>
           <sphere>
             <radius>1.0</radius>
           </sphere>
         </geometry>
         <cast_shadows>1</cast_shadows>
-        <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       </visual>
     </link>
     
@@ -438,29 +438,29 @@ print(sphere.to_sdf('model'))
 ```
 
     <model name="sphere">
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <link name="sphere">
         <collision name="collision">
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <geometry>
             <sphere>
               <radius>1.0</radius>
             </sphere>
           </geometry>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
           <max_contacts>10</max_contacts>
         </collision>
         <visual name="visual">
           <transparency>0.0</transparency>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <geometry>
             <sphere>
               <radius>1.0</radius>
             </sphere>
           </geometry>
           <cast_shadows>1</cast_shadows>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         </visual>
       </link>
       <static>0</static>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       <allow_auto_disable>0</allow_auto_disable>
     </model>
     
@@ -476,7 +476,7 @@ print(sphere.inertial)
 ```
 
     Mass [Kg]=20
-    Pose=(0, 0, 0, 0.0, 0.0, 0.0)
+    Pose=[0. 0. 0.]
     I =
     	Ixx=0.72
     	Iyy=0.72
@@ -495,76 +495,76 @@ print(sphere.to_sdf('model'))
 ```
 
     <link name="sphere">
-      <inertial>
-        <mass>20.0</mass>
-        <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-        <inertia>
-          <ixy>0.0</ixy>
-          <iyy>0.72</iyy>
-          <ixx>0.72</ixx>
-          <izz>0.72</izz>
-          <iyz>0.0</iyz>
-          <ixz>0.0</ixz>
-        </inertia>
-      </inertial>
       <collision name="collision">
+        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
         <geometry>
           <sphere>
             <radius>0.3</radius>
           </sphere>
         </geometry>
-        <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         <max_contacts>10</max_contacts>
       </collision>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <visual name="visual">
         <transparency>0.0</transparency>
+        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
         <geometry>
           <sphere>
             <radius>0.3</radius>
           </sphere>
         </geometry>
         <cast_shadows>1</cast_shadows>
-        <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       </visual>
+      <inertial>
+        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
+        <mass>20.0</mass>
+        <inertia>
+          <iyz>0.0</iyz>
+          <izz>0.72</izz>
+          <ixz>0.0</ixz>
+          <ixy>0.0</ixy>
+          <ixx>0.72</ixx>
+          <iyy>0.72</iyy>
+        </inertia>
+      </inertial>
     </link>
     
     <model name="sphere">
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <link name="sphere">
-        <inertial>
-          <inertia>
-            <ixy>0.0</ixy>
-            <iyy>0.72</iyy>
-            <ixx>0.72</ixx>
-            <izz>0.72</izz>
-            <iyz>0.0</iyz>
-            <ixz>0.0</ixz>
-          </inertia>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-          <mass>20.0</mass>
-        </inertial>
         <collision name="collision">
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <geometry>
             <sphere>
               <radius>0.3</radius>
             </sphere>
           </geometry>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
           <max_contacts>10</max_contacts>
         </collision>
         <visual name="visual">
           <transparency>0.0</transparency>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <geometry>
             <sphere>
               <radius>0.3</radius>
             </sphere>
           </geometry>
           <cast_shadows>1</cast_shadows>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         </visual>
+        <inertial>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
+          <mass>20.0</mass>
+          <inertia>
+            <iyz>0.0</iyz>
+            <izz>0.72</izz>
+            <ixz>0.0</ixz>
+            <ixy>0.0</ixy>
+            <ixx>0.72</ixx>
+            <iyy>0.72</iyy>
+          </inertia>
+        </inertial>
       </link>
       <static>0</static>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       <allow_auto_disable>0</allow_auto_disable>
     </model>
     
@@ -651,13 +651,13 @@ print(cylinder.to_sdf('collision'))
 ```
 
     <collision name="collision">
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <geometry>
         <cylinder>
           <radius>1.0</radius>
           <length>1.0</length>
         </cylinder>
       </geometry>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       <max_contacts>10</max_contacts>
     </collision>
     
@@ -670,6 +670,7 @@ print(cylinder.to_sdf('visual'))
 
     <visual name="visual">
       <transparency>0.0</transparency>
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <geometry>
         <cylinder>
           <radius>1.0</radius>
@@ -677,7 +678,6 @@ print(cylinder.to_sdf('visual'))
         </cylinder>
       </geometry>
       <cast_shadows>1</cast_shadows>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
     </visual>
     
 
@@ -689,18 +689,19 @@ print(cylinder.to_sdf('link'))
 
     <link name="cylinder">
       <collision name="collision">
+        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
         <geometry>
           <cylinder>
             <radius>1.0</radius>
             <length>1.0</length>
           </cylinder>
         </geometry>
-        <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         <max_contacts>10</max_contacts>
       </collision>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <visual name="visual">
         <transparency>0.0</transparency>
+        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
         <geometry>
           <cylinder>
             <radius>1.0</radius>
@@ -708,7 +709,6 @@ print(cylinder.to_sdf('link'))
           </cylinder>
         </geometry>
         <cast_shadows>1</cast_shadows>
-        <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       </visual>
     </link>
     
@@ -720,19 +720,21 @@ print(cylinder.to_sdf('model'))
 ```
 
     <model name="cylinder">
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <link name="cylinder">
         <collision name="collision">
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <geometry>
             <cylinder>
               <radius>1.0</radius>
               <length>1.0</length>
             </cylinder>
           </geometry>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
           <max_contacts>10</max_contacts>
         </collision>
         <visual name="visual">
           <transparency>0.0</transparency>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <geometry>
             <cylinder>
               <radius>1.0</radius>
@@ -740,11 +742,9 @@ print(cylinder.to_sdf('model'))
             </cylinder>
           </geometry>
           <cast_shadows>1</cast_shadows>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         </visual>
       </link>
       <static>0</static>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       <allow_auto_disable>0</allow_auto_disable>
     </model>
     
@@ -761,7 +761,7 @@ print(cylinder.inertial)
 ```
 
     Mass [Kg]=20
-    Pose=(0, 0, 0, 0.0, 0.0, 0.0)
+    Pose=[0. 0. 0.]
     I =
     	Ixx=1.5166666666666668
     	Iyy=1.5166666666666668
@@ -780,31 +780,20 @@ print(cylinder.to_sdf('model'))
 ```
 
     <link name="cylinder">
-      <inertial>
-        <mass>20.0</mass>
-        <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-        <inertia>
-          <ixy>0.0</ixy>
-          <iyy>1.5166666666666668</iyy>
-          <ixx>1.5166666666666668</ixx>
-          <izz>0.8999999999999999</izz>
-          <iyz>0.0</iyz>
-          <ixz>0.0</ixz>
-        </inertia>
-      </inertial>
       <collision name="collision">
+        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
         <geometry>
           <cylinder>
             <radius>0.3</radius>
             <length>0.8</length>
           </cylinder>
         </geometry>
-        <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         <max_contacts>10</max_contacts>
       </collision>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <visual name="visual">
         <transparency>0.0</transparency>
+        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
         <geometry>
           <cylinder>
             <radius>0.3</radius>
@@ -812,36 +801,37 @@ print(cylinder.to_sdf('model'))
           </cylinder>
         </geometry>
         <cast_shadows>1</cast_shadows>
-        <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       </visual>
+      <inertial>
+        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
+        <mass>20.0</mass>
+        <inertia>
+          <iyz>0.0</iyz>
+          <izz>0.8999999999999999</izz>
+          <ixz>0.0</ixz>
+          <ixy>0.0</ixy>
+          <ixx>1.5166666666666668</ixx>
+          <iyy>1.5166666666666668</iyy>
+        </inertia>
+      </inertial>
     </link>
     
     <model name="cylinder">
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <link name="cylinder">
-        <inertial>
-          <inertia>
-            <ixy>0.0</ixy>
-            <iyy>1.5166666666666668</iyy>
-            <ixx>1.5166666666666668</ixx>
-            <izz>0.8999999999999999</izz>
-            <iyz>0.0</iyz>
-            <ixz>0.0</ixz>
-          </inertia>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
-          <mass>20.0</mass>
-        </inertial>
         <collision name="collision">
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <geometry>
             <cylinder>
               <radius>0.3</radius>
               <length>0.8</length>
             </cylinder>
           </geometry>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
           <max_contacts>10</max_contacts>
         </collision>
         <visual name="visual">
           <transparency>0.0</transparency>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <geometry>
             <cylinder>
               <radius>0.3</radius>
@@ -849,11 +839,21 @@ print(cylinder.to_sdf('model'))
             </cylinder>
           </geometry>
           <cast_shadows>1</cast_shadows>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         </visual>
+        <inertial>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
+          <mass>20.0</mass>
+          <inertia>
+            <iyz>0.0</iyz>
+            <izz>0.8999999999999999</izz>
+            <ixz>0.0</ixz>
+            <ixy>0.0</ixy>
+            <ixx>1.5166666666666668</ixx>
+            <iyy>1.5166666666666668</iyy>
+          </inertia>
+        </inertial>
       </link>
       <static>0</static>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       <allow_auto_disable>0</allow_auto_disable>
     </model>
     
@@ -909,8 +909,8 @@ print(plane.to_sdf('plane'))
 ```
 
     <plane>
-      <normal>0 0 1</normal>
       <size>1 1</size>
+      <normal>0 0 1</normal>
     </plane>
     
 
@@ -922,8 +922,8 @@ print(plane.to_sdf('geometry'))
 
     <geometry>
       <plane>
-        <normal>0 0 1</normal>
         <size>1 1</size>
+        <normal>0 0 1</normal>
       </plane>
     </geometry>
     
@@ -936,14 +936,14 @@ print(plane.to_sdf('visual'))
 
     <visual name="visual">
       <transparency>0.0</transparency>
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <geometry>
         <plane>
-          <normal>0 0 1</normal>
           <size>1 1</size>
+          <normal>0 0 1</normal>
         </plane>
       </geometry>
       <cast_shadows>1</cast_shadows>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
     </visual>
     
 
@@ -954,13 +954,13 @@ print(plane.to_sdf('collision'))
 ```
 
     <collision name="collision">
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <geometry>
         <plane>
-          <normal>0 0 1</normal>
           <size>1 1</size>
+          <normal>0 0 1</normal>
         </plane>
       </geometry>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       <max_contacts>10</max_contacts>
     </collision>
     
@@ -972,17 +972,17 @@ print(plane.to_sdf('link'))
 ```
 
     <link name="plane">
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <visual name="visual">
         <transparency>0.0</transparency>
+        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
         <geometry>
           <plane>
-            <normal>0 0 1</normal>
             <size>1 1</size>
+            <normal>0 0 1</normal>
           </plane>
         </geometry>
         <cast_shadows>1</cast_shadows>
-        <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       </visual>
     </link>
     
@@ -994,21 +994,21 @@ print(plane.to_sdf('model'))
 ```
 
     <model name="plane">
+      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
       <link name="plane">
         <visual name="visual">
           <transparency>0.0</transparency>
+          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
           <geometry>
             <plane>
-              <normal>0 0 1</normal>
               <size>1 1</size>
+              <normal>0 0 1</normal>
             </plane>
           </geometry>
           <cast_shadows>1</cast_shadows>
-          <pose frame="">0 0 0 0.0 0.0 0.0</pose>
         </visual>
       </link>
       <static>1</static>
-      <pose frame="">0 0 0 0.0 0.0 0.0</pose>
       <allow_auto_disable>0</allow_auto_disable>
     </model>
     
