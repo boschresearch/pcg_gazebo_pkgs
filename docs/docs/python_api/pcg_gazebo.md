@@ -1,3 +1,4 @@
+
 # pcg_gazebo
 Procedural generation package
 
@@ -14,7 +15,9 @@ Attributes:
 Todo:
     * For module TODOs
 
+
 # pcg_gazebo.log
+
 
 # pcg_gazebo.transformations
 Homogeneous Transformation Matrices and Quaternions.
@@ -153,6 +156,7 @@ True
 True
 
 
+
 ## identity_matrix
 ```python
 identity_matrix()
@@ -168,6 +172,7 @@ True
 True
 
 
+
 ## translation_matrix
 ```python
 translation_matrix(direction)
@@ -177,6 +182,7 @@ Return matrix to translate by direction vector.
 >>> v = numpy.random.random(3) - 0.5
 >>> numpy.allclose(v, translation_matrix(v)[:3, 3])
 True
+
 
 
 ## translation_from_matrix
@@ -189,6 +195,7 @@ Return translation vector from translation matrix.
 >>> v1 = translation_from_matrix(translation_matrix(v0))
 >>> numpy.allclose(v0, v1)
 True
+
 
 
 ## reflection_matrix
@@ -213,6 +220,7 @@ True
 True
 
 
+
 ## reflection_from_matrix
 ```python
 reflection_from_matrix(matrix)
@@ -226,6 +234,7 @@ Return mirror plane point and normal vector from reflection matrix.
 >>> M1 = reflection_matrix(point, normal)
 >>> is_same_transform(M0, M1)
 True
+
 
 
 ## rotation_matrix
@@ -253,6 +262,7 @@ True
 True
 
 
+
 ## rotation_from_matrix
 ```python
 rotation_from_matrix(matrix)
@@ -267,6 +277,7 @@ Return rotation angle and axis from rotation matrix.
 >>> R1 = rotation_matrix(angle, direc, point)
 >>> is_same_transform(R0, R1)
 True
+
 
 
 ## scale_matrix
@@ -287,6 +298,7 @@ True
 >>> direct = numpy.random.random(3) - 0.5
 >>> S = scale_matrix(factor, origin)
 >>> S = scale_matrix(factor, origin, direct)
+
 
 
 ## scale_from_matrix
@@ -310,9 +322,14 @@ True
 True
 
 
+
 ## projection_matrix
 ```python
-projection_matrix(point, normal, direction=None, perspective=None, pseudo=False)
+projection_matrix(point,
+                  normal,
+                  direction=None,
+                  perspective=None,
+                  pseudo=False)
 ```
 Return matrix to project onto plane defined by point and normal.
 
@@ -342,6 +359,7 @@ True
 True
 >>> numpy.allclose(v1[0], 3.0-v1[1])
 True
+
 
 
 ## projection_from_matrix
@@ -377,6 +395,7 @@ True
 >>> P1 = projection_matrix(*result)
 >>> is_same_transform(P0, P1)
 True
+
 
 
 ## clip_matrix
@@ -416,6 +435,7 @@ array([-1., -1., -1.,  1.])
 array([ 1.,  1., -1.,  1.])
 
 
+
 ## shear_matrix
 ```python
 shear_matrix(angle, direction, point, normal)
@@ -439,6 +459,7 @@ of P onto the shear plane.
 True
 
 
+
 ## shear_from_matrix
 ```python
 shear_from_matrix(matrix)
@@ -454,6 +475,7 @@ Return shear angle, direction and plane from shear matrix.
 >>> S1 = shear_matrix(angle, direct, point, normal)
 >>> is_same_transform(S0, S1)
 True
+
 
 
 ## decompose_matrix
@@ -490,9 +512,14 @@ True
 True
 
 
+
 ## compose_matrix
 ```python
-compose_matrix(scale=None, shear=None, angles=None, translate=None, perspective=None)
+compose_matrix(scale=None,
+               shear=None,
+               angles=None,
+               translate=None,
+               perspective=None)
 ```
 Return transformation matrix from sequence of transformations.
 
@@ -517,6 +544,7 @@ Sequence of transformations:
 True
 
 
+
 ## orthogonalization_matrix
 ```python
 orthogonalization_matrix(lengths, angles)
@@ -533,6 +561,7 @@ True
 >>> O = orthogonalization_matrix([9.8, 12.0, 15.5], [87.2, 80.7, 69.7])
 >>> numpy.allclose(numpy.sum(O), 43.063229)
 True
+
 
 
 ## superimposition_matrix
@@ -585,6 +614,7 @@ True
 True
 
 
+
 ## euler_matrix
 ```python
 euler_matrix(ai, aj, ak, axes='sxyz')
@@ -605,6 +635,7 @@ True
 ...    R = euler_matrix(ai, aj, ak, axes)
 >>> for axes in _TUPLE2AXES.keys():
 ...    R = euler_matrix(ai, aj, ak, axes)
+
 
 
 ## euler_from_matrix
@@ -629,6 +660,7 @@ True
 ...    if not numpy.allclose(R0, R1): print axes, "failed"
 
 
+
 ## euler_from_quaternion
 ```python
 euler_from_quaternion(quaternion, axes='sxyz')
@@ -638,6 +670,7 @@ Return Euler angles from quaternion for specified axis sequence.
 >>> angles = euler_from_quaternion([0.06146124, 0, 0, 0.99810947])
 >>> numpy.allclose(angles, [0.123, 0, 0])
 True
+
 
 
 ## quaternion_from_euler
@@ -654,6 +687,7 @@ axes : One of 24 axis sequences as string or encoded tuple
 True
 
 
+
 ## quaternion_about_axis
 ```python
 quaternion_about_axis(angle, axis)
@@ -665,6 +699,7 @@ Return quaternion for rotation about axis.
 True
 
 
+
 ## quaternion_matrix
 ```python
 quaternion_matrix(quaternion)
@@ -674,6 +709,7 @@ Return homogeneous rotation matrix from quaternion.
 >>> R = quaternion_matrix([0.06146124, 0, 0, 0.99810947])
 >>> numpy.allclose(R, rotation_matrix(0.123, (1, 0, 0)))
 True
+
 
 
 ## quaternion_from_matrix
@@ -688,6 +724,7 @@ Return quaternion from rotation matrix.
 True
 
 
+
 ## quaternion_multiply
 ```python
 quaternion_multiply(quaternion1, quaternion0)
@@ -697,6 +734,7 @@ Return multiplication of two quaternions.
 >>> q = quaternion_multiply([1, -2, 3, 4], [-5, 6, 7, 8])
 >>> numpy.allclose(q, [-44, -14, 48, 28])
 True
+
 
 
 ## quaternion_conjugate
@@ -711,6 +749,7 @@ Return conjugate of quaternion.
 True
 
 
+
 ## quaternion_inverse
 ```python
 quaternion_inverse(quaternion)
@@ -721,6 +760,7 @@ Return inverse of quaternion.
 >>> q1 = quaternion_inverse(q0)
 >>> numpy.allclose(quaternion_multiply(q0, q1), [0, 0, 0, 1])
 True
+
 
 
 ## quaternion_slerp
@@ -743,6 +783,7 @@ True
 True
 
 
+
 ## random_quaternion
 ```python
 random_quaternion(rand=None)
@@ -761,6 +802,7 @@ True
 (4,)
 
 
+
 ## random_rotation_matrix
 ```python
 random_rotation_matrix(rand=None)
@@ -776,9 +818,10 @@ rnd: array like
 True
 
 
+
 ## Arcball
 ```python
-Arcball(self, initial=None)
+Arcball()
 ```
 Virtual Trackball Control.
 
@@ -802,9 +845,10 @@ True
 >>> ball.next()
 
 
+
 ### place
 ```python
-Arcball.place(self, center, radius)
+Arcball.place(center, radius)
 ```
 Place Arcball, e.g. when window size changes.
 
@@ -814,56 +858,67 @@ radius : float
     Radius of trackball in window coordinates.
 
 
+
 ### setaxes
 ```python
-Arcball.setaxes(self, *axes)
+Arcball.setaxes(*axes)
 ```
 Set axes to constrain rotations.
+
 ### setconstrain
 ```python
-Arcball.setconstrain(self, constrain)
+Arcball.setconstrain(constrain)
 ```
 Set state of constrain to axis mode.
+
 ### getconstrain
 ```python
-Arcball.getconstrain(self)
+Arcball.getconstrain()
 ```
 Return state of constrain to axis mode.
+
 ### down
 ```python
-Arcball.down(self, point)
+Arcball.down(point)
 ```
 Set initial cursor window coordinates and pick constrain-axis.
+
 ### drag
 ```python
-Arcball.drag(self, point)
+Arcball.drag(point)
 ```
 Update current cursor window coordinates.
+
 ### next
 ```python
-Arcball.next(self, acceleration=0.0)
+Arcball.next(acceleration=0.0)
 ```
 Continue rotation in direction of last drag.
+
 ### matrix
 ```python
-Arcball.matrix(self)
+Arcball.matrix()
 ```
 Return homogeneous rotation matrix.
+
 ## arcball_map_to_sphere
 ```python
 arcball_map_to_sphere(point, center, radius)
 ```
 Return unit sphere coordinates from window coordinates.
+
 ## arcball_constrain_to_axis
 ```python
 arcball_constrain_to_axis(point, axis)
 ```
 Return sphere point perpendicular to axis.
+
 ## arcball_nearest_axis
 ```python
 arcball_nearest_axis(point, axes)
 ```
 Return axis, which arc is nearest to point.
+
 ## vector_norm
 ```python
 vector_norm(data, axis=None, out=None)
@@ -890,6 +945,7 @@ True
 0.0
 >>> vector_norm([1.0])
 1.0
+
 
 
 ## unit_vector
@@ -921,6 +977,7 @@ True
 [1.0]
 
 
+
 ## random_vector
 ```python
 random_vector(size)
@@ -934,6 +991,7 @@ True
 >>> v1 = random_vector(10)
 >>> numpy.any(v0 == v1)
 False
+
 
 
 ## inverse_matrix
@@ -952,6 +1010,7 @@ True
 ...     if not numpy.allclose(M1, numpy.linalg.inv(M0)): print size
 
 
+
 ## concatenate_matrices
 ```python
 concatenate_matrices(*matrices)
@@ -965,6 +1024,7 @@ True
 True
 
 
+
 ## is_same_transform
 ```python
 is_same_transform(matrix0, matrix1)
@@ -975,6 +1035,7 @@ Return True if two matrices perform same transformation.
 True
 >>> is_same_transform(numpy.identity(4), random_rotation_matrix())
 False
+
 
 
 # pcg_gazebo.visualization

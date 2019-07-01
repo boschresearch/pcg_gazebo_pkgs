@@ -1,5 +1,7 @@
+
 # pcg_gazebo.generators.constraints
 Spatial constraints for the placement of simulation entities into the world.
+
 ## create_constraint
 ```python
 create_constraint(tag, **kwargs)
@@ -13,9 +15,10 @@ is invalid.
 * `tag` (*type:* `str`): Name of the constraint class
 * `kwargs`: Inputs for the constraint class constructor
 
+
 # Constraint
 ```python
-Constraint(self)
+Constraint()
 ```
 Abstract constraint class.
 
@@ -23,9 +26,10 @@ Abstract constraint class.
 
 * `LABEL` (*type:* `str`): Name of the constraint class.
 
+
 # TangentConstraint
 ```python
-TangentConstraint(self, reference, frame='world')
+TangentConstraint()
 ```
 Class that allows computation of the closes position
 for a model regarding a reference to have it placed tangent
@@ -60,9 +64,10 @@ reference = dict(
 * `reference` (*type:* `dict`): Arguments for the reference used for the tangent computation
 * `frame` (*type:* `str`, *default:* `world`): Name of the frame of reference with respect to which the poses are going to be generated (**not implemented**)
 
+
 ## apply_constraint
 ```python
-TangentConstraint.apply_constraint(self, model)
+TangentConstraint.apply_constraint(model)
 ```
 Compute and apply the tangent constraint for the
 provided model using the reference input.
@@ -71,9 +76,10 @@ provided model using the reference input.
 
 * `model` (*type:* `pcg_gazebo.simulation.SimulationModel`): Model entity to have its pose adapted so that it is placed tangent to the reference
 
+
 # WorkspaceConstraint
 ```python
-WorkspaceConstraint(self, geometry=None, frame='world', holes=None)
+WorkspaceConstraint()
 ```
 Class that represents the spatial workspace where models are allowed in.
 The `geometry` input is a `dict` containing all the arguments necessary to
@@ -138,9 +144,10 @@ geometry=dict(
 * `frame` (*type:* `str`, *default:* `'world'`): Name of the frame of reference of the workspace (**not implemented**)
 * `holes` (*type:* `dict`, *default:* `None`): Geometries that represent exclusion areas inside the workspace
 
+
 ## generate_geometry
 ```python
-WorkspaceConstraint.generate_geometry(self, type, description)
+WorkspaceConstraint.generate_geometry(type, description)
 ```
 Generate a `shapely` entity according to the geometry description
 provided. The input `type` containts the name of the geometry to
@@ -189,19 +196,22 @@ description=dict(
 * `type` (*type:* `str`): Geometry type. Options are: `line`, `area`, `volume`, `multi_line`, `multi_point`, `circle`
 * `description` (*type:* `dict`): Arguments to describe the geometry
 
+
 ## get_bounds
 ```python
-WorkspaceConstraint.get_bounds(self)
+WorkspaceConstraint.get_bounds()
 ```
 Return the polygon bounds
+
 ## get_random_position
 ```python
-WorkspaceConstraint.get_random_position(self)
+WorkspaceConstraint.get_random_position()
 ```
 Return a random position that belongs to the workspace
+
 ## contains_point
 ```python
-WorkspaceConstraint.contains_point(self, point)
+WorkspaceConstraint.contains_point(point)
 ```
 Return True if `point` is part of the workspace.
 
@@ -209,9 +219,10 @@ Return True if `point` is part of the workspace.
 
 * `point` (*type:* `list` or `numpy.ndarray`): 2D point
 
+
 ## contains_polygons
 ```python
-WorkspaceConstraint.contains_polygons(self, polygons)
+WorkspaceConstraint.contains_polygons(polygons)
 ```
 Return True if polygons in the `polygons` list are part of the workspace.
 
@@ -219,8 +230,9 @@ Return True if polygons in the `polygons` list are part of the workspace.
 
 * `polygons` (*type:* list of `shapely.Polygon`): List of polygons
 
+
 ## get_geometry
 ```python
-WorkspaceConstraint.get_geometry(self)
+WorkspaceConstraint.get_geometry()
 ```
 Return the workspace geometry

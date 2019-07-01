@@ -1,6 +1,8 @@
+
 # pcg_gazebo.generators.engines
 Pose generator engine definitions that compute the pose of the
 models according to pre-defined rules.
+
 
 ## create_engine
 ```python
@@ -15,9 +17,10 @@ is invalid.
 * `tag` (*type:* `str`): Name of the engine class
 * `kwargs`: Inputs for the engine class constructor
 
+
 # Engine
 ```python
-Engine(self, callback_fcn_get_model, callback_fcn_get_constraint=None, models=None, constraints=None)
+Engine()
 ```
 Base class for model factory engines. The engines are responsible
 of computing poses for models in the world and performing collision
@@ -37,17 +40,23 @@ relative to the models that the engine will have as assets.
 * `constraints` (*type:* `list`, *default:* `None`): List of local constraint
 configurations that will be applied on to the engine's model assets.
 
+
+## label
+`str`: Engine name identifier
+
 ## models
 List of `str`: List of model name tags regarding
 the engine's model assets
+
 
 ## poses
 `dict`: List of fixed poses associated with model
 names.
 
+
 ## add_local_constraint
 ```python
-Engine.add_local_constraint(self, model_name, constraint_name)
+Engine.add_local_constraint(model_name, constraint_name)
 ```
 Add an association of a constraint definitions with an
 specific model tag to be taken into account when running
@@ -58,9 +67,10 @@ the placement engine.
 * `model_name` (*type:* `str`): Name of the model
 * `constraint_name` (*type:* `str`): Name of the constraint definition
 
+
 ## get_local_constraints_for_model
 ```python
-Engine.get_local_constraints_for_model(self, model_name)
+Engine.get_local_constraints_for_model(model_name)
 ```
 Return the name of the local constraint definitions for
 a model.
@@ -75,9 +85,10 @@ List of `str`: List of constraint definition names associated
 with the model. If the model has no constraints, am empty
 list is returned.
 
+
 ## apply_local_constraints
 ```python
-Engine.apply_local_constraints(self, model)
+Engine.apply_local_constraints(model)
 ```
 Apply spatial constraints to model. This will modify the pose
 of the model if it violates the constraint.
@@ -91,9 +102,10 @@ instance
 
 `pcg_gazebo.simulation.SimulationModel`: Model with modified pose.
 
+
 ## add_model
 ```python
-Engine.add_model(self, model)
+Engine.add_model(model)
 ```
 Add a model name to the list of model assets for this engine.
 
@@ -101,9 +113,10 @@ Add a model name to the list of model assets for this engine.
 
 * `model` (*type:* `str`): Name of the model
 
+
 ## set_fixed_pose_models
 ```python
-Engine.set_fixed_pose_models(self, models)
+Engine.set_fixed_pose_models(models)
 ```
 Function description
 
@@ -115,16 +128,18 @@ Function description
 
 Description of return values
 
+
 ## run
 ```python
-Engine.run(self)
+Engine.run()
 ```
 This function should be implemented by the derived
 classes.
 
+
 # FixedPoseEngine
 ```python
-FixedPoseEngine(self, callback_fcn_get_model, callback_fcn_get_constraint=None, models=None, poses=None, constraints=None)
+FixedPoseEngine()
 ```
 Engine that just places models on pre-configured fixed poses. This
 engine only accepts one model asset.
@@ -142,9 +157,10 @@ configurations that will be applied on to the engine's model assets.
 * `poses` (*type:* `list`): List of 6- (position and Euler angles) or 7 element
 (position and quaternion) poses.
 
+
 ## add_pose
 ```python
-FixedPoseEngine.add_pose(self, pose)
+FixedPoseEngine.add_pose(pose)
 ```
 Add pose to the list of fixed-poses.
 
@@ -153,9 +169,10 @@ Add pose to the list of fixed-poses.
 * `pose` (*type:* `list`): 6- (position and Euler angles) or 7 element
 (position and quaternion) poses.
 
+
 ## run
 ```python
-FixedPoseEngine.run(self)
+FixedPoseEngine.run()
 ```
 Generate instances of the model asset for all
 the poses provided. If any local constraints were also provided,
@@ -165,14 +182,16 @@ they will be applied to the model after its placement.
 
 List of `pcg_gazebo.simulation.SimulationModel`: Model instances.
 
+
 # PatternEngine
 ```python
-PatternEngine(self, callback_fcn_get_model, callback_fcn_get_constraint=None, models=None, poses=None, constraints=None, pose=[0, 0, 0, 0, 0, 0], mode=None, args=None)
+PatternEngine()
 ```
+
 
 # RandomPoseEngine
 ```python
-RandomPoseEngine(self, callback_fcn_get_model=None, callback_fcn_get_constraint=None, is_ground_plane=False, models=None, max_num=None, no_collision=True, max_area=1, constraints=None, policies=None, model_picker='random')
+RandomPoseEngine()
 ```
 Placement engine that generates a random pose for its model
 assets respecting input local constraints, if any is provided,
@@ -237,14 +256,16 @@ policies:
             max: 3.141592653589793
 ```
 
+
 ## reset_counter
 ```python
-RandomPoseEngine.reset_counter(self)
+RandomPoseEngine.reset_counter()
 ```
 Reset all model counters.
+
 ## increase_counter
 ```python
-RandomPoseEngine.increase_counter(self, name)
+RandomPoseEngine.increase_counter(name)
 ```
 Increase the counter for a model.
 
@@ -252,9 +273,10 @@ Increase the counter for a model.
 
 * `name` (*type:* `str`): Model name
 
+
 ## get_num_models
 ```python
-RandomPoseEngine.get_num_models(self, name)
+RandomPoseEngine.get_num_models(name)
 ```
 Return the current value for the model counter.
 
@@ -266,9 +288,10 @@ Return the current value for the model counter.
 
 `int`: Number of models
 
+
 ## get_max_num_models
 ```python
-RandomPoseEngine.get_max_num_models(self, name)
+RandomPoseEngine.get_max_num_models(name)
 ```
 Return the defined maximum number of instances for a model.
 
@@ -280,9 +303,10 @@ Return the defined maximum number of instances for a model.
 
 `int`: Maximum number of instances
 
+
 ## choose_model
 ```python
-RandomPoseEngine.choose_model(self)
+RandomPoseEngine.choose_model()
 ```
 Select the next model instance to be placed in the world.
 This method is affected by the constructor input `model_picker`.
@@ -295,9 +319,10 @@ chosen by an descending footprint size.
 
 `pcg_gazebo.simulation.SimulationModel`: Chosen model
 
+
 ## is_model_in_workspace
 ```python
-RandomPoseEngine.is_model_in_workspace(self, footprint)
+RandomPoseEngine.is_model_in_workspace(footprint)
 ```
 Verify if the model is in the allowed workspace
 
@@ -311,9 +336,10 @@ submodels.
 
 `bool`: `True` if the polygon is entirely contained inside the workspace
 
+
 ## get_list_of_footprint_polygons
 ```python
-RandomPoseEngine.get_list_of_footprint_polygons(self, footprint)
+RandomPoseEngine.get_list_of_footprint_polygons(footprint)
 ```
 Return the list of polygons contained in the `footprint` input.
 
@@ -327,9 +353,10 @@ submodels.
 
 List of `shapely.geometry.Polygon`: List of footprint polygons
 
+
 ## has_collision
 ```python
-RandomPoseEngine.has_collision(self, model)
+RandomPoseEngine.has_collision(model)
 ```
 Run the collision checker of the input `model`
 against the current scene of the simulation.
@@ -343,9 +370,10 @@ against the current scene of the simulation.
 
 `bool`: `True`, if any collision is detected
 
+
 ## run
 ```python
-RandomPoseEngine.run(self)
+RandomPoseEngine.run()
 ```
 Run the placement engine and generate a list of models placed
 according to the input policies and respecting spatial constraints.
