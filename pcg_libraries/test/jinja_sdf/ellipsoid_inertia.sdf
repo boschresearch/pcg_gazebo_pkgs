@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<inertia>
+  <ixx>50.0</ixx>
+  <ixy>0</ixy>
+  <ixz>0</ixz>
+  <iyy>40.0</iyy>
+  <iyz>0</iyz>
+  <izz>26.0</izz>
+</inertia>
