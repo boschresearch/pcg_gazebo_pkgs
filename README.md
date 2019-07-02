@@ -26,6 +26,13 @@ cd ~/catkin_ws/src
 git clone https://github.com/boschresearch/pcg_gazebo_pkgs.git
 ```
 
+then install the dependencies (replace `kinetic` for the ROS distribution you are using)
+
+```
+cd ~/catkin_ws
+rosdep install --from-paths src --ignore-src --rosdistro=kinetic -y -r
+```
+
 and then run `catkin build`.
 
 #### Installation of Python dependencies
