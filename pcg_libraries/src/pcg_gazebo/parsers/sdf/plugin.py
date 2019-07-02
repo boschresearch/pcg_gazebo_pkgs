@@ -53,8 +53,13 @@ class Plugin(XMLCustom):
         self.attributes['filename'] = value
 
     def _add_child_element(self, tag, value):
-        assert isinstance(tag, str), \
-            'Input tag must be string or unicode'
+        import sys
+        if sys.version_info[0] == 2:
+            assert isinstance(tag, str) or isinstance(tag, unicode), \
+                'Input tag must be string or unicode, received={}, type={}'.format(tag, type(tag))
+        else:
+            assert isinstance(tag, str), \
+                'Input tag must be string or unicode, received={}, type={}'.format(tag, type(tag))
         self._value[tag] = value
 
     @staticmethod
