@@ -39,4 +39,4 @@ space.
 
 Procedural Generation for Gazebo is open-sourced under the Apache-2.0 license. See the [LICENSE](https://github.com/boschresearch/pcg_gazebo_pkgs/blob/master/LICENSE) file for details.
 
-For a list of other open source components included in UUV Simulator, see the file [3rd-party-licenses.txt](https://github.com/boschresearch/pcg_gazebo_pkgs/blob/master/3rd-party-licenses.txt).
+For a list of other open source components included in Procedural Generation for Gazebo package, see the file [3rd-party-licenses.txt](https://github.com/boschresearch/pcg_gazebo_pkgs/blob/master/3rd-party-licenses.txt).
