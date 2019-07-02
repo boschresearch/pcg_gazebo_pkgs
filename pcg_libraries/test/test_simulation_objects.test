@@ -17,12 +17,6 @@
         name="pose">
   </test> 
 
-  <test test-name="test_pose"
-        pkg="pcg_libraries"
-        type="test_inertia.py"
-        name="pose">
-  </test> 
-
   <test test-name="test_model_factory"
         pkg="pcg_libraries"
         type="test_model_factory.py"
