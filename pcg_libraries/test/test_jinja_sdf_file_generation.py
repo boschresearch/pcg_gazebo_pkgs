@@ -17,32 +17,74 @@
 from __future__ import print_function
 # TODO: Replace yasha by jinja for generation of the SDF files
 import roslib
+import rospkg
 
 PKG = 'pcg_libraries'
 roslib.load_manifest(PKG)
 
 import os
+import sys
 import unittest
 import subprocess
+from jinja2 import FileSystemLoader, Environment, \
+    BaseLoader, TemplateNotFound
 from pcg_gazebo.parsers import parse_sdf
 
-CUR_DIR = os.path.dirname(os.path.realpath(__file__))
+CUR_DIR = os.path.join(rospkg.RosPack().get_path(PKG), 'test')
 
-def generate_sdf(template, output_filename, vars):    
-    output_filename = os.path.join('/tmp', output_filename)
+class AbsFileSystemLoader(BaseLoader):
+    def __init__(self, path):
+        self.path = path
 
-    cmd = 'yasha'
-    # Add variables 
+    def get_source(self, environment, template):        
+        if os.path.isfile(template):
+            path = template
+        else:
+            path = os.path.join(self.path, template)
+            if not os.path.isfile(path):
+                raise TemplateNotFound(template)
+        mtime = os.path.getmtime(path)
+        with open(path) as f:
+            source = f.read().decode('utf-8')
+        return source, path, lambda: mtime == os.path.getmtime(path)
+
+
+def find_ros_package(pkg_name):
+    try:
+        pkg_path = rospkg.RosPack().get_path(pkg_name)
+    except rospkg.ResourceNotFound as ex:
+        print('Error finding package {}, message={}'.format(pkg_name, ex))
+        sys.exit(-1)    
+    return pkg_path
+
+
+def pretty_print_xml(xml):
+    proc = subprocess.Popen(
+        ['xmllint', '--format', '/dev/stdin'],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        )
+    (output, error_output) = proc.communicate(xml)
+    return output
+
+def generate_sdf(template, output_filename, vars):       
+    base_loader = FileSystemLoader(os.path.join(CUR_DIR, 'jinja_sdf'))
+    includes_loader = AbsFileSystemLoader(os.path.join(CUR_DIR, '..', 'sdf'))
+
+    base_env = Environment(loader=base_loader)
+    # Add Jinja function similar to $(find <package>) in XACRO
+    base_env.filters['find_ros_package'] = find_ros_package
+
+    model_template = base_env.get_template(template)
+    model_template.environment.loader = includes_loader
+
+    params = dict()
     for tag in vars:
-        cmd += ' --{}={}'.format(tag, vars[tag])
+        params[tag] = vars[tag]
 
-    # Add output filename
-    cmd += ' -o {}'.format(output_filename)
-    # Add include path for macros
-    cmd += ' -I ' + os.path.join(CUR_DIR, '../sdf')
-    cmd += ' ' + template
-    subprocess.check_output(cmd.split())
-
+    output_xml = pretty_print_xml(model_template.render(**params))
+    with open(os.path.join('/tmp', output_filename), 'w+') as f:
+        f.write(output_xml)
 
 class TestJinjaSDFFileGeneration(unittest.TestCase):
     def test_generate_inertia(self):
@@ -68,13 +110,14 @@ class TestJinjaSDFFileGeneration(unittest.TestCase):
         )
 
         for test_case in INPUT_PARAMS:
-            template = os.path.join(CUR_DIR, 'jinja_sdf', '{}.jinja'.format(test_case))
+            # template = os.path.join(CUR_DIR, 'jinja_sdf', '{}.jinja'.format(test_case))
+            template = test_case + '.jinja'
             generate_sdf(template, '{}.sdf'.format(test_case), INPUT_PARAMS[test_case])
 
             filename = os.path.join('/tmp', '{}.sdf'.format(test_case))
 
             self.assertTrue(os.path.isfile(filename), 
-                '{} file was not generated'.format(test_case + 'sdf'))
+                '{} file was not generated'.format(test_case + '.sdf'))
 
             sdf = parse_sdf(filename)
 
@@ -82,7 +125,7 @@ class TestJinjaSDFFileGeneration(unittest.TestCase):
                 sdf, 
                 'SDF file {} could not be parsed'.format(filename))
             self.assertEqual(
-                sdf.NAME, 'inertia', 
+                sdf.xml_element_name, 'inertia', 
                 'SDF element for file {} should be inertia')
             
             for param_name in OUTPUT_PARAMS[test_case]:
