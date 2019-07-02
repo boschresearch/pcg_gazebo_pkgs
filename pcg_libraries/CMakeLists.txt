@@ -5,6 +5,7 @@ find_package(catkin REQUIRED)
     
 set(SETUP_PYTHON_REQUIREMENTS ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/_create_env.py)
 
+# Install missing Python dependencies
 execute_process(
     COMMAND ${SETUP_PYTHON_REQUIREMENTS}
 )
@@ -13,7 +14,6 @@ catkin_python_setup()
 
 catkin_package()
 
-# Generate the virtualenv
 install(
     FILES requirements.txt
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
