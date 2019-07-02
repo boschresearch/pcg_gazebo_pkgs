@@ -26,9 +26,13 @@ class XMLString(XMLBase):
         self._default = default
 
     def _set_value(self, value):
-        assert isinstance(value, str), \
-            'Input value should be string or unicode, provided={}, {}'.format(
-                value, type(value))
+        import sys
+        if sys.version_info[0] == 2:
+            assert isinstance(value, str) or isinstance(value, unicode), \
+                'Input value must be string or unicode, received={}, type={}'.format(value, type(value))
+        else:
+            assert isinstance(value, str), \
+                'Input value must be string or unicode, received={}, type={}'.format(value, type(value))
         self._value = str(value)
 
     def reset(self):
