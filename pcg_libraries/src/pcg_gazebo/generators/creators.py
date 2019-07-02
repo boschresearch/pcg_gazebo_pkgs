@@ -297,6 +297,7 @@ def box_factory(size, mass=None, name='box', pose=[0, 0, 0, 0, 0, 0],
     
     List of `pcg_gazebo.simulation.SimulationModel` instances.
     """
+
     box_size = _parse_factory_input_as_vector(size)
     if mass is not None:
         box_mass = _parse_factory_input_as_vector(mass)
@@ -315,7 +316,6 @@ def box_factory(size, mass=None, name='box', pose=[0, 0, 0, 0, 0, 0],
         return list()
 
     models = list()
-
     if mass is None:
         for i in range(box_size.shape[0]):
             PCG_ROOT_LOGGER.info(
@@ -346,8 +346,8 @@ def box_factory(size, mass=None, name='box', pose=[0, 0, 0, 0, 0, 0],
                 '[box_factory] Since the number of masses and sizes'
                 ' provided are different, using permutation and '
                 'generating {} models'.format(box_size.shape[0] * box_mass.shape[0]))
-    
-    if (not use_permutation and len(models) == 0) or use_permutation:
+
+    if len(models) == 0:
         PCG_ROOT_LOGGER.info(
                 '[box_factory] Using permutation, '
                 'generating {} dynamic models'.format(box_size.shape[0] * box_mass.shape[0]))
@@ -361,7 +361,7 @@ def box_factory(size, mass=None, name='box', pose=[0, 0, 0, 0, 0, 0],
                     pose=pose,
                     color=color))
             model_counter += 1
-
+    
     return models
 
 
@@ -436,7 +436,7 @@ def sphere_factory(radius, mass=None, name='sphere', pose=[0, 0, 0, 0, 0, 0],
                     pose=pose,
                     color=color))
     
-    if (not use_permutation and len(models) == 0) or use_permutation:
+    if len(models) == 0:
         model_counter = 0
         for sphere_param in itertools.product(sphere_radius, sphere_mass):
             sphere_name = '{}_{}'.format(name, model_counter)
@@ -537,7 +537,7 @@ def cylinder_factory(length, radius, mass=None, name='cylinder',
                         pose=pose,
                         color=color))
 
-    if (not use_permutation and len(models) == 0) or use_permutation:
+    if len(models) == 0:
         model_counter = 0
         if mass is not None:            
             for cyl_params in itertools.product(cyl_lengths, cyl_radius, cyl_mass):
@@ -617,11 +617,18 @@ def create_models_from_config(config, n_processes=None):
         PCG_ROOT_LOGGER.info('Input is not a list of configurations')
         return None
 
-    pool = Pool(n_processes)
-    results = pool.map(config2models, config)
+    results = list()
+        
+    if n_processes is not None:
+        pool = Pool(n_processes)
+        output = pool.map(config2models, config)
+        for item in output:
+            results = results + item
+    else:
+        for c in config:
+            results = results + config2models(c)
     
     generated_models = list()
-    for result in results:
-        for sdf in result:
-            generated_models.append(SimulationModel.from_sdf(sdf))
+    for sdf in results:
+        generated_models.append(SimulationModel.from_sdf(sdf))
     return generated_models

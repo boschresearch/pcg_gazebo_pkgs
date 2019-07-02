@@ -24,7 +24,7 @@ class InnerAngle(XMLScalar):
         XMLScalar.__init__(self, default)
 
     def _set_value(self, value):
-        assert self._is_numeric_vector(value), \
+        assert self._is_scalar(value), \
             'Input value must be either a float or an integer'
         assert value >= 0, 'Input value must be greater than zero'
         XMLScalar._set_value(self, value)

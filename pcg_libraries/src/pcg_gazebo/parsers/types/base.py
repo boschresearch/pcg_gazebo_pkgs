@@ -89,10 +89,12 @@ class XMLBase(object):
         self._set_value(value)
 
     def _is_scalar(self, value):
+        if value is None or isinstance(value, str):
+            return False
         try:
             float(value)
             return True
-        except ValueError:
+        except (ValueError, TypeError):
             return False
 
     def _is_numeric_vector(self, vec, range=None):
@@ -105,11 +107,11 @@ class XMLBase(object):
                     if i < range[0] or i > range[1]:
                         return False
             return True
-        except ValueError:
+        except (ValueError, TypeError):
             return False
 
     def _is_array(self, vec):
-        return isinstance(vec, collections.Iterable)
+        return isinstance(vec, collections.Iterable) and not isinstance(vec, str)
 
     def _is_boolean(self, value):
         return isinstance(value, bool) or value in [0, 1]

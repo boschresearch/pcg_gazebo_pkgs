@@ -63,7 +63,7 @@ def parse_urdf(input_xml):
         urdf = parse_xml(input_xml, type='urdf')
     except Exception as ex:
         PCG_ROOT_LOGGER.error('Error found while parsing from URDF={}'.format(input_xml))
-        PCG_ROOT_LOGGER.error('Message={}'.format(urdf))
+        PCG_ROOT_LOGGER.error('Message={}'.format(ex))
         urdf = None
     return urdf
 
@@ -85,7 +85,7 @@ def parse_sdf_config(input_xml):
         sdf_config = parse_xml(input_xml, type='sdf_config')
     except Exception as ex:
         PCG_ROOT_LOGGER.error('Error found while parsing from SDF configuration={}'.format(input_xml))
-        PCG_ROOT_LOGGER.error('Message={}'.format(sdf_config))
+        PCG_ROOT_LOGGER.error('Message={}'.format(ex))
         sdf_config = None
     return sdf_config
     

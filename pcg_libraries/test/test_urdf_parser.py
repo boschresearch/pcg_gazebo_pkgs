@@ -17,6 +17,7 @@
 from __future__ import print_function
 
 import roslib
+import rospkg
 
 PKG = 'pcg_libraries'
 roslib.load_manifest(PKG)
@@ -25,11 +26,9 @@ import os
 import sys
 import unittest
 from pcg_gazebo.parsers import parse_urdf
-from pcg_gazebo.parsers.urdf import create_urdf_element, create_urdf_type
-from pcg_gazebo.parsers.sdf import create_sdf_element, create_sdf_type, \
-    is_sdf_element
+from pcg_gazebo.parsers.urdf import create_urdf_element
 
-CUR_DIR = os.path.dirname(os.path.realpath(__file__))
+CUR_DIR = os.path.join(rospkg.RosPack().get_path(PKG), 'test')
 
 URDF_BASIC_OBJ_NAMES = [
     'mu1',
@@ -118,8 +117,8 @@ class TestURDFParser(unittest.TestCase):
         for urdf_tag in URDF_BASIC_OBJ_NAMES:
             obj = create_urdf_element(urdf_tag)
 
-            self.assertIsNotNone(obj.NAME, '{} is invalid'.format(urdf_tag))
-            self.assertEqual(obj.NAME, urdf_tag,
+            self.assertIsNotNone(obj.xml_element_name, '{} is invalid'.format(urdf_tag))
+            self.assertEqual(obj.xml_element_name, urdf_tag,
                              '{} has invalid URDF block name'.format(urdf_tag))
             self.assertTrue(obj.has_value(),
                             '{} should store a values'.format(urdf_tag))
@@ -303,9 +302,10 @@ class TestURDFParser(unittest.TestCase):
         self.assertEqual(obj.stopErp.value, 0.3, 'Wrong value for stopErp, received={}, expected={}'.format(obj.stopErp.value, 0.3))
 
     def test_parse_gazebo_imu_sdf_1_4(self):
-        filename = get_urdf_file('gazebo_imu_1.4')
+        filename = get_urdf_file('gazebo_imu_1_4')
         obj = parse_urdf(filename)
 
+        self.assertIsNotNone(obj, filename)
         self.assertTrue(
             obj.is_valid(), 'Gazebo block should be valid')
         self.assertIn(
@@ -428,7 +428,7 @@ class TestURDFParser(unittest.TestCase):
                 plugin.value['block']['subparam'], 1.245))
 
     def test_parse_gazebo_imu_sdf_1_5(self):
-        filename = get_urdf_file('gazebo_imu_1.5')
+        filename = get_urdf_file('gazebo_imu_1_5')
         obj = parse_urdf(filename)
 
         self.assertTrue(
@@ -639,7 +639,7 @@ class TestURDFParser(unittest.TestCase):
                 plugin.value['block']['subparam'], 1.245))
 
     def test_parse_gazebo_imu_sdf_1_6(self):
-        filename = get_urdf_file('gazebo_imu_1.6')
+        filename = get_urdf_file('gazebo_imu_1_6')
         obj = parse_urdf(filename)
 
         self.assertTrue(

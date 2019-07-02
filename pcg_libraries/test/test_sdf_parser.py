@@ -359,8 +359,8 @@ class TestSDFParser(unittest.TestCase):
         for sdf_tag in SDF_BASIC_OBJ_NAMES:
             obj = create_sdf_element(sdf_tag)
 
-            self.assertIsNotNone(obj.NAME, '{} is invalid'.format(sdf_tag))
-            self.assertEqual(obj.NAME, sdf_tag,
+            self.assertIsNotNone(obj.xml_element_name, '{} is invalid'.format(sdf_tag))
+            self.assertEqual(obj.xml_element_name, sdf_tag,
                              '{} has invalid sdf block name'.format(sdf_tag))
             self.assertTrue(obj.has_value(),
                             '{} should store a values'.format(sdf_tag))
