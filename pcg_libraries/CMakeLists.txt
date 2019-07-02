@@ -31,6 +31,22 @@ if(CATKIN_ENABLE_TESTING)
         test/test_sdf_parser.test
         test/test_simulation_objects.test
         test/test_urdf_parser.test
+
         )
+        add_rostest(${T})
+    endforeach()
+
+    foreach(T
+        test/test_inertia.py                    
+        test/test_model_factory.py  
+        test/test_sdf_parser.py                    
+        test/test_simulation_objects.py
+        test/test_jinja_sdf_file_generation.py  
+        test/test_pose.py           
+        test/test_simulation_object_properties.py  
+        test/test_urdf_parser.py
+        
+        )
+        catkin_add_nosetests(${T})
     endforeach()
 endif()
