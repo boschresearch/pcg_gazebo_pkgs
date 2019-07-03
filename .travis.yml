@@ -20,13 +20,12 @@ env:
     - ROS_REPOSITORY_PATH=http://packages.ros.org/ros/ubuntu
     - NOT_TEST_BUILD=false
     - NOT_TEST_INSTALL=true
-    - BEFORE_SCRIPT="pip install pip --upgrade"
 matrix:
   include:
-    - env: ROS_DISTRO=melodic 
-    - env: ROS_DISTRO=kinetic
+    - env: BEFORE_SCRIPT="pip install pip --upgrade" ROS_DISTRO=melodic 
+    - env: BEFORE_SCRIPT="pip install pip --upgrade && apt install software-properties-common && add-apt-repository ppa:thomas-schiex/blender -y && apt update && apt install blender" ROS_DISTRO=kinetic
   allow_failures:
-    - env: ROS_DISTRO=kinetic
+    - env: BEFORE_SCRIPT="pip install pip --upgrade && apt install software-properties-common && add-apt-repository ppa:thomas-schiex/blender -y && apt update && apt install blender" ROS_DISTRO=kinetic
 install:
   - git clone https://github.com/ros-industrial/industrial_ci.git .ci_config
 
