@@ -13,3 +13,4 @@ descartes
 pyglet
 python-fcl
 PyYAML
+pycollada

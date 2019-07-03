@@ -19,6 +19,10 @@ install(PROGRAMS
     scripts/spawn_sdf_model
     scripts/run_model_factory
     scripts/generate_occupancy_map
+    scripts/start_gazebo_world
+    scripts/view_mesh
+    scripts/view_gazebo_model
+    scripts/list_gazebo_models
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
