@@ -5,7 +5,7 @@ yasha
 xmltodict
 Jinja2
 Shapely
-trimesh[all]
+trimesh
 bokeh
 matplotlib
 RTree
