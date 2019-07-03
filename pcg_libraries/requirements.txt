@@ -5,7 +5,7 @@ yasha
 xmltodict
 Jinja2
 Shapely
-trimesh
+trimesh[all]
 bokeh
 matplotlib
 RTree
@@ -13,3 +13,4 @@ descartes
 pyglet
 python-fcl
 PyYAML
+pycollada
