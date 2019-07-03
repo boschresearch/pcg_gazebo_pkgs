@@ -23,9 +23,9 @@ env:
 matrix:
   include:
     - env: BEFORE_SCRIPT="pip install pip --upgrade" ROS_DISTRO=melodic 
-    - env: BEFORE_SCRIPT="pip install pip --upgrade && apt install software-properties-common && add-apt-repository ppa:thomas-schiex/blender -y && apt update && apt install blender" ROS_DISTRO=kinetic
+    - env: BEFORE_SCRIPT="pip install pip --upgrade && apt install software-properties-common -y && add-apt-repository ppa:thomas-schiex/blender -y && apt update && apt install blender -y" ROS_DISTRO=kinetic
   allow_failures:
-    - env: BEFORE_SCRIPT="pip install pip --upgrade && apt install software-properties-common && add-apt-repository ppa:thomas-schiex/blender -y && apt update && apt install blender" ROS_DISTRO=kinetic
+    - env: BEFORE_SCRIPT="pip install pip --upgrade && apt install software-properties-common -y && add-apt-repository ppa:thomas-schiex/blender -y && apt update && apt install blender -y" ROS_DISTRO=kinetic
 install:
   - git clone https://github.com/ros-industrial/industrial_ci.git .ci_config
 
