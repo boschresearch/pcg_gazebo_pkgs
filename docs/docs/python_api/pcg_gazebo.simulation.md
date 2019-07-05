@@ -8,7 +8,7 @@ entities that form a simulation in Gazebo.
 ```python
 create_object(tag, **kwargs)
 ```
-Factory method for `SimulationObject` subclasses.
+Factory method for `Link` subclasses.
 
 > *Input arguments*
 
@@ -17,7 +17,7 @@ Factory method for `SimulationObject` subclasses.
 
 > *Returns*
 
-`SimulationObject`: Subclass instance.
+`Link`: Subclass instance.
 
 
 ## get_gazebo_model_folders
@@ -119,7 +119,7 @@ of the SDF file to be parsed.
 ```python
 Box()
 ```
-Class derived from `pcg_gazebo.simulation.SimulationObject` to
+Class derived from `pcg_gazebo.simulation.Link` to
 describe a box-shaped link or single-link model.
 
 > *Input arguments*
@@ -212,7 +212,7 @@ Update visual model according to the current
 ```python
 Cylinder()
 ```
-Class derived from `pcg_gazebo.simulation.SimulationObject` to
+Class derived from `pcg_gazebo.simulation.Link` to
 describe a cylinder-shaped link or single-link model.
 
 > *Input arguments*
@@ -313,9 +313,9 @@ SimulationModel()
 ```
 
 
-# SimulationObject
+# Link
 ```python
-SimulationObject()
+Link()
 ```
 Representation of a simulated `link` or a single-link `model`.
 
@@ -418,12 +418,12 @@ will then be used to compute the moments of inertia. Options are `box`, `cylinde
 
 > *Returns*
 
-`pcg_gazebo.simulation.SimulationObject` instance.
+`pcg_gazebo.simulation.Link` instance.
 
 
 ## enable_collision
 ```python
-SimulationObject.enable_collision()
+Link.enable_collision()
 ```
 Enable the inclusion of the collision models
 in the exported SDF description.
@@ -431,7 +431,7 @@ in the exported SDF description.
 
 ## disable_collision
 ```python
-SimulationObject.disable_collision()
+Link.disable_collision()
 ```
 Disable the inclusion of the collision models
 in the exported SDF description.
@@ -439,7 +439,7 @@ in the exported SDF description.
 
 ## enable_visual
 ```python
-SimulationObject.enable_visual()
+Link.enable_visual()
 ```
 Enable the inclusion of the visual models
 in the exported SDF description.
@@ -447,7 +447,7 @@ in the exported SDF description.
 
 ## disable_visual
 ```python
-SimulationObject.disable_visual()
+Link.disable_visual()
 ```
 Disable the inclusion of the collision models
 in the exported SDF description.
@@ -455,7 +455,7 @@ in the exported SDF description.
 
 ## get_collision_by_name
 ```python
-SimulationObject.get_collision_by_name(name)
+Link.get_collision_by_name(name)
 ```
 Return the collision model associated with the input
 name identifier.
@@ -472,7 +472,7 @@ if not collision with the given name is found.
 
 ## has_collision
 ```python
-SimulationObject.has_collision(name)
+Link.has_collision(name)
 ```
 Test if a collision with the input name exists.
 
@@ -487,7 +487,7 @@ Test if a collision with the input name exists.
 
 ## get_visual_by_name
 ```python
-SimulationObject.get_visual_by_name(name)
+Link.get_visual_by_name(name)
 ```
 Return the visual model associated with the input
 name identifier.
@@ -504,7 +504,7 @@ if not visual with the given name is found.
 
 ## has_visual
 ```python
-SimulationObject.has_visual(name)
+Link.has_visual(name)
 ```
 Test if a visual with the input name exists.
 
@@ -519,7 +519,7 @@ Test if a visual with the input name exists.
 
 ## add_empty_visual
 ```python
-SimulationObject.add_empty_visual(name='visual')
+Link.add_empty_visual(name='visual')
 ```
 Create an empty visual model and add it to the object.
 
@@ -536,7 +536,7 @@ model.
 
 ## add_visual
 ```python
-SimulationObject.add_visual(visual)
+Link.add_visual(visual)
 ```
 Add visual model to the object. If a visual element
 with the same name already exists, a suffix will be added
@@ -554,7 +554,7 @@ Visual element
 
 ## add_empty_collision
 ```python
-SimulationObject.add_empty_collision(name='collision')
+Link.add_empty_collision(name='collision')
 ```
 Create an empty collision model and add it to the object.
 
@@ -571,7 +571,7 @@ model.
 
 ## add_collision
 ```python
-SimulationObject.add_collision(collision)
+Link.add_collision(collision)
 ```
 Add collision model to the object. If a collision element
 with the same name already exists, a suffix will be added
@@ -589,7 +589,7 @@ Collision element
 
 ## to_sdf
 ```python
-SimulationObject.to_sdf(type, name='model', sdf_version='1.6')
+Link.to_sdf(type, name='model', sdf_version='1.6')
 ```
 Convert object to an SDF element. The object can be converted
 to different SDF elements according to the `type` input
@@ -614,7 +614,7 @@ SDF element
 
 
 ## from_sdf
-Factory method to generate a `pcg_gazebo.simulation.SimulationObject` instance
+Factory method to generate a `pcg_gazebo.simulation.Link` instance
 from an SDF instance. Only links can be parsed.
 
 > *Input arguments*
@@ -623,12 +623,12 @@ from an SDF instance. Only links can be parsed.
 
 > *Returns*
 
-`pcg_gazebo.simulation.SimulationObject`: Simulation object instance
+`pcg_gazebo.simulation.Link`: Simulation object instance
 
 
 ## export_to_gazebo_model
 ```python
-SimulationObject.export_to_gazebo_model(output_dir,
+Link.export_to_gazebo_model(output_dir,
                                         name='model',
                                         sdf_version='1.6',
                                         version='0.1.0',
@@ -664,31 +664,31 @@ directory will be stored.
 
 ## add_inertial
 ```python
-SimulationObject.add_inertial(mass)
+Link.add_inertial(mass)
 ```
 This function must be implemented by derived classes.
 
 ## update_inertial
 ```python
-SimulationObject.update_inertial()
+Link.update_inertial()
 ```
 This function must be implemented by derived classes.
 
 ## update_collision
 ```python
-SimulationObject.update_collision()
+Link.update_collision()
 ```
 This function must be implemented by derived classes.
 
 ## update_visual
 ```python
-SimulationObject.update_visual()
+Link.update_visual()
 ```
 This function must be implemented by derived classes.
 
 ## add_sensor
 ```python
-SimulationObject.add_sensor(name, sensor)
+Link.add_sensor(name, sensor)
 ```
 Add sensor associated to the link.
 
@@ -705,7 +705,7 @@ Sensor description
 
 ## to_markers
 ```python
-SimulationObject.to_markers()
+Link.to_markers()
 ```
 Generate `visualization_msgs/Marker` instances from the visual and/or
 collision entities.
@@ -717,7 +717,7 @@ collision entities.
 
 ## get_footprint
 ```python
-SimulationObject.get_footprint(mesh_type='collision',
+Link.get_footprint(mesh_type='collision',
                                pose_offset=None,
                                use_bounding_box=False,
                                z_limits=None)
@@ -744,7 +744,7 @@ in the Z direction were the meshes will be sectioned.
 
 ## get_meshes
 ```python
-SimulationObject.get_meshes(mesh_type='collision', pose_offset=None)
+Link.get_meshes(mesh_type='collision', pose_offset=None)
 ```
 Return all the meshes associated with this link.
 
@@ -762,7 +762,7 @@ List of `trimesh` meshes.
 
 ## get_bounds
 ```python
-SimulationObject.get_bounds(mesh_type='collision')
+Link.get_bounds(mesh_type='collision')
 ```
 Return the bounds of the link with respect to its meshes.
 
@@ -792,7 +792,7 @@ Polyline()
 ```python
 Sphere()
 ```
-Class derived from `pcg_gazebo.simulation.SimulationObject` to
+Class derived from `pcg_gazebo.simulation.Link` to
 describe a sphere-shaped link or single-link model.
 
 > *Input arguments*
