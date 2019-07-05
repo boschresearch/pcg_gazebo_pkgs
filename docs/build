@@ -349,7 +349,7 @@ python -m pydocmd simple \
     pcg_gazebo.simulation.joint.Joint++ \
     pcg_gazebo.simulation.light.Light++ \
     pcg_gazebo.simulation.model.SimulationModel++ \
-    pcg_gazebo.simulation.object.SimulationObject++ \
+    pcg_gazebo.simulation.object.Link++ \
     pcg_gazebo.simulation.plane.Plane++ \
     pcg_gazebo.simulation.polyline.Polyline++ \
     pcg_gazebo.simulation.sphere.Sphere++ \
