@@ -13,12 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .object import SimulationObject
+from .link import Link
 from ..parsers.sdf import create_sdf_element
 from .properties import Collision, Visual
 
 
-class Plane(SimulationObject):
+class Plane(Link):
     def __init__(self, name='plane', normal=[0, 0, 1], size=[1, 1]):
         assert isinstance(normal, list)
         assert len(normal) == 3
@@ -27,7 +27,7 @@ class Plane(SimulationObject):
         assert isinstance(size, list)
         assert len(size) == 2
 
-        SimulationObject.__init__(self, name=name)
+        Link.__init__(self, name=name)
         # Disable collision per default
         self.disable_collision()
         # Enable visual element
@@ -98,7 +98,7 @@ class Plane(SimulationObject):
         if type == 'geometry':
             return self._collisions[0].geometry.to_sdf()
 
-        return SimulationObject.to_sdf(self, type, name, sdf_version)
+        return Link.to_sdf(self, type, name, sdf_version)
 
     def update_collision(self):
         self._collisions[0].set_geometry(

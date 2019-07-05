@@ -747,7 +747,7 @@ class WorldGenerator:
         if len(self._constraints):
             ws_constraints = dict()
             for tag in self._constraints:
-                if self._constraints[tag].__LABEL == 'workspace':
+                if self._constraints[tag]._LABEL == 'workspace':
                     ws_constraints[tag] = self._constraints[tag]
             self._logger.info('Plotting workspaces={}'.format(list(ws_constraints.keys())))
             fig = visualization.plot_workspaces(

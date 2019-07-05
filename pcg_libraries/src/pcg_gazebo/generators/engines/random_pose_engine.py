@@ -15,7 +15,10 @@
 from .engine import Engine
 import numpy as np
 import random
+from copy import deepcopy
 from shapely.ops import cascaded_union
+from shapely.affinity import rotate, translate
+from ..occupancy import get_occupied_area
 
 
 class RandomPoseEngine(Engine):
@@ -105,6 +108,7 @@ class RandomPoseEngine(Engine):
         self._max_num = dict()
         self._workspace = None
         self._model_picker = model_picker
+        self._cached_footprints = dict()
 
         # Compute the footprint area of each object
         self._areas = dict()
@@ -113,8 +117,18 @@ class RandomPoseEngine(Engine):
             self._max_num[name] = -1
 
             model = self._get_model(name)
+            footprint = get_occupied_area(
+                model, 
+                step_x=0.01, 
+                step_y=0.01, 
+                model_name=model.name, 
+                mesh_type='collision')
+            self._cached_footprints[model.name] = dict(
+                footprint=footprint,
+                pose=model.pose)            
             self._areas[name] = cascaded_union(self.get_list_of_footprint_polygons(
-                model.get_footprint(mesh_type='collision'))).area
+                footprint)).area
+
         self._policies = policies
 
         self._has_repeated_models()
@@ -151,6 +165,27 @@ class RandomPoseEngine(Engine):
             msg += '\tNo models\n'
         return msg
 
+    def _get_footprint(self, model_name, pose):
+        assert model_name in self._cached_footprints, \
+            'No cached footprint for {}'.format(model_name)
+
+        pose = np.array(pose)
+        cached_pose = np.hstack((
+            self._cached_footprints[model_name]['pose'].position, 
+            self._cached_footprints[model_name]['pose'].rpy)) 
+        
+        if np.isclose(np.linalg.norm(pose[3:5] - cached_pose[3:5]), 0):
+            footprint = rotate(self._cached_footprints[model_name]['footprint'], pose[5], use_radians=True)
+            footprint = translate(footprint, *pose[0:3])
+            return footprint
+        else:
+            return get_occupied_area(
+                self._get_model(model_name), 
+                step_x=0.01, 
+                step_y=0.01, 
+                model_name=model_name, 
+                mesh_type='collision')
+
     def _has_repeated_dofs(self, policy):
         """Check if policies don't interfere with repeated DoFs."""
         dofs = ['x', 'y', 'z', 'roll', 'pitch', 'yaw']
@@ -164,7 +199,7 @@ class RandomPoseEngine(Engine):
     
     def _has_repeated_models(self):
         """Check if policies have repeated model associations."""
-        models = self._models.copy()
+        models = deepcopy(self._models)
         for policy in self._policies:
             for model in policy['models']:
                 assert model in self._models, 'Invalid asset for random generation'
@@ -289,7 +324,7 @@ class RandomPoseEngine(Engine):
         
         `pcg_gazebo.simulation.SimulationModel`: Chosen model
         """
-        models = self._models.copy()
+        models = deepcopy(self._models)
         model = None
 
         if self._model_picker == 'random':
@@ -433,18 +468,17 @@ class RandomPoseEngine(Engine):
                 self._logger.info('Generated random pose: {}'.format(pose))
 
                 model.pose = pose
-                footprint = model.get_footprint(mesh_type='collision', use_bounding_box=True)
+                footprint = self._get_footprint(model.name, pose)
                 
                 while not self.is_model_in_workspace(footprint):
                     self._logger.info('Model outside of the workspace or in collision with other objects!')
                     pose = self._get_random_pose(model_name)
                     self._logger.info('\t Generated random pose: {}'.format(pose))
                     model.pose = pose
-                    footprint = model.get_footprint(mesh_type='collision', use_bounding_box=True)                
-
+                    footprint = self._get_footprint(model.name, pose)
+                    
                 # Enforce positioning constraints
                 model = self.apply_local_constraints(model)
-                
                 if self._no_collision:
                     if self.has_collision(model):
                         self._logger.info(

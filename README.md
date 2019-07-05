@@ -1,5 +1,9 @@
 # Procedural Generation for Gazebo
 
+[![Build Status](https://travis-ci.org/boschresearch/pcg_gazebo_pkgs.svg?branch=master)](https://travis-ci.org/boschresearch/pcg_gazebo_pkgs)
+[![GitHub issues](https://img.shields.io/github/issues/boschresearch/pcg_gazebo_pkgs.svg)](https://github.com/boschresearch/pcg_gazebo_pkgs/issues)
+[![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://github.com/uuvsimulator/uuv_simulator/blob/master/LICENSE)
+
 The Procedural Generation for Gazebo package is an Open Source
 Project extending the simulation capabilities of the robotics simulator Gazebo
 for automation and scripting of Gazebo simulations.

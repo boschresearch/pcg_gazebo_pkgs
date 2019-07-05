@@ -27,7 +27,7 @@ from .cylinder import Cylinder
 from .joint import Joint
 from .light import Light
 from .model import SimulationModel
-from .object import SimulationObject
+from .link import Link
 from .plane import Plane
 from .polyline import Polyline
 from .sphere import Sphere
@@ -38,7 +38,7 @@ GAZEBO_MODELS = dict()
 
 
 def create_object(tag, **kwargs):
-    """Factory method for `SimulationObject` subclasses.
+    """Factory method for `Link` subclasses.
     
     > *Input arguments*
     
@@ -47,11 +47,11 @@ def create_object(tag, **kwargs):
     
     > *Returns*
     
-    `SimulationObject`: Subclass instance.
+    `Link`: Subclass instance.
     """
-    for obj in SimulationObject.__subclasses__():
+    for obj in Link.__subclasses__():
         if inspect.isclass(obj):
-            if issubclass(obj, SimulationObject):
+            if issubclass(obj, Link):
                 if tag == obj.__name__.lower():
                     return obj(**kwargs)
     PCG_ROOT_LOGGER.error('Object {} does not exist'.format(tag))

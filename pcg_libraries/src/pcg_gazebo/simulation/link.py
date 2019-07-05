@@ -24,7 +24,7 @@ from ..parsers.sdf import create_sdf_element
 from ..parsers.sdf_config import create_sdf_config_element
 
 
-class SimulationObject(object):
+class Link(object):
     """Representation of a simulated `link` or a single-link `model`.
     
     > *Input arguments*
@@ -118,9 +118,9 @@ class SimulationObject(object):
         
         > *Returns*
         
-        `pcg_gazebo.simulation.SimulationObject` instance.
+        `pcg_gazebo.simulation.Link` instance.
         """
-        link = SimulationObject(name=name)
+        link = Link(name=name)
 
         # Import necessary libraries
         import trimesh
@@ -596,7 +596,7 @@ class SimulationObject(object):
 
     @staticmethod
     def from_sdf(sdf):
-        """Factory method to generate a `pcg_gazebo.simulation.SimulationObject` instance
+        """Factory method to generate a `pcg_gazebo.simulation.Link` instance
         from an SDF instance. Only links can be parsed.
         
         > *Input arguments*
@@ -605,10 +605,10 @@ class SimulationObject(object):
         
         > *Returns*
         
-        `pcg_gazebo.simulation.SimulationObject`: Simulation object instance
+        `pcg_gazebo.simulation.Link`: Simulation object instance
         """
         assert sdf._NAME == 'link', 'Only links can be parsed'
-        link = SimulationObject()
+        link = Link()
         link.name = sdf.name
         if sdf.pose is not None:
             link.pose.from_sdf(sdf.pose)
