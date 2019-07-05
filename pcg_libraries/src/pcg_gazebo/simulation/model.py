@@ -15,7 +15,7 @@
 
 from __future__ import print_function
 from .properties import Pose, Inertial, Footprint
-from .object import SimulationObject
+from .link import Link
 from .joint import Joint
 from .sensors import IMU, Ray, Contact, Camera
 from ..parsers.sdf import create_sdf_element
@@ -69,8 +69,13 @@ class SimulationModel(object):
 
     @name.setter
     def name(self, value):
-        assert isinstance(value, str) or isinstance(value, unicode), \
-            'Model name should be a string'
+        import sys
+        if sys.version_info[0] == 2:        
+            assert isinstance(value, str) or isinstance(value, unicode), \
+                'Model name should be a string'
+        else:
+            assert isinstance(value, str), \
+                'Model name should be a string'
         assert len(value) > 0, 'Model name cannot be an empty string'
         self._name = value
 
@@ -225,7 +230,7 @@ class SimulationModel(object):
                     self.name, joint_name))
                 return False
 
-        link = SimulationObject(name=link_name)
+        link = Link(name=link_name)
         if mass > 0:
             link.inertial = Inertial.create_cuboid_inertia(mass, *size)
             self._logger.info('[{}] Setting mass={}, link={}'.format(
@@ -309,7 +314,7 @@ class SimulationModel(object):
                 joint_name, self.name))
             return False
 
-        link = SimulationObject(name=link_name)
+        link = Link(name=link_name)
         if mass > 0:
             link.inertial = Inertial.create_solid_sphere_inertia(mass, radius)
         link.pose = pose
@@ -370,7 +375,7 @@ class SimulationModel(object):
                 joint_name, self.name))
             return False
 
-        link = SimulationObject(name=link_name)
+        link = Link(name=link_name)
         if mass > 0:
             link.inertial = Inertial.create_solid_cylinder_inertia(
                 mass, radius, length, axis=[0, 0, 1])
@@ -424,11 +429,11 @@ class SimulationModel(object):
         if link is None:
             self._logger.info('Creating a new link, model_name={}, link_name={}'.format(
                 self.name, name))
-            link = SimulationObject(name=name)
+            link = Link(name=name)
 
             if visual_mesh_filename is not None:
                 self._logger.info('Creating a link with the meshes provided')
-                link = SimulationObject.create_link_from_mesh(
+                link = Link.create_link_from_mesh(
                     name=name, 
                     visual_mesh_filename=visual_mesh_filename, 
                     collision_mesh_filename=collision_mesh_filename, 
@@ -443,7 +448,7 @@ class SimulationModel(object):
                     use_approximated_inertia=use_approximated_inertia, 
                     approximated_inertia_model=approximated_inertia_model)
         else:
-            assert isinstance(link, SimulationObject), \
+            assert isinstance(link, Link), \
                 'Input link is not a valid simulation object, provided={}'.format(link)
             self._logger.info('Link structure already provided')
             link.name = name
@@ -839,7 +844,7 @@ class SimulationModel(object):
         if sdf.links:
             for link_sdf in sdf.links:                
                 model.add_link(
-                    link_sdf.name, SimulationObject.from_sdf(link_sdf))
+                    link_sdf.name, Link.from_sdf(link_sdf))
         # Parse joints
         if sdf.joints:
             for joint_sdf in sdf.joints:                
@@ -967,7 +972,7 @@ class SimulationModel(object):
                 self._logger.error(msg)
                 raise ValueError(msg)
 
-        combined_pose = self._pose + pose_offset
+        combined_pose = pose_offset + self._pose
         
         footprints = dict()        
         for tag in self._models:               
