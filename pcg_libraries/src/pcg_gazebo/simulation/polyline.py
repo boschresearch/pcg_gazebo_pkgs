@@ -13,17 +13,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .object import SimulationObject
+from .link import Link
 from ..parsers.sdf import create_sdf_element
 from .properties import Collision, Visual
 
 
-class Polyline(SimulationObject):
+class Polyline(Link):
     def __init__(self, name='polyline', height=1, points=list()):
         assert isinstance(points, list)
         assert isinstance(height, float) or isinstance(height, int)
         # Call super class constructor
-        SimulationObject.__init__(self, name=name)
+        Link.__init__(self, name=name)
         # Disable collision per default
         self.disable_collision()
         # Enable visual element
@@ -85,7 +85,7 @@ class Polyline(SimulationObject):
         if type == 'geometry':
             return self._collisions[0].geometry
 
-        return SimulationObject.to_sdf(self, type, name, sdf_version)
+        return Link.to_sdf(self, type, name, sdf_version)
 
     def update_collision(self):
         self._collisions[0].set_geometry(

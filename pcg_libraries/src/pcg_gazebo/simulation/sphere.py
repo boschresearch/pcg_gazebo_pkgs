@@ -12,13 +12,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from .object import SimulationObject
+from .link import Link
 from .properties import Inertial, Collision, Visual
 from ..parsers.sdf import create_sdf_element
 
 
-class Sphere(SimulationObject):
-    """Class derived from `pcg_gazebo.simulation.SimulationObject` to 
+class Sphere(Link):
+    """Class derived from `pcg_gazebo.simulation.Link` to 
     describe a sphere-shaped link or single-link model.
     
     > *Input arguments*
@@ -28,7 +28,7 @@ class Sphere(SimulationObject):
     in meters
     """
     def __init__(self, name='sphere', radius=1):
-        SimulationObject.__init__(self, name=name)
+        Link.__init__(self, name=name)
         self.enable_collision()
         self.enable_visual()
         # Properties
@@ -101,7 +101,7 @@ class Sphere(SimulationObject):
         if type == 'geometry':
             return self._collisions[0].geometry.to_sdf()
 
-        return SimulationObject.to_sdf(self, type, name, sdf_version)
+        return Link.to_sdf(self, type, name, sdf_version)
 
     def add_inertial(self, mass, hollow=False):
         """Initialize mass and moments of inertia for sphere model.

@@ -13,13 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .object import SimulationObject
+from .link import Link
 from .properties import Inertial, Collision, Visual
 from ..parsers.sdf import create_sdf_element
 
 
-class Cylinder(SimulationObject):
-    """Class derived from `pcg_gazebo.simulation.SimulationObject` to 
+class Cylinder(Link):
+    """Class derived from `pcg_gazebo.simulation.Link` to 
     describe a cylinder-shaped link or single-link model.
     
     > *Input arguments*
@@ -33,7 +33,7 @@ class Cylinder(SimulationObject):
     def __init__(self, name='cylinder', length=1, radius=1):
         assert length > 0, 'Length must be greater than zero'
         assert radius > 0, 'Radius must be greater than zero'
-        SimulationObject.__init__(self, name=name)
+        Link.__init__(self, name=name)
         self.enable_collision()
         self.enable_visual()
         # Properties
@@ -126,7 +126,7 @@ class Cylinder(SimulationObject):
         if type == 'geometry':
             return self._collisions[0].geometry.to_sdf()
 
-        return SimulationObject.to_sdf(self, type, name, sdf_version)
+        return Link.to_sdf(self, type, name, sdf_version)
 
     def add_inertial(self, mass):
         assert isinstance(mass, float) or isinstance(mass, int)
