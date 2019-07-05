@@ -133,7 +133,7 @@ def get_footprint(model, step_x=0.001, step_y=0.001, x_limits=None,
     return footprint
 
 
-def get_occupied_area(model, step_x, step_y, z_levels, x_limits=None, y_limits=None, 
+def get_occupied_area(model, step_x, step_y, z_levels=None, x_limits=None, y_limits=None, 
     z_limits=None, horizontal_only=False, model_name=None, mesh_type='collision'):
     start_time = time()
     PCG_ROOT_LOGGER.info('get_occupied_area(), model={}'.format(model_name))    
@@ -183,10 +183,19 @@ def get_occupied_area(model, step_x, step_y, z_levels, x_limits=None, y_limits=N
     PCG_ROOT_LOGGER.info(
         'Generating horizontal rays with step_x={}, step_y={}, z_levels={}, model={}'.format(
             step_x, step_y, z_levels, model_name))
+    
+    if np.abs(x_limits[1] - x_limits[0]) <= step_x:
+        step_x = np.abs(x_limits[1] - x_limits[0]) / 10.0
 
+    if np.abs(y_limits[1] - y_limits[0]) <= step_y:
+        step_y = np.abs(y_limits[1] - y_limits[0]) / 10.0
+    
     x_samples = np.arange(x_limits[0], x_limits[1] + step_x, step_x)
     y_samples = np.arange(y_limits[0], y_limits[1] + step_y, step_y)
 
+    if z_levels is None:
+        z_levels = np.linspace(z_limits[0], z_limits[1], 10)
+        
     z_levels = np.array(z_levels)
     n_levels = z_levels.size
     min_z_level, max_z_level = np.min(z_levels), np.max(z_levels)
