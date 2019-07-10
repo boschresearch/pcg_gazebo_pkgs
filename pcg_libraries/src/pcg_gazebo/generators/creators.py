@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """Factory methods to create simulation models."""
+import sys
 import numpy as np
 import collections
 import itertools
@@ -38,12 +39,18 @@ def _parse_factory_input_as_vector(var):
         PCG_ROOT_LOGGER.info('Variable provided as scalar={}'.format(
             var))
         return np.array([var])
-    if isinstance(var, collections.Iterable) and not isinstance(var, str) and \
-        not isinstance(var, unicode):        
+
+    def is_string(s):
+        if sys.version_info[0] == 2:
+            return isinstance(s, str) or isinstance(s, unicode)
+        else:
+            return isinstance(s, str)                
+
+    if isinstance(var, collections.Iterable) and not is_string(var):                      
         PCG_ROOT_LOGGER.info('Variable provided as vector={}'.format(
             var))
         return np.array(var)
-    elif isinstance(var, str) or isinstance(var, unicode):
+    elif is_string(var):
         PCG_ROOT_LOGGER.info('Variable provided as a inline command=' + var)
         try:
             vars = eval(var)
