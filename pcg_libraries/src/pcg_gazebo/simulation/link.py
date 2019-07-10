@@ -135,13 +135,13 @@ class Link(object):
         
         # Use the meshes's centroid as offset
         link.get_visual_by_name('visual').pose.position = -1 * mesh.centroid
-        
+    
         link.enable_collision()
         link.add_empty_collision(name='collision')    
 
         if use_approximated_collision:
             if approximated_collision_model == 'box':
-                to_origin, size = trimesh.bounds.oriented_bounds(mesh)
+                size = mesh.bounding_box.bounds[1, :] - mesh.bounding_box.bounds[0, :]
                 # Compute the origin and dimensions of the visual meshes's oriented bounding box        
                 link.get_collision_by_name('collision').set_box_as_geometry(size)                    
             elif approximated_collision_model == 'cylinder':
@@ -180,7 +180,7 @@ class Link(object):
                 'Invalid model for approximated inertia, provided={}'.format(
                     approximated_inertia_model)
             if approximated_inertia_model == 'box':
-                to_origin, size = trimesh.bounds.oriented_bounds(mesh)
+                size = mesh.bounding_box.bounds[1, :] - mesh.bounding_box.bounds[0, :]
                 link.inertial = Inertial.create_cuboid_inertia(mass, *size)
             elif approximated_inertia_model == 'sphere':
                 center, radius = trimesh.nsphere.minimum_nsphere(mesh)
