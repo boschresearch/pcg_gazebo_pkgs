@@ -1,0 +1,1720 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.1.2">
+    
+    
+      
+        <title>Gazebo proxy - Procedural Generation for Gazebo</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.3020aac5.css">
+      
+      
+    
+    
+      <script src="../../../assets/javascripts/modernizr.01ccdecf.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#gazebo-proxy" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../../.." title="Procedural Generation for Gazebo" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Procedural Generation for Gazebo
+            </span>
+            <span class="md-header-nav__topic">
+              Gazebo proxy
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../../.." title="Procedural Generation for Gazebo" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Procedural Generation for Gazebo
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Python API
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Python API
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo/" title="pcg_gazebo" class="md-nav__link">
+      pcg_gazebo
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.generators/" title="pcg_gazebo.generators" class="md-nav__link">
+      pcg_gazebo.generators
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.generators.constraints/" title="pcg_gazebo.generators.constraints" class="md-nav__link">
+      pcg_gazebo.generators.constraints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.generators.engines/" title="pcg_gazebo.generators.engines" class="md-nav__link">
+      pcg_gazebo.generators.engines
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.parsers/" title="pcg_gazebo.parsers" class="md-nav__link">
+      pcg_gazebo.parsers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.parsers.sdf_config/" title="pcg_gazebo.parsers.sdf_config" class="md-nav__link">
+      pcg_gazebo.parsers.sdf_config
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.parsers.sdf/" title="pcg_gazebo.parsers.sdf" class="md-nav__link">
+      pcg_gazebo.parsers.sdf
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.parsers.types/" title="pcg_gazebo.parsers.types" class="md-nav__link">
+      pcg_gazebo.parsers.types
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.parsers.urdf/" title="pcg_gazebo.parsers.urdf" class="md-nav__link">
+      pcg_gazebo.parsers.urdf
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.simulation/" title="pcg_gazebo.simulation" class="md-nav__link">
+      pcg_gazebo.simulation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.simulation.physics/" title="pcg_gazebo.simulation.physics" class="md-nav__link">
+      pcg_gazebo.simulation.physics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.simulation.properties/" title="pcg_gazebo.simulation.properties" class="md-nav__link">
+      pcg_gazebo.simulation.properties
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.simulation.sensors/" title="pcg_gazebo.simulation.sensors" class="md-nav__link">
+      pcg_gazebo.simulation.sensors
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      Tutorials
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Tutorials
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-1" type="checkbox" id="nav-3-1">
+    
+    <label class="md-nav__link" for="nav-3-1">
+      Parsers
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-1">
+        Parsers
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-1-1" type="checkbox" id="nav-3-1-1">
+    
+    <label class="md-nav__link" for="nav-3-1-1">
+      SDF
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-3-1-1">
+        SDF
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/geometries/" title="Geometries" class="md-nav__link">
+      Geometries
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/materials/" title="Materials" class="md-nav__link">
+      Materials
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/collisions/" title="Collisions" class="md-nav__link">
+      Collisions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/visuals/" title="Visuals" class="md-nav__link">
+      Visuals
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/links_joints_sensors/" title="Links, joints and sensors" class="md-nav__link">
+      Links, joints and sensors
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/models/" title="Models" class="md-nav__link">
+      Models
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/physics_engines/" title="Physics engines" class="md-nav__link">
+      Physics engines
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/plugins/" title="Plugins" class="md-nav__link">
+      Plugins
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/world/" title="World" class="md-nav__link">
+      World
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/convert_from_sdf_file/" title="Convert from SDF file" class="md-nav__link">
+      Convert from SDF file
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-1-2" type="checkbox" id="nav-3-1-2">
+    
+    <label class="md-nav__link" for="nav-3-1-2">
+      URDF
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-3-1-2">
+        URDF
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/urdf/" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/urdf/geometries/" title="Geometries" class="md-nav__link">
+      Geometries
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/urdf/collision/" title="Collisions" class="md-nav__link">
+      Collisions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/urdf/visual/" title="Visuals" class="md-nav__link">
+      Visuals
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/urdf/links_joints_sensors/" title="Links, joints and sensors" class="md-nav__link">
+      Links, joints and sensors
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/urdf/robots/" title="Robots" class="md-nav__link">
+      Robots
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2" checked>
+    
+    <label class="md-nav__link" for="nav-3-2">
+      Task manager
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-2">
+        Task manager
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Gazebo proxy
+      </label>
+    
+    <a href="./" title="Gazebo proxy" class="md-nav__link md-nav__link--active">
+      Gazebo proxy
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gazebo-proxy" title="Gazebo proxy" class="md-nav__link">
+    Gazebo proxy
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pausingunpausing-the-simulation" title="Pausing/unpausing the simulation" class="md-nav__link">
+    Pausing/unpausing the simulation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-world-properties" title="Get world properties" class="md-nav__link">
+    Get world properties
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-properties" title="Model properties" class="md-nav__link">
+    Model properties
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-physics-properties" title="Get physics properties" class="md-nav__link">
+    Get physics properties
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apply-wrench" title="Apply wrench" class="md-nav__link">
+    Apply wrench
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#move-models-in-the-simulation" title="Move models in the simulation" class="md-nav__link">
+    Move models in the simulation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../process_manager/" title="Process manager" class="md-nav__link">
+      Process manager
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../stage_conditions/" title="Stage conditions" class="md-nav__link">
+      Stage conditions
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-3" type="checkbox" id="nav-3-3">
+    
+    <label class="md-nav__link" for="nav-3-3">
+      Simulation
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-3">
+        Simulation
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../simulation/objects/" title="Dynamically creating objects" class="md-nav__link">
+      Dynamically creating objects
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../simulation/physics_engines/" title="Setting up different physics engines" class="md-nav__link">
+      Setting up different physics engines
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../simulation/surface_collision_properties/" title="Surface and collision properties" class="md-nav__link">
+      Surface and collision properties
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../simulation/materials/" title="Materials" class="md-nav__link">
+      Materials
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../simulation/building_a_model/" title="Building a model" class="md-nav__link">
+      Building a model
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../simulation/sensors/" title="Sensors" class="md-nav__link">
+      Sensors
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../simulation/meshes/" title="Meshes" class="md-nav__link">
+      Meshes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../license/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gazebo-proxy" title="Gazebo proxy" class="md-nav__link">
+    Gazebo proxy
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pausingunpausing-the-simulation" title="Pausing/unpausing the simulation" class="md-nav__link">
+    Pausing/unpausing the simulation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-world-properties" title="Get world properties" class="md-nav__link">
+    Get world properties
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-properties" title="Model properties" class="md-nav__link">
+    Model properties
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-physics-properties" title="Get physics properties" class="md-nav__link">
+    Get physics properties
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apply-wrench" title="Apply wrench" class="md-nav__link">
+    Apply wrench
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#move-models-in-the-simulation" title="Move models in the simulation" class="md-nav__link">
+    Move models in the simulation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>Gazebo proxy</h1>
+                
+                <h4 id="gazebo-proxy">Gazebo proxy<a class="headerlink" href="#gazebo-proxy" title="Permanent link">&para;</a></h4>
+<p>The Gazebo proxy is an implementation of interfaces with all services provided by the <code class="codehilite">gazebo_ros_pkgs</code>. It allows easy use and from of the simulation through Python. </p>
+<p>It can be configured for different <code class="codehilite">ROS_MASTER_URI</code> and <code class="codehilite">GAZEBO_MASTER_URI</code> environment variables to access instances of Gazebo running in other hosts/ports.</p>
+<p>The tutorial below will make use of the simulation manager to start instances of Gazebo.</p>
+<div class="codehilite"><pre><span></span><span class="c1"># Importing the Gazebo proxy</span>
+<span class="kn">from</span> <span class="nn">pcg_gazebo.task_manager</span> <span class="kn">import</span> <span class="n">GazeboProxy</span>
+</pre></div>
+
+<p>The Gazebo proxy may also work with an instance of Gazebo that has been started external to the scope of this package, for example by running</p>
+<div class="codehilite"><pre><span></span>roslaunch gazebo_ros empty_world.launch
+</pre></div>
+
+<p>The only instance will be found by using the input hostname and ports for which they are running. 
+Here we will use the simulation manager.</p>
+<div class="codehilite"><pre><span></span><span class="c1"># If there is a Gazebo instance running, you can spawn the box into the simulation</span>
+<span class="kn">from</span> <span class="nn">pcg_gazebo.task_manager</span> <span class="kn">import</span> <span class="n">Server</span>
+<span class="c1"># First create a simulation server</span>
+<span class="n">server</span> <span class="o">=</span> <span class="n">Server</span><span class="p">()</span>
+<span class="c1"># Create a simulation manager named default</span>
+<span class="n">server</span><span class="o">.</span><span class="n">create_simulation</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)</span>
+<span class="n">simulation</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="n">get_simulation</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)</span>
+<span class="c1"># Run an instance of the empty.world scenario</span>
+<span class="c1"># This is equivalent to run</span>
+<span class="c1">#      roslaunch gazebo_ros empty_world.launch</span>
+<span class="c1"># with all default parameters</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">simulation</span><span class="o">.</span><span class="n">create_gazebo_empty_world_task</span><span class="p">():</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Task for gazebo empty world could not be created&#39;</span><span class="p">)</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span><span class="c1"># A task named &#39;gazebo&#39; the added to the tasks list</span>
+<span class="k">print</span><span class="p">(</span><span class="n">simulation</span><span class="o">.</span><span class="n">get_task_list</span><span class="p">())</span>
+<span class="c1"># But it is still not running</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Is Gazebo running: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">simulation</span><span class="o">.</span><span class="n">is_task_running</span><span class="p">(</span><span class="s1">&#39;gazebo&#39;</span><span class="p">)))</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span>[&#39;gazebo&#39;]
+Is Gazebo running: False
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="c1"># Run Gazebo</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">run_all_tasks</span><span class="p">()</span>
+</pre></div>
+
+<p>Adding some models to the simulation to demonstrate the Gazebo proxy methods. </p>
+<div class="codehilite"><pre><span></span><span class="c1"># Now create the Gazebo proxy with the default parameters. </span>
+<span class="c1"># If these input arguments are not provided, they will be used per default.</span>
+<span class="n">gazebo_proxy</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">get_gazebo_proxy</span><span class="p">()</span>
+<span class="c1"># The timeout argument will be used raise an exception in case Gazebo </span>
+<span class="c1"># fails to start</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">pcg_gazebo.simulation</span> <span class="kn">import</span> <span class="n">create_object</span>
+<span class="kn">from</span> <span class="nn">pcg_gazebo.generators</span> <span class="kn">import</span> <span class="n">WorldGenerator</span>
+
+<span class="n">generator</span> <span class="o">=</span> <span class="n">WorldGenerator</span><span class="p">(</span><span class="n">gazebo_proxy</span><span class="p">)</span>
+
+<span class="n">box</span> <span class="o">=</span> <span class="n">create_object</span><span class="p">(</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
+<span class="n">box</span><span class="o">.</span><span class="n">add_inertial</span><span class="p">(</span><span class="n">mass</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">))</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span>&lt;model name=&quot;box&quot;&gt;
+  &lt;static&gt;0&lt;/static&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;allow_auto_disable&gt;0&lt;/allow_auto_disable&gt;
+  &lt;link name=&quot;box&quot;&gt;
+    &lt;visual name=&quot;visual&quot;&gt;
+      &lt;geometry&gt;
+        &lt;box&gt;
+          &lt;size&gt;1 1 1&lt;/size&gt;
+        &lt;/box&gt;
+      &lt;/geometry&gt;
+      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+      &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
+      &lt;transparency&gt;0.0&lt;/transparency&gt;
+    &lt;/visual&gt;
+    &lt;collision name=&quot;collision&quot;&gt;
+      &lt;geometry&gt;
+        &lt;box&gt;
+          &lt;size&gt;1 1 1&lt;/size&gt;
+        &lt;/box&gt;
+      &lt;/geometry&gt;
+      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+      &lt;max_contacts&gt;10&lt;/max_contacts&gt;
+    &lt;/collision&gt;
+    &lt;inertial&gt;
+      &lt;mass&gt;20.0&lt;/mass&gt;
+      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+      &lt;inertia&gt;
+        &lt;ixy&gt;0.0&lt;/ixy&gt;
+        &lt;ixz&gt;0.0&lt;/ixz&gt;
+        &lt;ixx&gt;3.333333333333333&lt;/ixx&gt;
+        &lt;iyy&gt;3.333333333333333&lt;/iyy&gt;
+        &lt;izz&gt;3.333333333333333&lt;/izz&gt;
+        &lt;iyz&gt;0.0&lt;/iyz&gt;
+      &lt;/inertia&gt;
+    &lt;/inertial&gt;
+  &lt;/link&gt;
+&lt;/model&gt;
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="n">generator</span><span class="o">.</span><span class="n">spawn_model</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">box</span><span class="p">,</span> 
+    <span class="n">robot_namespace</span><span class="o">=</span><span class="s1">&#39;box_1&#39;</span><span class="p">,</span>
+    <span class="n">pos</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+
+<span class="n">generator</span><span class="o">.</span><span class="n">spawn_model</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">box</span><span class="p">,</span> 
+    <span class="n">robot_namespace</span><span class="o">=</span><span class="s1">&#39;box_2&#39;</span><span class="p">,</span>
+    <span class="n">pos</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span>True
+</pre></div>
+
+
+<h5 id="pausingunpausing-the-simulation">Pausing/unpausing the simulation<a class="headerlink" href="#pausingunpausing-the-simulation" title="Permanent link">&para;</a></h5>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span><span class="p">,</span> <span class="n">sleep</span>
+<span class="n">pause_timeout</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># seconds</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+<span class="c1"># Pausing simulation</span>
+<span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">pause</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Simulation time before pause={}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">sim_time</span><span class="p">))</span>
+<span class="k">while</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span> <span class="o">&lt;</span> <span class="n">pause_timeout</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Gazebo paused, simulation time={}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">sim_time</span><span class="p">))</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Unpausing simulation!&#39;</span><span class="p">)</span>
+<span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">unpause</span><span class="p">()</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Simulation time after pause={}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">sim_time</span><span class="p">))</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span>Simulation time before pause=3.174
+Gazebo paused, simulation time=3.174
+Gazebo paused, simulation time=3.174
+Gazebo paused, simulation time=3.174
+Gazebo paused, simulation time=3.174
+Gazebo paused, simulation time=3.174
+Gazebo paused, simulation time=3.174
+Gazebo paused, simulation time=3.174
+Gazebo paused, simulation time=3.174
+Gazebo paused, simulation time=3.174
+Gazebo paused, simulation time=3.174
+Unpausing simulation!
+Simulation time after pause=5.173
+</pre></div>
+
+
+<h5 id="get-world-properties">Get world properties<a class="headerlink" href="#get-world-properties" title="Permanent link">&para;</a></h5>
+<p>The world properties return </p>
+<ul>
+<li>Simulation time (<code class="codehilite">sim_time</code>)</li>
+<li>List of names of models (<code class="codehilite">model_names</code>)</li>
+<li>Is rendering enabled flag (<code class="codehilite">rendering_enabled</code>)</li>
+</ul>
+<p>The return of this function is simply the service object <a href="https://github.com/ros-simulation/gazebo_ros_pkgs/blob/kinetic-devel/gazebo_msgs/srv/GetWorldProperties.srv"><code class="codehilite">GetWorldProperties</code></a>.</p>
+<div class="codehilite"><pre><span></span><span class="c1"># The world properties returns the following</span>
+<span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_world_properties</span><span class="p">()</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span>sim_time: 5.182
+model_names: - ground_plane
+- box_1
+- box_2
+rendering_enabled: True
+success: True
+status_message: &quot;GetWorldProperties: got properties&quot;
+</pre></div>
+
+
+<h5 id="model-properties">Model properties<a class="headerlink" href="#model-properties" title="Permanent link">&para;</a></h5>
+<div class="codehilite"><pre><span></span><span class="c1"># Get list of models</span>
+<span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_model_names</span><span class="p">()</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span>[&#39;ground_plane&#39;, &#39;box_1&#39;, &#39;box_2&#39;]
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="c1"># Get model properties</span>
+<span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_model_names</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_model_properties</span><span class="p">(</span><span class="n">model</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;-----------------&#39;</span><span class="p">)</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span>ground_plane
+parent_model_name: &#39;&#39;
+canonical_body_name: &#39;&#39;
+body_names: - link
+geom_names: - collision
+joint_names: []
+child_model_names: []
+is_static: True
+success: True
+status_message: &quot;GetModelProperties: got properties&quot;
+-----------------
+box_1
+parent_model_name: &#39;&#39;
+canonical_body_name: &#39;&#39;
+body_names: - box
+geom_names: - collision
+joint_names: []
+child_model_names: []
+is_static: False
+success: True
+status_message: &quot;GetModelProperties: got properties&quot;
+-----------------
+box_2
+parent_model_name: &#39;&#39;
+canonical_body_name: &#39;&#39;
+body_names: - box
+geom_names: - collision
+joint_names: []
+child_model_names: []
+is_static: False
+success: True
+status_message: &quot;GetModelProperties: got properties&quot;
+-----------------
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="c1"># Get model state</span>
+<span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_model_names</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_model_state</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">reference_frame</span><span class="o">=</span><span class="s1">&#39;world&#39;</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;-----------------&#39;</span><span class="p">)</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span>ground_plane
+header: 
+  seq: 1
+  stamp: 
+    secs: 5
+    nsecs: 248000000
+  frame_id: &quot;world&quot;
+pose: 
+  position: 
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  orientation: 
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+twist: 
+  linear: 
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  angular: 
+    x: 0.0
+    y: 0.0
+    z: 0.0
+success: True
+status_message: &quot;GetModelState: got properties&quot;
+-----------------
+box_1
+header: 
+  seq: 1
+  stamp: 
+    secs: 5
+    nsecs: 256000000
+  frame_id: &quot;world&quot;
+pose: 
+  position: 
+    x: -1.9999999999998166
+    y: -1.999999999999968
+    z: 0.49999999990200894
+  orientation: 
+    x: -4.815307161304866e-14
+    y: 1.8732345076863254e-13
+    z: 1.3228445350203323e-15
+    w: 1.0
+twist: 
+  linear: 
+    x: 2.380877975645348e-10
+    y: 2.3806985306445073e-10
+    z: 9.800284425098838e-10
+  angular: 
+    x: -4.761370851283154e-10
+    y: 4.761622511753355e-10
+    z: -1.8285059128478188e-15
+success: True
+status_message: &quot;GetModelState: got properties&quot;
+-----------------
+box_2
+header: 
+  seq: 1
+  stamp: 
+    secs: 5
+    nsecs: 263000000
+  frame_id: &quot;world&quot;
+pose: 
+  position: 
+    x: 1.9999999999999458
+    y: 1.9999999999997948
+    z: 0.4999999999020089
+  orientation: 
+    x: 1.8990912995643563e-13
+    y: -5.0738730839988036e-14
+    z: 1.4343436938640824e-15
+    w: 1.0
+twist: 
+  linear: 
+    x: -2.380700244227119e-10
+    y: -2.380878770514427e-10
+    z: 9.799262239290619e-10
+  angular: 
+    x: 4.761622850817339e-10
+    y: -4.76137043576906e-10
+    z: 1.383497449329015e-15
+success: True
+status_message: &quot;GetModelState: got properties&quot;
+-----------------
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="c1"># Check if model exists</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Does ground_plane exist? {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">model_exists</span><span class="p">(</span><span class="s1">&#39;ground_plane&#39;</span><span class="p">)))</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Does my_model exist? {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">model_exists</span><span class="p">(</span><span class="s1">&#39;my_model&#39;</span><span class="p">)))</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span>Does ground_plane exist? True
+Does my_model exist? False
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="c1"># Get list of link names for a model</span>
+<span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_model_names</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_link_names</span><span class="p">(</span><span class="n">model</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;-----------------&#39;</span><span class="p">)</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span>ground_plane
+[&#39;link&#39;]
+-----------------
+box_1
+[&#39;box&#39;]
+-----------------
+box_2
+[&#39;box&#39;]
+-----------------
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="c1"># Test if model has a link</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Does ground_plane have a link named link? {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">has_link</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;ground_plane&#39;</span><span class="p">,</span> <span class="n">link_name</span><span class="o">=</span><span class="s1">&#39;link&#39;</span><span class="p">)))</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span>Does ground_plane have a link named link? True
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="c1"># Get link properties</span>
+<span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_model_names</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_link_names</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="n">model</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39; - &#39;</span> <span class="o">+</span> <span class="n">link</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_link_properties</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">link_name</span><span class="o">=</span><span class="n">link</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;-----------------&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;==================&#39;</span><span class="p">)</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span>ground_plane
+ - link
+com: 
+  position: 
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  orientation: 
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+gravity_mode: False
+mass: 0.0
+ixx: 0.0
+ixy: 0.0
+ixz: 0.0
+iyy: 0.0
+iyz: 0.0
+izz: 0.0
+success: True
+status_message: &quot;GetLinkProperties: got properties&quot;
+-----------------
+==================
+box_1
+ - box
+com: 
+  position: 
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  orientation: 
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+gravity_mode: True
+mass: 20.0
+ixx: 3.33333
+ixy: 0.0
+ixz: 0.0
+iyy: 3.33333
+iyz: 0.0
+izz: 3.33333
+success: True
+status_message: &quot;GetLinkProperties: got properties&quot;
+-----------------
+==================
+box_2
+ - box
+com: 
+  position: 
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  orientation: 
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+gravity_mode: True
+mass: 20.0
+ixx: 3.33333
+ixy: 0.0
+ixz: 0.0
+iyy: 3.33333
+iyz: 0.0
+izz: 3.33333
+success: True
+status_message: &quot;GetLinkProperties: got properties&quot;
+-----------------
+==================
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="c1"># Get link state</span>
+<span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_model_names</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_link_names</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="n">model</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39; - &#39;</span> <span class="o">+</span> <span class="n">link</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_link_state</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">link_name</span><span class="o">=</span><span class="n">link</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;-----------------&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;==================&#39;</span><span class="p">)</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span>ground_plane
+ - link
+link_state: 
+  link_name: &quot;ground_plane::link&quot;
+  pose: 
+    position: 
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    orientation: 
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+  twist: 
+    linear: 
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    angular: 
+      x: 0.0
+      y: 0.0
+      z: 0.0
+  reference_frame: &#39;&#39;
+success: True
+status_message: &quot;GetLinkState: got state&quot;
+-----------------
+==================
+box_1
+ - box
+link_state: 
+  link_name: &quot;box_1::box&quot;
+  pose: 
+    position: 
+      x: -1.9999999999998166
+      y: -1.999999999999968
+      z: 0.49999999990200894
+    orientation: 
+      x: -4.815307093534131e-14
+      y: 1.8732345086044444e-13
+      z: 1.3094942447844376e-15
+      w: 1.0
+  twist: 
+    linear: 
+      x: 2.3808779732312217e-10
+      y: 2.380698505717412e-10
+      z: 9.800284459793307e-10
+    angular: 
+      x: -4.761370801428996e-10
+      y: 4.761622506924893e-10
+      z: -1.8285059159830147e-15
+  reference_frame: &#39;&#39;
+success: True
+status_message: &quot;GetLinkState: got state&quot;
+-----------------
+==================
+box_2
+ - box
+link_state: 
+  link_name: &quot;box_2::box&quot;
+  pose: 
+    position: 
+      x: 2.000000000000184
+      y: 2.000000000000033
+      z: 0.49999999990200894
+    orientation: 
+      x: -4.815307159875995e-14
+      y: 1.8732345220793713e-13
+      z: 1.42007914893501e-15
+      w: 1.0
+  twist: 
+    linear: 
+      x: 2.3808779822978176e-10
+      y: 2.380698514289336e-10
+      z: 9.800284459793307e-10
+    angular: 
+      x: -4.761370818572423e-10
+      y: 4.761622525058307e-10
+      z: -1.8285059111177573e-15
+  reference_frame: &#39;&#39;
+success: True
+status_message: &quot;GetLinkState: got state&quot;
+-----------------
+==================
+</pre></div>
+
+
+<h5 id="get-physics-properties">Get physics properties<a class="headerlink" href="#get-physics-properties" title="Permanent link">&para;</a></h5>
+<p>The physics properties returns the <a href="https://github.com/ros-simulation/gazebo_ros_pkgs/blob/kinetic-devel/gazebo_msgs/srv/GetPhysicsProperties.srv">GetPhysicsProperties</a> response with the current parameters for the physics engine. Currently only the parameters for the ODE engine can be retrieved.</p>
+<div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_physics_properties</span><span class="p">())</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span>time_step: 0.001
+pause: False
+max_update_rate: 1000.0
+gravity: 
+  x: 0.0
+  y: 0.0
+  z: -9.8
+ode_config: 
+  auto_disable_bodies: False
+  sor_pgs_precon_iters: 0
+  sor_pgs_iters: 50
+  sor_pgs_w: 1.3
+  sor_pgs_rms_error_tol: 0.0
+  contact_surface_layer: 0.001
+  contact_max_correcting_vel: 100.0
+  cfm: 0.0
+  erp: 0.2
+  max_contacts: 20
+success: True
+status_message: &quot;GetPhysicsProperties: got properties&quot;
+</pre></div>
+
+
+<h5 id="apply-wrench">Apply wrench<a class="headerlink" href="#apply-wrench" title="Permanent link">&para;</a></h5>
+<div class="codehilite"><pre><span></span><span class="c1"># Applying wrench to a link in the simulation</span>
+<span class="c1"># The input arguments are</span>
+<span class="c1">#  - model_name</span>
+<span class="c1">#  - link_name</span>
+<span class="c1">#  - force: force vector [x, y, z]</span>
+<span class="c1">#  - torque: torque vector [x, y, z]</span>
+<span class="c1">#  - start_time: in seconds, if it is a value lower than simulation time, the wrench will be applied as soon as possible</span>
+<span class="c1">#  - duration: in seconds</span>
+<span class="c1">#              if duration &lt; 0, apply wrench continuously without end</span>
+<span class="c1">#              if duration = 0, do nothing</span>
+<span class="c1">#              if duration &lt; step size, apply wrench for one step size</span>
+<span class="c1">#  - reference_point: [x, y, z] coordinate point where wrench will be applied wrt the reference frame</span>
+<span class="c1">#  - reference_frame: reference frame for the reference point, if None it will be set as the provided model_name::link_name</span>
+<span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">apply_body_wrench</span><span class="p">(</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;box_1&#39;</span><span class="p">,</span>
+    <span class="n">link_name</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span>
+    <span class="n">force</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">torque</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
+    <span class="n">start_time</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">duration</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">reference_point</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">reference_frame</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+<span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">apply_body_wrench</span><span class="p">(</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;box_2&#39;</span><span class="p">,</span>
+    <span class="n">link_name</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span>
+    <span class="n">force</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">200</span><span class="p">],</span>
+    <span class="n">torque</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">150</span><span class="p">],</span>
+    <span class="n">start_time</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">duration</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">reference_point</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">reference_frame</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+<span class="k">while</span> <span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+<h5 id="move-models-in-the-simulation">Move models in the simulation<a class="headerlink" href="#move-models-in-the-simulation" title="Permanent link">&para;</a></h5>
+<div class="codehilite"><pre><span></span><span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">move_model</span><span class="p">(</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;box_1&#39;</span><span class="p">,</span> 
+    <span class="n">pos</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span>
+    <span class="n">rot</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">reference_frame</span><span class="o">=</span><span class="s1">&#39;world&#39;</span><span class="p">)</span>
+
+<span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">move_model</span><span class="p">(</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;box_2&#39;</span><span class="p">,</span> 
+    <span class="n">pos</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="n">rot</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="n">reference_frame</span><span class="o">=</span><span class="s1">&#39;world&#39;</span><span class="p">)</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span>True
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="c1"># End the simulation by killing the Gazebo task</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">kill_all_tasks</span><span class="p">()</span>
+</pre></div>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../../parsers/urdf/robots/" title="Robots" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Robots
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../process_manager/" title="Process manager" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Process manager
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/application.267712eb.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../../.."}})</script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

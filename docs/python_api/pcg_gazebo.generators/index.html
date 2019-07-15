@@ -1,0 +1,2690 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.1.2">
+    
+    
+      
+        <title>pcg_gazebo.generators - Procedural Generation for Gazebo</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.3020aac5.css">
+      
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.01ccdecf.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#pcg_gazebogenerators" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../.." title="Procedural Generation for Gazebo" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Procedural Generation for Gazebo
+            </span>
+            <span class="md-header-nav__topic">
+              pcg_gazebo.generators
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../.." title="Procedural Generation for Gazebo" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Procedural Generation for Gazebo
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      Python API
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Python API
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo/" title="pcg_gazebo" class="md-nav__link">
+      pcg_gazebo
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        pcg_gazebo.generators
+      </label>
+    
+    <a href="./" title="pcg_gazebo.generators" class="md-nav__link md-nav__link--active">
+      pcg_gazebo.generators
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pcg_gazebogenerators" title="pcg_gazebo.generators" class="md-nav__link">
+    pcg_gazebo.generators
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pcg_gazebogeneratorscollision_checker" title="pcg_gazebo.generators.collision_checker" class="md-nav__link">
+    pcg_gazebo.generators.collision_checker
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#collisionchecker" title="CollisionChecker" class="md-nav__link">
+    CollisionChecker
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scene" title="scene" class="md-nav__link">
+    scene
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reset_scenario" title="reset_scenario" class="md-nav__link">
+    reset_scenario
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reset_to_fixed_model_scenario" title="reset_to_fixed_model_scenario" class="md-nav__link">
+    reset_to_fixed_model_scenario
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_fixed_model" title="add_fixed_model" class="md-nav__link">
+    add_fixed_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_model" title="add_model" class="md-nav__link">
+    add_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#show" title="show" class="md-nav__link">
+    show
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check_collision_with_current_scene" title="check_collision_with_current_scene" class="md-nav__link">
+    check_collision_with_current_scene
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check_for_collisions" title="check_for_collisions" class="md-nav__link">
+    check_for_collisions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#singletoncollisionchecker" title="SingletonCollisionChecker" class="md-nav__link">
+    SingletonCollisionChecker
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get_instance" title="get_instance" class="md-nav__link">
+    get_instance
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pcg_gazebogeneratorscreators" title="pcg_gazebo.generators.creators" class="md-nav__link">
+    pcg_gazebo.generators.creators
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#box" title="box" class="md-nav__link">
+    box
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mesh" title="mesh" class="md-nav__link">
+    mesh
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sphere" title="sphere" class="md-nav__link">
+    sphere
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cylinder" title="cylinder" class="md-nav__link">
+    cylinder
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#box_factory" title="box_factory" class="md-nav__link">
+    box_factory
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sphere_factory" title="sphere_factory" class="md-nav__link">
+    sphere_factory
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cylinder_factory" title="cylinder_factory" class="md-nav__link">
+    cylinder_factory
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#config2models" title="config2models" class="md-nav__link">
+    config2models
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create_models_from_config" title="create_models_from_config" class="md-nav__link">
+    create_models_from_config
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pcg_gazebogeneratorsoccupancy" title="pcg_gazebo.generators.occupancy" class="md-nav__link">
+    pcg_gazebo.generators.occupancy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pcg_gazebogeneratorspatterns" title="pcg_gazebo.generators.patterns" class="md-nav__link">
+    pcg_gazebo.generators.patterns
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pcg_gazebogeneratorsworld_generator" title="pcg_gazebo.generators.world_generator" class="md-nav__link">
+    pcg_gazebo.generators.world_generator
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#worldgenerator" title="WorldGenerator" class="md-nav__link">
+    WorldGenerator
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#assets" title="assets" class="md-nav__link">
+    assets
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constraints" title="constraints" class="md-nav__link">
+    constraints
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#engines" title="engines" class="md-nav__link">
+    engines
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gazebo_proxy" title="gazebo_proxy" class="md-nav__link">
+    gazebo_proxy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name" title="name" class="md-nav__link">
+    name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#world" title="world" class="md-nav__link">
+    world
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#init_gazebo_proxy" title="init_gazebo_proxy" class="md-nav__link">
+    init_gazebo_proxy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_engine" title="add_engine" class="md-nav__link">
+    add_engine
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_constraint" title="add_constraint" class="md-nav__link">
+    add_constraint
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_asset" title="add_asset" class="md-nav__link">
+    add_asset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set_model_as_ground_plane" title="set_model_as_ground_plane" class="md-nav__link">
+    set_model_as_ground_plane
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_asset" title="get_asset" class="md-nav__link">
+    get_asset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_constraint" title="get_constraint" class="md-nav__link">
+    get_constraint
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_gazebo_model_as_asset" title="add_gazebo_model_as_asset" class="md-nav__link">
+    add_gazebo_model_as_asset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#is_asset" title="is_asset" class="md-nav__link">
+    is_asset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_model_1" title="add_model" class="md-nav__link">
+    add_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_gazebo_model" title="add_gazebo_model" class="md-nav__link">
+    add_gazebo_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remove_asset" title="remove_asset" class="md-nav__link">
+    remove_asset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete_model" title="delete_model" class="md-nav__link">
+    delete_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_lights_from_gazebo_model" title="add_lights_from_gazebo_model" class="md-nav__link">
+    add_lights_from_gazebo_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parse_configuration" title="parse_configuration" class="md-nav__link">
+    parse_configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spawn_model" title="spawn_model" class="md-nav__link">
+    spawn_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_physics_engine" title="get_physics_engine" class="md-nav__link">
+    get_physics_engine
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run_engines" title="run_engines" class="md-nav__link">
+    run_engines
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reset_world" title="reset_world" class="md-nav__link">
+    reset_world
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export_world" title="export_world" class="md-nav__link">
+    export_world
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plot_results" title="plot_results" class="md-nav__link">
+    plot_results
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.generators.constraints/" title="pcg_gazebo.generators.constraints" class="md-nav__link">
+      pcg_gazebo.generators.constraints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.generators.engines/" title="pcg_gazebo.generators.engines" class="md-nav__link">
+      pcg_gazebo.generators.engines
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.parsers/" title="pcg_gazebo.parsers" class="md-nav__link">
+      pcg_gazebo.parsers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.parsers.sdf_config/" title="pcg_gazebo.parsers.sdf_config" class="md-nav__link">
+      pcg_gazebo.parsers.sdf_config
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.parsers.sdf/" title="pcg_gazebo.parsers.sdf" class="md-nav__link">
+      pcg_gazebo.parsers.sdf
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.parsers.types/" title="pcg_gazebo.parsers.types" class="md-nav__link">
+      pcg_gazebo.parsers.types
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.parsers.urdf/" title="pcg_gazebo.parsers.urdf" class="md-nav__link">
+      pcg_gazebo.parsers.urdf
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.simulation/" title="pcg_gazebo.simulation" class="md-nav__link">
+      pcg_gazebo.simulation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.simulation.physics/" title="pcg_gazebo.simulation.physics" class="md-nav__link">
+      pcg_gazebo.simulation.physics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.simulation.properties/" title="pcg_gazebo.simulation.properties" class="md-nav__link">
+      pcg_gazebo.simulation.properties
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.simulation.sensors/" title="pcg_gazebo.simulation.sensors" class="md-nav__link">
+      pcg_gazebo.simulation.sensors
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Tutorials
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Tutorials
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-1" type="checkbox" id="nav-3-1">
+    
+    <label class="md-nav__link" for="nav-3-1">
+      Parsers
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-1">
+        Parsers
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-1-1" type="checkbox" id="nav-3-1-1">
+    
+    <label class="md-nav__link" for="nav-3-1-1">
+      SDF
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-3-1-1">
+        SDF
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/geometries/" title="Geometries" class="md-nav__link">
+      Geometries
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/materials/" title="Materials" class="md-nav__link">
+      Materials
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/collisions/" title="Collisions" class="md-nav__link">
+      Collisions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/visuals/" title="Visuals" class="md-nav__link">
+      Visuals
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/links_joints_sensors/" title="Links, joints and sensors" class="md-nav__link">
+      Links, joints and sensors
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/models/" title="Models" class="md-nav__link">
+      Models
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/physics_engines/" title="Physics engines" class="md-nav__link">
+      Physics engines
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/plugins/" title="Plugins" class="md-nav__link">
+      Plugins
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/world/" title="World" class="md-nav__link">
+      World
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/convert_from_sdf_file/" title="Convert from SDF file" class="md-nav__link">
+      Convert from SDF file
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-1-2" type="checkbox" id="nav-3-1-2">
+    
+    <label class="md-nav__link" for="nav-3-1-2">
+      URDF
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-3-1-2">
+        URDF
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/urdf/" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/urdf/geometries/" title="Geometries" class="md-nav__link">
+      Geometries
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/urdf/collision/" title="Collisions" class="md-nav__link">
+      Collisions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/urdf/visual/" title="Visuals" class="md-nav__link">
+      Visuals
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/urdf/links_joints_sensors/" title="Links, joints and sensors" class="md-nav__link">
+      Links, joints and sensors
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/urdf/robots/" title="Robots" class="md-nav__link">
+      Robots
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
+    
+    <label class="md-nav__link" for="nav-3-2">
+      Task manager
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-2">
+        Task manager
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/task_manager/gazebo_proxy/" title="Gazebo proxy" class="md-nav__link">
+      Gazebo proxy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/task_manager/process_manager/" title="Process manager" class="md-nav__link">
+      Process manager
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/task_manager/stage_conditions/" title="Stage conditions" class="md-nav__link">
+      Stage conditions
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-3" type="checkbox" id="nav-3-3">
+    
+    <label class="md-nav__link" for="nav-3-3">
+      Simulation
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-3">
+        Simulation
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/simulation/objects/" title="Dynamically creating objects" class="md-nav__link">
+      Dynamically creating objects
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/simulation/physics_engines/" title="Setting up different physics engines" class="md-nav__link">
+      Setting up different physics engines
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/simulation/surface_collision_properties/" title="Surface and collision properties" class="md-nav__link">
+      Surface and collision properties
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/simulation/materials/" title="Materials" class="md-nav__link">
+      Materials
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/simulation/building_a_model/" title="Building a model" class="md-nav__link">
+      Building a model
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/simulation/sensors/" title="Sensors" class="md-nav__link">
+      Sensors
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/simulation/meshes/" title="Meshes" class="md-nav__link">
+      Meshes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../license/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pcg_gazebogenerators" title="pcg_gazebo.generators" class="md-nav__link">
+    pcg_gazebo.generators
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pcg_gazebogeneratorscollision_checker" title="pcg_gazebo.generators.collision_checker" class="md-nav__link">
+    pcg_gazebo.generators.collision_checker
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#collisionchecker" title="CollisionChecker" class="md-nav__link">
+    CollisionChecker
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scene" title="scene" class="md-nav__link">
+    scene
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reset_scenario" title="reset_scenario" class="md-nav__link">
+    reset_scenario
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reset_to_fixed_model_scenario" title="reset_to_fixed_model_scenario" class="md-nav__link">
+    reset_to_fixed_model_scenario
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_fixed_model" title="add_fixed_model" class="md-nav__link">
+    add_fixed_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_model" title="add_model" class="md-nav__link">
+    add_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#show" title="show" class="md-nav__link">
+    show
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check_collision_with_current_scene" title="check_collision_with_current_scene" class="md-nav__link">
+    check_collision_with_current_scene
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check_for_collisions" title="check_for_collisions" class="md-nav__link">
+    check_for_collisions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#singletoncollisionchecker" title="SingletonCollisionChecker" class="md-nav__link">
+    SingletonCollisionChecker
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get_instance" title="get_instance" class="md-nav__link">
+    get_instance
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pcg_gazebogeneratorscreators" title="pcg_gazebo.generators.creators" class="md-nav__link">
+    pcg_gazebo.generators.creators
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#box" title="box" class="md-nav__link">
+    box
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mesh" title="mesh" class="md-nav__link">
+    mesh
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sphere" title="sphere" class="md-nav__link">
+    sphere
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cylinder" title="cylinder" class="md-nav__link">
+    cylinder
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#box_factory" title="box_factory" class="md-nav__link">
+    box_factory
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sphere_factory" title="sphere_factory" class="md-nav__link">
+    sphere_factory
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cylinder_factory" title="cylinder_factory" class="md-nav__link">
+    cylinder_factory
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#config2models" title="config2models" class="md-nav__link">
+    config2models
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create_models_from_config" title="create_models_from_config" class="md-nav__link">
+    create_models_from_config
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pcg_gazebogeneratorsoccupancy" title="pcg_gazebo.generators.occupancy" class="md-nav__link">
+    pcg_gazebo.generators.occupancy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pcg_gazebogeneratorspatterns" title="pcg_gazebo.generators.patterns" class="md-nav__link">
+    pcg_gazebo.generators.patterns
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pcg_gazebogeneratorsworld_generator" title="pcg_gazebo.generators.world_generator" class="md-nav__link">
+    pcg_gazebo.generators.world_generator
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#worldgenerator" title="WorldGenerator" class="md-nav__link">
+    WorldGenerator
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#assets" title="assets" class="md-nav__link">
+    assets
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constraints" title="constraints" class="md-nav__link">
+    constraints
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#engines" title="engines" class="md-nav__link">
+    engines
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gazebo_proxy" title="gazebo_proxy" class="md-nav__link">
+    gazebo_proxy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name" title="name" class="md-nav__link">
+    name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#world" title="world" class="md-nav__link">
+    world
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#init_gazebo_proxy" title="init_gazebo_proxy" class="md-nav__link">
+    init_gazebo_proxy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_engine" title="add_engine" class="md-nav__link">
+    add_engine
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_constraint" title="add_constraint" class="md-nav__link">
+    add_constraint
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_asset" title="add_asset" class="md-nav__link">
+    add_asset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set_model_as_ground_plane" title="set_model_as_ground_plane" class="md-nav__link">
+    set_model_as_ground_plane
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_asset" title="get_asset" class="md-nav__link">
+    get_asset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_constraint" title="get_constraint" class="md-nav__link">
+    get_constraint
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_gazebo_model_as_asset" title="add_gazebo_model_as_asset" class="md-nav__link">
+    add_gazebo_model_as_asset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#is_asset" title="is_asset" class="md-nav__link">
+    is_asset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_model_1" title="add_model" class="md-nav__link">
+    add_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_gazebo_model" title="add_gazebo_model" class="md-nav__link">
+    add_gazebo_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remove_asset" title="remove_asset" class="md-nav__link">
+    remove_asset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete_model" title="delete_model" class="md-nav__link">
+    delete_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_lights_from_gazebo_model" title="add_lights_from_gazebo_model" class="md-nav__link">
+    add_lights_from_gazebo_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parse_configuration" title="parse_configuration" class="md-nav__link">
+    parse_configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spawn_model" title="spawn_model" class="md-nav__link">
+    spawn_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_physics_engine" title="get_physics_engine" class="md-nav__link">
+    get_physics_engine
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run_engines" title="run_engines" class="md-nav__link">
+    run_engines
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reset_world" title="reset_world" class="md-nav__link">
+    reset_world
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export_world" title="export_world" class="md-nav__link">
+    export_world
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plot_results" title="plot_results" class="md-nav__link">
+    plot_results
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>pcg_gazebo.generators</h1>
+                
+                <h4 id="pcg_gazebogenerators">pcg_gazebo.generators<a class="headerlink" href="#pcg_gazebogenerators" title="Permanent link">&para;</a></h4>
+<p>The tools in this modules allow the generation of models and worlds using
+policy rules for object placement and constraints.</p>
+<h4 id="pcg_gazebogeneratorscollision_checker">pcg_gazebo.generators.collision_checker<a class="headerlink" href="#pcg_gazebogeneratorscollision_checker" title="Permanent link">&para;</a></h4>
+<h5 id="collisionchecker">CollisionChecker<a class="headerlink" href="#collisionchecker" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">CollisionChecker</span><span class="p">()</span>
+</pre></div>
+Mesh-based collision checker manager. The meshes can be
+added to the collision check scene and used to check any
+other object for collisions.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">ignore_ground_plane</code> (<em>type:</em> <code class="codehilite">bool</code>, <em>value:</em> <code class="codehilite">True</code>): Ignores the meshes flagged as ground plane when performing collision checks.</li>
+</ul>
+<h6 id="scene">scene<a class="headerlink" href="#scene" title="Permanent link">&para;</a></h6>
+<p><code class="codehilite">trimesh.scene.Scene</code>: Collision check scenario</p>
+<h6 id="reset_scenario">reset_scenario<a class="headerlink" href="#reset_scenario" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">CollisionChecker</span><span class="o">.</span><span class="n">reset_scenario</span><span class="p">()</span>
+</pre></div>
+Remove all meshes from collision check scene.</p>
+<h6 id="reset_to_fixed_model_scenario">reset_to_fixed_model_scenario<a class="headerlink" href="#reset_to_fixed_model_scenario" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">CollisionChecker</span><span class="o">.</span><span class="n">reset_to_fixed_model_scenario</span><span class="p">()</span>
+</pre></div>
+Remove all meshes that were not generated by a fixed-pose engine.</p>
+<h6 id="add_fixed_model">add_fixed_model<a class="headerlink" href="#add_fixed_model" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">CollisionChecker</span><span class="o">.</span><span class="n">add_fixed_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+Add a model as a fixed-pose model to the scene.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">model</code> (<em>type:</em> <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>): Simulation model structure</li>
+</ul>
+<h6 id="add_model">add_model<a class="headerlink" href="#add_model" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">CollisionChecker</span><span class="o">.</span><span class="n">add_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+Add model to collision checking scene.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">model</code> (<em>type:</em> <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>): Simulation model structure</li>
+</ul>
+<h6 id="show">show<a class="headerlink" href="#show" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">CollisionChecker</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+Display the current collision check scenario using <code class="codehilite">pyglet</code>.</p>
+<h6 id="check_collision_with_current_scene">check_collision_with_current_scene<a class="headerlink" href="#check_collision_with_current_scene" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">CollisionChecker</span><span class="o">.</span><span class="n">check_collision_with_current_scene</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+Check if there are any collisions between <code class="codehilite">model</code> and
+the meshes in the scene.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">model</code> (<em>type:</em> <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>): Simulation model structure</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p><code class="codehilite">True</code>, if any collision is detected. <code class="codehilite">False</code>, otherwise.</p>
+<h6 id="check_for_collisions">check_for_collisions<a class="headerlink" href="#check_for_collisions" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">CollisionChecker</span><span class="o">.</span><span class="n">check_for_collisions</span><span class="p">()</span>
+</pre></div>
+Check if there are any collisions amongst the meshes in the scene.</p>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p><code class="codehilite">True</code>, if any collision is detected. <code class="codehilite">False</code>, otherwise.</p>
+<h5 id="singletoncollisionchecker">SingletonCollisionChecker<a class="headerlink" href="#singletoncollisionchecker" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">SingletonCollisionChecker</span><span class="p">()</span>
+</pre></div>
+Singleton collision checker that can be have one instance accessed by
+multiple clients. It facilitates sharing the collision managar amongst
+many engines, for example.</p>
+<blockquote>
+<p><em>Attributes</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">INSTANCE</code> (<em>type:</em> <code class="codehilite">SingletonCollisionChecker</code>, <em>value:</em> <code class="codehilite">None</code>): Instance
+of the singleton collision checker that is initialized by the first call of
+<code class="codehilite">get_instance()</code>.</li>
+</ul>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">ignore_ground_plane</code> (<em>type:</em> <code class="codehilite">bool</code>, <em>value:</em> <code class="codehilite">True</code>): Ignores the meshes
+flagged as ground plane when performing collision checks.</li>
+</ul>
+<h6 id="get_instance">get_instance<a class="headerlink" href="#get_instance" title="Permanent link">&para;</a></h6>
+<p>Return a singleton instance of the collision checker.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">kwargs</code> (<em>type:</em> <code class="codehilite">dict</code>): Input arguments for the <code class="codehilite">SingletonCollisionChecker</code>
+instance.</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>A <code class="codehilite">SingletonCollisionChecker</code> instance</p>
+<h4 id="pcg_gazebogeneratorscreators">pcg_gazebo.generators.creators<a class="headerlink" href="#pcg_gazebogeneratorscreators" title="Permanent link">&para;</a></h4>
+<p>Factory methods to create simulation models.</p>
+<h5 id="box">box<a class="headerlink" href="#box" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">box</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">mass</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span> <span class="n">pose</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+Factory method that returns a box-shaped model with one cuboid link.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">size</code> (<em>type:</em> <code class="codehilite">list</code> or <code class="codehilite">numpy.ndarray</code>): 3D vector with the size of the box for width,
+length and height, respectively, in meters.</li>
+<li><code class="codehilite">mass</code> (<em>type:</em> <code class="codehilite">float</code>, <em>default:</em> <code class="codehilite">0</code>): Mass of the model. If the
+mass is not greater than zero, the model is set as static.</li>
+<li><code class="codehilite">name</code> (<em>type:</em> <code class="codehilite">str</code>, <em>default:</em> <code class="codehilite">&#39;box&#39;</code>): Name of the model.</li>
+<li><code class="codehilite">pose</code> (<em>type:</em> <code class="codehilite">list</code> or <code class="codehilite">numpy.array</code>, <em>default:</em> <code class="codehilite">[0, 0, 0, 0, 0, 0]</code>): Origin of the model.</li>
+<li><code class="codehilite">color</code> (<em>type:</em> <code class="codehilite">str</code> or <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">None</code>): Color of the model. It can be provided as a
+RGBA vector, <code class="codehilite">xkcd</code> for a random <a href="https://xkcd.com/color/rgb/">XKCD color</a> or a specific <code class="codehilite">xkcd</code>
+color name, and/or <code class="codehilite">random</code> for a random RGBA color.</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>A box-shaped <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code> instance.</p>
+<h5 id="mesh">mesh<a class="headerlink" href="#mesh" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">mesh</span><span class="p">(</span><span class="n">visual_mesh_filename</span><span class="p">,</span>
+     <span class="n">collision_mesh_filename</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+     <span class="n">use_approximated_collision</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+     <span class="n">approximated_collision_model</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span>
+     <span class="n">visual_mesh_scale</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+     <span class="n">collision_mesh_scale</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;mesh&#39;</span><span class="p">,</span>
+     <span class="n">pose</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+     <span class="n">color</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+     <span class="n">mass</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+     <span class="n">inertia</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+     <span class="n">use_approximated_inertia</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+     <span class="n">approximated_inertia_model</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
+</pre></div>
+Create a model based on a mesh input. The options for visual and
+collision meshes are:</p>
+<ul>
+<li><code class="codehilite">visual_mesh_filename</code> is provided and no <code class="codehilite">collision_mesh_filename</code>.
+The collision mesh is then set to be the same as the visual mesh.</li>
+<li>Both <code class="codehilite">visual_mesh_filename</code> and <code class="codehilite">collision_mesh_filename</code> are provided
+separately.</li>
+<li><code class="codehilite">visual_mesh_filename</code> is provided and no <code class="codehilite">collision_mesh_filename</code>, but
+<code class="codehilite">use_approximated_collision</code> is <code class="codehilite">True</code>. In this case the collision geometry
+can be an approximated geometry fitted to the visual mesh. Options for
+the approximation methods are <code class="codehilite">box</code>, <code class="codehilite">sphere</code> or <code class="codehilite">cylinder</code>.</li>
+</ul>
+<p>The same is valid for the moments of inertia. For static models, <code class="codehilite">mass</code>
+can be set as 0. Otherwise, the following options are possible:</p>
+<ul>
+<li><code class="codehilite">inertia</code> provided as <code class="codehilite">inertia=dict(ixx=0, iyy=0, izz=0, ixy=0, ixz=0, iyz=0)</code></li>
+<li>Set <code class="codehilite">use_approximated_inertia</code> to <code class="codehilite">True</code> and the inertia model will be
+computed for the model using the <code class="codehilite">approximated_inertia_model</code> input (options
+are <code class="codehilite">box</code>, <code class="codehilite">sphere</code> or <code class="codehilite">cylinder</code>). In this case the approximated geometry
+will be computed from the visual mesh and its dimensions combined with
+the provided <code class="codehilite">mass</code> will be used to generate the model's moments of inertia.</li>
+</ul>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">visual_mesh_filename</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the visual mesh file</li>
+<li><code class="codehilite">collision_mesh_filename</code> (<em>type:</em> <code class="codehilite">str</code>, <em>default:</em> <code class="codehilite">None</code>): Name of the
+collision mesh file. If <code class="codehilite">None</code> is provided, then the visual mesh file will
+be used as collision geometry</li>
+<li><code class="codehilite">use_approximated_collision</code> (<em>type:</em> <code class="codehilite">bool</code>, <em>default:</em> <code class="codehilite">False</code>): Enable
+computing an approximated collision geometry from the visual mesh.</li>
+<li><code class="codehilite">approximated_collision_model</code> (<em>type:</em> <code class="codehilite">str</code>, <em>default:</em> <code class="codehilite">&#39;box&#39;</code>): Type
+of approximated collision geometry to be derived from the visual mesh. Options
+are <code class="codehilite">box</code>, <code class="codehilite">cylinder</code> or <code class="codehilite">sphere</code>.</li>
+<li><code class="codehilite">visual_mesh_scale</code> (<em>type:</em> <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">[1, 1, 1]</code>): Scaling vector
+to be applied to the visual mesh</li>
+<li><code class="codehilite">collision_mesh_scale</code> (<em>type:</em> <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">[1, 1, 1]</code>): Scaling vector
+to be applied to the collision mesh</li>
+<li><code class="codehilite">name</code> (<em>type:</em> <code class="codehilite">str</code>, <em>default:</em> <code class="codehilite">&#39;box&#39;</code>): Name of the model.</li>
+<li><code class="codehilite">pose</code> (<em>type:</em> <code class="codehilite">list</code> or <code class="codehilite">numpy.array</code>, <em>default:</em> <code class="codehilite">[0, 0, 0, 0, 0, 0]</code>):
+Origin of the model.</li>
+<li><code class="codehilite">color</code> (<em>type:</em> <code class="codehilite">str</code> or <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">None</code>): Color of the model. It
+can be provided as a RGBA vector, <code class="codehilite">xkcd</code> for a random <a href="https://xkcd.com/color/rgb/">XKCD color</a>
+or a specific <code class="codehilite">xkcd</code> color name, and/or <code class="codehilite">random</code> for a random RGBA color.</li>
+<li><code class="codehilite">mass</code> (<em>type:</em> <code class="codehilite">float</code>, <em>default:</em> <code class="codehilite">0</code>): Mass of the model. If the
+mass is not greater than zero, the model is set as static.</li>
+<li><code class="codehilite">inertia</code> (<em>type:</em> <code class="codehilite">dict</code>, <em>default:</em> <code class="codehilite">None</code>): Optional moments of inertia
+setting to the model in the form of <code class="codehilite">inertia=dict(ixx=0, iyy=0, izz=0, ixy=0, ixz=0, iyz=0)</code></li>
+<li><code class="codehilite">use_approximated_inertia</code> (<em>type:</em> <code class="codehilite">bool</code>, <em>default:</em> <code class="codehilite">True</code>): Enable
+computation of moments of inertia based on the <code class="codehilite">mass</code> input and the approximated
+inertia model setting based on the dimensions of the mesh.</li>
+<li><code class="codehilite">approximated_inertia_model</code> (<em>type:</em> <code class="codehilite">str</code>, <em>default:</em> <code class="codehilite">box</code>): Type of
+geometrical approximation to be computed from the visual mesh. The dimensions
+of the approximated geometry will be then used to compute the moments of inertia of
+the model. Options are <code class="codehilite">box</code>, <code class="codehilite">cylinder</code> or <code class="codehilite">sphere</code>.</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>A box-shaped <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code> instance.</p>
+<h5 id="sphere">sphere<a class="headerlink" href="#sphere" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">sphere</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="n">mass</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;sphere&#39;</span><span class="p">,</span> <span class="n">pose</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+Return a sphere-shaped simulation model.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">radius</code> (<em>type:</em> <code class="codehilite">float</code>): Radius of the sphere.</li>
+<li><code class="codehilite">mass</code> (<em>type:</em> <code class="codehilite">float</code>, <em>default:</em> <code class="codehilite">0</code>): Mass of the model. If the
+mass is not greater than zero, the model is set as static.</li>
+<li><code class="codehilite">name</code> (<em>type:</em> <code class="codehilite">str</code>, <em>default:</em> <code class="codehilite">&#39;box&#39;</code>): Name of the model.</li>
+<li><code class="codehilite">pose</code> (<em>type:</em> <code class="codehilite">list</code> or <code class="codehilite">numpy.array</code>, <em>default:</em> <code class="codehilite">[0, 0, 0, 0, 0, 0]</code>): Origin of the model.</li>
+<li><code class="codehilite">color</code> (<em>type:</em> <code class="codehilite">str</code> or <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">None</code>): Color of the model. It can be provided as a
+RGBA vector, <code class="codehilite">xkcd</code> for a random <a href="https://xkcd.com/color/rgb/">XKCD color</a> or a specific <code class="codehilite">xkcd</code>
+color name, and/or <code class="codehilite">random</code> for a random RGBA color.</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>A sphere-shaped <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code> instance.</p>
+<h5 id="cylinder">cylinder<a class="headerlink" href="#cylinder" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">cylinder</span><span class="p">(</span><span class="n">length</span><span class="p">,</span>
+         <span class="n">radius</span><span class="p">,</span>
+         <span class="n">mass</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;cylinder&#39;</span><span class="p">,</span>
+         <span class="n">pose</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+         <span class="n">color</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+Return a cylinder-shaped simulation model with the rotation axis
+set per default as <code class="codehilite">[0, 0, 1]</code>.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">radius</code> (<em>type:</em> <code class="codehilite">float</code>): Radius of the cylinder.</li>
+<li><code class="codehilite">length</code> (<em>type:</em> <code class="codehilite">float</code>): Length of the cylinder.</li>
+<li><code class="codehilite">mass</code> (<em>type:</em> <code class="codehilite">float</code>, <em>default:</em> <code class="codehilite">0</code>): Mass of the model. If the
+mass is not greater than zero, the model is set as static.</li>
+<li><code class="codehilite">name</code> (<em>type:</em> <code class="codehilite">str</code>, <em>default:</em> <code class="codehilite">&#39;box&#39;</code>): Name of the model.</li>
+<li><code class="codehilite">pose</code> (<em>type:</em> <code class="codehilite">list</code> or <code class="codehilite">numpy.array</code>, <em>default:</em> <code class="codehilite">[0, 0, 0, 0, 0, 0]</code>): Origin of the model.</li>
+<li><code class="codehilite">color</code> (<em>type:</em> <code class="codehilite">str</code> or <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">None</code>): Color of the model. It can be provided as a
+RGBA vector, <code class="codehilite">xkcd</code> for a random <a href="https://xkcd.com/color/rgb/">XKCD color</a> or a specific <code class="codehilite">xkcd</code>
+color name, and/or <code class="codehilite">random</code> for a random RGBA color.</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>A cylinder-shaped <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code> instance.</p>
+<h5 id="box_factory">box_factory<a class="headerlink" href="#box_factory" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">box_factory</span><span class="p">(</span><span class="n">size</span><span class="p">,</span>
+            <span class="n">mass</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">,</span>
+            <span class="n">pose</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="n">use_permutation</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+Factory function for box-shaped models. It parses the vector <code class="codehilite">size</code>
+to generate the boxes. The <code class="codehilite">mass</code> can be either a scalar or a vector.
+If <code class="codehilite">mass</code> is a scalar, all boxes will have the same mass. If the size
+of the vectors <code class="codehilite">size</code> and <code class="codehilite">mass</code> are the same, the boxes can be generated
+by associating a <code class="codehilite">size</code> vector with a mass by position in the array or they
+can be permutated. If the vectors <code class="codehilite">size</code> and <code class="codehilite">mass</code> have different lengths,
+only permutation can be performed.</p>
+<p>The <code class="codehilite">size</code> and <code class="codehilite">mass</code> inputs can also be provided as lambda functions
+as <code class="codehilite">str</code>, such as:</p>
+<div class="codehilite"><pre><span></span><span class="n">size</span><span class="o">=</span><span class="s2">&quot;__import__(&#39;numpy&#39;).random.random((4, 3))&quot;</span>
+<span class="n">mass</span><span class="o">=</span><span class="s2">&quot;__import__(&#39;numpy&#39;).arange(1, 10, 4)&quot;</span>
+</pre></div>
+
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">size</code> (<em>type:</em> <code class="codehilite">list</code> or lambda function as <code class="codehilite">str</code>): List of 3D size vectors</li>
+<li><code class="codehilite">mass</code> (<em>type:</em> <code class="codehilite">float</code>,  list of <code class="codehilite">float</code> or lambda function as <code class="codehilite">str</code>,
+<em>default:</em> <code class="codehilite">None</code>): Mass of the boxes. If <code class="codehilite">mass</code> is <code class="codehilite">None</code>, all boxes
+will be static models</li>
+<li><code class="codehilite">pose</code> (<em>type:</em> <code class="codehilite">list</code> or <code class="codehilite">numpy.array</code>, <em>default:</em> <code class="codehilite">[0, 0, 0, 0, 0, 0]</code>):
+Origin of the model.</li>
+<li><code class="codehilite">use_permutation</code> (<em>type:</em> <code class="codehilite">bool</code>, <em>default:</em> <code class="codehilite">True</code>): Enable use of
+permutation to associate the <code class="codehilite">size</code> elements with the <code class="codehilite">mass</code> inputs. If the
+sizes of the <code class="codehilite">size</code> and <code class="codehilite">mass</code> have different sizes, permutation will be used
+per default.</li>
+<li><code class="codehilite">color</code> (<em>type:</em> <code class="codehilite">str</code> or <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">None</code>): Color of the model.
+It can be provided as a RGBA vector, <code class="codehilite">xkcd</code> for a random
+<a href="https://xkcd.com/color/rgb/">XKCD color</a> or a specific <code class="codehilite">xkcd</code>
+color name, and/or <code class="codehilite">random</code> for a random RGBA color.</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>List of <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code> instances.</p>
+<h5 id="sphere_factory">sphere_factory<a class="headerlink" href="#sphere_factory" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">sphere_factory</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span>
+               <span class="n">mass</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+               <span class="n">name</span><span class="o">=</span><span class="s1">&#39;sphere&#39;</span><span class="p">,</span>
+               <span class="n">pose</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+               <span class="n">use_permutation</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+               <span class="n">color</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+Factory function for sphere-shaped models. It parses the vector <code class="codehilite">radius</code>
+to generate the spheres. The <code class="codehilite">mass</code> can be either a scalar or a vector.
+If <code class="codehilite">mass</code> is a scalar, all spheres will have the same mass. If the size
+of the vectors <code class="codehilite">radius</code> and <code class="codehilite">mass</code> are the same, the spheres can be generated
+by associating a <code class="codehilite">radius</code> value with a mass by position in the array or they
+can be permutated. If the vectors <code class="codehilite">radius</code> and <code class="codehilite">mass</code> have different lengths,
+only permutation can be performed.</p>
+<p>The <code class="codehilite">radius</code> and <code class="codehilite">mass</code> inputs can also be provided as lambda functions
+as <code class="codehilite">str</code>, such as:</p>
+<div class="codehilite"><pre><span></span><span class="n">radius</span><span class="o">=</span><span class="s2">&quot;__import__(&#39;numpy&#39;).random.random(2)&quot;</span>
+<span class="n">mass</span><span class="o">=</span><span class="s2">&quot;__import__(&#39;numpy&#39;).arange(1, 4, 1)&quot;</span>
+</pre></div>
+
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">radius</code> (<em>type:</em> <code class="codehilite">list</code> or lambda function as <code class="codehilite">str</code>): List of radius values</li>
+<li><code class="codehilite">mass</code> (<em>type:</em> <code class="codehilite">float</code>, list of <code class="codehilite">float</code> or lambda function as <code class="codehilite">str</code>,
+<em>default:</em> <code class="codehilite">None</code>): Mass of the boxes. If <code class="codehilite">mass</code> is <code class="codehilite">None</code>, all spheres will
+be static models</li>
+<li><code class="codehilite">pose</code> (<em>type:</em> <code class="codehilite">list</code> or <code class="codehilite">numpy.array</code>, <em>default:</em> <code class="codehilite">[0, 0, 0, 0, 0, 0]</code>):
+Origin of the model.</li>
+<li><code class="codehilite">use_permutation</code> (<em>type:</em> <code class="codehilite">bool</code>, <em>default:</em> <code class="codehilite">True</code>): Enable use of
+permutation to associate the <code class="codehilite">radius</code> elements with the <code class="codehilite">mass</code> inputs. If the
+sizes of the <code class="codehilite">radius</code> and <code class="codehilite">mass</code> have different sizes, permutation will be used
+per default.</li>
+<li><code class="codehilite">color</code> (<em>type:</em> <code class="codehilite">str</code> or <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">None</code>): Color of the model.
+It can be provided as a RGBA vector, <code class="codehilite">xkcd</code> for a random
+<a href="https://xkcd.com/color/rgb/">XKCD color</a> or a specific <code class="codehilite">xkcd</code>
+color name, and/or <code class="codehilite">random</code> for a random RGBA color.</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>List of <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code> instances.</p>
+<h5 id="cylinder_factory">cylinder_factory<a class="headerlink" href="#cylinder_factory" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">cylinder_factory</span><span class="p">(</span><span class="n">length</span><span class="p">,</span>
+                 <span class="n">radius</span><span class="p">,</span>
+                 <span class="n">mass</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">name</span><span class="o">=</span><span class="s1">&#39;cylinder&#39;</span><span class="p">,</span>
+                 <span class="n">pose</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                 <span class="n">use_permutation</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                 <span class="n">color</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+Factory function for cylinder-shaped models. It parses the vectors <code class="codehilite">radius</code>
+and <code class="codehilite">length</code> to generate the cylinders. The <code class="codehilite">mass</code> can be either a scalar or a
+vector. If <code class="codehilite">mass</code> is a scalar, all cylinders will have the same mass. If the
+size of the vectors <code class="codehilite">length</code>, <code class="codehilite">radius</code> and <code class="codehilite">mass</code> are the same, the cylinders
+can be generated by associating a <code class="codehilite">radius</code> and a <code class="codehilite">length</code> value with a mass by
+position in the array or they can be permutated. If the vectors <code class="codehilite">radius</code> and
+<code class="codehilite">length</code> have different lengths, only permutation can be performed.</p>
+<p>The <code class="codehilite">length</code>, <code class="codehilite">radius</code> and <code class="codehilite">mass</code> inputs can also be provided as lambda
+functions as <code class="codehilite">str</code>, such as:</p>
+<div class="codehilite"><pre><span></span><span class="n">length</span><span class="o">=</span><span class="s2">&quot;__import__(&#39;numpy&#39;).random.random(2)&quot;</span>
+<span class="n">radius</span><span class="o">=</span><span class="s2">&quot;__import__(&#39;numpy&#39;).random.random(2)&quot;</span>
+<span class="n">mass</span><span class="o">=</span><span class="s2">&quot;__import__(&#39;numpy&#39;).arange(1, 4, 1)&quot;</span>
+</pre></div>
+
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">radius</code> (<em>type:</em> <code class="codehilite">float</code>, list of <code class="codehilite">float</code> or lambda function as <code class="codehilite">str</code>):
+List of radius values</li>
+<li><code class="codehilite">length</code> (<em>type:</em> <code class="codehilite">float</code>, list of <code class="codehilite">float</code> or lambda function as <code class="codehilite">str</code>):
+List of length values</li>
+<li><code class="codehilite">mass</code> (<em>type:</em> <code class="codehilite">float</code>, list of <code class="codehilite">float</code> or lambda function as <code class="codehilite">str</code>,
+<em>default:</em> <code class="codehilite">None</code>): Mass of the cylinders. If <code class="codehilite">mass</code> is <code class="codehilite">None</code>, all
+cylinders will be static models</li>
+<li><code class="codehilite">pose</code> (<em>type:</em> <code class="codehilite">list</code> or <code class="codehilite">numpy.array</code>, <em>default:</em> <code class="codehilite">[0, 0, 0, 0, 0, 0]</code>):
+Origin of the model.</li>
+<li><code class="codehilite">use_permutation</code> (<em>type:</em> <code class="codehilite">bool</code>, <em>default:</em> <code class="codehilite">True</code>): Enable use of
+permutation to associate the <code class="codehilite">size</code> elements with the <code class="codehilite">mass</code> inputs. If the
+sizes of the <code class="codehilite">length</code> and <code class="codehilite">radius</code> have different sizes, permutation will
+be used per default.</li>
+<li><code class="codehilite">color</code> (<em>type:</em> <code class="codehilite">str</code> or <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">None</code>): Color of the model.
+It can be provided as a RGBA vector, <code class="codehilite">xkcd</code> for a random
+<a href="https://xkcd.com/color/rgb/">XKCD color</a> or a specific <code class="codehilite">xkcd</code>
+color name, and/or <code class="codehilite">random</code> for a random RGBA color.</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>List of <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code> instances.</p>
+<h5 id="config2models">config2models<a class="headerlink" href="#config2models" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">config2models</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+</pre></div>
+Parse the input <code class="codehilite">dict</code> configuration and calls the respective
+model factory.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">config</code> (<em>type:</em> <code class="codehilite">dict</code>): Dictionary with the model generation
+rules</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>List of <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code> instances.</p>
+<h5 id="create_models_from_config">create_models_from_config<a class="headerlink" href="#create_models_from_config" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">create_models_from_config</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">n_processes</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+Creation of models from a <code class="codehilite">dict</code> configuration input using
+multi-processing.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">config</code> (<em>type:</em> <code class="codehilite">dict</code>): Dictionary with the model generation
+rules</li>
+<li><code class="codehilite">n_processes</code> (<em>type:</em> <code class="codehilite">int</code>, <em>default:</em> <code class="codehilite">None</code>): Maximum number of
+processes. If <code class="codehilite">None</code>, then use the number of CPUs available.</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>List of <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code> instances.</p>
+<h4 id="pcg_gazebogeneratorsoccupancy">pcg_gazebo.generators.occupancy<a class="headerlink" href="#pcg_gazebogeneratorsoccupancy" title="Permanent link">&para;</a></h4>
+<h4 id="pcg_gazebogeneratorspatterns">pcg_gazebo.generators.patterns<a class="headerlink" href="#pcg_gazebogeneratorspatterns" title="Permanent link">&para;</a></h4>
+<h4 id="pcg_gazebogeneratorsworld_generator">pcg_gazebo.generators.world_generator<a class="headerlink" href="#pcg_gazebogeneratorsworld_generator" title="Permanent link">&para;</a></h4>
+<h5 id="worldgenerator">WorldGenerator<a class="headerlink" href="#worldgenerator" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="p">()</span>
+</pre></div>
+Generation of full Gazebo worlds, including physics engine configuration,
+modes and lights.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">gazebo_proxy</code> (<em>type:</em> <code class="codehilite">pcg_gazebo.task_manager.GazeboProxy</code>,
+<em>default:</em> <code class="codehilite">None</code>): A <code class="codehilite">GazeboProxy</code> object to enable spawning of models
+and configuration of the simulation in runtime.</li>
+</ul>
+<h6 id="assets">assets<a class="headerlink" href="#assets" title="Permanent link">&para;</a></h6>
+<p>List of <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>: List of model
+assets that will be used of the world generation.</p>
+<h6 id="constraints">constraints<a class="headerlink" href="#constraints" title="Permanent link">&para;</a></h6>
+<p><code class="codehilite">dict</code> of <code class="codehilite">pcg_gazebo.generators.constraints</code>: Dictionary with the
+positioning constraints.</p>
+<h6 id="engines">engines<a class="headerlink" href="#engines" title="Permanent link">&para;</a></h6>
+<p><code class="codehilite">dict</code> of <code class="codehilite">pcg_gazebo.generators.engines</code>: Dictionary with the
+model creation engines.</p>
+<h6 id="gazebo_proxy">gazebo_proxy<a class="headerlink" href="#gazebo_proxy" title="Permanent link">&para;</a></h6>
+<p><code class="codehilite">pcg_gazebo.task_manager.GazeboProxy</code>: Internal instance
+of the <code class="codehilite">GazeboProxy</code></p>
+<h6 id="name">name<a class="headerlink" href="#name" title="Permanent link">&para;</a></h6>
+<p><code class="codehilite">str</code>: Name of the generated world</p>
+<h6 id="world">world<a class="headerlink" href="#world" title="Permanent link">&para;</a></h6>
+<p><code class="codehilite">pcg_gazebo.simulation.World</code>: World abstraction
+instance</p>
+<h6 id="init_gazebo_proxy">init_gazebo_proxy<a class="headerlink" href="#init_gazebo_proxy" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">init_gazebo_proxy</span><span class="p">(</span><span class="n">ros_host</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
+                                 <span class="n">ros_port</span><span class="o">=</span><span class="mi">11311</span><span class="p">,</span>
+                                 <span class="n">gazebo_host</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
+                                 <span class="n">gazebo_port</span><span class="o">=</span><span class="mi">11345</span><span class="p">,</span>
+                                 <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+                                 <span class="n">ignore_services</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+Initialize a <code class="codehilite">GazeboProxy</code> instance to interface with a running
+instance of Gazebo. If a <code class="codehilite">GazeboProxy</code> already exists, it will be
+deleted before a new one is created.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">ros_host</code> (<em>type:</em> <code class="codehilite">str</code>, <em>default:</em> <code class="codehilite">localhost</code>): Address of the
+ROS host machine running <code class="codehilite">roscore</code>.</li>
+<li><code class="codehilite">ros_port</code> (<em>type:</em> <code class="codehilite">int</code>, <em>default:</em> <code class="codehilite">11311</code>): Port number for
+<code class="codehilite">roscore</code></li>
+<li><code class="codehilite">gazebo_host</code> (<em>type:</em> <code class="codehilite">str</code>, <em>default:</em> <code class="codehilite">localhost</code>): Address of the
+Gazebo server</li>
+<li><code class="codehilite">gazebo_port</code> (<em>type:</em> <code class="codehilite">int</code>, <em>default:</em> <code class="codehilite">11345</code>): Port number of
+the Gazebo server</li>
+</ul>
+<h6 id="add_engine">add_engine<a class="headerlink" href="#add_engine" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">add_engine</span><span class="p">(</span><span class="n">engine_name</span><span class="p">,</span> <span class="n">models</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+Add a new model creator engine to the internal engines list.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">engine_name</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the engine class to be created</li>
+<li><code class="codehilite">models</code> (<em>type:</em> list of <code class="codehilite">str</code>): Name of the models that will be assets
+to the created engine</li>
+<li><code class="codehilite">kwargs</code> (<em>type:</em> <code class="codehilite">dict</code>): Input arguments to the created engine.</li>
+</ul>
+<h6 id="add_constraint">add_constraint<a class="headerlink" href="#add_constraint" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+Add a new positioning constraint class to the internal
+constraints list.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">name</code> (<em>type:</em> <code class="codehilite">str</code>): ID name for the constraint class instance</li>
+<li><code class="codehilite">type</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the constraints class to be created</li>
+<li><code class="codehilite">kwargs</code> (<em>type:</em> <code class="codehilite">dict</code>): Input arguments for the constraint class
+to be created</li>
+</ul>
+<h6 id="add_asset">add_asset<a class="headerlink" href="#add_asset" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">add_asset</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+Add a new model asset that can be used by the engines and
+added to the generated world.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">model</code> (<em>type:</em> <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>): Simulation model</li>
+</ul>
+<h6 id="set_model_as_ground_plane">set_model_as_ground_plane<a class="headerlink" href="#set_model_as_ground_plane" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">set_model_as_ground_plane</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+</pre></div>
+Flag a model asset as part of the ground plane. This procedure will
+affect the collision checks during the automatic placement of models in
+the world using the placement engines.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">model_name</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the model asset</li>
+</ul>
+<h6 id="get_asset">get_asset<a class="headerlink" href="#get_asset" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">get_asset</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+Return a simulation model asset.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">name</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the model asset.</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>The model asset as <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>.
+<code class="codehilite">None</code> if <code class="codehilite">name</code> cannot be found in the list of model assets.</p>
+<h6 id="get_constraint">get_constraint<a class="headerlink" href="#get_constraint" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">get_constraint</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+Return a positioning constraint configuration.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">param</code> (<em>type:</em> <code class="codehilite">data_type</code>, <em>default:</em> <code class="codehilite">data</code>): Parameter description</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>Description of return values</p>
+<h6 id="add_gazebo_model_as_asset">add_gazebo_model_as_asset<a class="headerlink" href="#add_gazebo_model_as_asset" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">add_gazebo_model_as_asset</span><span class="p">(</span><span class="n">gazebo_model_name</span><span class="p">)</span>
+</pre></div>
+Create a model asset by importing a Gazebo model that already
+exists in the resources path of the catkin workspace. The model's
+SDF file will be parsed and converted into a <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>
+instance.</p>
+<p>Models that include lights can also be added, but will not be considered
+assets, they will just be included into the generated world SDF file.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">gazebo_model_name</code> (<em>type:</em> <code class="codehilite">str</code>): ID name from the Gazebo model
+to be imported</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p><code class="codehilite">True</code> if Gazebo model could be included in the assets list.</p>
+<h6 id="is_asset">is_asset<a class="headerlink" href="#is_asset" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">is_asset</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+Return <code class="codehilite">True</code> if the model identified by the string <code class="codehilite">name</code>
+is part of the list of assets.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">name</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the model</li>
+</ul>
+<h6 id="add_model_1">add_model<a class="headerlink" href="#add_model_1" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">add_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">poses</span><span class="p">)</span>
+</pre></div>
+Add an instance of <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code> to
+the world in designed poses.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">model</code> (<em>type:</em> <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>): Parameter description</li>
+<li><code class="codehilite">poses</code> (<em>type:</em> <code class="codehilite">list</code>): List of 6D pose vectors</li>
+</ul>
+<h6 id="add_gazebo_model">add_gazebo_model<a class="headerlink" href="#add_gazebo_model" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">add_gazebo_model</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">pose</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+Add an existent Gazebo model to the world in designed poses.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">model_name</code> (<em>type:</em> <code class="codehilite">str</code>): ID name of the Gazebo model</li>
+<li><code class="codehilite">pose</code> (<em>type:</em> <code class="codehilite">list</code>): 6D pose vector</li>
+</ul>
+<h6 id="remove_asset">remove_asset<a class="headerlink" href="#remove_asset" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">remove_asset</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+Remove model asset from the list of assets.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">name</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the model</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p><code class="codehilite">True</code>, if model could be removed.</p>
+<h6 id="delete_model">delete_model<a class="headerlink" href="#delete_model" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">delete_model</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+</pre></div>
+Delete a model from the currently running Gazebo instance</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">model_name</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the model</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p><code class="codehilite">True</code> if the model could be deleted from the simulation.</p>
+<h6 id="add_lights_from_gazebo_model">add_lights_from_gazebo_model<a class="headerlink" href="#add_lights_from_gazebo_model" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">add_lights_from_gazebo_model</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+</pre></div>
+Add light models to the generated world from a Gazebo model.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">model_name</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the Gazebo model</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p><code class="codehilite">True</code> if the lights could be parsed and added to the world.</p>
+<h6 id="parse_configuration">parse_configuration<a class="headerlink" href="#parse_configuration" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">parse_configuration</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+Parse a configuration settings <code class="codehilite">dict</code> with all information on the
+list of model assets, engines, constraints and lights and instantiate the
+necessary objects.</p>
+<p>An example of a YAML file that can hold this kind of information can be
+seen below:</p>
+<div class="codehilite"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">world_name</span>
+<span class="l l-Scalar l-Scalar-Plain">assets</span><span class="p p-Indicator">:</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">model_1</span>       <span class="c1"># This list holds only Gazebo models</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">model_2</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">model_3</span>
+<span class="l l-Scalar l-Scalar-Plain">ground_plane</span><span class="p p-Indicator">:</span>   <span class="c1"># Optional input</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">model_1</span>       <span class="c1"># If model_1 is part of the ground_plane, it should be flagged for collision checking</span>
+<span class="l l-Scalar l-Scalar-Plain">constraints</span><span class="p p-Indicator">:</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">kitchen</span>                     <span class="c1"># Name identifier</span>
+    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">workspace</span>                 <span class="c1"># Name of the constraint class</span>
+    <span class="l l-Scalar l-Scalar-Plain">frame</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">world</span>
+    <span class="l l-Scalar l-Scalar-Plain">geometry</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">area</span>
+    <span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">points</span><span class="p p-Indicator">:</span>
+        <span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class="nv">-6.54833</span><span class="p p-Indicator">,</span> <span class="nv">-4.17127</span><span class="p p-Indicator">,</span> <span class="nv">0</span><span class="p p-Indicator">]</span>
+        <span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class="nv">-3.24447</span><span class="p p-Indicator">,</span> <span class="nv">-4.17127</span><span class="p p-Indicator">,</span> <span class="nv">0</span><span class="p p-Indicator">]</span>
+        <span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class="nv">-3.24447</span><span class="p p-Indicator">,</span> <span class="nv">0.12423</span><span class="p p-Indicator">,</span> <span class="nv">0</span><span class="p p-Indicator">]</span>
+        <span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class="nv">-6.54833</span><span class="p p-Indicator">,</span> <span class="nv">0.12423</span><span class="p p-Indicator">,</span> <span class="nv">0</span><span class="p p-Indicator">]</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">tangent_to_ground_plane</span>     <span class="c1"># Name identifier</span>
+    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">tangent</span>                   <span class="c1"># Name of the constraint class</span>
+    <span class="l l-Scalar l-Scalar-Plain">frame</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">world</span>
+    <span class="l l-Scalar l-Scalar-Plain">reference</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">plane</span>
+    <span class="l l-Scalar l-Scalar-Plain">args</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">origin</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">,</span> <span class="nv">0</span><span class="p p-Indicator">,</span> <span class="nv">0</span><span class="p p-Indicator">]</span>
+        <span class="l l-Scalar l-Scalar-Plain">normal</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">,</span> <span class="nv">0</span><span class="p p-Indicator">,</span> <span class="nv">1</span><span class="p p-Indicator">]</span>
+<span class="l l-Scalar l-Scalar-Plain">engines</span><span class="p p-Indicator">:</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">engine_name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">fixed_pose</span>
+  <span class="l l-Scalar l-Scalar-Plain">models</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">sll_room_empty</span>
+  <span class="l l-Scalar l-Scalar-Plain">poses</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">,</span> <span class="nv">0</span><span class="p p-Indicator">,</span> <span class="nv">0</span><span class="p p-Indicator">,</span> <span class="nv">0</span><span class="p p-Indicator">,</span> <span class="nv">0</span><span class="p p-Indicator">,</span> <span class="nv">0</span><span class="p p-Indicator">]</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">engine_name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">random_pose</span>
+  <span class="l l-Scalar l-Scalar-Plain">models</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">sll_table_group_futura_seat</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">sll_table_group_futura</span>
+  <span class="l l-Scalar l-Scalar-Plain">model_picker</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">size</span>
+  <span class="l l-Scalar l-Scalar-Plain">max_area</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.9</span>
+  <span class="l l-Scalar l-Scalar-Plain">no_collision</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+  <span class="l l-Scalar l-Scalar-Plain">max_num</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">sll_table_group_futura_seat</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">6</span>
+    <span class="l l-Scalar l-Scalar-Plain">sll_table_group_futura</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+  <span class="l l-Scalar l-Scalar-Plain">policies</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">models</span><span class="p p-Indicator">:</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">sll_table_group_futura_seat</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">sll_table_group_futura</span>
+        <span class="l l-Scalar l-Scalar-Plain">config</span><span class="p p-Indicator">:</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">dofs</span><span class="p p-Indicator">:</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">x</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">y</span>
+        <span class="l l-Scalar l-Scalar-Plain">policy</span><span class="p p-Indicator">:</span>
+            <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">workspace</span>
+            <span class="l l-Scalar l-Scalar-Plain">args</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">dining_room</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">dofs</span><span class="p p-Indicator">:</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">z</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">roll</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">pitch</span>
+        <span class="l l-Scalar l-Scalar-Plain">policy</span><span class="p p-Indicator">:</span>
+            <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">value</span>
+            <span class="l l-Scalar l-Scalar-Plain">args</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">dofs</span><span class="p p-Indicator">:</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">yaw</span>
+        <span class="l l-Scalar l-Scalar-Plain">policy</span><span class="p p-Indicator">:</span>
+            <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">uniform</span>
+            <span class="l l-Scalar l-Scalar-Plain">args</span><span class="p p-Indicator">:</span>
+            <span class="l l-Scalar l-Scalar-Plain">mean</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+            <span class="l l-Scalar l-Scalar-Plain">min</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">-3.141592653589793</span>
+            <span class="l l-Scalar l-Scalar-Plain">max</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">3.141592653589793</span>
+  <span class="l l-Scalar l-Scalar-Plain">constraints</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">model</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">sll_table_group_futura</span>
+        <span class="l l-Scalar l-Scalar-Plain">constraint</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">tangent_to_ground_plane</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">model</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">sll_table_group_futura_seat</span>
+        <span class="l l-Scalar l-Scalar-Plain">constraint</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">tangent_to_ground_plane</span>
+<span class="l l-Scalar l-Scalar-Plain">lights</span><span class="p p-Indicator">:</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">sun</span>     <span class="c1"># Name of the Gazebo model with the light data</span>
+</pre></div>
+
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">config</code> (<em>type:</em> <code class="codehilite">dict</code>): Configuration settings for the world generator</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>Description of return values</p>
+<h6 id="spawn_model">spawn_model<a class="headerlink" href="#spawn_model" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">spawn_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
+                           <span class="n">robot_namespace</span><span class="p">,</span>
+                           <span class="n">pos</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                           <span class="n">rot</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                           <span class="n">reference_frame</span><span class="o">=</span><span class="s1">&#39;world&#39;</span><span class="p">,</span>
+                           <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+                           <span class="n">replace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+Spawn a <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code> in a running instance
+of Gazebo. A <code class="codehilite">GazeboProxy</code> is required for this method to finish successfully.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">model</code> (<em>type:</em> <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>): Simulation model
+to be spawned</li>
+<li><code class="codehilite">robot_namespace</code> (<em>type:</em> <code class="codehilite">str</code>): Name under which the robot should be
+spawned in Gazebo</li>
+<li><code class="codehilite">pos</code> (<em>type:</em> <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">[0, 0, 0]</code>): Spawning position wrt reference
+frame</li>
+<li><code class="codehilite">rot</code> (<em>type:</em> <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">[0, 0, 0]</code>): Roll-Pitch-Yaw angles in radians
+or a (w, i, j, k) quaternion vector.</li>
+<li><code class="codehilite">reference_frame</code> (<em>type:</em> <code class="codehilite">str</code>, <em>default:</em> <code class="codehilite">world</code>): Reference frame for the
+spawning pose</li>
+<li><code class="codehilite">timeout</code> (<em>type:</em> <code class="codehilite">float</code>): Timeout in seconds to wait for Gazebo to start</li>
+<li><code class="codehilite">replace</code> (<em>type:</em> <code class="codehilite">bool</code>, <em>default:</em> <code class="codehilite">False</code>): Replace the model in the simulation
+in case a model with the same name already exists.</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p><code class="codehilite">True</code> if the model could be spawned.</p>
+<h6 id="get_physics_engine">get_physics_engine<a class="headerlink" href="#get_physics_engine" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">get_physics_engine</span><span class="p">(</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;ode&#39;</span><span class="p">)</span>
+</pre></div>
+Return an instance of a physics engine as
+<code class="codehilite">pcg_gazebo.simulation.physics.Physics</code> object.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">engine</code> (<em>type:</em> <code class="codehilite">str</code>): ID name of the physics
+engine, options are <code class="codehilite">ode</code>, <code class="codehilite">bullet</code> and <code class="codehilite">simbody</code>.</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>An <code class="codehilite">pcg_gazebo.simulation.physics.Physics</code> object.</p>
+<h6 id="run_engines">run_engines<a class="headerlink" href="#run_engines" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">run_engines</span><span class="p">(</span><span class="n">attach_models</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+Run all the model placement engines and add the generated
+models in the internal instance of the world representation.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">attach_models</code> (<em>type:</em> <code class="codehilite">bool</code>, <em>default:</em> <code class="codehilite">False</code>): Attach
+the generated models to the existent list of models in the world</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p><code class="codehilite">True</code> if all engines ran successfully.</p>
+<h6 id="reset_world">reset_world<a class="headerlink" href="#reset_world" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">reset_world</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;ode&#39;</span><span class="p">,</span> <span class="n">gravity</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.8</span><span class="p">])</span>
+</pre></div>
+Reset the generated world instance to its default state and
+without any models.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">name</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the world</li>
+<li><code class="codehilite">engine</code> (<em>type:</em> <code class="codehilite">str</code>, <em>default:</em> <code class="codehilite">ode</code>): Name of the
+physics engine to be used. Options are <code class="codehilite">ode</code>, <code class="codehilite">bullet</code> or <code class="codehilite">simbody</code>.</li>
+<li><code class="codehilite">gravity</code> (<em>type:</em> <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">[0, 0, -9.8]</code>): Gravitational
+acceleration vector</li>
+</ul>
+<h6 id="export_world">export_world<a class="headerlink" href="#export_world" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">export_world</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                            <span class="n">filename</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                            <span class="n">with_default_ground_plane</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                            <span class="n">with_default_sun</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+Export world to an SDF file that can be used by Gazebo.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">output_dir</code> (<em>type:</em> <code class="codehilite">str</code>, <em>default:</em> <code class="codehilite">None</code>): Path
+to output directory to store the world file.</li>
+<li><code class="codehilite">filename</code> (<em>type:</em> <code class="codehilite">str</code>, <em>default:</em> <code class="codehilite">None</code>): Name of the
+SDF world file</li>
+<li><code class="codehilite">with_default_ground_plane</code> (<em>type:</em> <code class="codehilite">bool</code>, <em>default:</em>
+<code class="codehilite">True</code>): Add the default ground plane model to the world before
+exporting it</li>
+<li><code class="codehilite">with_default_sun</code> (<em>type:</em> <code class="codehilite">bool</code>, <em>default:</em> <code class="codehilite">True</code>): Add
+the default sun model to the world before exporting it</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>Full name of the exported SDF world file as a <code class="codehilite">str</code></p>
+<h6 id="plot_results">plot_results<a class="headerlink" href="#plot_results" title="Permanent link">&para;</a></h6>
+<p><div class="codehilite"><pre><span></span><span class="n">WorldGenerator</span><span class="o">.</span><span class="n">plot_results</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                            <span class="n">fig_width</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+                            <span class="n">fig_height</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span>
+                            <span class="n">footprint_geometry</span><span class="o">=</span><span class="s1">&#39;collision&#39;</span><span class="p">,</span>
+                            <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;bokeh&#39;</span><span class="p">)</span>
+</pre></div>
+Plot the footprints of models included in the current world
+instance.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">fig</code> (<em>type:</em> a <code class="codehilite">bokeh</code> or a <code class="codehilite">matplotlib</code> figure, <em>default:</em> <code class="codehilite">None</code>):
+A figure object. If <code class="codehilite">fig</code> is <code class="codehilite">None</code>, a new figure will be created</li>
+<li><code class="codehilite">fig_width</code> (<em>type:</em> <code class="codehilite">int</code>, <em>default:</em> <code class="codehilite">1000</code>): Width of the figure</li>
+<li><code class="codehilite">param</code> (<em>type:</em> <code class="codehilite">data_type</code>, <em>default:</em> <code class="codehilite">data</code>): Parameter description</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>Description of return values</p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../pcg_gazebo/" title="pcg_gazebo" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                pcg_gazebo
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../pcg_gazebo.generators.constraints/" title="pcg_gazebo.generators.constraints" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                pcg_gazebo.generators.constraints
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.267712eb.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

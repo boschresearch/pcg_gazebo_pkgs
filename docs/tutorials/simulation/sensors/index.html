@@ -1,0 +1,1242 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.1.2">
+    
+    
+      
+        <title>Sensors - Procedural Generation for Gazebo</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.3020aac5.css">
+      
+      
+    
+    
+      <script src="../../../assets/javascripts/modernizr.01ccdecf.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#sensors" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../../.." title="Procedural Generation for Gazebo" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Procedural Generation for Gazebo
+            </span>
+            <span class="md-header-nav__topic">
+              Sensors
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../../.." title="Procedural Generation for Gazebo" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Procedural Generation for Gazebo
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Python API
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Python API
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo/" title="pcg_gazebo" class="md-nav__link">
+      pcg_gazebo
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.generators/" title="pcg_gazebo.generators" class="md-nav__link">
+      pcg_gazebo.generators
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.generators.constraints/" title="pcg_gazebo.generators.constraints" class="md-nav__link">
+      pcg_gazebo.generators.constraints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.generators.engines/" title="pcg_gazebo.generators.engines" class="md-nav__link">
+      pcg_gazebo.generators.engines
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.parsers/" title="pcg_gazebo.parsers" class="md-nav__link">
+      pcg_gazebo.parsers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.parsers.sdf_config/" title="pcg_gazebo.parsers.sdf_config" class="md-nav__link">
+      pcg_gazebo.parsers.sdf_config
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.parsers.sdf/" title="pcg_gazebo.parsers.sdf" class="md-nav__link">
+      pcg_gazebo.parsers.sdf
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.parsers.types/" title="pcg_gazebo.parsers.types" class="md-nav__link">
+      pcg_gazebo.parsers.types
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.parsers.urdf/" title="pcg_gazebo.parsers.urdf" class="md-nav__link">
+      pcg_gazebo.parsers.urdf
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.simulation/" title="pcg_gazebo.simulation" class="md-nav__link">
+      pcg_gazebo.simulation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.simulation.physics/" title="pcg_gazebo.simulation.physics" class="md-nav__link">
+      pcg_gazebo.simulation.physics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.simulation.properties/" title="pcg_gazebo.simulation.properties" class="md-nav__link">
+      pcg_gazebo.simulation.properties
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../python_api/pcg_gazebo.simulation.sensors/" title="pcg_gazebo.simulation.sensors" class="md-nav__link">
+      pcg_gazebo.simulation.sensors
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      Tutorials
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Tutorials
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-1" type="checkbox" id="nav-3-1">
+    
+    <label class="md-nav__link" for="nav-3-1">
+      Parsers
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-1">
+        Parsers
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-1-1" type="checkbox" id="nav-3-1-1">
+    
+    <label class="md-nav__link" for="nav-3-1-1">
+      SDF
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-3-1-1">
+        SDF
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/geometries/" title="Geometries" class="md-nav__link">
+      Geometries
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/materials/" title="Materials" class="md-nav__link">
+      Materials
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/collisions/" title="Collisions" class="md-nav__link">
+      Collisions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/visuals/" title="Visuals" class="md-nav__link">
+      Visuals
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/links_joints_sensors/" title="Links, joints and sensors" class="md-nav__link">
+      Links, joints and sensors
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/models/" title="Models" class="md-nav__link">
+      Models
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/physics_engines/" title="Physics engines" class="md-nav__link">
+      Physics engines
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/plugins/" title="Plugins" class="md-nav__link">
+      Plugins
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/world/" title="World" class="md-nav__link">
+      World
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/sdf/convert_from_sdf_file/" title="Convert from SDF file" class="md-nav__link">
+      Convert from SDF file
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-1-2" type="checkbox" id="nav-3-1-2">
+    
+    <label class="md-nav__link" for="nav-3-1-2">
+      URDF
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-3-1-2">
+        URDF
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/urdf/" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/urdf/geometries/" title="Geometries" class="md-nav__link">
+      Geometries
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/urdf/collision/" title="Collisions" class="md-nav__link">
+      Collisions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/urdf/visual/" title="Visuals" class="md-nav__link">
+      Visuals
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/urdf/links_joints_sensors/" title="Links, joints and sensors" class="md-nav__link">
+      Links, joints and sensors
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../parsers/urdf/robots/" title="Robots" class="md-nav__link">
+      Robots
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
+    
+    <label class="md-nav__link" for="nav-3-2">
+      Task manager
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-2">
+        Task manager
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../task_manager/gazebo_proxy/" title="Gazebo proxy" class="md-nav__link">
+      Gazebo proxy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../task_manager/process_manager/" title="Process manager" class="md-nav__link">
+      Process manager
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../task_manager/stage_conditions/" title="Stage conditions" class="md-nav__link">
+      Stage conditions
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-3" type="checkbox" id="nav-3-3" checked>
+    
+    <label class="md-nav__link" for="nav-3-3">
+      Simulation
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-3">
+        Simulation
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../objects/" title="Dynamically creating objects" class="md-nav__link">
+      Dynamically creating objects
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../physics_engines/" title="Setting up different physics engines" class="md-nav__link">
+      Setting up different physics engines
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../surface_collision_properties/" title="Surface and collision properties" class="md-nav__link">
+      Surface and collision properties
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../materials/" title="Materials" class="md-nav__link">
+      Materials
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../building_a_model/" title="Building a model" class="md-nav__link">
+      Building a model
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Sensors
+      </label>
+    
+    <a href="./" title="Sensors" class="md-nav__link md-nav__link--active">
+      Sensors
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sensors" title="Sensors" class="md-nav__link">
+    Sensors
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sensors_1" title="Sensors" class="md-nav__link">
+    Sensors
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standalone-imu-sensor" title="Standalone IMU sensor" class="md-nav__link">
+    Standalone IMU sensor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standalone-ray-sensor" title="Standalone ray sensor" class="md-nav__link">
+    Standalone ray sensor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standalone-contact-sensor" title="Standalone contact sensor" class="md-nav__link">
+    Standalone contact sensor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standalone-camera" title="Standalone camera" class="md-nav__link">
+    Standalone camera
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../meshes/" title="Meshes" class="md-nav__link">
+      Meshes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../license/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sensors" title="Sensors" class="md-nav__link">
+    Sensors
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sensors_1" title="Sensors" class="md-nav__link">
+    Sensors
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#standalone-imu-sensor" title="Standalone IMU sensor" class="md-nav__link">
+    Standalone IMU sensor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standalone-ray-sensor" title="Standalone ray sensor" class="md-nav__link">
+    Standalone ray sensor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standalone-contact-sensor" title="Standalone contact sensor" class="md-nav__link">
+    Standalone contact sensor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standalone-camera" title="Standalone camera" class="md-nav__link">
+    Standalone camera
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>Sensors</h1>
+                
+                <h4 id="sensors">Sensors<a class="headerlink" href="#sensors" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">pcg_gazebo.simulation</span> <span class="kn">import</span> <span class="n">create_object</span><span class="p">,</span> <span class="n">SimulationModel</span>
+<span class="kn">from</span> <span class="nn">pcg_gazebo.task_manager</span> <span class="kn">import</span> <span class="n">get_rostopic_list</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span><span class="c1"># If there is a Gazebo instance running, you can spawn the box </span>
+<span class="c1"># into the simulation</span>
+<span class="kn">from</span> <span class="nn">pcg_gazebo.task_manager</span> <span class="kn">import</span> <span class="n">Server</span>
+<span class="c1"># First create a simulation server</span>
+<span class="n">server</span> <span class="o">=</span> <span class="n">Server</span><span class="p">()</span>
+<span class="c1"># Create a simulation manager named default</span>
+<span class="n">server</span><span class="o">.</span><span class="n">create_simulation</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="n">ros_port</span><span class="o">=</span><span class="mi">11311</span><span class="p">,</span> <span class="n">gazebo_port</span><span class="o">=</span><span class="mi">11345</span><span class="p">)</span>
+<span class="n">simulation</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="n">get_simulation</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)</span>
+<span class="c1"># Run an instance of the empty.world scenario</span>
+<span class="c1"># This is equivalent to run</span>
+<span class="c1">#      roslaunch gazebo_ros empty_world.launch</span>
+<span class="c1"># with all default parameters</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">create_gazebo_empty_world_task</span><span class="p">()</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">create_rqt_task</span><span class="p">()</span>
+
+<span class="c1"># A task named &#39;gazebo&#39; the added to the tasks list</span>
+<span class="k">print</span><span class="p">(</span><span class="n">simulation</span><span class="o">.</span><span class="n">get_task_list</span><span class="p">())</span>
+<span class="c1"># But it is still not running</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Is Gazebo running: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">simulation</span><span class="o">.</span><span class="n">is_task_running</span><span class="p">(</span><span class="s1">&#39;gazebo&#39;</span><span class="p">)))</span>
+<span class="c1"># Run Gazebo</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">run_all_tasks</span><span class="p">()</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">pcg_gazebo.generators</span> <span class="kn">import</span> <span class="n">WorldGenerator</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="c1"># Create a Gazebo proxy</span>
+<span class="n">gazebo_proxy</span> <span class="o">=</span> <span class="n">simulation</span><span class="o">.</span><span class="n">get_gazebo_proxy</span><span class="p">()</span>
+
+<span class="c1"># Use the generator to spawn the model to the Gazebo instance running at the moment</span>
+<span class="n">generator</span> <span class="o">=</span> <span class="n">WorldGenerator</span><span class="p">(</span><span class="n">gazebo_proxy</span><span class="o">=</span><span class="n">gazebo_proxy</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Is Gazebo running: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">simulation</span><span class="o">.</span><span class="n">is_task_running</span><span class="p">(</span><span class="s1">&#39;gazebo&#39;</span><span class="p">)))</span>
+</pre></div>
+
+<h5 id="sensors_1">Sensors<a class="headerlink" href="#sensors_1" title="Permanent link">&para;</a></h5>
+<h6 id="standalone-imu-sensor">Standalone IMU sensor<a class="headerlink" href="#standalone-imu-sensor" title="Permanent link">&para;</a></h6>
+<div class="codehilite"><pre><span></span><span class="n">imu_model</span> <span class="o">=</span> <span class="n">SimulationModel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;default_imu&#39;</span><span class="p">)</span>
+
+<span class="c1"># Default IMU sensor</span>
+<span class="n">imu_model</span><span class="o">.</span><span class="n">add_imu_sensor</span><span class="p">(</span>
+    <span class="n">add_visual</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
+    <span class="n">add_collision</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
+    <span class="n">visualize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">mass</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>
+    <span class="n">topic</span><span class="o">=</span><span class="s1">&#39;/imu&#39;</span><span class="p">,</span>
+    <span class="n">link_shape</span><span class="o">=</span><span class="s1">&#39;cuboid&#39;</span><span class="p">,</span>
+    <span class="n">link_name</span><span class="o">=</span><span class="s1">&#39;imu_link&#39;</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">imu_model</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">())</span>
+
+<span class="c1"># Spawn IMU standalone model</span>
+<span class="n">generator</span><span class="o">.</span><span class="n">spawn_model</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">imu_model</span><span class="p">,</span> 
+    <span class="n">robot_namespace</span><span class="o">=</span><span class="s1">&#39;default_imu&#39;</span><span class="p">,</span>
+    <span class="n">pos</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">])</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;List of ROS topics:&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">topic</span> <span class="ow">in</span> <span class="n">simulation</span><span class="o">.</span><span class="n">get_rostopic_list</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39; - &#39;</span> <span class="o">+</span> <span class="n">topic</span><span class="p">)</span>
+</pre></div>
+
+<h6 id="standalone-ray-sensor">Standalone ray sensor<a class="headerlink" href="#standalone-ray-sensor" title="Permanent link">&para;</a></h6>
+<div class="codehilite"><pre><span></span><span class="n">ray_model</span> <span class="o">=</span> <span class="n">SimulationModel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;default_ray&#39;</span><span class="p">)</span>
+
+<span class="c1"># Default ray sensor</span>
+<span class="n">ray_model</span><span class="o">.</span><span class="n">add_ray_sensor</span><span class="p">(</span>
+    <span class="n">add_visual</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
+    <span class="n">add_collision</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
+    <span class="n">add_ros_plugin</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">mass</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">radius</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+    <span class="n">link_shape</span><span class="o">=</span><span class="s1">&#39;spherical&#39;</span><span class="p">,</span>    
+    <span class="n">link_name</span><span class="o">=</span><span class="s1">&#39;ray_link&#39;</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">ray_model</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">())</span>
+
+<span class="c1"># Spawn ray sensor standalone model</span>
+<span class="n">generator</span><span class="o">.</span><span class="n">spawn_model</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">ray_model</span><span class="p">,</span> 
+    <span class="n">robot_namespace</span><span class="o">=</span><span class="s1">&#39;default_ray&#39;</span><span class="p">,</span>
+    <span class="n">pos</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">])</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;List of ROS topics:&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">topic</span> <span class="ow">in</span> <span class="n">simulation</span><span class="o">.</span><span class="n">get_rostopic_list</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39; - &#39;</span> <span class="o">+</span> <span class="n">topic</span><span class="p">)</span>
+</pre></div>
+
+<h6 id="standalone-contact-sensor">Standalone contact sensor<a class="headerlink" href="#standalone-contact-sensor" title="Permanent link">&para;</a></h6>
+<div class="codehilite"><pre><span></span><span class="n">contact_sensor</span> <span class="o">=</span> <span class="n">SimulationModel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;contact_standalone&#39;</span><span class="p">)</span>
+
+<span class="n">contact_sensor</span><span class="o">.</span><span class="n">add_contact_sensor</span><span class="p">(</span>
+    <span class="n">add_visual</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
+    <span class="n">add_collision</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
+    <span class="n">add_ros_plugin</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">mass</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">radius</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+    <span class="n">length</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">link_shape</span><span class="o">=</span><span class="s1">&#39;cylindrical&#39;</span><span class="p">,</span>
+    <span class="n">link_name</span><span class="o">=</span><span class="s1">&#39;contact_link&#39;</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">contact_sensor</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">())</span>
+
+<span class="c1"># Spawn ray sensor standalone model</span>
+<span class="n">generator</span><span class="o">.</span><span class="n">spawn_model</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">contact_sensor</span><span class="p">,</span> 
+    <span class="n">robot_namespace</span><span class="o">=</span><span class="s1">&#39;contact_standalone&#39;</span><span class="p">,</span>
+    <span class="n">pos</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">])</span>
+</pre></div>
+
+<h6 id="standalone-camera">Standalone camera<a class="headerlink" href="#standalone-camera" title="Permanent link">&para;</a></h6>
+<div class="codehilite"><pre><span></span><span class="n">camera_sensor</span> <span class="o">=</span> <span class="n">SimulationModel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;camera_standalone&#39;</span><span class="p">)</span>
+<span class="n">camera_sensor</span><span class="o">.</span><span class="n">static</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="n">camera_sensor</span><span class="o">.</span><span class="n">add_camera_sensor</span><span class="p">(</span>
+    <span class="n">add_visual</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
+    <span class="n">add_collision</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
+    <span class="n">add_ros_plugin</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">visualize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">mass</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">size</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>
+    <span class="n">link_shape</span><span class="o">=</span><span class="s1">&#39;cuboid&#39;</span><span class="p">,</span>
+    <span class="n">link_name</span><span class="o">=</span><span class="s1">&#39;camera_link&#39;</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">camera_sensor</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">())</span>
+
+<span class="c1"># Spawn camera standalone model</span>
+<span class="n">generator</span><span class="o">.</span><span class="n">spawn_model</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">camera_sensor</span><span class="p">,</span> 
+    <span class="n">robot_namespace</span><span class="o">=</span><span class="s1">&#39;camera_standalone&#39;</span><span class="p">,</span>
+    <span class="n">pos</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;List of ROS topics:&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">topic</span> <span class="ow">in</span> <span class="n">simulation</span><span class="o">.</span><span class="n">get_rostopic_list</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39; - &#39;</span> <span class="o">+</span> <span class="n">topic</span><span class="p">)</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span><span class="c1"># End the simulation by killing the Gazebo task</span>
+<span class="n">simulation</span><span class="o">.</span><span class="n">kill_all_tasks</span><span class="p">()</span>
+</pre></div>
+
+<p><img alt="sensors" src="../images/sensors.png" /></p>
+<div class="codehilite"><pre><span></span>
+</pre></div>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../building_a_model/" title="Building a model" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Building a model
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../meshes/" title="Meshes" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Meshes
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/application.267712eb.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../../.."}})</script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>
