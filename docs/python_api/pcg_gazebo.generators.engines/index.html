@@ -1,0 +1,1734 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.1.2">
+    
+    
+      
+        <title>pcg_gazebo.generators.engines - Procedural Generation for Gazebo</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.3020aac5.css">
+      
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.01ccdecf.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#pcg_gazebogeneratorsengines" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../.." title="Procedural Generation for Gazebo" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Procedural Generation for Gazebo
+            </span>
+            <span class="md-header-nav__topic">
+              pcg_gazebo.generators.engines
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../.." title="Procedural Generation for Gazebo" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Procedural Generation for Gazebo
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      Python API
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Python API
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo/" title="pcg_gazebo" class="md-nav__link">
+      pcg_gazebo
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.generators/" title="pcg_gazebo.generators" class="md-nav__link">
+      pcg_gazebo.generators
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.generators.constraints/" title="pcg_gazebo.generators.constraints" class="md-nav__link">
+      pcg_gazebo.generators.constraints
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        pcg_gazebo.generators.engines
+      </label>
+    
+    <a href="./" title="pcg_gazebo.generators.engines" class="md-nav__link md-nav__link--active">
+      pcg_gazebo.generators.engines
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pcg_gazebogeneratorsengines" title="pcg_gazebo.generators.engines" class="md-nav__link">
+    pcg_gazebo.generators.engines
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create_engine" title="create_engine" class="md-nav__link">
+    create_engine
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#engine" title="Engine" class="md-nav__link">
+    Engine
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#label" title="label" class="md-nav__link">
+    label
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#models" title="models" class="md-nav__link">
+    models
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poses" title="poses" class="md-nav__link">
+    poses
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_local_constraint" title="add_local_constraint" class="md-nav__link">
+    add_local_constraint
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_local_constraints_for_model" title="get_local_constraints_for_model" class="md-nav__link">
+    get_local_constraints_for_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apply_local_constraints" title="apply_local_constraints" class="md-nav__link">
+    apply_local_constraints
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_model" title="add_model" class="md-nav__link">
+    add_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set_fixed_pose_models" title="set_fixed_pose_models" class="md-nav__link">
+    set_fixed_pose_models
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run" title="run" class="md-nav__link">
+    run
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixedposeengine" title="FixedPoseEngine" class="md-nav__link">
+    FixedPoseEngine
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#add_pose" title="add_pose" class="md-nav__link">
+    add_pose
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run_1" title="run" class="md-nav__link">
+    run
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#patternengine" title="PatternEngine" class="md-nav__link">
+    PatternEngine
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#randomposeengine" title="RandomPoseEngine" class="md-nav__link">
+    RandomPoseEngine
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reset_counter" title="reset_counter" class="md-nav__link">
+    reset_counter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#increase_counter" title="increase_counter" class="md-nav__link">
+    increase_counter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_num_models" title="get_num_models" class="md-nav__link">
+    get_num_models
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_max_num_models" title="get_max_num_models" class="md-nav__link">
+    get_max_num_models
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#choose_model" title="choose_model" class="md-nav__link">
+    choose_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#is_model_in_workspace" title="is_model_in_workspace" class="md-nav__link">
+    is_model_in_workspace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_list_of_footprint_polygons" title="get_list_of_footprint_polygons" class="md-nav__link">
+    get_list_of_footprint_polygons
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#has_collision" title="has_collision" class="md-nav__link">
+    has_collision
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run_2" title="run" class="md-nav__link">
+    run
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.parsers/" title="pcg_gazebo.parsers" class="md-nav__link">
+      pcg_gazebo.parsers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.parsers.sdf_config/" title="pcg_gazebo.parsers.sdf_config" class="md-nav__link">
+      pcg_gazebo.parsers.sdf_config
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.parsers.sdf/" title="pcg_gazebo.parsers.sdf" class="md-nav__link">
+      pcg_gazebo.parsers.sdf
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.parsers.types/" title="pcg_gazebo.parsers.types" class="md-nav__link">
+      pcg_gazebo.parsers.types
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.parsers.urdf/" title="pcg_gazebo.parsers.urdf" class="md-nav__link">
+      pcg_gazebo.parsers.urdf
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.simulation/" title="pcg_gazebo.simulation" class="md-nav__link">
+      pcg_gazebo.simulation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.simulation.physics/" title="pcg_gazebo.simulation.physics" class="md-nav__link">
+      pcg_gazebo.simulation.physics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.simulation.properties/" title="pcg_gazebo.simulation.properties" class="md-nav__link">
+      pcg_gazebo.simulation.properties
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pcg_gazebo.simulation.sensors/" title="pcg_gazebo.simulation.sensors" class="md-nav__link">
+      pcg_gazebo.simulation.sensors
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Tutorials
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Tutorials
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-1" type="checkbox" id="nav-3-1">
+    
+    <label class="md-nav__link" for="nav-3-1">
+      Parsers
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-1">
+        Parsers
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-1-1" type="checkbox" id="nav-3-1-1">
+    
+    <label class="md-nav__link" for="nav-3-1-1">
+      SDF
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-3-1-1">
+        SDF
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/geometries/" title="Geometries" class="md-nav__link">
+      Geometries
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/materials/" title="Materials" class="md-nav__link">
+      Materials
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/collisions/" title="Collisions" class="md-nav__link">
+      Collisions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/visuals/" title="Visuals" class="md-nav__link">
+      Visuals
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/links_joints_sensors/" title="Links, joints and sensors" class="md-nav__link">
+      Links, joints and sensors
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/models/" title="Models" class="md-nav__link">
+      Models
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/physics_engines/" title="Physics engines" class="md-nav__link">
+      Physics engines
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/plugins/" title="Plugins" class="md-nav__link">
+      Plugins
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/world/" title="World" class="md-nav__link">
+      World
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/sdf/convert_from_sdf_file/" title="Convert from SDF file" class="md-nav__link">
+      Convert from SDF file
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-1-2" type="checkbox" id="nav-3-1-2">
+    
+    <label class="md-nav__link" for="nav-3-1-2">
+      URDF
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-3-1-2">
+        URDF
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/urdf/" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/urdf/geometries/" title="Geometries" class="md-nav__link">
+      Geometries
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/urdf/collision/" title="Collisions" class="md-nav__link">
+      Collisions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/urdf/visual/" title="Visuals" class="md-nav__link">
+      Visuals
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/urdf/links_joints_sensors/" title="Links, joints and sensors" class="md-nav__link">
+      Links, joints and sensors
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/parsers/urdf/robots/" title="Robots" class="md-nav__link">
+      Robots
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
+    
+    <label class="md-nav__link" for="nav-3-2">
+      Task manager
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-2">
+        Task manager
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/task_manager/gazebo_proxy/" title="Gazebo proxy" class="md-nav__link">
+      Gazebo proxy
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/task_manager/process_manager/" title="Process manager" class="md-nav__link">
+      Process manager
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/task_manager/stage_conditions/" title="Stage conditions" class="md-nav__link">
+      Stage conditions
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-3" type="checkbox" id="nav-3-3">
+    
+    <label class="md-nav__link" for="nav-3-3">
+      Simulation
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-3">
+        Simulation
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/simulation/objects/" title="Dynamically creating objects" class="md-nav__link">
+      Dynamically creating objects
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/simulation/physics_engines/" title="Setting up different physics engines" class="md-nav__link">
+      Setting up different physics engines
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/simulation/surface_collision_properties/" title="Surface and collision properties" class="md-nav__link">
+      Surface and collision properties
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/simulation/materials/" title="Materials" class="md-nav__link">
+      Materials
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/simulation/building_a_model/" title="Building a model" class="md-nav__link">
+      Building a model
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/simulation/sensors/" title="Sensors" class="md-nav__link">
+      Sensors
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/simulation/meshes/" title="Meshes" class="md-nav__link">
+      Meshes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../license/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pcg_gazebogeneratorsengines" title="pcg_gazebo.generators.engines" class="md-nav__link">
+    pcg_gazebo.generators.engines
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create_engine" title="create_engine" class="md-nav__link">
+    create_engine
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#engine" title="Engine" class="md-nav__link">
+    Engine
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#label" title="label" class="md-nav__link">
+    label
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#models" title="models" class="md-nav__link">
+    models
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poses" title="poses" class="md-nav__link">
+    poses
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_local_constraint" title="add_local_constraint" class="md-nav__link">
+    add_local_constraint
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_local_constraints_for_model" title="get_local_constraints_for_model" class="md-nav__link">
+    get_local_constraints_for_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apply_local_constraints" title="apply_local_constraints" class="md-nav__link">
+    apply_local_constraints
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add_model" title="add_model" class="md-nav__link">
+    add_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set_fixed_pose_models" title="set_fixed_pose_models" class="md-nav__link">
+    set_fixed_pose_models
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run" title="run" class="md-nav__link">
+    run
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixedposeengine" title="FixedPoseEngine" class="md-nav__link">
+    FixedPoseEngine
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#add_pose" title="add_pose" class="md-nav__link">
+    add_pose
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run_1" title="run" class="md-nav__link">
+    run
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#patternengine" title="PatternEngine" class="md-nav__link">
+    PatternEngine
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#randomposeengine" title="RandomPoseEngine" class="md-nav__link">
+    RandomPoseEngine
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reset_counter" title="reset_counter" class="md-nav__link">
+    reset_counter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#increase_counter" title="increase_counter" class="md-nav__link">
+    increase_counter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_num_models" title="get_num_models" class="md-nav__link">
+    get_num_models
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_max_num_models" title="get_max_num_models" class="md-nav__link">
+    get_max_num_models
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#choose_model" title="choose_model" class="md-nav__link">
+    choose_model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#is_model_in_workspace" title="is_model_in_workspace" class="md-nav__link">
+    is_model_in_workspace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_list_of_footprint_polygons" title="get_list_of_footprint_polygons" class="md-nav__link">
+    get_list_of_footprint_polygons
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#has_collision" title="has_collision" class="md-nav__link">
+    has_collision
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run_2" title="run" class="md-nav__link">
+    run
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>pcg_gazebo.generators.engines</h1>
+                
+                <h4 id="pcg_gazebogeneratorsengines">pcg_gazebo.generators.engines<a class="headerlink" href="#pcg_gazebogeneratorsengines" title="Permanent link">&para;</a></h4>
+<p>Pose generator engine definitions that compute the pose of the
+models according to pre-defined rules.</p>
+<h5 id="create_engine">create_engine<a class="headerlink" href="#create_engine" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">create_engine</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+Engine factory that returns the engine according
+to its <code class="codehilite">LABEL</code> definition. It returns <code class="codehilite">None</code> if the engine name
+is invalid.</p>
+<blockquote>
+<p><em>Input parameters</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">tag</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the engine class</li>
+<li><code class="codehilite">kwargs</code>: Inputs for the engine class constructor</li>
+</ul>
+<h4 id="engine">Engine<a class="headerlink" href="#engine" title="Permanent link">&para;</a></h4>
+<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="p">()</span>
+</pre></div>
+Base class for model factory engines. The engines are responsible
+of computing poses for models in the world and performing collision
+checks within the scenario before the final world is generated.
+This class includes methods common to all derived engine classes.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">callback_fcn_get_model</code> (<em>type:</em> <code class="codehilite">callable</code>): Handle to a function
+or a lambda function that returns a <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>
+associated with a tag name.</li>
+<li><code class="codehilite">callback_fcn_get_constraint</code> (<em>type:</em> <code class="codehilite">callable</code>, <em>default:</em> <code class="codehilite">None</code>):
+Handle to a function or a lambda function that returns a
+<code class="codehilite">pcg_gazebo.constraints.Constraint</code> associated with a tag name.</li>
+<li><code class="codehilite">models</code> (<em>type:</em> <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">None</code>): List of models names as <code class="codehilite">str</code>
+relative to the models that the engine will have as assets.</li>
+<li><code class="codehilite">constraints</code> (<em>type:</em> <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">None</code>): List of local constraint
+configurations that will be applied on to the engine's model assets.</li>
+</ul>
+<h5 id="label">label<a class="headerlink" href="#label" title="Permanent link">&para;</a></h5>
+<p><code class="codehilite">str</code>: Engine name identifier</p>
+<h5 id="models">models<a class="headerlink" href="#models" title="Permanent link">&para;</a></h5>
+<p>List of <code class="codehilite">str</code>: List of model name tags regarding
+the engine's model assets</p>
+<h5 id="poses">poses<a class="headerlink" href="#poses" title="Permanent link">&para;</a></h5>
+<p><code class="codehilite">dict</code>: List of fixed poses associated with model
+names.</p>
+<h5 id="add_local_constraint">add_local_constraint<a class="headerlink" href="#add_local_constraint" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="o">.</span><span class="n">add_local_constraint</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">constraint_name</span><span class="p">)</span>
+</pre></div>
+Add an association of a constraint definitions with an
+specific model tag to be taken into account when running
+the placement engine.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">model_name</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the model</li>
+<li><code class="codehilite">constraint_name</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the constraint definition</li>
+</ul>
+<h5 id="get_local_constraints_for_model">get_local_constraints_for_model<a class="headerlink" href="#get_local_constraints_for_model" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="o">.</span><span class="n">get_local_constraints_for_model</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+</pre></div>
+Return the name of the local constraint definitions for
+a model.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">model_name</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the model</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>List of <code class="codehilite">str</code>: List of constraint definition names associated
+with the model. If the model has no constraints, am empty
+list is returned.</p>
+<h5 id="apply_local_constraints">apply_local_constraints<a class="headerlink" href="#apply_local_constraints" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="o">.</span><span class="n">apply_local_constraints</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+Apply spatial constraints to model. This will modify the pose
+of the model if it violates the constraint.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">model</code> (<em>type:</em> <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>): Model
+instance</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p><code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>: Model with modified pose.</p>
+<h5 id="add_model">add_model<a class="headerlink" href="#add_model" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="o">.</span><span class="n">add_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+Add a model name to the list of model assets for this engine.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">model</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the model</li>
+</ul>
+<h5 id="set_fixed_pose_models">set_fixed_pose_models<a class="headerlink" href="#set_fixed_pose_models" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="o">.</span><span class="n">set_fixed_pose_models</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
+</pre></div>
+Function description</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">param</code> (<em>type:</em> <code class="codehilite">data_type</code>, <em>default:</em> <code class="codehilite">data</code>): Parameter description</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>Description of return values</p>
+<h5 id="run">run<a class="headerlink" href="#run" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+This function should be implemented by the derived
+classes.</p>
+<h4 id="fixedposeengine">FixedPoseEngine<a class="headerlink" href="#fixedposeengine" title="Permanent link">&para;</a></h4>
+<p><div class="codehilite"><pre><span></span><span class="n">FixedPoseEngine</span><span class="p">()</span>
+</pre></div>
+Engine that just places models on pre-configured fixed poses. This
+engine only accepts one model asset.</p>
+<ul>
+<li><code class="codehilite">callback_fcn_get_model</code> (<em>type:</em> <code class="codehilite">callable</code>): Handle to a function
+or a lambda function that returns a <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>
+associated with a tag name.</li>
+<li><code class="codehilite">callback_fcn_get_constraint</code> (<em>type:</em> <code class="codehilite">callable</code>, <em>default:</em> <code class="codehilite">None</code>):
+Handle to a function or a lambda function that returns a
+<code class="codehilite">pcg_gazebo.constraints.Constraint</code> associated with a tag name.</li>
+<li><code class="codehilite">models</code> (<em>type:</em> <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">None</code>): List of models names as <code class="codehilite">str</code>
+relative to the models that the engine will have as assets.</li>
+<li><code class="codehilite">constraints</code> (<em>type:</em> <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">None</code>): List of local constraint
+configurations that will be applied on to the engine's model assets.</li>
+<li><code class="codehilite">poses</code> (<em>type:</em> <code class="codehilite">list</code>): List of 6- (position and Euler angles) or 7 element
+(position and quaternion) poses.</li>
+</ul>
+<h5 id="add_pose">add_pose<a class="headerlink" href="#add_pose" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">FixedPoseEngine</span><span class="o">.</span><span class="n">add_pose</span><span class="p">(</span><span class="n">pose</span><span class="p">)</span>
+</pre></div>
+Add pose to the list of fixed-poses.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">pose</code> (<em>type:</em> <code class="codehilite">list</code>): 6- (position and Euler angles) or 7 element
+(position and quaternion) poses.</li>
+</ul>
+<h5 id="run_1">run<a class="headerlink" href="#run_1" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">FixedPoseEngine</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+Generate instances of the model asset for all
+the poses provided. If any local constraints were also provided,
+they will be applied to the model after its placement.</p>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>List of <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>: Model instances.</p>
+<h4 id="patternengine">PatternEngine<a class="headerlink" href="#patternengine" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><span class="n">PatternEngine</span><span class="p">()</span>
+</pre></div>
+
+<h4 id="randomposeengine">RandomPoseEngine<a class="headerlink" href="#randomposeengine" title="Permanent link">&para;</a></h4>
+<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="p">()</span>
+</pre></div>
+Placement engine that generates a random pose for its model
+assets respecting input local constraints, if any is provided,
+such as workspace constraint. This engine performs also a
+collision check with all models already placed in the scene (except
+for models flagged as ground plane) to ensure no models are overlapping
+each other.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">callback_fcn_get_model</code> (<em>type:</em> <code class="codehilite">callable</code>): Handle to a function
+or a lambda function that returns a <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>
+associated with a tag name.</li>
+<li><code class="codehilite">callback_fcn_get_constraint</code> (<em>type:</em> <code class="codehilite">callable</code>, <em>default:</em> <code class="codehilite">None</code>):
+Handle to a function or a lambda function that returns a
+<code class="codehilite">pcg_gazebo.constraints.Constraint</code> associated with a tag name.</li>
+<li><code class="codehilite">models</code> (<em>type:</em> <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">None</code>): List of models names as <code class="codehilite">str</code>
+relative to the models that the engine will have as assets.</li>
+<li><code class="codehilite">constraints</code> (<em>type:</em> <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">None</code>): List of local constraint
+configurations that will be applied on to the engine's model assets.</li>
+<li><code class="codehilite">max_num</code> (<em>type:</em> <code class="codehilite">dict</code>, <em>default:</em> <code class="codehilite">None</code>): Maximum number of instances
+of the model assets, the key being the model asset's name, and the value
+the maximum number.</li>
+<li><code class="codehilite">no_collision</code> (<em>type:</em> <code class="codehilite">bool</code>, <em>default:</em> <code class="codehilite">True</code>): If <code class="codehilite">True</code>, the model
+instances are only added to the world if there are no collisions with the
+already existing models (except for models flagged as ground plane).</li>
+<li><code class="codehilite">max_area</code> (<em>type:</em> <code class="codehilite">float</code>, <em>default:</em> <code class="codehilite">1</code>): Percentage of the allowed
+area to fill with the models.</li>
+<li><code class="codehilite">model_picker</code> (<em>type:</em> <code class="codehilite">str</code>, <em>default:</em> <code class="codehilite">random</code>): Strategy for picking
+a model from the list of assets for the next placement in the world. Options
+are <code class="codehilite">random</code> (selecting a random model from the list of assets) or <code class="codehilite">area</code>
+(selecting the models for the biggest to the smallest).</li>
+<li><code class="codehilite">policies</code> (<em>type:</em> <code class="codehilite">dict</code>, <em>default:</em> <code class="codehilite">None</code>): The rules for model
+generation associated with each degree of freedom.</li>
+</ul>
+<div class="codehilite"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">policies</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">models</span><span class="p p-Indicator">:</span>
+    <span class=" -Error"> </span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">model_1</span>
+     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">model_2</span>
+     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">model_3</span>
+     <span class="l l-Scalar l-Scalar-Plain">config</span><span class="p p-Indicator">:</span>
+     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">dofs</span><span class="p p-Indicator">:</span>
+       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">x</span>
+       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">y</span>
+       <span class="l l-Scalar l-Scalar-Plain">policy</span><span class="p p-Indicator">:</span>
+         <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">workspace</span>
+         <span class="l l-Scalar l-Scalar-Plain">args</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">area_1</span>     <span class="c1"># For more information on workspaces, check the class definition for `pcg_gazebo.constraints.WorkspaceConstraint`</span>
+     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">dofs</span><span class="p p-Indicator">:</span>
+       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">z</span>
+       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">roll</span>
+       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">pitch</span>
+       <span class="l l-Scalar l-Scalar-Plain">policy</span><span class="p p-Indicator">:</span>
+         <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">value</span>
+         <span class="l l-Scalar l-Scalar-Plain">args</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">dofs</span><span class="p p-Indicator">:</span>
+       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">yaw</span>
+       <span class="l l-Scalar l-Scalar-Plain">policy</span><span class="p p-Indicator">:</span>
+         <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">uniform</span>
+         <span class="l l-Scalar l-Scalar-Plain">args</span><span class="p p-Indicator">:</span>
+            <span class="l l-Scalar l-Scalar-Plain">min</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">-3.141592653589793</span>
+            <span class="l l-Scalar l-Scalar-Plain">max</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">3.141592653589793</span>
+</pre></div>
+
+<h5 id="reset_counter">reset_counter<a class="headerlink" href="#reset_counter" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">reset_counter</span><span class="p">()</span>
+</pre></div>
+Reset all model counters.</p>
+<h5 id="increase_counter">increase_counter<a class="headerlink" href="#increase_counter" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">increase_counter</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+Increase the counter for a model.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">name</code> (<em>type:</em> <code class="codehilite">str</code>): Model name</li>
+</ul>
+<h5 id="get_num_models">get_num_models<a class="headerlink" href="#get_num_models" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">get_num_models</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+Return the current value for the model counter.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">name</code> (<em>type:</em> <code class="codehilite">str</code>): Model name</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p><code class="codehilite">int</code>: Number of models</p>
+<h5 id="get_max_num_models">get_max_num_models<a class="headerlink" href="#get_max_num_models" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">get_max_num_models</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+Return the defined maximum number of instances for a model.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">name</code> (<em>type:</em> <code class="codehilite">str</code>): Model name</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p><code class="codehilite">int</code>: Maximum number of instances</p>
+<h5 id="choose_model">choose_model<a class="headerlink" href="#choose_model" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">choose_model</span><span class="p">()</span>
+</pre></div>
+Select the next model instance to be placed in the world.
+This method is affected by the constructor input <code class="codehilite">model_picker</code>.
+In case the <code class="codehilite">model_picker</code> option was set as <code class="codehilite">random</code>, a random
+model will be chosen from the assets available. If it is <code class="codehilite">area</code>,
+the models will be ordered by footprint size and the models are
+chosen by an descending footprint size.</p>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p><code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>: Chosen model</p>
+<h5 id="is_model_in_workspace">is_model_in_workspace<a class="headerlink" href="#is_model_in_workspace" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">is_model_in_workspace</span><span class="p">(</span><span class="n">footprint</span><span class="p">)</span>
+</pre></div>
+Verify if the model is in the allowed workspace</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">footprint</code> (<em>type:</em> <code class="codehilite">dict</code> or <code class="codehilite">shapely.geometries.Polygon</code>): A <code class="codehilite">shapely</code>
+polygon or a dictionary with the values being the footprints for different
+submodels.</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p><code class="codehilite">bool</code>: <code class="codehilite">True</code> if the polygon is entirely contained inside the workspace</p>
+<h5 id="get_list_of_footprint_polygons">get_list_of_footprint_polygons<a class="headerlink" href="#get_list_of_footprint_polygons" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">get_list_of_footprint_polygons</span><span class="p">(</span><span class="n">footprint</span><span class="p">)</span>
+</pre></div>
+Return the list of polygons contained in the <code class="codehilite">footprint</code> input.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">footprint</code> (<em>type:</em> <code class="codehilite">dict</code> or <code class="codehilite">shapely.geometries.Polygon</code>): A <code class="codehilite">shapely</code>
+polygon or a dictionary with the values being the footprints for different
+submodels.</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>List of <code class="codehilite">shapely.geometry.Polygon</code>: List of footprint polygons</p>
+<h5 id="has_collision">has_collision<a class="headerlink" href="#has_collision" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">has_collision</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+Run the collision checker of the input <code class="codehilite">model</code>
+against the current scene of the simulation.</p>
+<blockquote>
+<p><em>Input arguments</em></p>
+</blockquote>
+<ul>
+<li><code class="codehilite">model</code> (<em>type:</em> <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>):</li>
+</ul>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p><code class="codehilite">bool</code>: <code class="codehilite">True</code>, if any collision is detected</p>
+<h5 id="run_2">run<a class="headerlink" href="#run_2" title="Permanent link">&para;</a></h5>
+<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+Run the placement engine and generate a list of models placed
+according to the input policies and respecting spatial constraints.</p>
+<blockquote>
+<p><em>Returns</em></p>
+</blockquote>
+<p>List of <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code></p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../pcg_gazebo.generators.constraints/" title="pcg_gazebo.generators.constraints" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                pcg_gazebo.generators.constraints
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../pcg_gazebo.parsers/" title="pcg_gazebo.parsers" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                pcg_gazebo.parsers
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.267712eb.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>
