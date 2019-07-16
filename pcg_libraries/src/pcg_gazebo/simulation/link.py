@@ -18,7 +18,8 @@ import os
 import numpy as np
 import collections
 from time import time
-from .properties import Inertial, Collision, Visual, Pose, Footprint
+from .properties import Inertial, Collision, Visual, \
+    Pose, Footprint, Plugin
 from ..log import PCG_ROOT_LOGGER
 from ..parsers.sdf import create_sdf_element
 from ..parsers.sdf_config import create_sdf_config_element
@@ -35,7 +36,17 @@ class Link(object):
     * `life_timeout` (*type:* `float`, *default:* `None`): Timeout in which
     to remove the object from the simulation (**not implemented**).    
     """
-    def __init__(self, name='object', creation_time=None, life_timeout=None):
+    def __init__(self, 
+        name='object', 
+        creation_time=None, 
+        life_timeout=None,
+        pose=[0, 0, 0, 0, 0, 0],
+        inertial=None,
+        static=False,
+        self_collide=False,
+        kinematic=False,
+        visuals=None,
+        collisions=None):
         assert isinstance(name, str), 'Name must be a string'
         assert len(name) > 0, 'Name cannot be an empty string'
         self._ros_namespace = None
@@ -48,6 +59,7 @@ class Link(object):
         self._is_init = False
         self._properties = dict()
 
+        # Initialize link parameters
         self._name = name
         self._pose = Pose()
         self._inertial = None
@@ -57,10 +69,39 @@ class Link(object):
         self._collisions = list()
         self._visuals = list()
         self._sensors = dict()
+        self._plugins = dict()
 
         self._include_in_sdf = dict(
             collision=True,
             visual=True)
+
+        self.pose = pose
+        self.static = static
+        self.self_collide = self_collide
+        self.kinematic = kinematic
+
+        if inertial is not None:
+            self._inertial = Inertial.create_inertia(**inertial)
+
+        if collisions is not None:
+            for collision in collisions:
+                if isinstance(collision, dict):
+                    self.add_collision(Collision(**collision))
+                elif isinstance(collision, Collision):
+                    self.add_collision(collision)
+                else:
+                    self._logger.error(
+                        'Invalid collision element input={}'.format(collision))
+
+        if visuals is not None:
+            for visual in visuals:
+                if isinstance(visual, dict):
+                    self.add_visual(Visual(**visual))
+                elif isinstance(visual, Visual):
+                    self.add_visual(visual)
+                else:
+                    self._logger.error(
+                        'Invalid visual element input={}'.format(visual))
 
     @staticmethod
     def create_link_from_mesh(name='link', visual_mesh_filename=None, 
@@ -223,18 +264,21 @@ class Link(object):
 
     @pose.setter
     def pose(self, vec):
-        assert isinstance(vec, collections.Iterable), \
-            'Input vector must be iterable'
-        assert len(vec) == 6 or len(vec) == 7, \
-            'Input vector must have either 6 or 7 elements'
-        for item in vec:
-            assert isinstance(item, float) or isinstance(item, int), \
-                'Each pose element must be either a float or an integer'
-
-        if len(vec) == 6:
-            self._pose = Pose(pos=vec[0:3], rpy=vec[3::])
+        if isinstance(vec, Pose):
+            self._pose = vec
         else:
-            self._pose = Pose(pos=vec[0:3], quat=vec[3::])
+            assert isinstance(vec, collections.Iterable), \
+                'Input vector must be iterable'
+            assert len(vec) == 6 or len(vec) == 7, \
+                'Input vector must have either 6 or 7 elements'
+            for item in vec:
+                assert isinstance(item, float) or isinstance(item, int), \
+                    'Each pose element must be either a float or an integer'
+
+            if len(vec) == 6:
+                self._pose = Pose(pos=vec[0:3], rpy=vec[3::])
+            else:
+                self._pose = Pose(pos=vec[0:3], quat=vec[3::])
 
     @property
     def inertial(self):
@@ -504,7 +548,7 @@ class Link(object):
         self._collisions.append(collision)
         return True        
 
-    def to_sdf(self, type, name='model', sdf_version='1.6'):
+    def to_sdf(self, type='link', name='model', sdf_version='1.6'):
         """Convert object to an SDF element. The object can be converted
         to different SDF elements according to the `type` input
 
@@ -568,6 +612,9 @@ class Link(object):
             sdf = self._sensors[tag].to_sdf()
             link.add_sensor(tag, sdf)
 
+        for tag in self._plugins:
+            link.add_plugin(tag, self._plugins[tag].to_sdf())   
+        
         if self._inertial is not None:
             link.inertial = self._inertial.to_sdf()
 
@@ -737,6 +784,15 @@ class Link(object):
         self._sensors[name] = sensor
         return True
 
+    def add_plugin(self, name='', filename='', plugin=None, **kwargs):
+        if plugin is None:
+            self._plugins[name] = Plugin(
+                name=name, 
+                filename=filename)
+            self._plugins[name].params = kwargs.copy()
+        else:
+            self._plugins[plugin.name] = plugin
+
     def to_markers(self):
         """Generate `visualization_msgs/Marker` instances from the visual and/or
         collision entities.
@@ -888,3 +944,10 @@ class Link(object):
                     bounds[1, i] = max(bounds[1, i], cur_bounds[1, i])
         return bounds
             
+    def create_scene(self, mesh_type='collision', add_pseudo_color=True):
+        from ..visualization import create_scene
+        return create_scene([self], mesh_type, add_pseudo_color)   
+
+    def show(self, mesh_type='collision', add_pseudo_color=True):
+        scene = self.create_scene(mesh_type, add_pseudo_color)     
+        scene.show()
