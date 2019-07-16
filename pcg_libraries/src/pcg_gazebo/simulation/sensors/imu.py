@@ -35,7 +35,7 @@ class IMU(Sensor):
             x=Noise(),
             y=Noise(),
             z=Noise()
-        )        
+        )              
 
         self._topic = topic
     
@@ -100,4 +100,20 @@ class IMU(Sensor):
         sensor.imu.linear_acceleration.y.noise = self._elements['linear_acceleration']['y'].to_sdf()
         sensor.imu.linear_acceleration.z.noise = self._elements['linear_acceleration']['z'].to_sdf()
 
+        # For SDF 1.4 and 1.5, the noise element must be initialized
+        sensor.imu.noise = create_sdf_element('noise')
+        sensor.imu.noise.rate = create_sdf_element('rate')
+        sensor.imu.noise.rate.mean = self._elements['angular_velocity']['x'].mean
+        sensor.imu.noise.rate.stddev = self._elements['angular_velocity']['x'].stddev
+        sensor.imu.noise.rate.bias_mean = self._elements['angular_velocity']['x'].bias_mean
+        sensor.imu.noise.rate.bias_stddev = self._elements['angular_velocity']['x'].bias_stddev
+
+        sensor.imu.noise.accel = create_sdf_element('accel')
+
+        sensor.imu.noise.accel = create_sdf_element('accel')
+        sensor.imu.noise.accel.mean = self._elements['linear_acceleration']['x'].mean
+        sensor.imu.noise.accel.stddev = self._elements['linear_acceleration']['x'].stddev
+        sensor.imu.noise.accel.bias_mean = self._elements['linear_acceleration']['x'].bias_mean
+        sensor.imu.noise.accel.bias_stddev = self._elements['linear_acceleration']['x'].bias_stddev
+        
         return sensor
