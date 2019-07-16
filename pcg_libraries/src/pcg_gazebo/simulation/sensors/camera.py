@@ -153,8 +153,7 @@ class Camera(Sensor):
     def add_ros_camera_plugin(self, name='camera', update_rate=0,
         camera_name='camera', image_topic_name='image_raw', robot_namespace='',
         camera_info_topic_name='camera_info', frame_name='camera_link',
-        hack_baseline=0.07, distortion_k1=0, distortion_k2=0, distortion_k3=0,
-        distortion_t1=0, distortion_t2=0):
+        hack_baseline=0.07):
 
         self._plugin = Plugin()
         self._plugin.init_gazebo_ros_camera_plugin(
@@ -170,6 +169,37 @@ class Camera(Sensor):
             distortion_k3=self._distortion_k3,
             distortion_t1=self._distortion_p1, 
             distortion_t2=self._distortion_p2)
+
+    def add_ros_openni_kinect_plugin(self, name='camera_controller',
+        update_rate=0, always_on=True,
+        camera_name='camera', image_topic_name='color/image_raw',
+        camera_info_topic_name='color/camera_info', 
+        depth_image_topic_name='depth/image_rect_raw', 
+        depth_image_camera_info_topic_name='depth/camera_info',
+        point_cloud_topic_name='depth/points', frame_name='camera_link',
+        baseline=0.1, distortion_k1=0, distortion_k2=0, distortion_k3=0,
+        distortion_t1=0, distortion_t2=0, point_cloud_cutoff=0):
+        
+        self._plugin = Plugin()
+        self._plugin.init_openni_kinect_plugin(
+            name=name, 
+            update_rate=update_rate,
+            camera_name=camera_name, 
+            image_topic_name=image_topic_name,
+            camera_info_topic_name=camera_info_topic_name, 
+            depth_image_topic_name=depth_image_topic_name, 
+            depth_image_camera_info_topic_name=depth_image_camera_info_topic_name,
+            point_cloud_topic_name=point_cloud_topic_name, 
+            frame_name=frame_name,
+            baseline=baseline, 
+            distortion_k1=distortion_k1, 
+            distortion_k2=distortion_k2, 
+            distortion_k3=distortion_k3,
+            distortion_t1=distortion_t1, 
+            distortion_t2=distortion_t2, 
+            point_cloud_cutoff=point_cloud_cutoff, 
+            always_on=always_on
+        )
 
     def to_sdf(self):
         sensor = Sensor.to_sdf(self)
