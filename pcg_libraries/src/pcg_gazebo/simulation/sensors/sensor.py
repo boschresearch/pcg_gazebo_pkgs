@@ -90,6 +90,15 @@ class Sensor(object):
     def plugin(self):
         return self._plugin
 
+    def set_plugin(self, name='', filename='', plugin=None, **kwargs):
+        if plugin is None:
+            self._plugin = Plugin(
+                name=name, 
+                filename=filename)
+            self._plugin.params = kwargs.copy()
+        else:
+            self._plugin = plugin
+
     def to_sdf(self):
         sensor = create_sdf_element('sensor')
         sensor.always_on = self._always_on
