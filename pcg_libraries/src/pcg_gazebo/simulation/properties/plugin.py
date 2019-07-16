@@ -135,7 +135,36 @@ class Plugin(object):
         self._params['distortionK3'] = distortion_k3
         self._params['distortionT1'] = distortion_t1
         self._params['distortionT2'] = distortion_t2
-        
+
+    def init_openni_kinect_plugin(self, name='camera', update_rate=0,
+        camera_name='camera', image_topic_name='color/image_raw',
+        camera_info_topic_name='color/camera_info', 
+        depth_image_topic_name='depth/image_rect_raw', 
+        depth_image_camera_info_topic_name='depth/camera_info',
+        point_cloud_topic_name='depth/points', frame_name='camera_link',
+        baseline=0.1, distortion_k1=0, distortion_k2=0, distortion_k3=0,
+        distortion_t1=0, distortion_t2=0, point_cloud_cutoff=0, always_on=True):
+        self.name = name
+        self.filename = 'libgazebo_ros_openni_kinect.so'
+
+        self._params = dict()
+        self._params['cameraName'] = camera_name
+        self._params['alwaysOn'] = always_on
+        self._params['updateRate'] = update_rate
+        self._params['imageTopicName'] = image_topic_name
+        self._params['cameraInfoTopicName'] = camera_info_topic_name
+        self._params['depthImageTopicName'] = depth_image_topic_name
+        self._params['depthImageCameraInfoTopicName'] = depth_image_camera_info_topic_name
+        self._params['pointCloudTopicName'] = point_cloud_topic_name
+        self._params['frameName'] = frame_name,
+        self._params['hackBaseline'] = baseline
+        self._params['distortionK1'] = distortion_k1
+        self._params['distortionK2'] = distortion_k2
+        self._params['distortionK3'] = distortion_k3
+        self._params['distortionT1'] = distortion_t1
+        self._params['distortionT2'] = distortion_t2
+        self._params['pointCloudCutoff'] = point_cloud_cutoff
+
     def to_sdf(self):
         sdf = create_sdf_element('plugin')
         sdf.name = self._name
