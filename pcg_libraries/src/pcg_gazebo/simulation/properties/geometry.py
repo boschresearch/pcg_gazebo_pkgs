@@ -341,7 +341,7 @@ class Geometry(object):
                 PCG_ROOT_LOGGER.error(msg)
                 raise ValueError(msg)
             
-            filename = uri.replace('(find {})'.format(pkg_name), pkg_path)
+            filename = uri.replace('(find {})/'.format(pkg_name), pkg_path)
             self._mesh_resource = 'file://' + filename                
         else:
             msg = 'Invalid URI format, uri={}'.format(uri)
