@@ -340,10 +340,13 @@ def sdf2urdf(sdf):
             # TODO Check relative link position to previous link frame
             for i in range(len(sdf.joints)):
                 joint = sdf.joints[i]
-                parent_link = sdf.get_link_by_name(joint.parent.value)
-                child_link = sdf.get_link_by_name(joint.child.value)        
+                if joint.parent.value != 'world':
+                    parent_link = sdf.get_link_by_name(joint.parent.value)
+                    parent_pose = Pose(parent_link.pose.value[0:3], parent_link.pose.value[3::])
+                else:
+                    parent_pose = Pose()
 
-                parent_pose = Pose(parent_link.pose.value[0:3], parent_link.pose.value[3::])
+                child_link = sdf.get_link_by_name(joint.child.value)                       
                 child_pose = Pose(child_link.pose.value[0:3], child_link.pose.value[3::])
 
                 # Calculate relative pose of the joint regarding the parent's pose
@@ -502,7 +505,6 @@ def urdf2sdf(urdf):
     `pcg_gazebo.parsers.types.XMLBase` as a SDF element.
     """
     from .sdf import create_sdf_element
-    from .urdf import create_urdf_element
     import collections
 
     assert urdf is not None, 'Input URDF is invalid'

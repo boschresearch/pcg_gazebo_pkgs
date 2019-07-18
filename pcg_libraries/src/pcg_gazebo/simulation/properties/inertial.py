@@ -19,15 +19,15 @@ from .pose import Pose
 
 
 class Inertial(object):
-    def __init__(self):        
-        self._mass = 0
+    def __init__(self, mass=0, ixx=0, iyy=0, izz=0, ixy=0, ixz=0, iyz=0):        
+        self._mass = mass
         self._pose = Pose()
-        self._ixx = 0
-        self._iyy = 0
-        self._izz = 0
-        self._ixy = 0
-        self._iyz = 0
-        self._ixz = 0
+        self._ixx = ixx
+        self._iyy = iyy
+        self._izz = izz
+        self._ixy = ixy
+        self._iyz = iyz
+        self._ixz = ixz
 
     def __str__(self):
         pose = self._pose.position + self._pose.rpy
@@ -129,6 +129,25 @@ class Inertial(object):
         assert isinstance(value, float) or isinstance(value, int), \
             'Input value must be a float or an integer, provided={}'.format(type(value))
         self._iyz = value
+
+    @staticmethod
+    def create_inertia(inertia_type, **kwargs):
+        if inertia_type == 'solid_sphere':
+            return Inertial.create_solid_sphere_inertia(**kwargs)
+        elif inertia_type == 'hollow_sphere':
+            return Inertial.create_hollow_sphere_inertia(**kwargs)
+        elif inertia_type == 'ellipsoid':
+            return Inertial.create_ellipsoid_inertia(**kwargs)
+        elif inertia_type == 'cuboid':
+            return Inertial.create_cuboid_inertia(**kwargs)
+        elif inertia_type == 'centered_rod':
+            return Inertial.create_centered_rod_inertia(**kwargs)
+        elif inertia_type == 'solid_cylinder':
+            return Inertial.create_solid_cylinder_inertia(**kwargs)
+        elif inertia_type == 'custom':
+            return Inertial(**kwargs)
+        else:
+            return None
 
     @staticmethod
     def create_solid_sphere_inertia(mass, radius):

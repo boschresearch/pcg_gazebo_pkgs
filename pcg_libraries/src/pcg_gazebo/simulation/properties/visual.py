@@ -21,7 +21,13 @@ import collections
 
 
 class Visual(object):
-    def __init__(self, name='visual'):
+    def __init__(self, 
+        name='visual',
+        pose=[0, 0, 0, 0, 0, 0],
+        cast_shadows=True,
+        transparency=0,
+        geometry_type=None,
+        geometry_args=None):
         self._sdf_visual = create_sdf_element('visual')
         self._sdf_visual.reset(with_optional_elements=True)
         self._sdf_visual.name = name
@@ -39,6 +45,21 @@ class Visual(object):
         
         mat = self._material.get_random_xkcd_material_as_sdf()
         self._default_display_color = mat.diffuse.value
+
+        self.pose = pose
+        self.transparency = transparency
+        self.cast_shadows = cast_shadows
+
+        if geometry_type is not None and geometry_args is not None:
+            if geometry_type == 'cylinder':
+                self.set_cylinder_as_geometry(**geometry_args)
+            elif geometry_type == 'sphere':
+                self.set_sphere_as_geometry(**geometry_args)
+            elif geometry_type == 'mesh':
+                self.set_mesh_as_geometry(**geometry_args)
+            elif geometry_type == 'box':
+                self.set_box_as_geometry(**geometry_args)
+
     @property
     def sdf(self):
         return self._sdf_visual

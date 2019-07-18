@@ -95,6 +95,7 @@ class Ray(Sensor):
 
     def to_sdf(self):
         sensor = Sensor.to_sdf(self)
+        sensor.type = 'ray'
 
         sensor.ray = create_sdf_element('ray')
         sensor.ray.reset(with_optional_elements=True)

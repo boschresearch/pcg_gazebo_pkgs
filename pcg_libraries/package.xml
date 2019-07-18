@@ -28,6 +28,8 @@
   <exec_depend>python-matplotlib</exec_depend>
   <exec_depend>python-yaml</exec_depend>
   <exec_depend>python-pip</exec_depend>
+  <exec_depend>python-networkx</exec_depend>
+  <exec_depend>python-scipy</exec_depend>
   <exec_depend>visualization_msgs</exec_depend>
   <exec_depend>libxml2-utils</exec_depend>
   <exec_depend>blender</exec_depend>

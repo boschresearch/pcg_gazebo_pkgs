@@ -173,7 +173,6 @@ if __name__ == '__main__':
 
     if rospy.is_shutdown():
             raise rospy.ROSInitException('ROS master is not running!')
-            sys.exit(-1)
 
     rospy.init_node('generate_model_description', anonymous=True)
 

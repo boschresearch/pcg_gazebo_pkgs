@@ -14,17 +14,18 @@
 # limitations under the License.
 
 from __future__ import print_function
-from .properties import Pose, Inertial, Footprint
+from .properties import Pose, Inertial, Footprint, Plugin
 from .link import Link
 from .joint import Joint
 from .sensors import IMU, Ray, Contact, Camera
-from ..parsers.sdf import create_sdf_element
+from ..parsers.sdf import create_sdf_element, is_sdf_element
 from ..parsers import sdf2urdf
 from ..log import PCG_ROOT_LOGGER
 from geometry_msgs.msg import TransformStamped
 import collections
 import numpy as np
 from math import pi
+
 
 # FIXME: Add parsing of light sources and actors
 class SimulationModel(object):
@@ -60,6 +61,8 @@ class SimulationModel(object):
         self._parent = parent
         # Flag to indicate if the model is a ground plane 
         self._is_ground_plane = is_ground_plane
+        # List of plugins
+        self._plugins = dict()
 
         self._logger.info('New model created, name={}'.format(self._name))
 
@@ -147,19 +150,22 @@ class SimulationModel(object):
 
     @pose.setter
     def pose(self, vec):
-        assert isinstance(vec, collections.Iterable), \
-            'Input pose vector must be iterable'
-        assert len(vec) == 6 or len(vec) == 7, \
-            'Pose must be given as position and Euler angles (x, y, z, ' \
-            'roll, pitch, yaw) or position and quaternions (x, y, z, ' \
-            'qx, qy, qz, qw)'
-        for item in vec:
-            assert isinstance(item, float) or isinstance(item, int), \
-                'All elements in pose vector must be a float or an integer'        
-        if len(vec) == 6:
-            self._pose = Pose(pos=vec[0:3], rpy=vec[3::])
+        if isinstance(vec, Pose):
+            self._pose = vec
         else:
-            self._pose = Pose(pos=vec[0:3], quat=vec[3::])
+            assert isinstance(vec, collections.Iterable), \
+                'Input pose vector must be iterable'
+            assert len(vec) == 6 or len(vec) == 7, \
+                'Pose must be given as position and Euler angles (x, y, z, ' \
+                'roll, pitch, yaw) or position and quaternions (x, y, z, ' \
+                'qx, qy, qz, qw)'
+            for item in vec:
+                assert isinstance(item, float) or isinstance(item, int), \
+                    'All elements in pose vector must be a float or an integer'        
+            if len(vec) == 6:
+                self._pose = Pose(pos=vec[0:3], rpy=vec[3::])
+            else:
+                self._pose = Pose(pos=vec[0:3], quat=vec[3::])
 
     @property
     def links(self):
@@ -184,6 +190,22 @@ class SimulationModel(object):
     @property
     def joint_names(self):
         return self._joints.keys()
+
+    @property
+    def plugins(self):
+        return self._plugins
+
+    def merge(self, model):
+        for tag in model.links:            
+            self.add_link(tag, link=model.links[tag])
+            pose = model.pose + self.get_link_by_name(tag).pose
+            self.get_link_by_name(tag).pose = pose
+            
+        for tag in model.joints:
+            self.add_joint(tag, joint=model.joints[tag])
+
+        for tag in model.plugins:
+            self.add_plugin(tag, plugin=model.plugins[tag])
 
     def set_random_orientation(self):        
         self._pose.quat = Pose.random_quaternion()
@@ -470,20 +492,21 @@ class SimulationModel(object):
         self._models[name] = model
         return True
 
-    def add_joint(self, name, parent, child, joint_type, axis_limits=dict(), 
-        axis_xyz=None, axis_dynamics=dict()):
+    def add_joint(self, name, parent='', child='', joint_type='', axis_limits=dict(), 
+        axis_xyz=None, axis_dynamics=dict(), joint=None):
         if name in self._joints:
             self._logger.error('Joint with name {} already exists'.format(name))
             return False
         
-        joint = Joint(name, parent, child, joint_type)
-        if len(axis_limits):
-            joint.set_axis_limits(**axis_limits)
-        if len(axis_dynamics):
-            joint.set_axis_dynamics(**axis_dynamics)
-        if axis_xyz is not None:
-            joint.set_axis_xyz(axis_xyz)
-        
+        if joint is None:
+            joint = Joint(name, parent, child, joint_type)
+            if len(axis_limits):
+                joint.set_axis_limits(**axis_limits)
+            if len(axis_dynamics):
+                joint.set_axis_dynamics(**axis_dynamics)
+            if axis_xyz is not None:
+                joint.set_axis_xyz(axis_xyz)
+            
         self._joints[name] = joint
         return True
         
@@ -792,6 +815,15 @@ class SimulationModel(object):
         self._links[link_name].add_sensor(name, sensor)
         return True
 
+    def add_plugin(self, name='', filename='', plugin=None, **kwargs):
+        if plugin is None:
+            self._plugins[name] = Plugin(
+                name=name, 
+                filename=filename)
+            self._plugins[name].params = kwargs.copy()
+        else:
+            self._plugins[plugin.name] = plugin
+
     def to_sdf(self, type='model', sdf_version='1.6'):
         assert type in ['model', 'sdf'], 'Output type must be either model or sdf'
         model = create_sdf_element('model')
@@ -808,7 +840,10 @@ class SimulationModel(object):
             model.add_joint(tag, self.joints[tag].to_sdf())
 
         for tag in self.models:
-            model.add_model(tag, self.models[tag].to_sdf())        
+            model.add_model(tag, self.models[tag].to_sdf())     
+
+        for tag in self.plugins:
+            model.add_plugin(tag, plugin=self.plugins[tag].to_sdf())   
         
         if type == 'model':
             return model
@@ -849,6 +884,7 @@ class SimulationModel(object):
         if sdf.joints:
             for joint_sdf in sdf.joints:                
                 model._joints[joint_sdf.name] = Joint.from_sdf(joint_sdf)
+        
         # Parse nested included models
         if sdf.includes:
             for include_sdf in sdf.includes:
@@ -867,7 +903,14 @@ class SimulationModel(object):
                 model.add_model(
                     model_sdf.name, 
                     SimulationModel.from_sdf(model_sdf))  
-                          
+
+        # Parse plugins
+        if sdf.plugins:
+            for plugin_sdf in sdf.plugins:
+                model.add_plugin(
+                    name=plugin_sdf.name,
+                    plugin=Plugin.from_sdf(plugin_sdf))
+
         return model
 
     @staticmethod
@@ -1082,3 +1125,47 @@ class SimulationModel(object):
                 for i in range(3):
                     bounds[1, i] = max(bounds[1, i], cur_bounds[1, i])
         return bounds
+
+    def spawn(self, gazebo_proxy=None, robot_namespace=None, pos=[0, 0, 0], 
+        rot=[0, 0, 0], reference_frame='world', timeout=30, replace=True):
+        from ..task_manager import GazeboProxy, is_gazebo_running        
+        from time import sleep, time
+
+        if not isinstance(gazebo_proxy, GazeboProxy):
+            gazebo_proxy = GazeboProxy()
+
+        if robot_namespace is None:
+            robot_namespace = self.name
+
+        assert timeout >= 0, 'Timeout should be equal or greater than zero'
+        start_time = time()
+        while not gazebo_proxy.is_init() and time() - start_time < timeout:
+            self._logger.info('Waiting for Gazebo to start...')
+            sleep(0.5)
+
+        if not is_gazebo_running(
+            ros_master_uri=gazebo_proxy.ros_config.ros_master_uri):
+            self._logger.error('Gazebo is not running!')
+            return False
+
+        if replace and robot_namespace in gazebo_proxy.get_model_names():
+            self._logger.info('Deleting existing model first')
+            if gazebo_proxy.delete_model(robot_namespace):
+                self._logger.info('Done')
+            else:
+                self._logger.error('Failed to delete existing model')
+                return False
+
+        sdf = self.to_sdf(type='model')
+        assert sdf._NAME == 'model', 'SDF element must be of type model'
+        assert is_sdf_element(sdf), 'Input is not an SDF element'
+        sdf_root = create_sdf_element('sdf')
+        sdf_root.reset(mode='model')
+        sdf_root.add_model(model=sdf)
+        
+        return gazebo_proxy.spawn_sdf_model(
+            robot_namespace,
+            sdf_root.to_xml_as_str(),
+            pos,
+            rot,
+            reference_frame)

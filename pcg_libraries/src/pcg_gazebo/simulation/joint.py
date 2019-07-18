@@ -12,15 +12,27 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-from __future__ import print_function
 from ..parsers.sdf import Joint as JointSDF
 from ..parsers.sdf import create_sdf_element
 from .properties import Axis, Pose
+from ..log import PCG_ROOT_LOGGER
 
 
 class Joint(object):
-    def __init__(self, name='joint', parent=None, child=None, joint_type='fixed'):        
+    def __init__(self, 
+        name='joint', 
+        parent=None, 
+        child=None, 
+        joint_type='fixed',
+        axis_xyz=[0, 0, 1],
+        damping=0, 
+        friction=0, 
+        spring_reference=0, 
+        spring_stiffness=0,
+        lower=-1e16, 
+        upper=1e16, 
+        velocity=-1, 
+        effort=-1):        
         assert isinstance(name, str), 'Name must be a string'
         assert len(name) > 0, 'Name cannot be an empty string'
         self._name = name
@@ -47,6 +59,20 @@ class Joint(object):
             self._axis = [Axis(), Axis()]
         else:
             self._axis = list()
+
+        self.set_axis_xyz(axis_xyz)
+        self.set_axis_dynamics(
+            damping=damping, 
+            friction=friction,
+            spring_reference=spring_reference,
+            spring_stiffness=spring_stiffness
+        )
+        self.set_axis_limits(
+            lower=lower,
+            upper=upper,
+            velocity=velocity,
+            effort=effort
+        )
         
     @property
     def name(self):
@@ -95,6 +121,7 @@ class Joint(object):
 
     @pose.setter
     def pose(self, vec):
+        import collections
         assert isinstance(vec, collections.Iterable), \
             'Input pose vector must be iterable'
         assert len(vec) == 6 or len(vec) == 7, \
@@ -115,17 +142,17 @@ class Joint(object):
 
     def set_axis_xyz(self, xyz=[0, 0, 1], index=0):
         if self._type == 'fixed':
-            print('Axis vector is ignored for fixed joints')
+            PCG_ROOT_LOGGER.warning('Axis vector is ignored for fixed joints')
             return False
         self._axis[index].set_axis(xyz)
         return True
 
     def set_axis_limits(self, lower=0, upper=0, velocity=-1, effort=-1, index=0):
         if self._type == 'fixed':
-            print('Fixed joints have no limits')
+            PCG_ROOT_LOGGER.warning('Fixed joints have no limits')
             return False
         if index != 0 and self._type not in ['universal', 'revolute2']:
-            print('Only joints of types universal and revolute2')
+            PCG_ROOT_LOGGER.warning('Only joints of types universal and revolute2')
             return False
 
         self._axis[index].set_limits(lower, upper, velocity, effort)
@@ -134,10 +161,10 @@ class Joint(object):
     def set_axis_dynamics(self, damping=0, friction=0, spring_reference=0, 
         spring_stiffness=0, index=0):
         if self._type == 'fixed':
-            print('Fixed joints have no limits')
+            PCG_ROOT_LOGGER.warning('Fixed joints have no limits')
             return False
         if index != 0 and self._type not in ['universal', 'revolute2']:
-            print('Only joints of types universal and revolute2')
+            PCG_ROOT_LOGGER.warning('Only joints of types universal and revolute2')
             return False
         
         self._axis[index].set_dynamics(damping, friction, spring_reference, spring_stiffness)

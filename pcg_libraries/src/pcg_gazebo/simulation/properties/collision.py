@@ -20,19 +20,88 @@ from .pose import Pose
 
 
 class Collision(object):
-    def __init__(self, name='collision'):
+    def __init__(self, 
+        name='collision', 
+        pose=[0, 0, 0, 0, 0, 0],
+        geometry_type=None,
+        geometry_args=None,
+        mu=1.0,
+        mu2=1.0,
+        slip1=0,
+        slip2=0,
+        rolling_friction=1,
+        fdir1=[0, 0, 0],
+        max_contacts=10,
+        soft_cfm=0,
+        soft_erp=0.2,
+        kp=1e12,
+        kd=1,
+        max_vel=0.01,
+        min_depth=0,
+        split_impulse=1,
+        split_impulse_penetration_threshold=-0.01, 
+        enable_friction=False,
+        enable_bounce=False,
+        enable_contact=False):
+
         self._sdf_collision = create_sdf_element('collision')
-        self._sdf_collision.reset(with_optional_elements=True)
-        self._sdf_collision.name = name
+        self._sdf_collision.reset(with_optional_elements=True)        
         self._include_in_sdf = dict(
             max_contacts=True,
             pose=True,
-            friction=False,
-            bounce=False,
-            contact=False
+            friction=enable_friction,
+            bounce=enable_bounce,
+            contact=enable_contact
         )
         self._geometry = Geometry()
         self._pose = Pose()
+
+        # Setting the input parameters
+        self.name = name
+        self.pose = pose
+
+        if geometry_type is not None and geometry_args is not None:
+            if geometry_type == 'cylinder':
+                self.set_cylinder_as_geometry(**geometry_args)
+            elif geometry_type == 'sphere':
+                self.set_sphere_as_geometry(**geometry_args)
+            elif geometry_type == 'mesh':
+                self.set_mesh_as_geometry(**geometry_args)
+            elif geometry_type == 'box':
+                self.set_box_as_geometry(**geometry_args)
+
+        self.max_contacts = max_contacts
+
+        self.set_ode_friction_params(
+            mu=mu,
+            mu2=mu2,
+            slip1=slip1,
+            slip2=slip2,
+            fdir1=fdir1
+        )
+        self.set_bullet_friction_params(
+            friction=mu,
+            friction2=mu2,
+            fdir1=fdir1,
+            rolling_friction=rolling_friction
+        )
+
+        self.set_ode_contact_params(
+            soft_cfm=soft_cfm,
+            soft_erp=soft_erp,
+            kp=kp,
+            kd=kd,
+            max_vel=max_vel,
+            min_depth=min_depth
+        )
+        self.set_bullet_contact_params(
+            soft_cfm=soft_cfm,
+            soft_erp=soft_erp,
+            kp=kp,
+            kd=kd,
+            split_impulse=split_impulse,
+            split_impulse_penetration_threshold=split_impulse_penetration_threshold
+        )
 
     @property
     def sdf(self):

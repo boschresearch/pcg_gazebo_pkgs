@@ -323,7 +323,26 @@ class Geometry(object):
                 raise ValueError(msg)
 
             filename = uri.replace(result[0], pkg_path + '/')
-            self._mesh_resource = 'file://' + filename            
+            self._mesh_resource = 'file://' + filename    
+        elif '$(find' in uri:
+            uri = uri.replace('$', '')
+            result = re.findall('(find \w+)', uri)
+            if len(result) == 0:
+                msg = 'Invalid package path for provided mesh uri {}'.format(uri)
+                PCG_ROOT_LOGGER.error(msg)
+                raise ValueError(msg)
+
+            pkg_name = result[0].split()[1]
+
+            try:
+                pkg_path = rospkg.RosPack().get_path(pkg_name)
+            except rospkg.ResourceNotFound as ex:
+                msg = 'Error finding package {}, message={}'.format(pkg_name, ex)
+                PCG_ROOT_LOGGER.error(msg)
+                raise ValueError(msg)
+            
+            filename = uri.replace('(find {})/'.format(pkg_name), pkg_path)
+            self._mesh_resource = 'file://' + filename                
         else:
             msg = 'Invalid URI format, uri={}'.format(uri)
             PCG_ROOT_LOGGER.error(msg)
