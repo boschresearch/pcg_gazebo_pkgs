@@ -8,6 +8,8 @@ The Procedural Generation for Gazebo package is an Open Source
 Project extending the simulation capabilities of the robotics simulator Gazebo
 for automation and scripting of Gazebo simulations.
 
+Visit the [documentation page](https://boschresearch.github.io/pcg_gazebo_pkgs/) for more information.
+
 ## Purpose of the project
 
 This software is a research prototype.
