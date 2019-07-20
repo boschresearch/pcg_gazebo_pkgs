@@ -857,6 +857,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../model_generator/" title="Model generator" class="md-nav__link">
+      Model generator
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -955,11 +967,6 @@
 <span class="n">simulation</span><span class="o">.</span><span class="n">run_all_tasks</span><span class="p">()</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>[&#39;gazebo&#39;]
-Is Gazebo running: False
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">pcg_gazebo.generators</span> <span class="kn">import</span> <span class="n">WorldGenerator</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="c1"># Create a Gazebo proxy</span>
@@ -980,118 +987,10 @@ Is Gazebo running: False
 <span class="k">print</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">))</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>&lt;model name=&quot;box&quot;&gt;
-  &lt;link name=&quot;box&quot;&gt;
-    &lt;inertial&gt;
-      &lt;inertia&gt;
-        &lt;izz&gt;2.825&lt;/izz&gt;
-        &lt;iyz&gt;0.0&lt;/iyz&gt;
-        &lt;iyy&gt;3.6250000000000004&lt;/iyy&gt;
-        &lt;ixx&gt;3.25&lt;/ixx&gt;
-        &lt;ixy&gt;0.0&lt;/ixy&gt;
-        &lt;ixz&gt;0.0&lt;/ixz&gt;
-      &lt;/inertia&gt;
-      &lt;mass&gt;30.0&lt;/mass&gt;
-      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-    &lt;/inertial&gt;
-    &lt;visual name=&quot;visual&quot;&gt;
-      &lt;geometry&gt;
-        &lt;box&gt;
-          &lt;size&gt;0.8 0.7 0.9&lt;/size&gt;
-        &lt;/box&gt;
-      &lt;/geometry&gt;
-      &lt;transparency&gt;0.0&lt;/transparency&gt;
-      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-      &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
-    &lt;/visual&gt;
-    &lt;collision name=&quot;collision&quot;&gt;
-      &lt;geometry&gt;
-        &lt;box&gt;
-          &lt;size&gt;0.8 0.7 0.9&lt;/size&gt;
-        &lt;/box&gt;
-      &lt;/geometry&gt;
-      &lt;max_contacts&gt;10&lt;/max_contacts&gt;
-      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-    &lt;/collision&gt;
-  &lt;/link&gt;
-  &lt;allow_auto_disable&gt;0&lt;/allow_auto_disable&gt;
-  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-  &lt;static&gt;0&lt;/static&gt;
-&lt;/model&gt;
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="c1"># Set default friction parameters</span>
 <span class="n">obj</span><span class="o">.</span><span class="n">collision</span><span class="o">.</span><span class="n">enable_property</span><span class="p">(</span><span class="s1">&#39;friction&#39;</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">))</span>
 </pre></div>
-
-<div class="codehilite"><pre><span></span>&lt;model name=&quot;box&quot;&gt;
-  &lt;link name=&quot;box&quot;&gt;
-    &lt;inertial&gt;
-      &lt;inertia&gt;
-        &lt;izz&gt;2.825&lt;/izz&gt;
-        &lt;iyz&gt;0.0&lt;/iyz&gt;
-        &lt;iyy&gt;3.6250000000000004&lt;/iyy&gt;
-        &lt;ixx&gt;3.25&lt;/ixx&gt;
-        &lt;ixy&gt;0.0&lt;/ixy&gt;
-        &lt;ixz&gt;0.0&lt;/ixz&gt;
-      &lt;/inertia&gt;
-      &lt;mass&gt;30.0&lt;/mass&gt;
-      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-    &lt;/inertial&gt;
-    &lt;visual name=&quot;visual&quot;&gt;
-      &lt;geometry&gt;
-        &lt;box&gt;
-          &lt;size&gt;0.8 0.7 0.9&lt;/size&gt;
-        &lt;/box&gt;
-      &lt;/geometry&gt;
-      &lt;transparency&gt;0.0&lt;/transparency&gt;
-      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-      &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
-    &lt;/visual&gt;
-    &lt;collision name=&quot;collision&quot;&gt;
-      &lt;geometry&gt;
-        &lt;box&gt;
-          &lt;size&gt;0.8 0.7 0.9&lt;/size&gt;
-        &lt;/box&gt;
-      &lt;/geometry&gt;
-      &lt;max_contacts&gt;10&lt;/max_contacts&gt;
-      &lt;surface&gt;
-        &lt;friction&gt;
-          &lt;torsional&gt;
-            &lt;use_patch_radius&gt;1&lt;/use_patch_radius&gt;
-            &lt;ode&gt;
-              &lt;slip&gt;0&lt;/slip&gt;
-            &lt;/ode&gt;
-            &lt;surface_radius&gt;0&lt;/surface_radius&gt;
-            &lt;patch_radius&gt;0&lt;/patch_radius&gt;
-            &lt;coefficient&gt;1&lt;/coefficient&gt;
-          &lt;/torsional&gt;
-          &lt;ode&gt;
-            &lt;fdir1&gt;0 0 0&lt;/fdir1&gt;
-            &lt;mu&gt;1&lt;/mu&gt;
-            &lt;slip2&gt;0&lt;/slip2&gt;
-            &lt;mu2&gt;1&lt;/mu2&gt;
-            &lt;slip1&gt;0&lt;/slip1&gt;
-          &lt;/ode&gt;
-          &lt;bullet&gt;
-            &lt;rolling_friction&gt;1&lt;/rolling_friction&gt;
-            &lt;friction&gt;1&lt;/friction&gt;
-            &lt;fdir1&gt;0 0 0&lt;/fdir1&gt;
-            &lt;friction2&gt;1&lt;/friction2&gt;
-          &lt;/bullet&gt;
-        &lt;/friction&gt;
-      &lt;/surface&gt;
-      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-    &lt;/collision&gt;
-  &lt;/link&gt;
-  &lt;allow_auto_disable&gt;0&lt;/allow_auto_disable&gt;
-  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-  &lt;static&gt;0&lt;/static&gt;
-&lt;/model&gt;
-</pre></div>
-
 
 <div class="codehilite"><pre><span></span><span class="n">obj</span><span class="o">.</span><span class="n">collision</span><span class="o">.</span><span class="n">set_ode_friction_params</span><span class="p">(</span>
     <span class="n">mu</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
@@ -1103,73 +1002,6 @@ Is Gazebo running: False
 <span class="k">print</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">))</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>&lt;model name=&quot;box&quot;&gt;
-  &lt;link name=&quot;box&quot;&gt;
-    &lt;inertial&gt;
-      &lt;inertia&gt;
-        &lt;izz&gt;2.825&lt;/izz&gt;
-        &lt;iyz&gt;0.0&lt;/iyz&gt;
-        &lt;iyy&gt;3.6250000000000004&lt;/iyy&gt;
-        &lt;ixx&gt;3.25&lt;/ixx&gt;
-        &lt;ixy&gt;0.0&lt;/ixy&gt;
-        &lt;ixz&gt;0.0&lt;/ixz&gt;
-      &lt;/inertia&gt;
-      &lt;mass&gt;30.0&lt;/mass&gt;
-      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-    &lt;/inertial&gt;
-    &lt;visual name=&quot;visual&quot;&gt;
-      &lt;geometry&gt;
-        &lt;box&gt;
-          &lt;size&gt;0.8 0.7 0.9&lt;/size&gt;
-        &lt;/box&gt;
-      &lt;/geometry&gt;
-      &lt;transparency&gt;0.0&lt;/transparency&gt;
-      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-      &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
-    &lt;/visual&gt;
-    &lt;collision name=&quot;collision&quot;&gt;
-      &lt;geometry&gt;
-        &lt;box&gt;
-          &lt;size&gt;0.8 0.7 0.9&lt;/size&gt;
-        &lt;/box&gt;
-      &lt;/geometry&gt;
-      &lt;max_contacts&gt;10&lt;/max_contacts&gt;
-      &lt;surface&gt;
-        &lt;friction&gt;
-          &lt;torsional&gt;
-            &lt;use_patch_radius&gt;1&lt;/use_patch_radius&gt;
-            &lt;ode&gt;
-              &lt;slip&gt;0&lt;/slip&gt;
-            &lt;/ode&gt;
-            &lt;surface_radius&gt;0&lt;/surface_radius&gt;
-            &lt;patch_radius&gt;0&lt;/patch_radius&gt;
-            &lt;coefficient&gt;1&lt;/coefficient&gt;
-          &lt;/torsional&gt;
-          &lt;ode&gt;
-            &lt;slip1&gt;0.3&lt;/slip1&gt;
-            &lt;mu&gt;0.9&lt;/mu&gt;
-            &lt;slip2&gt;0.5&lt;/slip2&gt;
-            &lt;mu2&gt;0.5&lt;/mu2&gt;
-            &lt;fdir1&gt;0 0 0&lt;/fdir1&gt;
-          &lt;/ode&gt;
-          &lt;bullet&gt;
-            &lt;rolling_friction&gt;1&lt;/rolling_friction&gt;
-            &lt;friction&gt;1&lt;/friction&gt;
-            &lt;fdir1&gt;0 0 0&lt;/fdir1&gt;
-            &lt;friction2&gt;1&lt;/friction2&gt;
-          &lt;/bullet&gt;
-        &lt;/friction&gt;
-      &lt;/surface&gt;
-      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-    &lt;/collision&gt;
-  &lt;/link&gt;
-  &lt;allow_auto_disable&gt;0&lt;/allow_auto_disable&gt;
-  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-  &lt;static&gt;0&lt;/static&gt;
-&lt;/model&gt;
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="n">obj</span><span class="o">.</span><span class="n">collision</span><span class="o">.</span><span class="n">set_bullet_friction_params</span><span class="p">(</span>
     <span class="n">friction</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> 
     <span class="n">friction2</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> 
@@ -1179,148 +1011,10 @@ Is Gazebo running: False
 <span class="k">print</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">))</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>&lt;model name=&quot;box&quot;&gt;
-  &lt;link name=&quot;box&quot;&gt;
-    &lt;inertial&gt;
-      &lt;inertia&gt;
-        &lt;izz&gt;2.825&lt;/izz&gt;
-        &lt;iyz&gt;0.0&lt;/iyz&gt;
-        &lt;iyy&gt;3.6250000000000004&lt;/iyy&gt;
-        &lt;ixx&gt;3.25&lt;/ixx&gt;
-        &lt;ixy&gt;0.0&lt;/ixy&gt;
-        &lt;ixz&gt;0.0&lt;/ixz&gt;
-      &lt;/inertia&gt;
-      &lt;mass&gt;30.0&lt;/mass&gt;
-      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-    &lt;/inertial&gt;
-    &lt;visual name=&quot;visual&quot;&gt;
-      &lt;geometry&gt;
-        &lt;box&gt;
-          &lt;size&gt;0.8 0.7 0.9&lt;/size&gt;
-        &lt;/box&gt;
-      &lt;/geometry&gt;
-      &lt;transparency&gt;0.0&lt;/transparency&gt;
-      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-      &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
-    &lt;/visual&gt;
-    &lt;collision name=&quot;collision&quot;&gt;
-      &lt;geometry&gt;
-        &lt;box&gt;
-          &lt;size&gt;0.8 0.7 0.9&lt;/size&gt;
-        &lt;/box&gt;
-      &lt;/geometry&gt;
-      &lt;max_contacts&gt;10&lt;/max_contacts&gt;
-      &lt;surface&gt;
-        &lt;friction&gt;
-          &lt;torsional&gt;
-            &lt;use_patch_radius&gt;1&lt;/use_patch_radius&gt;
-            &lt;ode&gt;
-              &lt;slip&gt;0&lt;/slip&gt;
-            &lt;/ode&gt;
-            &lt;surface_radius&gt;0&lt;/surface_radius&gt;
-            &lt;patch_radius&gt;0&lt;/patch_radius&gt;
-            &lt;coefficient&gt;1&lt;/coefficient&gt;
-          &lt;/torsional&gt;
-          &lt;ode&gt;
-            &lt;slip1&gt;0.3&lt;/slip1&gt;
-            &lt;mu&gt;0.9&lt;/mu&gt;
-            &lt;slip2&gt;0.5&lt;/slip2&gt;
-            &lt;mu2&gt;0.5&lt;/mu2&gt;
-            &lt;fdir1&gt;0 0 0&lt;/fdir1&gt;
-          &lt;/ode&gt;
-          &lt;bullet&gt;
-            &lt;rolling_friction&gt;1.0&lt;/rolling_friction&gt;
-            &lt;friction&gt;0.8&lt;/friction&gt;
-            &lt;fdir1&gt;0 0 0&lt;/fdir1&gt;
-            &lt;friction2&gt;0.9&lt;/friction2&gt;
-          &lt;/bullet&gt;
-        &lt;/friction&gt;
-      &lt;/surface&gt;
-      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-    &lt;/collision&gt;
-  &lt;/link&gt;
-  &lt;allow_auto_disable&gt;0&lt;/allow_auto_disable&gt;
-  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-  &lt;static&gt;0&lt;/static&gt;
-&lt;/model&gt;
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="c1"># Set default bounce parameters</span>
 <span class="n">obj</span><span class="o">.</span><span class="n">collision</span><span class="o">.</span><span class="n">enable_property</span><span class="p">(</span><span class="s1">&#39;bounce&#39;</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">))</span>
 </pre></div>
-
-<div class="codehilite"><pre><span></span>&lt;model name=&quot;box&quot;&gt;
-  &lt;link name=&quot;box&quot;&gt;
-    &lt;inertial&gt;
-      &lt;inertia&gt;
-        &lt;izz&gt;2.825&lt;/izz&gt;
-        &lt;iyz&gt;0.0&lt;/iyz&gt;
-        &lt;iyy&gt;3.6250000000000004&lt;/iyy&gt;
-        &lt;ixx&gt;3.25&lt;/ixx&gt;
-        &lt;ixy&gt;0.0&lt;/ixy&gt;
-        &lt;ixz&gt;0.0&lt;/ixz&gt;
-      &lt;/inertia&gt;
-      &lt;mass&gt;30.0&lt;/mass&gt;
-      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-    &lt;/inertial&gt;
-    &lt;visual name=&quot;visual&quot;&gt;
-      &lt;geometry&gt;
-        &lt;box&gt;
-          &lt;size&gt;0.8 0.7 0.9&lt;/size&gt;
-        &lt;/box&gt;
-      &lt;/geometry&gt;
-      &lt;transparency&gt;0.0&lt;/transparency&gt;
-      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-      &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
-    &lt;/visual&gt;
-    &lt;collision name=&quot;collision&quot;&gt;
-      &lt;geometry&gt;
-        &lt;box&gt;
-          &lt;size&gt;0.8 0.7 0.9&lt;/size&gt;
-        &lt;/box&gt;
-      &lt;/geometry&gt;
-      &lt;max_contacts&gt;10&lt;/max_contacts&gt;
-      &lt;surface&gt;
-        &lt;friction&gt;
-          &lt;torsional&gt;
-            &lt;use_patch_radius&gt;1&lt;/use_patch_radius&gt;
-            &lt;ode&gt;
-              &lt;slip&gt;0&lt;/slip&gt;
-            &lt;/ode&gt;
-            &lt;surface_radius&gt;0&lt;/surface_radius&gt;
-            &lt;patch_radius&gt;0&lt;/patch_radius&gt;
-            &lt;coefficient&gt;1&lt;/coefficient&gt;
-          &lt;/torsional&gt;
-          &lt;ode&gt;
-            &lt;slip1&gt;0.3&lt;/slip1&gt;
-            &lt;mu&gt;0.9&lt;/mu&gt;
-            &lt;slip2&gt;0.5&lt;/slip2&gt;
-            &lt;mu2&gt;0.5&lt;/mu2&gt;
-            &lt;fdir1&gt;0 0 0&lt;/fdir1&gt;
-          &lt;/ode&gt;
-          &lt;bullet&gt;
-            &lt;rolling_friction&gt;1.0&lt;/rolling_friction&gt;
-            &lt;friction&gt;0.8&lt;/friction&gt;
-            &lt;fdir1&gt;0 0 0&lt;/fdir1&gt;
-            &lt;friction2&gt;0.9&lt;/friction2&gt;
-          &lt;/bullet&gt;
-        &lt;/friction&gt;
-        &lt;bounce&gt;
-          &lt;restitution_coefficient&gt;0&lt;/restitution_coefficient&gt;
-          &lt;threshold&gt;100000&lt;/threshold&gt;
-        &lt;/bounce&gt;
-      &lt;/surface&gt;
-      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-    &lt;/collision&gt;
-  &lt;/link&gt;
-  &lt;allow_auto_disable&gt;0&lt;/allow_auto_disable&gt;
-  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-  &lt;static&gt;0&lt;/static&gt;
-&lt;/model&gt;
-</pre></div>
-
 
 <div class="codehilite"><pre><span></span><span class="n">mu</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span> 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mu</span><span class="p">)):</span>

@@ -850,6 +850,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../simulation/model_generator/" title="Model generator" class="md-nav__link">
+      Model generator
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -931,10 +943,6 @@
 <span class="n">simulation</span><span class="o">.</span><span class="n">create_gazebo_empty_world_task</span><span class="p">(</span><span class="n">paused</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">simulation_timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>True
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">pcg_gazebo.simulation</span> <span class="kn">import</span> <span class="n">create_object</span>
 <span class="kn">from</span> <span class="nn">pcg_gazebo.generators</span> <span class="kn">import</span> <span class="n">WorldGenerator</span>
 
@@ -991,26 +999,10 @@
         <span class="k">print</span><span class="p">(</span><span class="s1">&#39;  - {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">task</span><span class="p">))</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>Stage: roscore
-Stage: pre-simulation
-Stage: gazebo
-  - gazebo
-  - simulation_timer
-Stage: post-init
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">run_all_tasks</span><span class="p">()</span>
 </pre></div>
 
 <div class="codehilite"><pre><span></span><span class="n">simulation</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
-</pre></div>
-
-<div class="codehilite"><pre><span></span>Spawning box into Gazebo
-Spawning box finished
-Testing if model box_0_0 exists
-Model box_0_0 exists? True
-Unpause simulation
 </pre></div>
                 
                   

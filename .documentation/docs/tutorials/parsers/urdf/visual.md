@@ -16,15 +16,6 @@ visual = create_urdf_element('visual')
 print(visual)
 ```
 
-    <visual name="visual">
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <box size="0 0 0"/>
-      </geometry>
-    </visual>
-    
-
-
 
 ```python
 # Setting the parameters for the visual element
@@ -34,15 +25,6 @@ visual.origin.rpy = [0.2, 0, 0.6]
 print(visual)
 ```
 
-    <visual name="visual">
-      <origin rpy="0.2 0 0.6" xyz="1 0 1"/>
-      <geometry>
-        <box size="0 0 0"/>
-      </geometry>
-    </visual>
-    
-
-
 
 ```python
 # Setting different geometries to the visual element
@@ -50,29 +32,11 @@ visual.geometry.box = create_urdf_element('box')
 print(visual)
 ```
 
-    <visual name="visual">
-      <origin rpy="0.2 0 0.6" xyz="1 0 1"/>
-      <geometry>
-        <box size="0 0 0"/>
-      </geometry>
-    </visual>
-    
-
-
 
 ```python
 visual.geometry.sphere = create_urdf_element('sphere')
 print(visual)
 ```
-
-    <visual name="visual">
-      <origin rpy="0.2 0 0.6" xyz="1 0 1"/>
-      <geometry>
-        <sphere radius="0"/>
-      </geometry>
-    </visual>
-    
-
 
 
 ```python
@@ -80,26 +44,8 @@ visual.geometry.cylinder = create_urdf_element('cylinder')
 print(visual)
 ```
 
-    <visual name="visual">
-      <origin rpy="0.2 0 0.6" xyz="1 0 1"/>
-      <geometry>
-        <cylinder length="0" radius="0"/>
-      </geometry>
-    </visual>
-    
-
-
 
 ```python
 visual.geometry.mesh = create_urdf_element('mesh')
 print(visual)
 ```
-
-    <visual name="visual">
-      <origin rpy="0.2 0 0.6" xyz="1 0 1"/>
-      <geometry>
-        <mesh filename=""/>
-      </geometry>
-    </visual>
-    
-

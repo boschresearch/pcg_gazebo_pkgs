@@ -870,6 +870,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../simulation/model_generator/" title="Model generator" class="md-nav__link">
+      Model generator
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -958,7 +970,7 @@
                 
                 <h4 id="process-manager">Process manager<a class="headerlink" href="#process-manager" title="Permanent link">&para;</a></h4>
 <p>The process manager allows the construction of sets of tasks to be run, which can be (but are not limited to) launch files or ROS nodes to bring up a system that may include an instance of Gazebo.
-Each instance of the process manager can be set with a different <code class="codehilite">ROS_MASTER_URI</code> and <code class="codehilite">GAZEBO_MASTER_URI</code>, so that multiple <code class="codehilite">roscore</code> and <code class="codehilite">gazebo</code> instances can be initialized on the same host at the same time.</p>
+Each instance of the process manager can be set with a different <code class="codehilite"><span class="n">ROS_MASTER_URI</span></code> and <code class="codehilite"><span class="n">GAZEBO_MASTER_URI</span></code>, so that multiple <code class="codehilite"><span class="n">roscore</span></code> and <code class="codehilite"><span class="n">gazebo</span></code> instances can be initialized on the same host at the same time.</p>
 <h5 id="starting-a-process-manager-with-default-parameters">Starting a process manager with default parameters<a class="headerlink" href="#starting-a-process-manager-with-default-parameters" title="Permanent link">&para;</a></h5>
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">pcg_gazebo.task_manager</span> <span class="kn">import</span> <span class="n">ProcessManager</span>
 <span class="c1"># A process manager can be started by itself with an empty list of tasks</span>
@@ -970,43 +982,21 @@ Each instance of the process manager can be set with a different <code class="co
 <span class="k">print</span><span class="p">(</span><span class="n">process_manager</span><span class="o">.</span><span class="n">ros_config</span><span class="p">)</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>ROS network configuration:
-ROS_MASTER_URI=http://localhost:11311, GAZEBO_MASTER_URI=http://localhost:11345
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="c1"># At first, no tasks are available in the tasks list</span>
 <span class="k">print</span><span class="p">(</span><span class="n">process_manager</span><span class="o">.</span><span class="n">get_task_list</span><span class="p">())</span>
 </pre></div>
-
-<div class="codehilite"><pre><span></span>[]
-</pre></div>
-
 
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;Check all the process stages available&#39;</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">process_manager</span><span class="o">.</span><span class="n">stages</span><span class="p">)</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>Check all the process stages available
-OrderedDict([(&#39;roscore&#39;, &lt;pcg_gazebo.task_manager.stage.Stage object at 0x7fd71058a748&gt;), (&#39;pre-simulation&#39;, &lt;pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb596630&gt;)])
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="c1"># You can start roscore by calling the method below</span>
 <span class="n">process_manager</span><span class="o">.</span><span class="n">create_ros_core_task</span><span class="p">()</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>True
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="c1"># Now the roscore task can be found in the list</span>
 <span class="k">print</span><span class="p">(</span><span class="n">process_manager</span><span class="o">.</span><span class="n">get_task_list</span><span class="p">())</span>
 </pre></div>
-
-<div class="codehilite"><pre><span></span>[&#39;roscore&#39;]
-</pre></div>
-
 
 <div class="codehilite"><pre><span></span><span class="c1"># The task can be started using the method below</span>
 <span class="c1"># Running individual tasks will not use the stage order </span>
@@ -1016,10 +1006,6 @@ OrderedDict([(&#39;roscore&#39;, &lt;pcg_gazebo.task_manager.stage.Stage object 
 <div class="codehilite"><pre><span></span><span class="c1"># Check if the task is running</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Is task running? {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">process_manager</span><span class="o">.</span><span class="n">is_task_running</span><span class="p">(</span><span class="s1">&#39;roscore&#39;</span><span class="p">)))</span>
 </pre></div>
-
-<div class="codehilite"><pre><span></span>Is task running? True
-</pre></div>
-
 
 <div class="codehilite"><pre><span></span><span class="c1"># Creating an RViz task with a timeout</span>
 <span class="c1"># The required flag, like the flag for ROS nodes, says that once this task dies, </span>
@@ -1031,10 +1017,6 @@ OrderedDict([(&#39;roscore&#39;, &lt;pcg_gazebo.task_manager.stage.Stage object 
 <span class="n">process_manager</span><span class="o">.</span><span class="n">create_rviz_task</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">process_timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">process_manager</span><span class="o">.</span><span class="n">get_task_list</span><span class="p">())</span>
 </pre></div>
-
-<div class="codehilite"><pre><span></span>[&#39;rviz&#39;, &#39;roscore&#39;]
-</pre></div>
-
 
 <div class="codehilite"><pre><span></span><span class="c1"># After 10 seconds all tasks will be killed along with rviz</span>
 <span class="n">process_manager</span><span class="o">.</span><span class="n">run_task</span><span class="p">(</span><span class="s1">&#39;rviz&#39;</span><span class="p">)</span>
@@ -1055,11 +1037,6 @@ OrderedDict([(&#39;roscore&#39;, &lt;pcg_gazebo.task_manager.stage.Stage object 
 <span class="k">print</span><span class="p">(</span><span class="n">process_manager</span><span class="o">.</span><span class="n">ros_config</span><span class="p">)</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>ROS network configuration:
-ROS_MASTER_URI=http://localhost:17272, GAZEBO_MASTER_URI=http://localhost:26283
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="c1"># A Gazebo task can also be started with a process timeout</span>
 <span class="n">process_manager</span><span class="o">.</span><span class="n">create_gazebo_empty_world_task</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">process_timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Check all tasks available&#39;</span><span class="p">)</span>
@@ -1068,22 +1045,11 @@ ROS_MASTER_URI=http://localhost:17272, GAZEBO_MASTER_URI=http://localhost:26283
 <span class="k">print</span><span class="p">(</span><span class="n">process_manager</span><span class="o">.</span><span class="n">stages</span><span class="p">)</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>Check all tasks available
-[&#39;gazebo&#39;]
-Check all the process stages available
-OrderedDict([(&#39;roscore&#39;, &lt;pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb5b2978&gt;), (&#39;pre-simulation&#39;, &lt;pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb5b2898&gt;), (&#39;gazebo&#39;, &lt;pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb5559b0&gt;)])
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="n">process_manager</span><span class="o">.</span><span class="n">run_all_tasks</span><span class="p">()</span>
 <span class="c1"># A roscore stage should be automatically added to the process manager list</span>
 <span class="k">print</span><span class="p">(</span><span class="n">process_manager</span><span class="o">.</span><span class="n">stages</span><span class="p">)</span>
 <span class="n">process_manager</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
 </pre></div>
-
-<div class="codehilite"><pre><span></span>OrderedDict([(&#39;roscore&#39;, &lt;pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb5b2978&gt;), (&#39;pre-simulation&#39;, &lt;pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb5b2898&gt;), (&#39;gazebo&#39;, &lt;pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb5559b0&gt;)])
-</pre></div>
-
 
 <div class="codehilite"><pre><span></span><span class="n">process_manager</span><span class="o">.</span><span class="n">kill_all_tasks</span><span class="p">()</span>
 <span class="k">del</span> <span class="n">process_manager</span>
@@ -1103,15 +1069,7 @@ OrderedDict([(&#39;roscore&#39;, &lt;pcg_gazebo.task_manager.stage.Stage object 
 <span class="n">process_manager</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>ROS network configuration:
-ROS_MASTER_URI=http://localhost:19181, GAZEBO_MASTER_URI=http://localhost:28054
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;Is task running? {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">process_manager</span><span class="o">.</span><span class="n">is_task_running</span><span class="p">(</span><span class="s1">&#39;gazebo&#39;</span><span class="p">)))</span>
-</pre></div>
-
-<div class="codehilite"><pre><span></span>Is task running? False
 </pre></div>
                 
                   

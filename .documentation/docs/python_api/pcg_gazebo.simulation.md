@@ -1,8 +1,6 @@
-
 # pcg_gazebo.simulation
 Simulation interface module, with abstraction classes for all relevant
 entities that form a simulation in Gazebo.
-
 
 ## create_object
 ```python
@@ -18,7 +16,6 @@ Factory method for `Link` subclasses.
 > *Returns*
 
 `Link`: Subclass instance.
-
 
 ## get_gazebo_model_folders
 ```python
@@ -36,7 +33,6 @@ directory `dir_path`.
 `dict`: Gazebo model paths ordered according to the
 Gazebo model names.
 
-
 ## load_gazebo_models
 ```python
 load_gazebo_models()
@@ -48,7 +44,6 @@ and in the ROS paths.
 
 `dict`: Information of all Gazebo models found
 
-
 ## get_gazebo_models
 ```python
 get_gazebo_models()
@@ -57,14 +52,12 @@ Return the information of all Gazebo models found in the
 local `.gazebo/models` folder and in the catkin workspace as
 a dictionary.
 
-
 ## get_gazebo_model_names
 ```python
 get_gazebo_model_names()
 ```
 Return the names of all Gazebo models that can be found
 is the local `.gazebo/models` folders and catkin workspace.
-
 
 ## is_gazebo_model
 ```python
@@ -81,7 +74,6 @@ model that is found in the resources path.
 
 `True` if `name` refers to a Gazebo model.
 
-
 ## get_gazebo_model_path
 ```python
 get_gazebo_model_path(model_name)
@@ -95,7 +87,6 @@ Return the path of the Gazebo model.
 > *Returns*
 
 `str`: Path of the Gazebo model folder
-
 
 ## get_gazebo_model_sdf
 ```python
@@ -114,10 +105,9 @@ of the SDF file to be parsed.
 
 `pcg_gazebo.parsers.types.XMLBase` instance as an SDF element.
 
-
 # Box
 ```python
-Box()
+Box(self, name='box', size=[1, 1, 1])
 ```
 Class derived from `pcg_gazebo.simulation.Link` to
 describe a box-shaped link or single-link model.
@@ -128,23 +118,19 @@ describe a box-shaped link or single-link model.
 * `size` (*type:* `list`, *default:* `[1, 1, 1]`): Vector with
 width, length and height of the box,
 
-
 ## collision
 `pcg_gazebo.simulation.properties.Collision`:
 Return single box-shaped collision model.
 
-
 ## size
 List of `float`: Size of the box as `[width, length, height]`
-
 ## visual
 `pcg_gazebo.simulation.properties.Visual`:
 Return single box-shaped visual model.
 
-
 ## to_sdf
 ```python
-Box.to_sdf(type='model', name='box', sdf_version='1.6')
+Box.to_sdf(self, type='model', name='box', sdf_version='1.6')
 ```
 Convert object to an SDF element. The object can be converted
 to different SDF elements according to the `type` input
@@ -169,10 +155,9 @@ SDF element
 
 `pcg_gazebo.parsers.types.XMLBase`: SDF element instance.
 
-
 ## add_inertial
 ```python
-Box.add_inertial(mass)
+Box.add_inertial(self, mass)
 ```
 Initialize mass and moments of inertia for box model.
 
@@ -180,10 +165,9 @@ Initialize mass and moments of inertia for box model.
 
 * `mass` (*type:* `float`): Mass in kilograms
 
-
 ## update_inertial
 ```python
-Box.update_inertial(mass=None)
+Box.update_inertial(self, mass=None)
 ```
 Update mass and moments of inertia for box model.
 
@@ -191,26 +175,23 @@ Update mass and moments of inertia for box model.
 
 * `mass` (*type:* `float`): Mass in kilograms
 
-
 ## update_collision
 ```python
-Box.update_collision()
+Box.update_collision(self)
 ```
 Update collision model according to the current
 `size`.
 
-
 ## update_visual
 ```python
-Box.update_visual()
+Box.update_visual(self)
 ```
 Update visual model according to the current
 `size`.
 
-
 # Cylinder
 ```python
-Cylinder()
+Cylinder(self, name='cylinder', length=1, radius=1)
 ```
 Class derived from `pcg_gazebo.simulation.Link` to
 describe a cylinder-shaped link or single-link model.
@@ -223,26 +204,21 @@ cylinder in meters.
 * `radius` (*type:* `float`, *default:* `1`): Radius of the
 cylinder in meters.
 
-
 ## collision
 `pcg_gazebo.simulation.properties.Collision`:
 Return single cylinder-shaped collision model.
 
-
 ## length
 `float`: Length of the cylinder in meters
-
 ## radius
 `float`: Radius of the cylinder in meters
-
 ## visual
 `pcg_gazebo.simulation.properties.Visual`:
 Return single cylinder-shaped visual model.
 
-
 ## to_sdf
 ```python
-Cylinder.to_sdf(type='model', name='cylinder', sdf_version='1.6')
+Cylinder.to_sdf(self, type='model', name='cylinder', sdf_version='1.6')
 ```
 Convert object to an SDF element. The object can be converted
 to different SDF elements according to the `type` input
@@ -267,10 +243,9 @@ SDF element
 
 `pcg_gazebo.parsers.types.XMLBase`: SDF element instance.
 
-
 ## update_inertial
 ```python
-Cylinder.update_inertial(mass=None)
+Cylinder.update_inertial(self, mass=None)
 ```
 Initialize mass and moments of inertia for cylinder model.
 
@@ -278,44 +253,38 @@ Initialize mass and moments of inertia for cylinder model.
 
 * `mass` (*type:* `float`): Mass in kilograms
 
-
 ## update_collision
 ```python
-Cylinder.update_collision()
+Cylinder.update_collision(self)
 ```
 Update collision model according to the current
 `length` and `radius`.
 
-
 ## update_visual
 ```python
-Cylinder.update_visual()
+Cylinder.update_visual(self)
 ```
 Update visual model according to the current
 `length` and `radius`.
 
-
 # Joint
 ```python
-Joint()
+Joint(self, name='joint', parent=None, child=None, joint_type='fixed', axis_xyz=[0, 0, 1], damping=0, friction=0, spring_reference=0, spring_stiffness=0, lower=-1e+16, upper=1e+16, velocity=-1, effort=-1)
 ```
-
 
 # Light
 ```python
-Light()
+Light(self, name='default', type='point')
 ```
-
 
 # SimulationModel
 ```python
-SimulationModel()
+SimulationModel(self, name='model', parent='world', creation_time=None, life_timeout=None, is_ground_plane=False)
 ```
-
 
 # Link
 ```python
-Link()
+Link(self, name='object', creation_time=None, life_timeout=None, pose=[0, 0, 0, 0, 0, 0], inertial=None, static=False, self_collide=False, kinematic=False, visuals=None, collisions=None)
 ```
 Representation of a simulated `link` or a single-link `model`.
 
@@ -327,48 +296,40 @@ of the creation of the object in Gazebo.
 * `life_timeout` (*type:* `float`, *default:* `None`): Timeout in which
 to remove the object from the simulation (**not implemented**).
 
-
 ## collisions
 List of `pcg_gazebo.simulation.properties.Collision`:
 List of collision models
-
 
 ## creation_time
 `float`: Time of creation of this object, if
 it represents a single-link model.
 
-
 ## inertial
 `pcg_gazebo.simulation.properties.Inertial`:
 Description of the object's moments of inertia.
 
-
 ## kinematic
 `bool`: Flag to indicate if the model is purely kinematic
-
 ## life_timeout
 `float`: Life timeout timestamp for this object,
 if it represents a single-link model
 
-
 ## name
 `str`: Object name
-
 ## pose
 `pcg_gazebo.simulation.properties.Pose`: Pose of the object
-
 ## self_collide
 `bool`: Self-collision flag
-
 ## static
 `bool`: Flag to indicate if object is static
-
 ## visuals
 List of `pcg_gazebo.simulation.properties.Visual`:
 List of visual models
 
-
 ## create_link_from_mesh
+```python
+Link.create_link_from_mesh(name='link', visual_mesh_filename=None, collision_mesh_filename=None, use_approximated_collision=False, approximated_collision_model='box', visual_mesh_scale=[1, 1, 1], collision_mesh_scale=[1, 1, 1], pose=[0, 0, 0, 0, 0, 0], color=None, mass=0, inertia=None, use_approximated_inertia=True, approximated_inertia_model='box')
+```
 Factory method to build a link or single-link model from a mesh.
 This method allows not only assigning a mesh as a visual and collision
 geometry, but also using geometrical approximations of the input mesh
@@ -420,42 +381,37 @@ will then be used to compute the moments of inertia. Options are `box`, `cylinde
 
 `pcg_gazebo.simulation.Link` instance.
 
-
 ## enable_collision
 ```python
-Link.enable_collision()
+Link.enable_collision(self)
 ```
 Enable the inclusion of the collision models
 in the exported SDF description.
 
-
 ## disable_collision
 ```python
-Link.disable_collision()
+Link.disable_collision(self)
 ```
 Disable the inclusion of the collision models
 in the exported SDF description.
 
-
 ## enable_visual
 ```python
-Link.enable_visual()
+Link.enable_visual(self)
 ```
 Enable the inclusion of the visual models
 in the exported SDF description.
 
-
 ## disable_visual
 ```python
-Link.disable_visual()
+Link.disable_visual(self)
 ```
 Disable the inclusion of the collision models
 in the exported SDF description.
 
-
 ## get_collision_by_name
 ```python
-Link.get_collision_by_name(name)
+Link.get_collision_by_name(self, name)
 ```
 Return the collision model associated with the input
 name identifier.
@@ -469,10 +425,9 @@ name identifier.
 `pcg_gazebo.simulation.properties.Collision`, or `None`
 if not collision with the given name is found.
 
-
 ## has_collision
 ```python
-Link.has_collision(name)
+Link.has_collision(self, name)
 ```
 Test if a collision with the input name exists.
 
@@ -484,10 +439,9 @@ Test if a collision with the input name exists.
 
 `bool`: `True`, if a collision model exists, `False, otherwise.
 
-
 ## get_visual_by_name
 ```python
-Link.get_visual_by_name(name)
+Link.get_visual_by_name(self, name)
 ```
 Return the visual model associated with the input
 name identifier.
@@ -501,10 +455,9 @@ name identifier.
 `pcg_gazebo.simulation.properties.Visual`, or `None`
 if not visual with the given name is found.
 
-
 ## has_visual
 ```python
-Link.has_visual(name)
+Link.has_visual(self, name)
 ```
 Test if a visual with the input name exists.
 
@@ -516,10 +469,9 @@ Test if a visual with the input name exists.
 
 `bool`: `True`, if a visual model exists, `False, otherwise.
 
-
 ## add_empty_visual
 ```python
-Link.add_empty_visual(name='visual')
+Link.add_empty_visual(self, name='visual')
 ```
 Create an empty visual model and add it to the object.
 
@@ -533,10 +485,9 @@ model.
 `bool`: `True` if visual model could be created and added to the object.
 `False` if another visual with the same name already exists.
 
-
 ## add_visual
 ```python
-Link.add_visual(visual)
+Link.add_visual(self, visual)
 ```
 Add visual model to the object. If a visual element
 with the same name already exists, a suffix will be added
@@ -551,10 +502,9 @@ Visual element
 
 `bool`: `True`, if visual element could be added to object.
 
-
 ## add_empty_collision
 ```python
-Link.add_empty_collision(name='collision')
+Link.add_empty_collision(self, name='collision')
 ```
 Create an empty collision model and add it to the object.
 
@@ -568,10 +518,9 @@ model.
 `bool`: `True` if collision model could be created and added to the object.
 `False` if another collision with the same name already exists.
 
-
 ## add_collision
 ```python
-Link.add_collision(collision)
+Link.add_collision(self, collision)
 ```
 Add collision model to the object. If a collision element
 with the same name already exists, a suffix will be added
@@ -586,10 +535,9 @@ Collision element
 
 `bool`: `True`, if collision element could be added to object.
 
-
 ## to_sdf
 ```python
-Link.to_sdf(type='link', name='model', sdf_version='1.6')
+Link.to_sdf(self, type='link', name='model', sdf_version='1.6')
 ```
 Convert object to an SDF element. The object can be converted
 to different SDF elements according to the `type` input
@@ -612,8 +560,10 @@ SDF element
 
 `pcg_gazebo.parsers.types.XMLBase`: SDF element instance.
 
-
 ## from_sdf
+```python
+Link.from_sdf(sdf)
+```
 Factory method to generate a `pcg_gazebo.simulation.Link` instance
 from an SDF instance. Only links can be parsed.
 
@@ -625,17 +575,9 @@ from an SDF instance. Only links can be parsed.
 
 `pcg_gazebo.simulation.Link`: Simulation object instance
 
-
 ## export_to_gazebo_model
 ```python
-Link.export_to_gazebo_model(output_dir,
-                            name='model',
-                            sdf_version='1.6',
-                            version='0.1.0',
-                            author_names=None,
-                            author_emails=None,
-                            description='',
-                            generate_sdf_with_version=False)
+Link.export_to_gazebo_model(self, output_dir, name='model', sdf_version='1.6', version='0.1.0', author_names=None, author_emails=None, description='', generate_sdf_with_version=False)
 ```
 Export the object as a Gazebo model, in the format
 
@@ -661,34 +603,29 @@ directory will be stored.
 
 `bool`: `True`, if Gazebo model files were exported successfully.
 
-
 ## add_inertial
 ```python
-Link.add_inertial(mass)
+Link.add_inertial(self, mass)
 ```
 This function must be implemented by derived classes.
-
 ## update_inertial
 ```python
-Link.update_inertial()
+Link.update_inertial(self)
 ```
 This function must be implemented by derived classes.
-
 ## update_collision
 ```python
-Link.update_collision()
+Link.update_collision(self)
 ```
 This function must be implemented by derived classes.
-
 ## update_visual
 ```python
-Link.update_visual()
+Link.update_visual(self)
 ```
 This function must be implemented by derived classes.
-
 ## add_sensor
 ```python
-Link.add_sensor(name, sensor)
+Link.add_sensor(self, name, sensor)
 ```
 Add sensor associated to the link.
 
@@ -702,10 +639,9 @@ Sensor description
 
 `bool`: `True`, if sensor could be added to link.
 
-
 ## to_markers
 ```python
-Link.to_markers()
+Link.to_markers(self)
 ```
 Generate `visualization_msgs/Marker` instances from the visual and/or
 collision entities.
@@ -714,13 +650,9 @@ collision entities.
 
 `visualization_msgs/MarkerArray`
 
-
 ## get_footprint
 ```python
-Link.get_footprint(mesh_type='collision',
-                   pose_offset=None,
-                   use_bounding_box=False,
-                   z_limits=None)
+Link.get_footprint(self, mesh_type='collision', pose_offset=None, use_bounding_box=False, z_limits=None)
 ```
 Returns the `shapely._GEOMETRIES.Polygon` or `shapely._GEOMETRIES.MultiPolygon`
 that represent the projection of the visual or collision meshes on the XY
@@ -741,10 +673,9 @@ in the Z direction were the meshes will be sectioned.
 
 `shapely._GEOMETRIES.Polygon` or `shapely._GEOMETRIES.MultiPolygon`
 
-
 ## get_meshes
 ```python
-Link.get_meshes(mesh_type='collision', pose_offset=None)
+Link.get_meshes(self, mesh_type='collision', pose_offset=None)
 ```
 Return all the meshes associated with this link.
 
@@ -759,10 +690,9 @@ to be applied to all meshes.
 
 List of `trimesh` meshes.
 
-
 ## get_bounds
 ```python
-Link.get_bounds(mesh_type='collision')
+Link.get_bounds(self, mesh_type='collision')
 ```
 Return the bounds of the link with respect to its meshes.
 
@@ -775,22 +705,19 @@ options are `visual` or `collision`.
 
 `dict`: Meshes' bounds
 
-
 # Plane
 ```python
-Plane()
+Plane(self, name='plane', normal=[0, 0, 1], size=[1, 1])
 ```
-
 
 # Polyline
 ```python
-Polyline()
+Polyline(self, name='polyline', height=1, points=[])
 ```
-
 
 # Sphere
 ```python
-Sphere()
+Sphere(self, name='sphere', radius=1)
 ```
 Class derived from `pcg_gazebo.simulation.Link` to
 describe a sphere-shaped link or single-link model.
@@ -801,23 +728,19 @@ describe a sphere-shaped link or single-link model.
 * `radius` (*type:* `float`, *default:* `1`): Radius of the sphere
 in meters
 
-
 ## collision
 `pcg_gazebo.simulation.properties.Collision`:
 Return single sphere-shaped collision model.
 
-
 ## radius
 `float`: Radius of the sphere in meters
-
 ## visual
 `pcg_gazebo.simulation.properties.Visual`:
 Return single sphere-shaped visual model.
 
-
 ## to_sdf
 ```python
-Sphere.to_sdf(type='model', name='sphere', sdf_version='1.6')
+Sphere.to_sdf(self, type='model', name='sphere', sdf_version='1.6')
 ```
 Convert object to an SDF element. The object can be converted
 to different SDF elements according to the `type` input
@@ -842,10 +765,9 @@ SDF element
 
 `pcg_gazebo.parsers.types.XMLBase`: SDF element instance.
 
-
 ## add_inertial
 ```python
-Sphere.add_inertial(mass, hollow=False)
+Sphere.add_inertial(self, mass, hollow=False)
 ```
 Initialize mass and moments of inertia for sphere model.
 
@@ -855,10 +777,9 @@ Initialize mass and moments of inertia for sphere model.
 * `hollow` (*type:* `bool`, *default:* `False`): Compute
 moments of inertia for a hollow sphere, instead of a solid one
 
-
 ## update_inertial
 ```python
-Sphere.update_inertial(mass=None)
+Sphere.update_inertial(self, mass=None)
 ```
 Update mass and moments of inertia for sphere model.
 
@@ -866,26 +787,23 @@ Update mass and moments of inertia for sphere model.
 
 * `mass` (*type:* `float`): Mass in kilograms
 
-
 ## update_collision
 ```python
-Sphere.update_collision()
+Sphere.update_collision(self)
 ```
 Update collision model according to the current
 `radius`.
 
-
 ## update_visual
 ```python
-Sphere.update_visual()
+Sphere.update_visual(self)
 ```
 Update visual model according to the current
 `radius`.
 
-
 # World
 ```python
-World()
+World(self, name='default', gravity=[0, 0, -9.8], engine='ode')
 ```
 Abstraction of Gazebo's world description. This class
 contains the settings configuring the world's
@@ -907,25 +825,19 @@ of gravity vector.
 * `engine` (*type:* `str`, *default:* `ode`): Name of the default
 physics engine, options are `ode`, `bullet` or `simbody`.
 
-
 ## engine
 `str`: Name identififier of the physics engine
-
 ## gravity
 `list`: Acceleration of gravity vector
-
 ## models
 `dict`: Models
-
 ## name
 `str`: Name of the world
-
 ## physics
 `pcg_gazebo.simulation.physics.Physics`: Physics engine instance
-
 ## reset_physics
 ```python
-World.reset_physics(engine='ode')
+World.reset_physics(self, engine='ode')
 ```
 Reset the physics engine to its default configuration.
 
@@ -934,16 +846,14 @@ Reset the physics engine to its default configuration.
 * `engine` (*type:* `str`, *default:* `ode`): Name identifier
 of the physics engine, options are `ode`, `bullet` or `simbody`.
 
-
 ## reset_models
 ```python
-World.reset_models()
+World.reset_models(self)
 ```
 Reset the list of models.
-
 ## add_include
 ```python
-World.add_include(include)
+World.add_include(self, include)
 ```
 Add a model via include method.
 
@@ -957,10 +867,9 @@ SDF `<include>` element
 `bool`: `True`, if model directed by the `include` element
 could be parsed and added to the world.
 
-
 ## add_model
 ```python
-World.add_model(tag, model)
+World.add_model(self, tag, model)
 ```
 Add a model to the world.
 
@@ -977,10 +886,9 @@ Model object
 
 `bool`: `True`, if model could be added to the world.
 
-
 ## rm_model
 ```python
-World.rm_model(tag)
+World.rm_model(self, tag)
 ```
 Remove model from world.
 
@@ -994,10 +902,9 @@ model to be removed.
 `bool`: `True`, if model could be removed, `False` if
 no model with name `tag` could be found in the world.
 
-
 ## model_exists
 ```python
-World.model_exists(tag)
+World.model_exists(self, tag)
 ```
 Test if a model with name `tag` exists in the world description.
 
@@ -1009,10 +916,9 @@ Test if a model with name `tag` exists in the world description.
 
 `bool`: `True`, if model exists, `False`, otherwise.
 
-
 ## add_plugin
 ```python
-World.add_plugin(tag, plugin)
+World.add_plugin(self, tag, plugin)
 ```
 Add plugin description to the world.
 
@@ -1025,10 +931,9 @@ an integer.
 * `plugin` (*type:* `pcg_gazebo.parsers.sdf.Plugin` or
 `pcg_gazebo.simulation.properties.Plugin`): Plugin description.
 
-
 ## rm_plugin
 ```python
-World.rm_plugin(tag)
+World.rm_plugin(self, tag)
 ```
 Remove plugin from world.
 
@@ -1042,10 +947,9 @@ plugin to be removed.
 `bool`: `True`, if plugin could be removed, `False` if
 no plugin with name `tag` could be found in the world.
 
-
 ## plugin_exists
 ```python
-World.plugin_exists(tag)
+World.plugin_exists(self, tag)
 ```
 Test if a plugin with name `tag` exists in the world description.
 
@@ -1057,10 +961,9 @@ Test if a plugin with name `tag` exists in the world description.
 
 `bool`: `True`, if plugin exists, `False`, otherwise.
 
-
 ## add_light
 ```python
-World.add_light(tag, light)
+World.add_light(self, tag, light)
 ```
 Add light description to the world.
 
@@ -1073,10 +976,9 @@ an integer.
 * `light` (*type:* `pcg_gazebo.parsers.sdf.Light` or
 `pcg_gazebo.simulation.properties.Light`): Light description
 
-
 ## rm_light
 ```python
-World.rm_light(tag)
+World.rm_light(self, tag)
 ```
 Remove light from world.
 
@@ -1090,10 +992,9 @@ light to be removed.
 `bool`: `True`, if light could be removed, `False` if
 no light with name `tag` could be found in the world.
 
-
 ## light_exists
 ```python
-World.light_exists(tag)
+World.light_exists(self, tag)
 ```
 Test if a light with name `tag` exists in the world description.
 
@@ -1105,12 +1006,9 @@ Test if a light with name `tag` exists in the world description.
 
 `bool`: `True`, if light exists, `False`, otherwise.
 
-
 ## to_sdf
 ```python
-World.to_sdf(type='world',
-             with_default_ground_plane=True,
-             with_default_sun=True)
+World.to_sdf(self, type='world', with_default_ground_plane=True, with_default_sun=True)
 ```
 Convert the world description into as `pcg_gazebo` SDF
 element.
@@ -1131,8 +1029,10 @@ Add Gazebo's default sun model to the world.
 `pcg_gazebo.parsers.sdf.SDF` with a world element in it or
 `pcg_gazebo.parsers.sdf.World`.
 
-
 ## from_sdf
+```python
+World.from_sdf(sdf)
+```
 Parse an `pcg_gazebo.parsers.sdf.World` into a
 c.
 
@@ -1145,10 +1045,9 @@ SDF world element
 
 `pcg_gazebo.parsers.sdf.World` instance.
 
-
 ## create_scene
 ```python
-World.create_scene(mesh_type='collision', add_pseudo_color=True)
+World.create_scene(self, mesh_type='collision', add_pseudo_color=True)
 ```
 Return a `trimesh.Scene` with all the world's models.
 
@@ -1159,23 +1058,9 @@ to be included in the scene, options are `collision` or `visual`.
 * `add_pseudo_color` (*type:* `bool`, *default:* `True`): If `True`,
 set each mesh with a pseudo-color.
 
-
 ## plot_footprints
 ```python
-World.plot_footprints(fig=None,
-                      ax=None,
-                      fig_width=20,
-                      fig_height=20,
-                      mesh_type='collision',
-                      z_limits=None,
-                      colormap='magma',
-                      grid=True,
-                      ignore_ground_plane=True,
-                      line_width=1,
-                      line_style='solid',
-                      alpha=0.5,
-                      engine='matplotlib',
-                      dpi=200)
+World.plot_footprints(self, fig=None, ax=None, fig_width=20, fig_height=20, mesh_type='collision', z_limits=None, colormap='magma', grid=True, ignore_ground_plane=True, line_width=1, line_style='solid', alpha=0.5, engine='matplotlib', dpi=200)
 ```
 Plot the mesh footprint projections on the XY plane.
 

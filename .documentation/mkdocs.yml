@@ -80,6 +80,7 @@ nav:
       - Building a model: tutorials/simulation/building_a_model.md
       - Sensors: tutorials/simulation/sensors.md
       - Meshes: tutorials/simulation/meshes.md
+      - Model generator: tutorials/simulation/model_generator.md
   - License: license.md
 theme:
   name: 'material'

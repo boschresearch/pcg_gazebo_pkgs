@@ -476,7 +476,8 @@ NOTEBOOKS="
     materials.ipynb
     building_a_model.ipynb
     sensors.ipynb
-    meshes.ipynb"
+    meshes.ipynb
+    model_generator.ipynb"
 
 for NOTEBOOK in $NOTEBOOKS
 do
