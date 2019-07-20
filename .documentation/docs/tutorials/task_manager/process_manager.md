@@ -18,28 +18,17 @@ print('ROS network configuration:')
 print(process_manager.ros_config)
 ```
 
-    ROS network configuration:
-    ROS_MASTER_URI=http://localhost:11311, GAZEBO_MASTER_URI=http://localhost:11345
-
-
 
 ```python
 # At first, no tasks are available in the tasks list
 print(process_manager.get_task_list())
 ```
 
-    []
-
-
 
 ```python
 print('Check all the process stages available')
 print(process_manager.stages)
 ```
-
-    Check all the process stages available
-    OrderedDict([('roscore', <pcg_gazebo.task_manager.stage.Stage object at 0x7fd71058a748>), ('pre-simulation', <pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb596630>)])
-
 
 
 ```python
@@ -48,20 +37,10 @@ process_manager.create_ros_core_task()
 ```
 
 
-
-
-    True
-
-
-
-
 ```python
 # Now the roscore task can be found in the list
 print(process_manager.get_task_list())
 ```
-
-    ['roscore']
-
 
 
 ```python
@@ -76,9 +55,6 @@ process_manager.run_task('roscore')
 print('Is task running? {}'.format(process_manager.is_task_running('roscore')))
 ```
 
-    Is task running? True
-
-
 
 ```python
 # Creating an RViz task with a timeout
@@ -91,9 +67,6 @@ print('Is task running? {}'.format(process_manager.is_task_running('roscore')))
 process_manager.create_rviz_task(required=True, process_timeout=10)
 print(process_manager.get_task_list())
 ```
-
-    ['rviz', 'roscore']
-
 
 
 ```python
@@ -123,10 +96,6 @@ print('ROS network configuration:')
 print(process_manager.ros_config)
 ```
 
-    ROS network configuration:
-    ROS_MASTER_URI=http://localhost:17272, GAZEBO_MASTER_URI=http://localhost:26283
-
-
 
 ```python
 # A Gazebo task can also be started with a process timeout
@@ -137,12 +106,6 @@ print('Check all the process stages available')
 print(process_manager.stages)
 ```
 
-    Check all tasks available
-    ['gazebo']
-    Check all the process stages available
-    OrderedDict([('roscore', <pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb5b2978>), ('pre-simulation', <pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb5b2898>), ('gazebo', <pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb5559b0>)])
-
-
 
 ```python
 process_manager.run_all_tasks()
@@ -151,9 +114,6 @@ print(process_manager.stages)
 process_manager.wait()
 
 ```
-
-    OrderedDict([('roscore', <pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb5b2978>), ('pre-simulation', <pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb5b2898>), ('gazebo', <pcg_gazebo.task_manager.stage.Stage object at 0x7fd6cb5559b0>)])
-
 
 
 ```python
@@ -178,14 +138,7 @@ process_manager.run_all_tasks()
 process_manager.wait()
 ```
 
-    ROS network configuration:
-    ROS_MASTER_URI=http://localhost:19181, GAZEBO_MASTER_URI=http://localhost:28054
-
-
 
 ```python
 print('Is task running? {}'.format(process_manager.is_task_running('gazebo')))
 ```
-
-    Is task running? False
-

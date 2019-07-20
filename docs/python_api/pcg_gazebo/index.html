@@ -1252,6 +1252,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/simulation/model_generator/" title="Model generator" class="md-nav__link">
+      Model generator
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -1742,14 +1754,14 @@ scaling, shearing, projecting, orthogonalizing, and superimposing arrays of
 Euler angles, and quaternions. Also includes an Arcball control object and
 functions to decompose transformation matrices.</p>
 <p>:Authors:
-  <code class="codehilite">Christoph Gohlke &lt;http://www.lfd.uci.edu/~gohlke/&gt;</code>__,
+  <code class="codehilite"><span class="n">Christoph</span> <span class="n">Gohlke</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="p">.</span><span class="n">lfd</span><span class="p">.</span><span class="n">uci</span><span class="p">.</span><span class="n">edu</span><span class="o">/~</span><span class="n">gohlke</span><span class="o">/&gt;</span></code>__,
   Laboratory for Fluorescence Dynamics, University of California, Irvine</p>
 <p>:Version: 20090418</p>
 <h5 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h5>
 <ul>
-<li><code class="codehilite">Python 2.6 &lt;http://www.python.org&gt;</code>__</li>
-<li><code class="codehilite">Numpy 1.3 &lt;http://numpy.scipy.org&gt;</code>__</li>
-<li><code class="codehilite">transformations.c 20090418 &lt;http://www.lfd.uci.edu/~gohlke/&gt;</code>__
+<li><code class="codehilite"><span class="n">Python</span> <span class="mi">2</span><span class="p">.</span><span class="mi">6</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="p">.</span><span class="n">python</span><span class="p">.</span><span class="n">org</span><span class="o">&gt;</span></code>__</li>
+<li><code class="codehilite"><span class="n">Numpy</span> <span class="mi">1</span><span class="p">.</span><span class="mi">3</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">numpy</span><span class="p">.</span><span class="n">scipy</span><span class="p">.</span><span class="n">org</span><span class="o">&gt;</span></code>__</li>
+<li><code class="codehilite"><span class="n">transformations</span><span class="p">.</span><span class="k">c</span> <span class="mi">20090418</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="p">.</span><span class="n">lfd</span><span class="p">.</span><span class="n">uci</span><span class="p">.</span><span class="n">edu</span><span class="o">/~</span><span class="n">gohlke</span><span class="o">/&gt;</span></code>__
   (optional implementation of some functions in C)</li>
 </ul>
 <h5 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h5>
@@ -2028,11 +2040,7 @@ True</p>
 </blockquote>
 </blockquote>
 <h5 id="projection_matrix">projection_matrix<a class="headerlink" href="#projection_matrix" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">projection_matrix</span><span class="p">(</span><span class="n">point</span><span class="p">,</span>
-                  <span class="n">normal</span><span class="p">,</span>
-                  <span class="n">direction</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                  <span class="n">perspective</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                  <span class="n">pseudo</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">projection_matrix</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">perspective</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">pseudo</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 Return matrix to project onto plane defined by point and normal.</p>
 <p>Using either perspective point, projection direction, or none of both.</p>
@@ -2212,11 +2220,7 @@ True</p>
 </blockquote>
 </blockquote>
 <h5 id="compose_matrix">compose_matrix<a class="headerlink" href="#compose_matrix" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">compose_matrix</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-               <span class="n">shear</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-               <span class="n">angles</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-               <span class="n">translate</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-               <span class="n">perspective</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">compose_matrix</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">shear</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">angles</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">translate</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">perspective</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
 </pre></div>
 Return transformation matrix from sequence of transformations.</p>
 <p>This is the inverse of the decompose_matrix function.</p>
@@ -2521,7 +2525,7 @@ True</p>
 </blockquote>
 </blockquote>
 <h5 id="arcball">Arcball<a class="headerlink" href="#arcball" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">Arcball</span><span class="p">()</span>
+<p><div class="codehilite"><pre><span></span><span class="n">Arcball</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
 </pre></div>
 Virtual Trackball Control.</p>
 <blockquote>
@@ -2549,7 +2553,7 @@ ball.next()</p>
 </blockquote>
 </blockquote>
 <h6 id="place">place<a class="headerlink" href="#place" title="Permanent link">&para;</a></h6>
-<p><div class="codehilite"><pre><span></span><span class="n">Arcball</span><span class="o">.</span><span class="n">place</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">radius</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">Arcball</span><span class="o">.</span><span class="n">place</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">radius</span><span class="p">)</span>
 </pre></div>
 Place Arcball, e.g. when window size changes.</p>
 <p>center : sequence[2]
@@ -2557,31 +2561,31 @@ Place Arcball, e.g. when window size changes.</p>
 radius : float
     Radius of trackball in window coordinates.</p>
 <h6 id="setaxes">setaxes<a class="headerlink" href="#setaxes" title="Permanent link">&para;</a></h6>
-<p><div class="codehilite"><pre><span></span><span class="n">Arcball</span><span class="o">.</span><span class="n">setaxes</span><span class="p">(</span><span class="o">*</span><span class="n">axes</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">Arcball</span><span class="o">.</span><span class="n">setaxes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">axes</span><span class="p">)</span>
 </pre></div>
 Set axes to constrain rotations.</p>
 <h6 id="setconstrain">setconstrain<a class="headerlink" href="#setconstrain" title="Permanent link">&para;</a></h6>
-<p><div class="codehilite"><pre><span></span><span class="n">Arcball</span><span class="o">.</span><span class="n">setconstrain</span><span class="p">(</span><span class="n">constrain</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">Arcball</span><span class="o">.</span><span class="n">setconstrain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constrain</span><span class="p">)</span>
 </pre></div>
 Set state of constrain to axis mode.</p>
 <h6 id="getconstrain">getconstrain<a class="headerlink" href="#getconstrain" title="Permanent link">&para;</a></h6>
-<p><div class="codehilite"><pre><span></span><span class="n">Arcball</span><span class="o">.</span><span class="n">getconstrain</span><span class="p">()</span>
+<p><div class="codehilite"><pre><span></span><span class="n">Arcball</span><span class="o">.</span><span class="n">getconstrain</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 Return state of constrain to axis mode.</p>
 <h6 id="down">down<a class="headerlink" href="#down" title="Permanent link">&para;</a></h6>
-<p><div class="codehilite"><pre><span></span><span class="n">Arcball</span><span class="o">.</span><span class="n">down</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">Arcball</span><span class="o">.</span><span class="n">down</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">)</span>
 </pre></div>
 Set initial cursor window coordinates and pick constrain-axis.</p>
 <h6 id="drag">drag<a class="headerlink" href="#drag" title="Permanent link">&para;</a></h6>
-<p><div class="codehilite"><pre><span></span><span class="n">Arcball</span><span class="o">.</span><span class="n">drag</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">Arcball</span><span class="o">.</span><span class="n">drag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">)</span>
 </pre></div>
 Update current cursor window coordinates.</p>
 <h6 id="next">next<a class="headerlink" href="#next" title="Permanent link">&para;</a></h6>
-<p><div class="codehilite"><pre><span></span><span class="n">Arcball</span><span class="o">.</span><span class="n">next</span><span class="p">(</span><span class="n">acceleration</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">Arcball</span><span class="o">.</span><span class="n">next</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">acceleration</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
 </pre></div>
 Continue rotation in direction of last drag.</p>
 <h6 id="matrix">matrix<a class="headerlink" href="#matrix" title="Permanent link">&para;</a></h6>
-<p><div class="codehilite"><pre><span></span><span class="n">Arcball</span><span class="o">.</span><span class="n">matrix</span><span class="p">()</span>
+<p><div class="codehilite"><pre><span></span><span class="n">Arcball</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 Return homogeneous rotation matrix.</p>
 <h5 id="arcball_map_to_sphere">arcball_map_to_sphere<a class="headerlink" href="#arcball_map_to_sphere" title="Permanent link">&para;</a></h5>

@@ -1,249 +1,207 @@
-
 # pcg_gazebo.parsers.urdf
-
 
 # Actuator
 ```python
-Actuator()
+Actuator(self)
 ```
-
 
 # Axis
 ```python
-Axis()
+Axis(self, default=[1, 0, 0])
 ```
-
 
 # Box
 ```python
-Box()
+Box(self)
 ```
-
 
 # Child
 ```python
-Child()
+Child(self, default='link')
 ```
-
 
 # Collision
 ```python
-Collision()
+Collision(self)
 ```
-
 
 # Color
 ```python
-Color()
+Color(self, default=[0, 0, 0, 1])
 ```
-
 
 # Cylinder
 ```python
-Cylinder()
+Cylinder(self)
 ```
-
 
 # Dynamics
 ```python
-Dynamics()
+Dynamics(self)
 ```
-
 
 # Gazebo
 ```python
-Gazebo()
+Gazebo(self, mode='none', sdf_elements={})
 ```
-
 
 # Geometry
 ```python
-Geometry()
+Geometry(self)
 ```
-
 
 # HardwareInterface
 ```python
-HardwareInterface()
+HardwareInterface(self, default='EffortJointInterface')
 ```
-
 
 # Inertia
 ```python
-Inertia()
+Inertia(self)
 ```
-
 
 # Inertial
 ```python
-Inertial()
+Inertial(self)
 ```
-
 
 # Joint
 ```python
-Joint()
+Joint(self)
 ```
-
 
 # Kd
 ```python
-Kd()
+Kd(self, default=1)
 ```
-
 
 # Kp
 ```python
-Kp()
+Kp(self, default=1000000000000.0)
 ```
-
 
 # Limit
 ```python
-Limit()
+Limit(self)
 ```
-
 
 # Link
 ```python
-Link()
+Link(self)
 ```
-
 
 # Mass
 ```python
-Mass()
+Mass(self)
 ```
-
 
 # Material
 ```python
-Material()
+Material(self, mode='color')
 ```
-
 
 # MaxContacts
 ```python
-MaxContacts()
+MaxContacts(self, default=20)
 ```
-
 
 # MaxVel
 ```python
-MaxVel()
+MaxVel(self, default=0.01)
 ```
-
 
 # MechanicalReduction
 ```python
-MechanicalReduction()
+MechanicalReduction(self, default=1)
 ```
-
 
 # Mesh
 ```python
-Mesh()
+Mesh(self)
 ```
-
 
 # Mimic
 ```python
-Mimic()
+Mimic(self)
 ```
-
 
 # MinDepth
 ```python
-MinDepth()
+MinDepth(self, default=0)
 ```
-
 
 # Mu1
 ```python
-Mu1()
+Mu1(self, default=1)
 ```
-
 
 # Mu2
 ```python
-Mu2()
+Mu2(self, default=1)
 ```
-
 
 # Origin
 ```python
-Origin()
+Origin(self)
 ```
-
 
 # Parent
 ```python
-Parent()
+Parent(self, default='link')
 ```
-
 
 # ProvideFeedback
 ```python
-ProvideFeedback()
+ProvideFeedback(self, default=False)
 ```
-
 
 # Robot
 ```python
-Robot()
+Robot(self)
 ```
-
 
 # SafetyController
 ```python
-SafetyController()
+SafetyController(self)
 ```
-
 
 # SelfCollide
 ```python
-SelfCollide()
+SelfCollide(self, default=False)
 ```
-
 
 # Sphere
 ```python
-Sphere()
+Sphere(self)
 ```
-
 
 # StopCFM
 ```python
-StopCFM()
+StopCFM(self, default=0)
 ```
-
 
 # StopERP
 ```python
-StopERP()
+StopERP(self, default=0.2)
 ```
-
 
 # Texture
 ```python
-Texture()
+Texture(self, default='filename')
 ```
-
 
 # Transmission
 ```python
-Transmission()
+Transmission(self)
 ```
-
 
 # Type
 ```python
-Type()
+Type(self, default='transmission_interface/SimpleTransmission')
 ```
-
 
 # Visual
 ```python
-Visual()
+Visual(self)
 ```
 

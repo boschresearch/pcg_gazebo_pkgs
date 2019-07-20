@@ -2366,6 +2366,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../tutorials/simulation/model_generator/" title="Model generator" class="md-nav__link">
+      Model generator
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -3952,232 +3964,232 @@
                 
                 <h4 id="pcg_gazeboparserssdf">pcg_gazebo.parsers.sdf<a class="headerlink" href="#pcg_gazeboparserssdf" title="Permanent link">&para;</a></h4>
 <h4 id="accel">Accel<a class="headerlink" href="#accel" title="Permanent link">&para;</a></h4>
-<p><div class="codehilite"><pre><span></span><span class="n">Accel</span><span class="p">()</span>
+<p><div class="codehilite"><pre><span></span><span class="n">Accel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 Noise parameters for linear accelerations.</p>
 <blockquote>
 <p><em>Child elements</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite">mean</code></li>
-<li><code class="codehilite">stddev</code></li>
-<li><code class="codehilite">bias_mean</code></li>
-<li><code class="codehilite">bias_stddev</code></li>
+<li><code class="codehilite"><span class="n">mean</span></code></li>
+<li><code class="codehilite"><span class="n">stddev</span></code></li>
+<li><code class="codehilite"><span class="n">bias_mean</span></code></li>
+<li><code class="codehilite"><span class="n">bias_stddev</span></code></li>
 </ul>
 <blockquote>
 <p>SDF versions</p>
 </blockquote>
 <ul>
-<li><code class="codehilite">1.4</code></li>
+<li><code class="codehilite"><span class="mi">1</span><span class="p">.</span><span class="mi">4</span></code></li>
 </ul>
 <blockquote>
 <p><em>Source</em></p>
 </blockquote>
 <ul>
-<li><a href="http://sdformat.org/spec?elem=sensor&amp;ver=1.4"><code class="codehilite">&lt;accel&gt;</code> (SDF 1.4)</a></li>
+<li><a href="http://sdformat.org/spec?elem=sensor&amp;ver=1.4"><code class="codehilite"><span class="o">&lt;</span><span class="n">accel</span><span class="o">&gt;</span></code> (SDF 1.4)</a></li>
 </ul>
 <h5 id="bias_mean">bias_mean<a class="headerlink" href="#bias_mean" title="Permanent link">&para;</a></h5>
 <p>Return the bias mean value SDF element,
-to read the value use <code class="codehilite">obj.bias_mean.value</code></p>
+to read the value use <code class="codehilite"><span class="n">obj</span><span class="p">.</span><span class="n">bias_mean</span><span class="p">.</span><span class="n">value</span></code></p>
 <h5 id="bias_stddev">bias_stddev<a class="headerlink" href="#bias_stddev" title="Permanent link">&para;</a></h5>
 <p>Return the bias standard deviation value SDF element,
-to read the value use <code class="codehilite">obj.bias_stddev.value</code></p>
+to read the value use <code class="codehilite"><span class="n">obj</span><span class="p">.</span><span class="n">bias_stddev</span><span class="p">.</span><span class="n">value</span></code></p>
 <h5 id="mean">mean<a class="headerlink" href="#mean" title="Permanent link">&para;</a></h5>
 <p>Return the mean value SDF element, to read the value use
-<code class="codehilite">obj.mean.value</code></p>
+<code class="codehilite"><span class="n">obj</span><span class="p">.</span><span class="n">mean</span><span class="p">.</span><span class="n">value</span></code></p>
 <h5 id="stddev">stddev<a class="headerlink" href="#stddev" title="Permanent link">&para;</a></h5>
 <p>Return the standard deviation value SDF element,
-to read the value use <code class="codehilite">obj.stddev.value</code></p>
+to read the value use <code class="codehilite"><span class="n">obj</span><span class="p">.</span><span class="n">stddev</span><span class="p">.</span><span class="n">value</span></code></p>
 <h4 id="accuracy">Accuracy<a class="headerlink" href="#accuracy" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Accuracy</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Accuracy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="actor">Actor<a class="headerlink" href="#actor" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Actor</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Actor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="allowautodisable">AllowAutoDisable<a class="headerlink" href="#allowautodisable" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">AllowAutoDisable</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">AllowAutoDisable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="altimeter">Altimeter<a class="headerlink" href="#altimeter" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Altimeter</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Altimeter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="alwayson">AlwaysOn<a class="headerlink" href="#alwayson" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">AlwaysOn</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">AlwaysOn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="ambient">Ambient<a class="headerlink" href="#ambient" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Ambient</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Ambient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="angularvelocity">AngularVelocity<a class="headerlink" href="#angularvelocity" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">AngularVelocity</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">AngularVelocity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="animation">Animation<a class="headerlink" href="#animation" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Animation</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Animation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="attenuation">Attenuation<a class="headerlink" href="#attenuation" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Attenuation</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Attenuation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="autostart">AutoStart<a class="headerlink" href="#autostart" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">AutoStart</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">AutoStart</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="axis">Axis<a class="headerlink" href="#axis" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Axis</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Axis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="axis2">Axis2<a class="headerlink" href="#axis2" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Axis2</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Axis2</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="biasmean">BiasMean<a class="headerlink" href="#biasmean" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">BiasMean</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">BiasMean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="biasstddev">BiasStdDev<a class="headerlink" href="#biasstddev" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">BiasStdDev</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">BiasStdDev</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="bounce">Bounce<a class="headerlink" href="#bounce" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Bounce</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Bounce</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="box">Box<a class="headerlink" href="#box" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Box</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Box</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="bullet">Bullet<a class="headerlink" href="#bullet" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Bullet</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Bullet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;physics&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="camera">Camera<a class="headerlink" href="#camera" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Camera</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Camera</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="castshadows">CastShadows<a class="headerlink" href="#castshadows" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">CastShadows</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">CastShadows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="center">Center<a class="headerlink" href="#center" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Center</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="cfm">CFM<a class="headerlink" href="#cfm" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">CFM</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">CFM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="child">Child<a class="headerlink" href="#child" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Child</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="clip">Clip<a class="headerlink" href="#clip" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Clip</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Clip</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="coefficient">Coefficient<a class="headerlink" href="#coefficient" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Coefficient</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Coefficient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="collision">Collision<a class="headerlink" href="#collision" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Collision</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Collision</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="constant">Constant<a class="headerlink" href="#constant" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Constant</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="constraints">Constraints<a class="headerlink" href="#constraints" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Constraints</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;ode&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="contactmaxcorrectingvel">ContactMaxCorrectingVel<a class="headerlink" href="#contactmaxcorrectingvel" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">ContactMaxCorrectingVel</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">ContactMaxCorrectingVel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="contactsurfacelayer">ContactSurfaceLayer<a class="headerlink" href="#contactsurfacelayer" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">ContactSurfaceLayer</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">ContactSurfaceLayer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="contact">Contact<a class="headerlink" href="#contact" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Contact</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Contact</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;simbody&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="cylinder">Cylinder<a class="headerlink" href="#cylinder" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Cylinder</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Cylinder</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="damping">Damping<a class="headerlink" href="#damping" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Damping</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Damping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="delaystart">DelayStart<a class="headerlink" href="#delaystart" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">DelayStart</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">DelayStart</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="depthcamera">DepthCamera<a class="headerlink" href="#depthcamera" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">DepthCamera</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">DepthCamera</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="diffuse">Diffuse<a class="headerlink" href="#diffuse" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Diffuse</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Diffuse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 </pre></div>
 
 <h4 id="direction">Direction<a class="headerlink" href="#direction" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Direction</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Direction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 
 <h4 id="dissipation">Dissipation<a class="headerlink" href="#dissipation" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Dissipation</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Dissipation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="distortion">Distortion<a class="headerlink" href="#distortion" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Distortion</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Distortion</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="dynamicfriction">DynamicFriction<a class="headerlink" href="#dynamicfriction" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">DynamicFriction</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">DynamicFriction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="dynamics">Dynamics<a class="headerlink" href="#dynamics" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Dynamics</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Dynamics</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="effort">Effort<a class="headerlink" href="#effort" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Effort</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Effort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="emissive">Emissive<a class="headerlink" href="#emissive" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Emissive</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Emissive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="empty">Empty<a class="headerlink" href="#empty" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Empty</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Empty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="enablewind">EnableWind<a class="headerlink" href="#enablewind" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">EnableWind</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">EnableWind</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="erp">ERP<a class="headerlink" href="#erp" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">ERP</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">ERP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="falloff">FallOff<a class="headerlink" href="#falloff" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">FallOff</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">FallOff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="far">Far<a class="headerlink" href="#far" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Far</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Far</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="fdir1">FDir1<a class="headerlink" href="#fdir1" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">FDir1</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">FDir1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 </pre></div>
 
 <p>3-tuple specifying direction of mu1 in the collision local reference frame</p>
@@ -4186,27 +4198,27 @@ to read the value use <code class="codehilite">obj.stddev.value</code></p>
 <p>Attributes:
     value (list): Stored direction unit vector</p>
 <h4 id="filename">Filename<a class="headerlink" href="#filename" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Filename</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Filename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="forcetorque">ForceTorque<a class="headerlink" href="#forcetorque" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">ForceTorque</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">ForceTorque</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="format">Format<a class="headerlink" href="#format" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Format</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;R8G8B8&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="frame">Frame<a class="headerlink" href="#frame" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Frame</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="frictionmodel">FrictionModel<a class="headerlink" href="#frictionmodel" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">FrictionModel</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">FrictionModel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="friction">Friction<a class="headerlink" href="#friction" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Friction</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Friction</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <p>Configuration of the collision friction parameters.</p>
@@ -4215,231 +4227,231 @@ to read the value use <code class="codehilite">obj.stddev.value</code></p>
 <p>Attributes:
     value (float): Stored coefficient of friction</p>
 <h4 id="friction2">Friction2<a class="headerlink" href="#friction2" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Friction2</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Friction2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="geometry">Geometry<a class="headerlink" href="#geometry" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Geometry</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="granularity">Granularity<a class="headerlink" href="#granularity" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Granularity</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Granularity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="gravity">Gravity<a class="headerlink" href="#gravity" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Gravity</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Gravity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="height">Height<a class="headerlink" href="#height" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Height</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Height</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="horizontalfov">HorizontalFOV<a class="headerlink" href="#horizontalfov" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">HorizontalFOV</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">HorizontalFOV</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.047</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="horizontal">Horizontal<a class="headerlink" href="#horizontal" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Horizontal</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Horizontal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="image">Image<a class="headerlink" href="#image" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Image</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;geometry&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="imu">IMU<a class="headerlink" href="#imu" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">IMU</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">IMU</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="include">Include<a class="headerlink" href="#include" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Include</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Include</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="inertia">Inertia<a class="headerlink" href="#inertia" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Inertia</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Inertia</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="inertial">Inertial<a class="headerlink" href="#inertial" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Inertial</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Inertial</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="initialposition">InitialPosition<a class="headerlink" href="#initialposition" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">InitialPosition</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">InitialPosition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="innerangle">InnerAngle<a class="headerlink" href="#innerangle" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">InnerAngle</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">InnerAngle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="interpolatex">InterpolateX<a class="headerlink" href="#interpolatex" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">InterpolateX</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">InterpolateX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="iters">Iters<a class="headerlink" href="#iters" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Iters</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Iters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="ixx">IXX<a class="headerlink" href="#ixx" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">IXX</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">IXX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="ixy">IXY<a class="headerlink" href="#ixy" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">IXY</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">IXY</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="ixz">IXZ<a class="headerlink" href="#ixz" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">IXZ</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">IXZ</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="iyy">IYY<a class="headerlink" href="#iyy" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">IYY</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">IYY</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="iyz">IYZ<a class="headerlink" href="#iyz" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">IYZ</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">IYZ</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="izz">IZZ<a class="headerlink" href="#izz" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">IZZ</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">IZZ</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="joint">Joint<a class="headerlink" href="#joint" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Joint</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Joint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="k1">K1<a class="headerlink" href="#k1" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">K1</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">K1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="k2">K2<a class="headerlink" href="#k2" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">K2</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">K2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="k3">K3<a class="headerlink" href="#k3" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">K3</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">K3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="kd">Kd<a class="headerlink" href="#kd" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Kd</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Kd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="kinematic">Kinematic<a class="headerlink" href="#kinematic" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Kinematic</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Kinematic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="kp">Kp<a class="headerlink" href="#kp" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Kp</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Kp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1000000000000.0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="laserretro">LaserRetro<a class="headerlink" href="#laserretro" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">LaserRetro</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">LaserRetro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="length">Length<a class="headerlink" href="#length" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Length</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Length</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="light">Light<a class="headerlink" href="#light" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Light</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Light</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="lighting">Lighting<a class="headerlink" href="#lighting" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Lighting</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Lighting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="limit">Limit<a class="headerlink" href="#limit" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Limit</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Limit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;axis&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="linearacceleration">LinearAcceleration<a class="headerlink" href="#linearacceleration" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">LinearAcceleration</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">LinearAcceleration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="linear">Linear<a class="headerlink" href="#linear" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Linear</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="link">Link<a class="headerlink" href="#link" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Link</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Link</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="localization">Localization<a class="headerlink" href="#localization" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Localization</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Localization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;CUSTOM&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="loop">Loop<a class="headerlink" href="#loop" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Loop</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Loop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="lower">Lower<a class="headerlink" href="#lower" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Lower</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Lower</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=-</span><span class="mf">1e+16</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="mass">Mass<a class="headerlink" href="#mass" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Mass</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Mass</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="material">Material<a class="headerlink" href="#material" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Material</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Material</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="maxangle">MaxAngle<a class="headerlink" href="#maxangle" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">MaxAngle</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">MaxAngle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="maxcontacts">MaxContacts<a class="headerlink" href="#maxcontacts" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">MaxContacts</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">MaxContacts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="maxstepsize">MaxStepSize<a class="headerlink" href="#maxstepsize" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">MaxStepSize</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">MaxStepSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="maxtransientvelocity">MaxTransientVelocity<a class="headerlink" href="#maxtransientvelocity" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">MaxTransientVelocity</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">MaxTransientVelocity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="maxvel">MaxVel<a class="headerlink" href="#maxvel" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">MaxVel</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">MaxVel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="max">Max<a class="headerlink" href="#max" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Max</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Max</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="mean_1">Mean<a class="headerlink" href="#mean_1" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Mean</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Mean</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="measuredirection">MeasureDirection<a class="headerlink" href="#measuredirection" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">MeasureDirection</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">MeasureDirection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;child_to_parent&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="mesh">Mesh<a class="headerlink" href="#mesh" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Mesh</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="minangle">MinAngle<a class="headerlink" href="#minangle" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">MinAngle</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">MinAngle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="mindepth">MinDepth<a class="headerlink" href="#mindepth" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">MinDepth</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">MinDepth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="minstepsize">MinStepSize<a class="headerlink" href="#minstepsize" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">MinStepSize</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">MinStepSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="min">Min<a class="headerlink" href="#min" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Min</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Min</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="model">Model<a class="headerlink" href="#model" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Model</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Model</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="mu">Mu<a class="headerlink" href="#mu" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Mu</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Mu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
 <p>Coefficient of friction in the range of [0, 1]</p>
@@ -4448,7 +4460,7 @@ to read the value use <code class="codehilite">obj.stddev.value</code></p>
 <p>Attributes:
     value (float): Stored coefficient of friction</p>
 <h4 id="mu2">Mu2<a class="headerlink" href="#mu2" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Mu2</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Mu2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
 <p>Second coefficient of friction in the range of [0, 1]</p>
@@ -4457,207 +4469,207 @@ to read the value use <code class="codehilite">obj.stddev.value</code></p>
 <p>Attributes:
     value (float): Stored coefficient of friction</p>
 <h4 id="mustbeloopjoint">MustBeLoopJoint<a class="headerlink" href="#mustbeloopjoint" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">MustBeLoopJoint</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">MustBeLoopJoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="name">Name<a class="headerlink" href="#name" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Name</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="near">Near<a class="headerlink" href="#near" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Near</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Near</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="noise">Noise<a class="headerlink" href="#noise" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Noise</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Noise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="normalmap">NormalMap<a class="headerlink" href="#normalmap" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">NormalMap</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">NormalMap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="normal">Normal<a class="headerlink" href="#normal" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Normal</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Normal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="ode">ODE<a class="headerlink" href="#ode" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">ODE</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">ODE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="orientationreferenceframe">OrientationReferenceFrame<a class="headerlink" href="#orientationreferenceframe" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">OrientationReferenceFrame</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">OrientationReferenceFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="outerangle">OuterAngle<a class="headerlink" href="#outerangle" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">OuterAngle</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">OuterAngle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="output">Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Output</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;depths&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="overrideimpactcapturevelocity">OverrideImpactCaptureVelocity<a class="headerlink" href="#overrideimpactcapturevelocity" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">OverrideImpactCaptureVelocity</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">OverrideImpactCaptureVelocity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="overridestictiontransitionvelocity">OverrideStictionTransitionVelocity<a class="headerlink" href="#overridestictiontransitionvelocity" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">OverrideStictionTransitionVelocity</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">OverrideStictionTransitionVelocity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="p1">P1<a class="headerlink" href="#p1" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">P1</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">P1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="p2">P2<a class="headerlink" href="#p2" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">P2</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">P2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="parent">Parent<a class="headerlink" href="#parent" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Parent</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Parent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;parent&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="patchradius">PatchRadius<a class="headerlink" href="#patchradius" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">PatchRadius</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">PatchRadius</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="path">Path<a class="headerlink" href="#path" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Path</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;__default__&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="physics">Physics<a class="headerlink" href="#physics" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Physics</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Physics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;ode&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="plane">Plane<a class="headerlink" href="#plane" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Plane</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Plane</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="plasticcoefrestitution">PlasticCoefRestitution<a class="headerlink" href="#plasticcoefrestitution" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">PlasticCoefRestitution</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">PlasticCoefRestitution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="plasticimpactvelocity">PlasticImpactVelocity<a class="headerlink" href="#plasticimpactvelocity" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">PlasticImpactVelocity</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">PlasticImpactVelocity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="plugin">Plugin<a class="headerlink" href="#plugin" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Plugin</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">{})</span>
 </pre></div>
 
 <h4 id="point">Point<a class="headerlink" href="#point" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Point</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec_length</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="polyline">Polyline<a class="headerlink" href="#polyline" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Polyline</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Polyline</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="pose">Pose<a class="headerlink" href="#pose" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Pose</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Pose</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="precision">Precision<a class="headerlink" href="#precision" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Precision</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Precision</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="preconiters">PreConIters<a class="headerlink" href="#preconiters" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">PreConIters</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">PreConIters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="providefeedback">ProvideFeedback<a class="headerlink" href="#providefeedback" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">ProvideFeedback</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">ProvideFeedback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="quadratic">Quadratic<a class="headerlink" href="#quadratic" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Quadratic</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Quadratic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="radius">Radius<a class="headerlink" href="#radius" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Radius</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Radius</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="range">Range<a class="headerlink" href="#range" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Range</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Range</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="rate">Rate<a class="headerlink" href="#rate" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Rate</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Rate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="ray">Ray<a class="headerlink" href="#ray" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Ray</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Ray</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="realtimefactor">RealTimeFactor<a class="headerlink" href="#realtimefactor" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">RealTimeFactor</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">RealTimeFactor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="realtimeupdaterate">RealTimeUpdateRate<a class="headerlink" href="#realtimeupdaterate" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">RealTimeUpdateRate</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">RealTimeUpdateRate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="resolution">Resolution<a class="headerlink" href="#resolution" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Resolution</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Resolution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="restitutioncoefficient">RestitutionCoefficient<a class="headerlink" href="#restitutioncoefficient" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">RestitutionCoefficient</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">RestitutionCoefficient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="rollingfriction">RollingFriction<a class="headerlink" href="#rollingfriction" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">RollingFriction</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">RollingFriction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="samples">Samples<a class="headerlink" href="#samples" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Samples</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Samples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">640</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="save">Save<a class="headerlink" href="#save" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Save</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Save</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="scale">Scale<a class="headerlink" href="#scale" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Scale</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="scan">Scan<a class="headerlink" href="#scan" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Scan</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Scan</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="script">Script<a class="headerlink" href="#script" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Script</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;material&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="sdf">SDF<a class="headerlink" href="#sdf" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">SDF</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">SDF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;world&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="selfcollide">SelfCollide<a class="headerlink" href="#selfcollide" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">SelfCollide</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">SelfCollide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="sensor">Sensor<a class="headerlink" href="#sensor" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Sensor</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Sensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;altimeter&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="shader">Shader<a class="headerlink" href="#shader" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Shader</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Shader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="simbody">Simbody<a class="headerlink" href="#simbody" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Simbody</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Simbody</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;physics&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="size">Size<a class="headerlink" href="#size" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Size</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec_length</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="skin">Skin<a class="headerlink" href="#skin" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Skin</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Skin</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="slip">Slip<a class="headerlink" href="#slip" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Slip</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Slip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <p>Force dependent slip direction 1 in collision local frame, between the
@@ -4667,7 +4679,7 @@ range of [0,1].</p>
 <p>Attributes:
     value (float): Stored slip coefficient</p>
 <h4 id="slip1">Slip1<a class="headerlink" href="#slip1" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Slip1</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Slip1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <p>Force dependent slip direction 1 in collision local frame, between the
@@ -4677,7 +4689,7 @@ range of [0,1].</p>
 <p>Attributes:
     value (float): Stored slip coefficient</p>
 <h4 id="slip2">Slip2<a class="headerlink" href="#slip2" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Slip2</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Slip2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <p>Force dependent slip direction 1 in collision local frame, between the
@@ -4687,187 +4699,187 @@ range of [0,1].</p>
 <p>Attributes:
     value (float): Stored slip coefficient</p>
 <h4 id="softcfm">SoftCFM<a class="headerlink" href="#softcfm" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">SoftCFM</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">SoftCFM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="softerp">SoftERP<a class="headerlink" href="#softerp" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">SoftERP</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">SoftERP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="solver">Solver<a class="headerlink" href="#solver" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Solver</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Solver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;ode&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="sor">Sor<a class="headerlink" href="#sor" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Sor</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Sor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.3</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="specular">Specular<a class="headerlink" href="#specular" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Specular</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Specular</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 </pre></div>
 
 <h4 id="sphere">Sphere<a class="headerlink" href="#sphere" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Sphere</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Sphere</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="splitimpulsepenetrationthreshold">SplitImpulsePenetrationThreshold<a class="headerlink" href="#splitimpulsepenetrationthreshold" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">SplitImpulsePenetrationThreshold</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">SplitImpulsePenetrationThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=-</span><span class="mf">0.01</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="splitimpulse">SplitImpulse<a class="headerlink" href="#splitimpulse" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">SplitImpulse</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">SplitImpulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="spot">Spot<a class="headerlink" href="#spot" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Spot</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Spot</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="springreference">SpringReference<a class="headerlink" href="#springreference" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">SpringReference</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">SpringReference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="springstiffness">SpringStiffness<a class="headerlink" href="#springstiffness" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">SpringStiffness</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">SpringStiffness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="staticfriction">StaticFriction<a class="headerlink" href="#staticfriction" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">StaticFriction</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">StaticFriction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="static">Static<a class="headerlink" href="#static" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Static</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Static</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="stddev_1">StdDev<a class="headerlink" href="#stddev_1" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">StdDev</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">StdDev</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="stiffness">Stiffness<a class="headerlink" href="#stiffness" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Stiffness</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Stiffness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">100000000.0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="submesh">SubMesh<a class="headerlink" href="#submesh" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">SubMesh</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">SubMesh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="surfaceradius">SurfaceRadius<a class="headerlink" href="#surfaceradius" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">SurfaceRadius</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">SurfaceRadius</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="surface">Surface<a class="headerlink" href="#surface" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Surface</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Surface</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="threshold">Threshold<a class="headerlink" href="#threshold" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Threshold</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Threshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="time">Time<a class="headerlink" href="#time" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Time</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="topic">Topic<a class="headerlink" href="#topic" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Topic</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Topic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="torsional">Torsional<a class="headerlink" href="#torsional" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Torsional</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Torsional</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="trajectory">Trajectory<a class="headerlink" href="#trajectory" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Trajectory</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Trajectory</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="transparency">Transparency<a class="headerlink" href="#transparency" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Transparency</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Transparency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="type">Type<a class="headerlink" href="#type" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Type</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="updaterate">UpdateRate<a class="headerlink" href="#updaterate" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">UpdateRate</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">UpdateRate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="upper">Upper<a class="headerlink" href="#upper" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Upper</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Upper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1e+16</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="urdf">URDF<a class="headerlink" href="#urdf" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">URDF</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">URDF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;model&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="uri">URI<a class="headerlink" href="#uri" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">URI</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">URI</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="usedynamicmoirescaling">UseDynamicMOIRescaling<a class="headerlink" href="#usedynamicmoirescaling" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">UseDynamicMOIRescaling</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">UseDynamicMOIRescaling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="useparentmodelframe">UseParentModelFrame<a class="headerlink" href="#useparentmodelframe" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">UseParentModelFrame</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">UseParentModelFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="usepatchradius">UsePatchRadius<a class="headerlink" href="#usepatchradius" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">UsePatchRadius</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">UsePatchRadius</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="velocity">Velocity<a class="headerlink" href="#velocity" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Velocity</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="verticalposition">VerticalPosition<a class="headerlink" href="#verticalposition" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">VerticalPosition</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">VerticalPosition</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="verticalvelocity">VerticalVelocity<a class="headerlink" href="#verticalvelocity" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">VerticalVelocity</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">VerticalVelocity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="vertical">Vertical<a class="headerlink" href="#vertical" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Vertical</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Vertical</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="viscousfriction">ViscousFriction<a class="headerlink" href="#viscousfriction" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">ViscousFriction</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">ViscousFriction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="visual">Visual<a class="headerlink" href="#visual" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Visual</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Visual</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="visualize">Visualize<a class="headerlink" href="#visualize" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Visualize</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Visualize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="waypoint">Waypoint<a class="headerlink" href="#waypoint" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Waypoint</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Waypoint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="width">Width<a class="headerlink" href="#width" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Width</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Width</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">320</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="world">World<a class="headerlink" href="#world" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">World</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">World</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="x">X<a class="headerlink" href="#x" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">X</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">X</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="xyz">XYZ<a class="headerlink" href="#xyz" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">XYZ</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">XYZ</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 </pre></div>
 
 <h4 id="y">Y<a class="headerlink" href="#y" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Y</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Y</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
 <h4 id="z">Z<a class="headerlink" href="#z" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Z</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">Z</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
                 
                   

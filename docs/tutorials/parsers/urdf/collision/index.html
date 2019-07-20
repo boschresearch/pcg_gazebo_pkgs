@@ -852,6 +852,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../simulation/model_generator/" title="Model generator" class="md-nav__link">
+      Model generator
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -919,7 +931,7 @@
                   <h1>Collisions</h1>
                 
                 <h4 id="collision">Collision<a class="headerlink" href="#collision" title="Permanent link">&para;</a></h4>
-<p>The collision properties of a link. Note that this can be different from the visual properties of a link, for example, simpler collision models are often used to reduce computation time. This is a child element of <code class="codehilite">&lt;link&gt;</code> and a link can have multiple collisions.</p>
+<p>The collision properties of a link. Note that this can be different from the visual properties of a link, for example, simpler collision models are often used to reduce computation time. This is a child element of <code class="codehilite"><span class="o">&lt;</span><span class="n">link</span><span class="o">&gt;</span></code> and a link can have multiple collisions.</p>
 <div class="codehilite"><pre><span></span><span class="c1"># Import the element creator</span>
 <span class="kn">from</span> <span class="nn">pcg_gazebo.parsers.urdf</span> <span class="kn">import</span> <span class="n">create_urdf_element</span>
 </pre></div>
@@ -929,15 +941,6 @@
 <span class="k">print</span><span class="p">(</span><span class="n">collision</span><span class="p">)</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>&lt;collision name=&quot;collision&quot;&gt;
-  &lt;origin rpy=&quot;0 0 0&quot; xyz=&quot;0 0 0&quot;/&gt;
-  &lt;geometry&gt;
-    &lt;box size=&quot;0 0 0&quot;/&gt;
-  &lt;/geometry&gt;
-&lt;/collision&gt;
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="c1"># Setting the parameters for the visual element</span>
 
 <span class="n">collision</span><span class="o">.</span><span class="n">origin</span><span class="o">.</span><span class="n">xyz</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
@@ -945,65 +948,21 @@
 <span class="k">print</span><span class="p">(</span><span class="n">collision</span><span class="p">)</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>&lt;collision name=&quot;collision&quot;&gt;
-  &lt;origin rpy=&quot;0.2 0 0.6&quot; xyz=&quot;1 0 1&quot;/&gt;
-  &lt;geometry&gt;
-    &lt;box size=&quot;0 0 0&quot;/&gt;
-  &lt;/geometry&gt;
-&lt;/collision&gt;
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="c1"># Setting different geometries to the visual element</span>
 <span class="n">collision</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="n">create_urdf_element</span><span class="p">(</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">collision</span><span class="p">)</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>&lt;collision name=&quot;collision&quot;&gt;
-  &lt;origin rpy=&quot;0.2 0 0.6&quot; xyz=&quot;1 0 1&quot;/&gt;
-  &lt;geometry&gt;
-    &lt;box size=&quot;0 0 0&quot;/&gt;
-  &lt;/geometry&gt;
-&lt;/collision&gt;
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="n">collision</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">sphere</span> <span class="o">=</span> <span class="n">create_urdf_element</span><span class="p">(</span><span class="s1">&#39;sphere&#39;</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">collision</span><span class="p">)</span>
 </pre></div>
-
-<div class="codehilite"><pre><span></span>&lt;collision name=&quot;collision&quot;&gt;
-  &lt;origin rpy=&quot;0.2 0 0.6&quot; xyz=&quot;1 0 1&quot;/&gt;
-  &lt;geometry&gt;
-    &lt;sphere radius=&quot;0&quot;/&gt;
-  &lt;/geometry&gt;
-&lt;/collision&gt;
-</pre></div>
-
 
 <div class="codehilite"><pre><span></span><span class="n">collision</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">cylinder</span> <span class="o">=</span> <span class="n">create_urdf_element</span><span class="p">(</span><span class="s1">&#39;cylinder&#39;</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">collision</span><span class="p">)</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>&lt;collision name=&quot;collision&quot;&gt;
-  &lt;origin rpy=&quot;0.2 0 0.6&quot; xyz=&quot;1 0 1&quot;/&gt;
-  &lt;geometry&gt;
-    &lt;cylinder length=&quot;0&quot; radius=&quot;0&quot;/&gt;
-  &lt;/geometry&gt;
-&lt;/collision&gt;
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="n">collision</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">create_urdf_element</span><span class="p">(</span><span class="s1">&#39;mesh&#39;</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">collision</span><span class="p">)</span>
-</pre></div>
-
-<div class="codehilite"><pre><span></span>&lt;collision name=&quot;collision&quot;&gt;
-  &lt;origin rpy=&quot;0.2 0 0.6&quot; xyz=&quot;1 0 1&quot;/&gt;
-  &lt;geometry&gt;
-    &lt;mesh filename=&quot;&quot;/&gt;
-  &lt;/geometry&gt;
-&lt;/collision&gt;
 </pre></div>
                 
                   

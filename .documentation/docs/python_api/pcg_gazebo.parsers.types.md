@@ -1,51 +1,41 @@
-
 # pcg_gazebo.parsers.types
-
 
 # XMLBase
 ```python
-XMLBase()
+XMLBase(self)
 ```
-
 
 ## xml_element_name
 `str`: Name of the SDF element
-
 ## xml_format
 `str`: Name of the XML format
-
 # XMLBoolean
 ```python
-XMLBoolean()
+XMLBoolean(self, default=False)
 ```
-
 
 # XMLCustom
 ```python
-XMLCustom()
+XMLCustom(self, default={})
 ```
-
 
 # XMLInteger
 ```python
-XMLInteger()
+XMLInteger(self, default=0)
 ```
-
 
 # XMLScalar
 ```python
-XMLScalar()
+XMLScalar(self, default=0)
 ```
-
 
 # XMLString
 ```python
-XMLString()
+XMLString(self, default='')
 ```
-
 
 # XMLVector
 ```python
-XMLVector()
+XMLVector(self, size=None)
 ```
 

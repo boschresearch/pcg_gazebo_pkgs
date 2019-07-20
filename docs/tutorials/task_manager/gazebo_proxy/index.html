@@ -898,6 +898,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../simulation/model_generator/" title="Model generator" class="md-nav__link">
+      Model generator
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -1013,15 +1025,15 @@
                   <h1>Gazebo proxy</h1>
                 
                 <h4 id="gazebo-proxy">Gazebo proxy<a class="headerlink" href="#gazebo-proxy" title="Permanent link">&para;</a></h4>
-<p>The Gazebo proxy is an implementation of interfaces with all services provided by the <code class="codehilite">gazebo_ros_pkgs</code>. It allows easy use and from of the simulation through Python. </p>
-<p>It can be configured for different <code class="codehilite">ROS_MASTER_URI</code> and <code class="codehilite">GAZEBO_MASTER_URI</code> environment variables to access instances of Gazebo running in other hosts/ports.</p>
+<p>The Gazebo proxy is an implementation of interfaces with all services provided by the <code class="codehilite"><span class="n">gazebo_ros_pkgs</span></code>. It allows easy use and from of the simulation through Python. </p>
+<p>It can be configured for different <code class="codehilite"><span class="n">ROS_MASTER_URI</span></code> and <code class="codehilite"><span class="n">GAZEBO_MASTER_URI</span></code> environment variables to access instances of Gazebo running in other hosts/ports.</p>
 <p>The tutorial below will make use of the simulation manager to start instances of Gazebo.</p>
 <div class="codehilite"><pre><span></span><span class="c1"># Importing the Gazebo proxy</span>
 <span class="kn">from</span> <span class="nn">pcg_gazebo.task_manager</span> <span class="kn">import</span> <span class="n">GazeboProxy</span>
 </pre></div>
 
 <p>The Gazebo proxy may also work with an instance of Gazebo that has been started external to the scope of this package, for example by running</p>
-<div class="codehilite"><pre><span></span>roslaunch gazebo_ros empty_world.launch
+<div class="codehilite"><pre><span></span><span class="n">roslaunch</span> <span class="n">gazebo_ros</span> <span class="n">empty_world</span><span class="p">.</span><span class="n">launch</span>
 </pre></div>
 
 <p>The only instance will be found by using the input hostname and ports for which they are running. 
@@ -1047,11 +1059,6 @@ Here we will use the simulation manager.</p>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Is Gazebo running: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">simulation</span><span class="o">.</span><span class="n">is_task_running</span><span class="p">(</span><span class="s1">&#39;gazebo&#39;</span><span class="p">)))</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>[&#39;gazebo&#39;]
-Is Gazebo running: False
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="c1"># Run Gazebo</span>
 <span class="n">simulation</span><span class="o">.</span><span class="n">run_all_tasks</span><span class="p">()</span>
 </pre></div>
@@ -1074,47 +1081,6 @@ Is Gazebo running: False
 <span class="k">print</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">))</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>&lt;model name=&quot;box&quot;&gt;
-  &lt;static&gt;0&lt;/static&gt;
-  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-  &lt;allow_auto_disable&gt;0&lt;/allow_auto_disable&gt;
-  &lt;link name=&quot;box&quot;&gt;
-    &lt;visual name=&quot;visual&quot;&gt;
-      &lt;geometry&gt;
-        &lt;box&gt;
-          &lt;size&gt;1 1 1&lt;/size&gt;
-        &lt;/box&gt;
-      &lt;/geometry&gt;
-      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-      &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
-      &lt;transparency&gt;0.0&lt;/transparency&gt;
-    &lt;/visual&gt;
-    &lt;collision name=&quot;collision&quot;&gt;
-      &lt;geometry&gt;
-        &lt;box&gt;
-          &lt;size&gt;1 1 1&lt;/size&gt;
-        &lt;/box&gt;
-      &lt;/geometry&gt;
-      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-      &lt;max_contacts&gt;10&lt;/max_contacts&gt;
-    &lt;/collision&gt;
-    &lt;inertial&gt;
-      &lt;mass&gt;20.0&lt;/mass&gt;
-      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
-      &lt;inertia&gt;
-        &lt;ixy&gt;0.0&lt;/ixy&gt;
-        &lt;ixz&gt;0.0&lt;/ixz&gt;
-        &lt;ixx&gt;3.333333333333333&lt;/ixx&gt;
-        &lt;iyy&gt;3.333333333333333&lt;/iyy&gt;
-        &lt;izz&gt;3.333333333333333&lt;/izz&gt;
-        &lt;iyz&gt;0.0&lt;/iyz&gt;
-      &lt;/inertia&gt;
-    &lt;/inertial&gt;
-  &lt;/link&gt;
-&lt;/model&gt;
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="n">generator</span><span class="o">.</span><span class="n">spawn_model</span><span class="p">(</span>
     <span class="n">model</span><span class="o">=</span><span class="n">box</span><span class="p">,</span> 
     <span class="n">robot_namespace</span><span class="o">=</span><span class="s1">&#39;box_1&#39;</span><span class="p">,</span>
@@ -1125,10 +1091,6 @@ Is Gazebo running: False
     <span class="n">robot_namespace</span><span class="o">=</span><span class="s1">&#39;box_2&#39;</span><span class="p">,</span>
     <span class="n">pos</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 </pre></div>
-
-<div class="codehilite"><pre><span></span>True
-</pre></div>
-
 
 <h5 id="pausingunpausing-the-simulation">Pausing/unpausing the simulation<a class="headerlink" href="#pausingunpausing-the-simulation" title="Permanent link">&para;</a></h5>
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span><span class="p">,</span> <span class="n">sleep</span>
@@ -1146,52 +1108,22 @@ Is Gazebo running: False
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Simulation time after pause={}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">sim_time</span><span class="p">))</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>Simulation time before pause=3.174
-Gazebo paused, simulation time=3.174
-Gazebo paused, simulation time=3.174
-Gazebo paused, simulation time=3.174
-Gazebo paused, simulation time=3.174
-Gazebo paused, simulation time=3.174
-Gazebo paused, simulation time=3.174
-Gazebo paused, simulation time=3.174
-Gazebo paused, simulation time=3.174
-Gazebo paused, simulation time=3.174
-Gazebo paused, simulation time=3.174
-Unpausing simulation!
-Simulation time after pause=5.173
-</pre></div>
-
-
 <h5 id="get-world-properties">Get world properties<a class="headerlink" href="#get-world-properties" title="Permanent link">&para;</a></h5>
 <p>The world properties return </p>
 <ul>
-<li>Simulation time (<code class="codehilite">sim_time</code>)</li>
-<li>List of names of models (<code class="codehilite">model_names</code>)</li>
-<li>Is rendering enabled flag (<code class="codehilite">rendering_enabled</code>)</li>
+<li>Simulation time (<code class="codehilite"><span class="n">sim_time</span></code>)</li>
+<li>List of names of models (<code class="codehilite"><span class="n">model_names</span></code>)</li>
+<li>Is rendering enabled flag (<code class="codehilite"><span class="n">rendering_enabled</span></code>)</li>
 </ul>
-<p>The return of this function is simply the service object <a href="https://github.com/ros-simulation/gazebo_ros_pkgs/blob/kinetic-devel/gazebo_msgs/srv/GetWorldProperties.srv"><code class="codehilite">GetWorldProperties</code></a>.</p>
+<p>The return of this function is simply the service object <a href="https://github.com/ros-simulation/gazebo_ros_pkgs/blob/kinetic-devel/gazebo_msgs/srv/GetWorldProperties.srv"><code class="codehilite"><span class="n">GetWorldProperties</span></code></a>.</p>
 <div class="codehilite"><pre><span></span><span class="c1"># The world properties returns the following</span>
 <span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_world_properties</span><span class="p">()</span>
 </pre></div>
-
-<div class="codehilite"><pre><span></span>sim_time: 5.182
-model_names: - ground_plane
-- box_1
-- box_2
-rendering_enabled: True
-success: True
-status_message: &quot;GetWorldProperties: got properties&quot;
-</pre></div>
-
 
 <h5 id="model-properties">Model properties<a class="headerlink" href="#model-properties" title="Permanent link">&para;</a></h5>
 <div class="codehilite"><pre><span></span><span class="c1"># Get list of models</span>
 <span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_model_names</span><span class="p">()</span>
 </pre></div>
-
-<div class="codehilite"><pre><span></span>[&#39;ground_plane&#39;, &#39;box_1&#39;, &#39;box_2&#39;]
-</pre></div>
-
 
 <div class="codehilite"><pre><span></span><span class="c1"># Get model properties</span>
 <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_model_names</span><span class="p">():</span>
@@ -1200,42 +1132,6 @@ status_message: &quot;GetWorldProperties: got properties&quot;
     <span class="k">print</span><span class="p">(</span><span class="s1">&#39;-----------------&#39;</span><span class="p">)</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>ground_plane
-parent_model_name: &#39;&#39;
-canonical_body_name: &#39;&#39;
-body_names: - link
-geom_names: - collision
-joint_names: []
-child_model_names: []
-is_static: True
-success: True
-status_message: &quot;GetModelProperties: got properties&quot;
------------------
-box_1
-parent_model_name: &#39;&#39;
-canonical_body_name: &#39;&#39;
-body_names: - box
-geom_names: - collision
-joint_names: []
-child_model_names: []
-is_static: False
-success: True
-status_message: &quot;GetModelProperties: got properties&quot;
------------------
-box_2
-parent_model_name: &#39;&#39;
-canonical_body_name: &#39;&#39;
-body_names: - box
-geom_names: - collision
-joint_names: []
-child_model_names: []
-is_static: False
-success: True
-status_message: &quot;GetModelProperties: got properties&quot;
------------------
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="c1"># Get model state</span>
 <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_model_names</span><span class="p">():</span>
     <span class="k">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
@@ -1243,105 +1139,10 @@ status_message: &quot;GetModelProperties: got properties&quot;
     <span class="k">print</span><span class="p">(</span><span class="s1">&#39;-----------------&#39;</span><span class="p">)</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>ground_plane
-header: 
-  seq: 1
-  stamp: 
-    secs: 5
-    nsecs: 248000000
-  frame_id: &quot;world&quot;
-pose: 
-  position: 
-    x: 0.0
-    y: 0.0
-    z: 0.0
-  orientation: 
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-twist: 
-  linear: 
-    x: 0.0
-    y: 0.0
-    z: 0.0
-  angular: 
-    x: 0.0
-    y: 0.0
-    z: 0.0
-success: True
-status_message: &quot;GetModelState: got properties&quot;
------------------
-box_1
-header: 
-  seq: 1
-  stamp: 
-    secs: 5
-    nsecs: 256000000
-  frame_id: &quot;world&quot;
-pose: 
-  position: 
-    x: -1.9999999999998166
-    y: -1.999999999999968
-    z: 0.49999999990200894
-  orientation: 
-    x: -4.815307161304866e-14
-    y: 1.8732345076863254e-13
-    z: 1.3228445350203323e-15
-    w: 1.0
-twist: 
-  linear: 
-    x: 2.380877975645348e-10
-    y: 2.3806985306445073e-10
-    z: 9.800284425098838e-10
-  angular: 
-    x: -4.761370851283154e-10
-    y: 4.761622511753355e-10
-    z: -1.8285059128478188e-15
-success: True
-status_message: &quot;GetModelState: got properties&quot;
------------------
-box_2
-header: 
-  seq: 1
-  stamp: 
-    secs: 5
-    nsecs: 263000000
-  frame_id: &quot;world&quot;
-pose: 
-  position: 
-    x: 1.9999999999999458
-    y: 1.9999999999997948
-    z: 0.4999999999020089
-  orientation: 
-    x: 1.8990912995643563e-13
-    y: -5.0738730839988036e-14
-    z: 1.4343436938640824e-15
-    w: 1.0
-twist: 
-  linear: 
-    x: -2.380700244227119e-10
-    y: -2.380878770514427e-10
-    z: 9.799262239290619e-10
-  angular: 
-    x: 4.761622850817339e-10
-    y: -4.76137043576906e-10
-    z: 1.383497449329015e-15
-success: True
-status_message: &quot;GetModelState: got properties&quot;
------------------
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="c1"># Check if model exists</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Does ground_plane exist? {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">model_exists</span><span class="p">(</span><span class="s1">&#39;ground_plane&#39;</span><span class="p">)))</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Does my_model exist? {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">model_exists</span><span class="p">(</span><span class="s1">&#39;my_model&#39;</span><span class="p">)))</span>
 </pre></div>
-
-<div class="codehilite"><pre><span></span>Does ground_plane exist? True
-Does my_model exist? False
-</pre></div>
-
 
 <div class="codehilite"><pre><span></span><span class="c1"># Get list of link names for a model</span>
 <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_model_names</span><span class="p">():</span>
@@ -1350,25 +1151,9 @@ Does my_model exist? False
     <span class="k">print</span><span class="p">(</span><span class="s1">&#39;-----------------&#39;</span><span class="p">)</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>ground_plane
-[&#39;link&#39;]
------------------
-box_1
-[&#39;box&#39;]
------------------
-box_2
-[&#39;box&#39;]
------------------
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="c1"># Test if model has a link</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Does ground_plane have a link named link? {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">has_link</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;ground_plane&#39;</span><span class="p">,</span> <span class="n">link_name</span><span class="o">=</span><span class="s1">&#39;link&#39;</span><span class="p">)))</span>
 </pre></div>
-
-<div class="codehilite"><pre><span></span>Does ground_plane have a link named link? True
-</pre></div>
-
 
 <div class="codehilite"><pre><span></span><span class="c1"># Get link properties</span>
 <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_model_names</span><span class="p">():</span>
@@ -1380,81 +1165,6 @@ box_2
     <span class="k">print</span><span class="p">(</span><span class="s1">&#39;==================&#39;</span><span class="p">)</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>ground_plane
- - link
-com: 
-  position: 
-    x: 0.0
-    y: 0.0
-    z: 0.0
-  orientation: 
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-gravity_mode: False
-mass: 0.0
-ixx: 0.0
-ixy: 0.0
-ixz: 0.0
-iyy: 0.0
-iyz: 0.0
-izz: 0.0
-success: True
-status_message: &quot;GetLinkProperties: got properties&quot;
------------------
-==================
-box_1
- - box
-com: 
-  position: 
-    x: 0.0
-    y: 0.0
-    z: 0.0
-  orientation: 
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-gravity_mode: True
-mass: 20.0
-ixx: 3.33333
-ixy: 0.0
-ixz: 0.0
-iyy: 3.33333
-iyz: 0.0
-izz: 3.33333
-success: True
-status_message: &quot;GetLinkProperties: got properties&quot;
------------------
-==================
-box_2
- - box
-com: 
-  position: 
-    x: 0.0
-    y: 0.0
-    z: 0.0
-  orientation: 
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-gravity_mode: True
-mass: 20.0
-ixx: 3.33333
-ixy: 0.0
-ixz: 0.0
-iyy: 3.33333
-iyz: 0.0
-izz: 3.33333
-success: True
-status_message: &quot;GetLinkProperties: got properties&quot;
------------------
-==================
-</pre></div>
-
-
 <div class="codehilite"><pre><span></span><span class="c1"># Get link state</span>
 <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_model_names</span><span class="p">():</span>
     <span class="k">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
@@ -1465,120 +1175,10 @@ status_message: &quot;GetLinkProperties: got properties&quot;
     <span class="k">print</span><span class="p">(</span><span class="s1">&#39;==================&#39;</span><span class="p">)</span>
 </pre></div>
 
-<div class="codehilite"><pre><span></span>ground_plane
- - link
-link_state: 
-  link_name: &quot;ground_plane::link&quot;
-  pose: 
-    position: 
-      x: 0.0
-      y: 0.0
-      z: 0.0
-    orientation: 
-      x: 0.0
-      y: 0.0
-      z: 0.0
-      w: 1.0
-  twist: 
-    linear: 
-      x: 0.0
-      y: 0.0
-      z: 0.0
-    angular: 
-      x: 0.0
-      y: 0.0
-      z: 0.0
-  reference_frame: &#39;&#39;
-success: True
-status_message: &quot;GetLinkState: got state&quot;
------------------
-==================
-box_1
- - box
-link_state: 
-  link_name: &quot;box_1::box&quot;
-  pose: 
-    position: 
-      x: -1.9999999999998166
-      y: -1.999999999999968
-      z: 0.49999999990200894
-    orientation: 
-      x: -4.815307093534131e-14
-      y: 1.8732345086044444e-13
-      z: 1.3094942447844376e-15
-      w: 1.0
-  twist: 
-    linear: 
-      x: 2.3808779732312217e-10
-      y: 2.380698505717412e-10
-      z: 9.800284459793307e-10
-    angular: 
-      x: -4.761370801428996e-10
-      y: 4.761622506924893e-10
-      z: -1.8285059159830147e-15
-  reference_frame: &#39;&#39;
-success: True
-status_message: &quot;GetLinkState: got state&quot;
------------------
-==================
-box_2
- - box
-link_state: 
-  link_name: &quot;box_2::box&quot;
-  pose: 
-    position: 
-      x: 2.000000000000184
-      y: 2.000000000000033
-      z: 0.49999999990200894
-    orientation: 
-      x: -4.815307159875995e-14
-      y: 1.8732345220793713e-13
-      z: 1.42007914893501e-15
-      w: 1.0
-  twist: 
-    linear: 
-      x: 2.3808779822978176e-10
-      y: 2.380698514289336e-10
-      z: 9.800284459793307e-10
-    angular: 
-      x: -4.761370818572423e-10
-      y: 4.761622525058307e-10
-      z: -1.8285059111177573e-15
-  reference_frame: &#39;&#39;
-success: True
-status_message: &quot;GetLinkState: got state&quot;
------------------
-==================
-</pre></div>
-
-
 <h5 id="get-physics-properties">Get physics properties<a class="headerlink" href="#get-physics-properties" title="Permanent link">&para;</a></h5>
 <p>The physics properties returns the <a href="https://github.com/ros-simulation/gazebo_ros_pkgs/blob/kinetic-devel/gazebo_msgs/srv/GetPhysicsProperties.srv">GetPhysicsProperties</a> response with the current parameters for the physics engine. Currently only the parameters for the ODE engine can be retrieved.</p>
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_physics_properties</span><span class="p">())</span>
 </pre></div>
-
-<div class="codehilite"><pre><span></span>time_step: 0.001
-pause: False
-max_update_rate: 1000.0
-gravity: 
-  x: 0.0
-  y: 0.0
-  z: -9.8
-ode_config: 
-  auto_disable_bodies: False
-  sor_pgs_precon_iters: 0
-  sor_pgs_iters: 50
-  sor_pgs_w: 1.3
-  sor_pgs_rms_error_tol: 0.0
-  contact_surface_layer: 0.001
-  contact_max_correcting_vel: 100.0
-  cfm: 0.0
-  erp: 0.2
-  max_contacts: 20
-success: True
-status_message: &quot;GetPhysicsProperties: got properties&quot;
-</pre></div>
-
 
 <h5 id="apply-wrench">Apply wrench<a class="headerlink" href="#apply-wrench" title="Permanent link">&para;</a></h5>
 <div class="codehilite"><pre><span></span><span class="c1"># Applying wrench to a link in the simulation</span>
@@ -1632,10 +1232,6 @@ status_message: &quot;GetPhysicsProperties: got properties&quot;
     <span class="n">rot</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
     <span class="n">reference_frame</span><span class="o">=</span><span class="s1">&#39;world&#39;</span><span class="p">)</span>
 </pre></div>
-
-<div class="codehilite"><pre><span></span>True
-</pre></div>
-
 
 <div class="codehilite"><pre><span></span><span class="c1"># End the simulation by killing the Gazebo task</span>
 <span class="n">simulation</span><span class="o">.</span><span class="n">kill_all_tasks</span><span class="p">()</span>

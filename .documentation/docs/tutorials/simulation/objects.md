@@ -30,10 +30,6 @@ print('Is Gazebo running: {}'.format(simulation.is_task_running('gazebo')))
 simulation.run_all_tasks()
 ```
 
-    ['gazebo']
-    Is Gazebo running: False
-
-
 
 ```python
 from pcg_gazebo.generators import WorldGenerator
@@ -59,135 +55,36 @@ print('Inertial:')
 print(box.inertial)
 ```
 
-    Size:
-    [1, 1, 1]
-    Inertial:
-    None
-
-
 
 ```python
 # When generating the SDF elements for the box, a few options can be used
 print(box.to_sdf('box'))
 ```
 
-    <box>
-      <size>1 1 1</size>
-    </box>
-    
-
-
 
 ```python
 print(box.to_sdf('geometry'))
 ```
-
-    <geometry>
-      <box>
-        <size>1 1 1</size>
-      </box>
-    </geometry>
-    
-
 
 
 ```python
 print(box.to_sdf('collision'))
 ```
 
-    <collision name="collision">
-      <max_contacts>10</max_contacts>
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <geometry>
-        <box>
-          <size>1 1 1</size>
-        </box>
-      </geometry>
-    </collision>
-    
-
-
 
 ```python
 print(box.to_sdf('visual'))
 ```
-
-    <visual name="visual">
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <geometry>
-        <box>
-          <size>1 1 1</size>
-        </box>
-      </geometry>
-      <transparency>0.0</transparency>
-      <cast_shadows>1</cast_shadows>
-    </visual>
-    
-
 
 
 ```python
 print(box.to_sdf('link'))
 ```
 
-    <link name="box">
-      <collision name="collision">
-        <max_contacts>10</max_contacts>
-        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-        <geometry>
-          <box>
-            <size>1 1 1</size>
-          </box>
-        </geometry>
-      </collision>
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <visual name="visual">
-        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-        <geometry>
-          <box>
-            <size>1 1 1</size>
-          </box>
-        </geometry>
-        <transparency>0.0</transparency>
-        <cast_shadows>1</cast_shadows>
-      </visual>
-    </link>
-    
-
-
 
 ```python
 print(box.to_sdf('model'))
 ```
-
-    <model name="box">
-      <link name="box">
-        <collision name="collision">
-          <max_contacts>10</max_contacts>
-          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-          <geometry>
-            <box>
-              <size>1 1 1</size>
-            </box>
-          </geometry>
-        </collision>
-        <visual name="visual">
-          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-          <geometry>
-            <box>
-              <size>1 1 1</size>
-            </box>
-          </geometry>
-          <transparency>0.0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-      </link>
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <allow_auto_disable>0</allow_auto_disable>
-      <static>0</static>
-    </model>
-    
-
 
 
 ```python
@@ -198,100 +95,12 @@ box.add_inertial(mass=20)
 print(box.inertial)
 ```
 
-    Mass [Kg]=20
-    Pose=[0. 0. 0.]
-    I =
-    	Ixx=0.6666666666666666
-    	Iyy=0.21666666666666665
-    	Izz=0.7499999999999999
-    	Ixy=0
-    	Ixz=0
-    	Iyz=0
-    
-
-
 
 ```python
 # The inertial information will be added to the SDF description in link and model modes
 print(box.to_sdf('link'))
 print(box.to_sdf('model'))
 ```
-
-    <link name="box">
-      <collision name="collision">
-        <max_contacts>10</max_contacts>
-        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-        <geometry>
-          <box>
-            <size>0.3 0.6 0.2</size>
-          </box>
-        </geometry>
-      </collision>
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <inertial>
-        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-        <mass>20.0</mass>
-        <inertia>
-          <iyz>0.0</iyz>
-          <ixy>0.0</ixy>
-          <ixz>0.0</ixz>
-          <izz>0.7499999999999999</izz>
-          <ixx>0.6666666666666666</ixx>
-          <iyy>0.21666666666666665</iyy>
-        </inertia>
-      </inertial>
-      <visual name="visual">
-        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-        <geometry>
-          <box>
-            <size>0.3 0.6 0.2</size>
-          </box>
-        </geometry>
-        <transparency>0.0</transparency>
-        <cast_shadows>1</cast_shadows>
-      </visual>
-    </link>
-    
-    <model name="box">
-      <link name="box">
-        <collision name="collision">
-          <max_contacts>10</max_contacts>
-          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-          <geometry>
-            <box>
-              <size>0.3 0.6 0.2</size>
-            </box>
-          </geometry>
-        </collision>
-        <visual name="visual">
-          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-          <geometry>
-            <box>
-              <size>0.3 0.6 0.2</size>
-            </box>
-          </geometry>
-          <transparency>0.0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-        <inertial>
-          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-          <inertia>
-            <iyz>0.0</iyz>
-            <ixy>0.0</ixy>
-            <ixz>0.0</ixz>
-            <izz>0.7499999999999999</izz>
-            <ixx>0.6666666666666666</ixx>
-            <iyy>0.21666666666666665</iyy>
-          </inertia>
-          <mass>20.0</mass>
-        </inertial>
-      </link>
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <allow_auto_disable>0</allow_auto_disable>
-      <static>0</static>
-    </model>
-    
-
 
 
 ```python
@@ -315,9 +124,6 @@ for x in [-5, 0, 5]:
 print(generator.gazebo_proxy.get_model_names())
 ```
 
-    ['ground_plane', 'box_0', 'box_1', 'box_2', 'box_3', 'box_4', 'box_5', 'box_6', 'box_7', 'box_8']
-
-
 
 ```python
 # End the simulation by killing the Gazebo task
@@ -336,135 +142,36 @@ print('Inertial:')
 print(sphere.inertial)
 ```
 
-    Radius:
-    1
-    Inertial:
-    None
-
-
 
 ```python
 # When generating the SDF elements for the box, a few options can be used
 print(sphere.to_sdf('sphere'))
 ```
 
-    <sphere>
-      <radius>1.0</radius>
-    </sphere>
-    
-
-
 
 ```python
 print(sphere.to_sdf('geometry'))
 ```
-
-    <geometry>
-      <sphere>
-        <radius>1.0</radius>
-      </sphere>
-    </geometry>
-    
-
 
 
 ```python
 print(sphere.to_sdf('collision'))
 ```
 
-    <collision name="collision">
-      <max_contacts>10</max_contacts>
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <geometry>
-        <sphere>
-          <radius>1.0</radius>
-        </sphere>
-      </geometry>
-    </collision>
-    
-
-
 
 ```python
 print(sphere.to_sdf('visual'))
 ```
-
-    <visual name="visual">
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <geometry>
-        <sphere>
-          <radius>1.0</radius>
-        </sphere>
-      </geometry>
-      <transparency>0.0</transparency>
-      <cast_shadows>1</cast_shadows>
-    </visual>
-    
-
 
 
 ```python
 print(sphere.to_sdf('link'))
 ```
 
-    <link name="sphere">
-      <collision name="collision">
-        <max_contacts>10</max_contacts>
-        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-        <geometry>
-          <sphere>
-            <radius>1.0</radius>
-          </sphere>
-        </geometry>
-      </collision>
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <visual name="visual">
-        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-        <geometry>
-          <sphere>
-            <radius>1.0</radius>
-          </sphere>
-        </geometry>
-        <transparency>0.0</transparency>
-        <cast_shadows>1</cast_shadows>
-      </visual>
-    </link>
-    
-
-
 
 ```python
 print(sphere.to_sdf('model'))
 ```
-
-    <model name="sphere">
-      <link name="sphere">
-        <collision name="collision">
-          <max_contacts>10</max_contacts>
-          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-          <geometry>
-            <sphere>
-              <radius>1.0</radius>
-            </sphere>
-          </geometry>
-        </collision>
-        <visual name="visual">
-          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-          <geometry>
-            <sphere>
-              <radius>1.0</radius>
-            </sphere>
-          </geometry>
-          <transparency>0.0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-      </link>
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <allow_auto_disable>0</allow_auto_disable>
-      <static>0</static>
-    </model>
-    
-
 
 
 ```python
@@ -475,100 +182,12 @@ sphere.add_inertial(20)
 print(sphere.inertial)
 ```
 
-    Mass [Kg]=20
-    Pose=[0. 0. 0.]
-    I =
-    	Ixx=0.72
-    	Iyy=0.72
-    	Izz=0.72
-    	Ixy=0
-    	Ixz=0
-    	Iyz=0
-    
-
-
 
 ```python
 # The inertial information will be added to the SDF description in link and model modes
 print(sphere.to_sdf('link'))
 print(sphere.to_sdf('model'))
 ```
-
-    <link name="sphere">
-      <collision name="collision">
-        <max_contacts>10</max_contacts>
-        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-        <geometry>
-          <sphere>
-            <radius>0.3</radius>
-          </sphere>
-        </geometry>
-      </collision>
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <inertial>
-        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-        <mass>20.0</mass>
-        <inertia>
-          <iyz>0.0</iyz>
-          <ixy>0.0</ixy>
-          <ixz>0.0</ixz>
-          <izz>0.72</izz>
-          <ixx>0.72</ixx>
-          <iyy>0.72</iyy>
-        </inertia>
-      </inertial>
-      <visual name="visual">
-        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-        <geometry>
-          <sphere>
-            <radius>0.3</radius>
-          </sphere>
-        </geometry>
-        <transparency>0.0</transparency>
-        <cast_shadows>1</cast_shadows>
-      </visual>
-    </link>
-    
-    <model name="sphere">
-      <link name="sphere">
-        <collision name="collision">
-          <max_contacts>10</max_contacts>
-          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-          <geometry>
-            <sphere>
-              <radius>0.3</radius>
-            </sphere>
-          </geometry>
-        </collision>
-        <visual name="visual">
-          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-          <geometry>
-            <sphere>
-              <radius>0.3</radius>
-            </sphere>
-          </geometry>
-          <transparency>0.0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-        <inertial>
-          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-          <inertia>
-            <iyz>0.0</iyz>
-            <ixy>0.0</ixy>
-            <ixz>0.0</ixz>
-            <izz>0.72</izz>
-            <ixx>0.72</ixx>
-            <iyy>0.72</iyy>
-          </inertia>
-          <mass>20.0</mass>
-        </inertial>
-      </link>
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <allow_auto_disable>0</allow_auto_disable>
-      <static>0</static>
-    </model>
-    
-
 
 
 ```python
@@ -612,143 +231,36 @@ print('Length:')
 print(cylinder.length)
 ```
 
-    Radius:
-    1
-    Length:
-    1
-
-
 
 ```python
 # When generating the SDF elements for the cylinder, a few options can be used
 print(cylinder.to_sdf('cylinder'))
 ```
 
-    <cylinder>
-      <length>1.0</length>
-      <radius>1.0</radius>
-    </cylinder>
-    
-
-
 
 ```python
 print(cylinder.to_sdf('geometry'))
 ```
-
-    <geometry>
-      <cylinder>
-        <length>1.0</length>
-        <radius>1.0</radius>
-      </cylinder>
-    </geometry>
-    
-
 
 
 ```python
 print(cylinder.to_sdf('collision'))
 ```
 
-    <collision name="collision">
-      <max_contacts>10</max_contacts>
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <geometry>
-        <cylinder>
-          <length>1.0</length>
-          <radius>1.0</radius>
-        </cylinder>
-      </geometry>
-    </collision>
-    
-
-
 
 ```python
 print(cylinder.to_sdf('visual'))
 ```
-
-    <visual name="visual">
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <geometry>
-        <cylinder>
-          <length>1.0</length>
-          <radius>1.0</radius>
-        </cylinder>
-      </geometry>
-      <transparency>0.0</transparency>
-      <cast_shadows>1</cast_shadows>
-    </visual>
-    
-
 
 
 ```python
 print(cylinder.to_sdf('link'))
 ```
 
-    <link name="cylinder">
-      <collision name="collision">
-        <max_contacts>10</max_contacts>
-        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-        <geometry>
-          <cylinder>
-            <length>1.0</length>
-            <radius>1.0</radius>
-          </cylinder>
-        </geometry>
-      </collision>
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <visual name="visual">
-        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-        <geometry>
-          <cylinder>
-            <length>1.0</length>
-            <radius>1.0</radius>
-          </cylinder>
-        </geometry>
-        <transparency>0.0</transparency>
-        <cast_shadows>1</cast_shadows>
-      </visual>
-    </link>
-    
-
-
 
 ```python
 print(cylinder.to_sdf('model'))
 ```
-
-    <model name="cylinder">
-      <link name="cylinder">
-        <collision name="collision">
-          <max_contacts>10</max_contacts>
-          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-          <geometry>
-            <cylinder>
-              <length>1.0</length>
-              <radius>1.0</radius>
-            </cylinder>
-          </geometry>
-        </collision>
-        <visual name="visual">
-          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-          <geometry>
-            <cylinder>
-              <length>1.0</length>
-              <radius>1.0</radius>
-            </cylinder>
-          </geometry>
-          <transparency>0.0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-      </link>
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <allow_auto_disable>0</allow_auto_disable>
-      <static>0</static>
-    </model>
-    
-
 
 
 ```python
@@ -760,104 +272,12 @@ cylinder.add_inertial(20)
 print(cylinder.inertial)
 ```
 
-    Mass [Kg]=20
-    Pose=[0. 0. 0.]
-    I =
-    	Ixx=1.5166666666666668
-    	Iyy=1.5166666666666668
-    	Izz=0.8999999999999999
-    	Ixy=0
-    	Ixz=0
-    	Iyz=0
-    
-
-
 
 ```python
 # The inertial information will be added to the SDF description in link and model modes
 print(cylinder.to_sdf('link'))
 print(cylinder.to_sdf('model'))
 ```
-
-    <link name="cylinder">
-      <collision name="collision">
-        <max_contacts>10</max_contacts>
-        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.8</length>
-            <radius>0.3</radius>
-          </cylinder>
-        </geometry>
-      </collision>
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <inertial>
-        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-        <mass>20.0</mass>
-        <inertia>
-          <iyz>0.0</iyz>
-          <ixy>0.0</ixy>
-          <ixz>0.0</ixz>
-          <izz>0.8999999999999999</izz>
-          <ixx>1.5166666666666668</ixx>
-          <iyy>1.5166666666666668</iyy>
-        </inertia>
-      </inertial>
-      <visual name="visual">
-        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-        <geometry>
-          <cylinder>
-            <length>0.8</length>
-            <radius>0.3</radius>
-          </cylinder>
-        </geometry>
-        <transparency>0.0</transparency>
-        <cast_shadows>1</cast_shadows>
-      </visual>
-    </link>
-    
-    <model name="cylinder">
-      <link name="cylinder">
-        <collision name="collision">
-          <max_contacts>10</max_contacts>
-          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-          <geometry>
-            <cylinder>
-              <length>0.8</length>
-              <radius>0.3</radius>
-            </cylinder>
-          </geometry>
-        </collision>
-        <visual name="visual">
-          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-          <geometry>
-            <cylinder>
-              <length>0.8</length>
-              <radius>0.3</radius>
-            </cylinder>
-          </geometry>
-          <transparency>0.0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-        <inertial>
-          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-          <inertia>
-            <iyz>0.0</iyz>
-            <ixy>0.0</ixy>
-            <ixz>0.0</ixz>
-            <izz>0.8999999999999999</izz>
-            <ixx>1.5166666666666668</ixx>
-            <iyy>1.5166666666666668</iyy>
-          </inertia>
-          <mass>20.0</mass>
-        </inertial>
-      </link>
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <allow_auto_disable>0</allow_auto_disable>
-      <static>0</static>
-    </model>
-    
-
 
 
 ```python
@@ -896,123 +316,36 @@ print('Size:')
 print(plane.size)
 ```
 
-    Normal:
-    [0, 0, 1]
-    Size:
-    [1, 1]
-
-
 
 ```python
 # When generating the SDF elements for the plane, a few options can be used
 print(plane.to_sdf('plane'))
 ```
 
-    <plane>
-      <normal>0 0 1</normal>
-      <size>1 1</size>
-    </plane>
-    
-
-
 
 ```python
 print(plane.to_sdf('geometry'))
 ```
-
-    <geometry>
-      <plane>
-        <normal>0 0 1</normal>
-        <size>1 1</size>
-      </plane>
-    </geometry>
-    
-
 
 
 ```python
 print(plane.to_sdf('visual'))
 ```
 
-    <visual name="visual">
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <geometry>
-        <plane>
-          <normal>0 0 1</normal>
-          <size>1 1</size>
-        </plane>
-      </geometry>
-      <transparency>0.0</transparency>
-      <cast_shadows>1</cast_shadows>
-    </visual>
-    
-
-
 
 ```python
 print(plane.to_sdf('collision'))
 ```
-
-    <collision name="collision">
-      <max_contacts>10</max_contacts>
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <geometry>
-        <plane>
-          <normal>0 0 1</normal>
-          <size>1 1</size>
-        </plane>
-      </geometry>
-    </collision>
-    
-
 
 
 ```python
 print(plane.to_sdf('link'))
 ```
 
-    <link name="plane">
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <visual name="visual">
-        <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-        <geometry>
-          <plane>
-            <normal>0 0 1</normal>
-            <size>1 1</size>
-          </plane>
-        </geometry>
-        <transparency>0.0</transparency>
-        <cast_shadows>1</cast_shadows>
-      </visual>
-    </link>
-    
-
-
 
 ```python
 print(plane.to_sdf('model'))
 ```
-
-    <model name="plane">
-      <link name="plane">
-        <visual name="visual">
-          <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-          <geometry>
-            <plane>
-              <normal>0 0 1</normal>
-              <size>1 1</size>
-            </plane>
-          </geometry>
-          <transparency>0.0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-      </link>
-      <pose frame="">0 0 0 0.0 -0.0 0.0</pose>
-      <allow_auto_disable>0</allow_auto_disable>
-      <static>1</static>
-    </model>
-    
-
 
 
 ```python
@@ -1041,13 +374,6 @@ generator.spawn_model(
     pos=[(random.random() - 0.5) * 10, (random.random() - 0.5) * 10, (random.random() - 0.5) * 2 + 5])
 
 ```
-
-
-
-
-    True
-
-
 
 The output should look like this
 

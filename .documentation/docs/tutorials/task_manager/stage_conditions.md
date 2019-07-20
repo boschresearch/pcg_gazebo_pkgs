@@ -18,13 +18,6 @@ simulation.create_gazebo_empty_world_task(paused=True, simulation_timeout=10)
 ```
 
 
-
-
-    True
-
-
-
-
 ```python
 from pcg_gazebo.simulation import create_object
 from pcg_gazebo.generators import WorldGenerator
@@ -87,14 +80,6 @@ for tag in simulation.stages:
         print('  - {}'.format(task))
 ```
 
-    Stage: roscore
-    Stage: pre-simulation
-    Stage: gazebo
-      - gazebo
-      - simulation_timer
-    Stage: post-init
-
-
 
 ```python
 simulation.run_all_tasks()
@@ -104,10 +89,3 @@ simulation.run_all_tasks()
 ```python
 simulation.wait()
 ```
-
-    Spawning box into Gazebo
-    Spawning box finished
-    Testing if model box_0_0 exists
-    Model box_0_0 exists? True
-    Unpause simulation
-
