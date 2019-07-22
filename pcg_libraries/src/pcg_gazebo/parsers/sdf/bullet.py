@@ -45,7 +45,7 @@ class FrictionBullet(XMLScalar):
         XMLScalar.__init__(self, default)
 
     def _set_value(self, value):
-        assert value >= 0 and value <= 1
+        assert value >= 0
         self._value = value
 
 
