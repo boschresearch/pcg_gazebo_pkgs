@@ -166,15 +166,15 @@ if __name__ == '__main__':
         'Invalid templates directory, value={}'.format(args.templates_dir)
     assert os.path.isfile(os.path.join(args.templates_dir, args.model_template)), \
         'Invalid model template file, value={}'.format(args.model_template)
-
-    if not args.sdf and not args.urdf:
-        print('Neither the --sdf nor the --urdf flags were set')
-        sys.exit(-1)
-
+    
     if rospy.is_shutdown():
             raise rospy.ROSInitException('ROS master is not running!')
 
     rospy.init_node('generate_model_description', anonymous=True)
+
+    if not args.sdf and not args.urdf:
+        rospy.logerr('Neither the --sdf nor the --urdf flags were set')
+        sys.exit(-1)
 
     base_loader = FileSystemLoader(args.templates_dir)
     includes_loader = AbsFileSystemLoader(args.include_dir)
@@ -189,15 +189,19 @@ if __name__ == '__main__':
     params = dict()
     
     if os.path.isfile(args.param_file):
-        print('Importing parameters from file: {}'.format(args.param_file))
+        rospy.loginfo('Importing parameters from file: {}'.format(args.param_file))
         with open(args.param_file, 'r') as p_file:
             params = yaml.load(p_file)
+        rospy.loginfo('Parameters for Jinja template loaded')
+        for tag in params:
+            rospy.loginfo('\t {}={}'.format(tag, params[tag]))
     if args.param:
         if len(args.param):
             for item in args.param:
                 param = item.split('=')
                 assert len(param) == 2, 'Parameter must be provided as <param_name>=<param_value>'
                 params[param[0]] = param[1]
+                rospy.loginfo('Jinja input parameter: {}={}'.format(param[0], param[1]))
 
     # Generate robot description
     output_xml = pretty_print_xml(model_template.render(**params))
@@ -209,18 +213,7 @@ if __name__ == '__main__':
         if args.sdf_output_param is not None and len(args.sdf_output_param) > 0:
             # Publish SDF robot description
             rospy.set_param(args.sdf_output_param, output_xml)
-
-            if args.spawn_sdf_model_srv:
-                rospy.wait_for_service(args.spawn_sdf_model_srv, timeout=30)
-
-                spawn_sdf_model = rospy.ServiceProxy(args.spawn_sdf_model_srv, Trigger)
-
-                output = spawn_sdf_model()
-
-                if output.success:
-                    rospy.loginfo('SDF model was spawned')
-                else:
-                    rospy.loginfo('Failed to spawn model')
+            
         if args.output_filename:
             sdf.export_xml(args.output_filename)
             rospy.loginfo('SDF file exported to: {}'.format(args.output_filename))
@@ -237,6 +230,7 @@ if __name__ == '__main__':
             rospy.loginfo('URDF file exported to: ', args.output_filename)
 
     if args.output_topic:      
+        rospy.loginfo('Output topic: ' + args.output_topic)
         pub = rospy.Publisher(args.output_topic, String, queue_size=1)
         
         start_time = time()
@@ -244,6 +238,21 @@ if __name__ == '__main__':
         while pub.get_num_connections() == 0 and time() - start_time < 30:
             sleep(0.1)
         pub.publish(output_xml)
+
+    if args.sdf and args.spawn_sdf_model_srv:        
+        try:
+            rospy.wait_for_service(args.spawn_sdf_model_srv, timeout=30)
+
+            spawn_sdf_model = rospy.ServiceProxy(args.spawn_sdf_model_srv, Trigger)
+
+            output = spawn_sdf_model()
+
+            if output.success:
+                rospy.loginfo('SDF model was spawned')
+            else:
+                rospy.loginfo('Failed to spawn model')
+        except rospy.ROSException as ex:
+            rospy.logerr('Could not connect to service: {}'.format(args.spawn_sdf_model_srv))
 
 
 
