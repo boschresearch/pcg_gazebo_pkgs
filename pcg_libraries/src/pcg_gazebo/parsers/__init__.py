@@ -19,9 +19,7 @@
 * [SDF format](http://sdformat.org/)
 * [URDF format specifications](https://wiki.ros.org/urdf/XML)
 """
-from ..transformations import quaternion_from_euler, quaternion_multiply, \
-    euler_from_quaternion, quaternion_conjugate
-import re
+from .jinja_template_renderer import process_template
 from ..log import PCG_ROOT_LOGGER
 
 
@@ -105,6 +103,20 @@ def parse_xml(input_xml, type='sdf'):
     `collections.OrderedDict`: Dictionary where the XML tags are the keys.
     """
     import os
+    import sys
+
+    if sys.version_info[0] == 3:
+        if not isinstance(input_xml, str):        
+            msg = 'Input XML must be either a filename or a string, received={}'.format(input_xml)
+            PCG_ROOT_LOGGER.error(msg)
+            raise Exception(msg)
+    else:
+        if not isinstance(input_xml, str) and not isinstance(input_xml, unicode):        
+            msg = 'Input XML must be either a filename or a string, received={}'.format(input_xml)
+            PCG_ROOT_LOGGER.error(msg)
+            raise Exception(msg)
+    
+    PCG_ROOT_LOGGER.info('Parsing XML\n{}'.format(input_xml))
     if os.path.isfile(input_xml):
         filename = input_xml
         assert os.path.isfile(filename), 'File does not exist'
@@ -112,10 +124,9 @@ def parse_xml(input_xml, type='sdf'):
         with open(filename, 'r') as xml_file:
             for line in xml_file:
                 output += line
-    elif isinstance(input_xml, str) and not os.path.isfile(input_xml):        
-        output = input_xml
     else:
-        raise Exception('Invalid input_xml for XML parsing, input_xml={}'.format(input_xml))
+        output = input_xml
+    
     return parse_xml_str(output, type)
 
 
@@ -305,7 +316,7 @@ def sdf2urdf(sdf):
     from .urdf import create_urdf_element
     from ..simulation.properties import Pose
     import numpy as np
-
+    
     assert sdf is not None, 'Input SDF is invalid'
     SDF2URDF_OPT = dict(
         model='robot',
@@ -333,20 +344,22 @@ def sdf2urdf(sdf):
 
     urdf = create_urdf_element(SDF2URDF_OPT[sdf._NAME])
 
-    if sdf._NAME == 'model':
+    if sdf._NAME == 'model':        
+        from copy import deepcopy
+        model_sdf = deepcopy(sdf)
         # For the URDF file the frames must be positioned in 
         # the joint blocks instead of the links
-        if sdf.joints:
+        if model_sdf.joints:            
             # TODO Check relative link position to previous link frame
-            for i in range(len(sdf.joints)):
-                joint = sdf.joints[i]
+            for i in range(len(model_sdf.joints)):
+                joint = model_sdf.joints[i]
                 if joint.parent.value != 'world':
-                    parent_link = sdf.get_link_by_name(joint.parent.value)
+                    parent_link = model_sdf.get_link_by_name(joint.parent.value)
                     parent_pose = Pose(parent_link.pose.value[0:3], parent_link.pose.value[3::])
                 else:
                     parent_pose = Pose()
 
-                child_link = sdf.get_link_by_name(joint.child.value)                       
+                child_link = model_sdf.get_link_by_name(joint.child.value)                       
                 child_pose = Pose(child_link.pose.value[0:3], child_link.pose.value[3::])
 
                 # Calculate relative pose of the joint regarding the parent's pose
@@ -357,9 +370,30 @@ def sdf2urdf(sdf):
                     quat=Pose.get_transform(parent_pose.quat, child_pose.quat)
                 )
 
-                sdf.joints[i].pose = pose_diff.to_sdf()
+                model_sdf.joints[i].pose = pose_diff.to_sdf()
 
-    if sdf._NAME == 'mass':
+        urdf.name = model_sdf.name
+
+        if model_sdf.links is not None:
+            for link in model_sdf.links:
+                urdf_link = sdf2urdf(link)
+                urdf.add_link(urdf_link.name, urdf_link)
+
+        if model_sdf.joints is not None:
+            for joint in model_sdf.joints:
+                urdf_joint = sdf2urdf(joint)
+                urdf.add_joint(urdf_joint.name, urdf_joint)
+
+        if model_sdf.urdf is not None:
+            if model_sdf.urdf.links is not None:
+                for link in model_sdf.urdf.links:
+                    urdf.add_link(link.name, link)
+
+            if model_sdf.urdf.transmissions is not None:
+                for tr in model_sdf.urdf.transmissions:
+                    urdf.add_transmission(tr.name, tr)
+
+    elif sdf._NAME == 'mass':
         urdf.value = sdf.value
     elif sdf._NAME == 'inertia':
         urdf.ixx = sdf.ixx.value
@@ -467,27 +501,6 @@ def sdf2urdf(sdf):
             for collision in sdf.collisions:
                 urdf_collision = sdf2urdf(collision)
                 urdf.add_collision(urdf_collision.name, urdf_collision)
-    elif sdf._NAME == 'model':
-        urdf.name = sdf.name
-
-        if sdf.links is not None:
-            for link in sdf.links:
-                urdf_link = sdf2urdf(link)
-                urdf.add_link(urdf_link.name, urdf_link)
-
-        if sdf.joints is not None:
-            for joint in sdf.joints:
-                urdf_joint = sdf2urdf(joint)
-                urdf.add_joint(urdf_joint.name, urdf_joint)
-
-        if sdf.urdf is not None:
-            if sdf.urdf.links is not None:
-                for link in sdf.urdf.links:
-                    urdf.add_link(link.name, link)
-
-            if sdf.urdf.transmissions is not None:
-                for tr in sdf.urdf.transmissions:
-                    urdf.add_transmission(tr.name, tr)
 
     return urdf
         
