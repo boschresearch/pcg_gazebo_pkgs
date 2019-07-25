@@ -92,7 +92,7 @@ if __name__ == '__main__':
         if rospy.is_shutdown():
             raise rospy.ROSInitException('ROS master is not running!')
 
-        topic_xml = rospy.wait_for_message(args.input_topic, String, timeout=1)
+        topic_xml = rospy.wait_for_message(args.input_topic, String, timeout=100)
         rospy.loginfo('SDF received through topic {}'.format(args.input_topic))
         sdf = parse_sdf(topic_xml.data)      
             
