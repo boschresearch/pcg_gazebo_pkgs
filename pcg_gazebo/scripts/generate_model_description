@@ -48,89 +48,13 @@ import rospkg
 from time import time, sleep
 from std_msgs.msg import String
 from std_srvs.srv import Trigger
-from pcg_gazebo.parsers import parse_sdf, parse_urdf
-from jinja2 import FileSystemLoader, Environment, \
-    TemplateSyntaxError, TemplateAssertionError, BaseLoader, \
-    TemplateNotFound
+from pcg_gazebo.task_manager import GazeboProxy
+from pcg_gazebo.parsers import parse_sdf, parse_urdf, process_template, \
+    sdf2urdf, urdf2sdf
 
-
-TEMPLATES_DIR = None
-
-ROSPKG = rospkg.RosPack()
-
-
-class AbsFileSystemLoader(BaseLoader):
-    def __init__(self, path):
-        self.path = path
-
-    def get_source(self, environment, template):        
-        if os.path.isfile(template):
-            path = template
-        else:
-            path = os.path.join(self.path, template)
-            if not os.path.isfile(path):
-                raise TemplateNotFound(template)
-        mtime = os.path.getmtime(path)
-        with open(path) as f:
-            source = f.read().decode('utf-8')
-        return source, path, lambda: mtime == os.path.getmtime(path)
-
-
-def find_ros_package(pkg_name):
-    try:
-        pkg_path = ROSPKG.get_path(pkg_name)
-    except rospkg.ResourceNotFound as ex:
-        print('Error finding package {}, message={}'.format(pkg_name, ex))
-        sys.exit(-1)    
-    return pkg_path
-
-
-def pretty_print_xml(xml):
-    proc = subprocess.Popen(
-        ['xmllint', '--format', '/dev/stdin'],
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        )
-    (output, error_output) = proc.communicate(xml)
-    return output
-
-
-def parse_package_paths(xml):
-    # Finding patterns package://
-    result = re.findall('package://\w+/', xml)
-    output_xml = xml
-    for item in result:        
-        pkg_name = item.replace('package://', '').replace('/', '')
-        try:
-            pkg_path = ROSPKG.get_path(pkg_name)
-        except rospkg.ResourceNotFound as ex:
-            print('Error finding package {}, message={}'.format(pkg_name, ex))
-            sys.exit(-1)
-
-        output_xml = output_xml.replace(item, 'file://' + pkg_path + '/')
-
-    # Finding patterns $(find pkg)
-    result = re.findall(r'\$\(find \w+\)', output_xml)        
-    for item in result:                
-        pkg_name = item.split()[1].replace(')', '')
-        try:
-            pkg_path = ROSPKG.get_path(pkg_name)
-        except rospkg.ResourceNotFound as ex:
-            print('Error finding package {}, message={}'.format(pkg_name, ex))
-            sys.exit(-1)
-
-        output_xml = output_xml.replace(item, 'file://' + pkg_path + '/')
-    return output_xml        
-    
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Generate SDF model from Jinja2 template files')
-    parser.add_argument(
-        '--include-dir', '-i', type=str, 
-        help='Path to Jinja2 template includes folder')
-    parser.add_argument(
-        '--templates-dir', '-t', type=str, 
-        help='Path to Jinja2 templates folder')
     parser.add_argument(
         '--param-file', '-f', type=str, 
         help='YAML parameter file to be set in the model')
@@ -158,13 +82,43 @@ if __name__ == '__main__':
     parser.add_argument(
         '--spawn-sdf-model-srv', type=str,
         help='Service to be used to trigger the spawning of the SDF model')
+    parser.add_argument(
+        '--spawn', action='store_true')
+    parser.add_argument(
+        '--robot-namespace', type=str, default='robot', help='')
+    parser.add_argument(
+        '--x',
+        type=float,
+        default=0.0,
+        help='X coordinate of the spawning position in meters')
+    parser.add_argument(
+        '--y',
+        type=float,
+        default=0.0,
+        help='Y coordinate of the spawning position in meters')
+    parser.add_argument(
+        '--z',
+        type=float,
+        default=0.0,
+        help='Z coordinate of the spawning position in meters')
+    parser.add_argument(
+        '--roll',
+        type=float,
+        default=0.0,
+        help='Roll angle of the spawning position in radians')
+    parser.add_argument(
+        '--pitch',
+        type=float,
+        default=0.0,
+        help='Pitch angle of the spawning position in radians')
+    parser.add_argument(
+        '--yaw',
+        type=float,
+        default=0.0,
+        help='Yaw angle of the spawning position in radians')
     args = parser.parse_args(rospy.myargv()[1:])
 
-    assert os.path.isdir(args.include_dir), \
-        'Invalid include directory, value={}'.format(args.include_dir)
-    assert os.path.isdir(args.templates_dir), \
-        'Invalid templates directory, value={}'.format(args.templates_dir)
-    assert os.path.isfile(os.path.join(args.templates_dir, args.model_template)), \
+    assert os.path.isfile(args.model_template), \
         'Invalid model template file, value={}'.format(args.model_template)
     
     if rospy.is_shutdown():
@@ -175,16 +129,6 @@ if __name__ == '__main__':
     if not args.sdf and not args.urdf:
         rospy.logerr('Neither the --sdf nor the --urdf flags were set')
         sys.exit(-1)
-
-    base_loader = FileSystemLoader(args.templates_dir)
-    includes_loader = AbsFileSystemLoader(args.include_dir)
-
-    base_env = Environment(loader=base_loader)
-    # Add Jinja function similar to $(find <package>) in XACRO
-    base_env.filters['find_ros_package'] = find_ros_package
-
-    model_template = base_env.get_template(args.model_template)
-    model_template.environment.loader = includes_loader
 
     params = dict()
     
@@ -203,31 +147,51 @@ if __name__ == '__main__':
                 params[param[0]] = param[1]
                 rospy.loginfo('Jinja input parameter: {}={}'.format(param[0], param[1]))
 
-    # Generate robot description
-    output_xml = pretty_print_xml(model_template.render(**params))
-    output_xml = parse_package_paths(output_xml)    
+    output_xml = process_template(args.model_template, parameters=params) 
     
     if args.sdf:                
+        rospy.loginfo('Parsing the SDF template: {}'.format(args.model_template))
         sdf = parse_sdf(output_xml)
-        
-        if args.sdf_output_param is not None and len(args.sdf_output_param) > 0:
-            # Publish SDF robot description
-            rospy.set_param(args.sdf_output_param, output_xml)
-            
+        urdf = sdf2urdf(sdf.models[0])
+                    
         if args.output_filename:
             sdf.export_xml(args.output_filename)
+            urdf.export_xml(args.output_filename.replace('.sdf', '.urdf'))
             rospy.loginfo('SDF file exported to: {}'.format(args.output_filename))
-
+            rospy.loginfo('URDF file exported to: {}'.format(args.output_filename.replace('.sdf', '.urdf')))
     elif args.urdf:
+        rospy.loginfo('Parsing the URDF template: {}'.format(args.model_template))
         urdf = parse_urdf(output_xml)
+        sdf = urdf2sdf(urdf)
         
-        if args.urdf_output_param is not None and len(args.urdf_output_param) > 0:
-            # Convert file to URDF
-            rospy.set_param(args.urdf_output_param, output_xml)            
         if args.output_filename:
             # Export file
             urdf.export_xml(args.output_filename)
-            rospy.loginfo('URDF file exported to: ', args.output_filename)
+            sdf.export_xml(args.output_filename.replace('.urdf', '.sdf'))
+            rospy.loginfo('SDF file exported to: {}'.format(args.output_filename.replace('.urdf', '.sdf')))
+            rospy.loginfo('URDF file exported to: {}'.format(args.output_filename))
+    else:
+        sys.exit()
+
+    if args.sdf_output_param is not None and len(args.sdf_output_param) > 0:
+        # Publish SDF robot description
+        rospy.set_param(args.sdf_output_param, sdf.to_xml_as_str())
+        rospy.loginfo('SDF stored in {}'.format(args.sdf_output_param))
+    
+    if args.urdf_output_param is not None and len(args.urdf_output_param) > 0:
+        # Convert file to URDF
+        rospy.set_param(args.urdf_output_param, urdf.to_xml_as_str())     
+        rospy.loginfo('URDF stored in {}'.format(args.urdf_output_param))       
+
+    if args.sdf and args.spawn:
+        rospy.loginfo('Spawning the SDF model to Gazebo')
+        gazebo_proxy = GazeboProxy()
+
+        success = gazebo_proxy.spawn_sdf_model(
+            args.robot_namespace,
+            sdf.to_xml_as_str(),
+            [args.x, args.y, args.z],
+            [args.roll, args.pitch, args.yaw])
 
     if args.output_topic:      
         rospy.loginfo('Output topic: ' + args.output_topic)
