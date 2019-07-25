@@ -221,7 +221,7 @@ class Physics(object):
                 solver_param_names = [
                     'type', 
                     'iters',
-                    'use_dynamic_moi_scaling',
+                    'use_dynamic_moi_rescaling',
                     'precon_iters',
                     'sor',
                     'min_step_size',

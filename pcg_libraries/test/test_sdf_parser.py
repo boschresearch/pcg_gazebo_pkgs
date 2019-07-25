@@ -118,7 +118,7 @@ DEFAULT_ODE_SOLVER = dict(
     sor=1.3,
     type='quick',
     precon_iters=0,
-    use_dynamic_moi_scaling=False,
+    use_dynamic_moi_rescaling=False,
     friction_model='pyramid_model'
 )
 
@@ -2991,12 +2991,12 @@ class TestSDFParser(unittest.TestCase):
         # self.assertEqual(xml_str, '<precon_iters>0</precon_iters>',
         #     'Invalid XML dump string, value=' + str(xml_str))
 
-    def test_use_dynamic_moi_scaling(self):
-        sdf_obj = create_sdf_element('use_dynamic_moi_scaling')
+    def test_use_dynamic_moi_rescaling(self):
+        sdf_obj = create_sdf_element('use_dynamic_moi_rescaling')
 
-        self.assertIsNotNone(sdf_obj, 'Invalid use_dynamic_moi_scaling object')
+        self.assertIsNotNone(sdf_obj, 'Invalid use_dynamic_moi_rescaling object')
         # Check default values
-        self.assertEqual(sdf_obj.xml_element_name, 'use_dynamic_moi_scaling',
+        self.assertEqual(sdf_obj.xml_element_name, 'use_dynamic_moi_rescaling',
             'Invalid SDF block name')
         self.assertEqual(sdf_obj.value, False,
             'Invalid initial value')
@@ -3019,7 +3019,7 @@ class TestSDFParser(unittest.TestCase):
         # Test reset function
         sdf_obj.reset()
         self.assertEqual(sdf_obj.value, False,
-            'For valid use_dynamic_moi_scaling, is_valid should be False')
+            'For valid use_dynamic_moi_rescaling, is_valid should be False')
 
         output_str = '0'
         self.assertEqual(sdf_obj.get_formatted_value_as_str(),
@@ -3035,13 +3035,13 @@ class TestSDFParser(unittest.TestCase):
         sdf_obj.reset()
         # Test generation of XML block
         xml_element = sdf_obj.to_xml()
-        self.assertEqual(xml_element.tag, 'use_dynamic_moi_scaling',
+        self.assertEqual(xml_element.tag, 'use_dynamic_moi_rescaling',
             'Invalid XML element tag')
         self.assertEqual(xml_element.text, '0',
             'Invalid XML element tag')
 
         # xml_str = sdf_obj.to_xml_as_str()
-        # self.assertEqual(xml_str, '<use_dynamic_moi_scaling>0</use_dynamic_moi_scaling>',
+        # self.assertEqual(xml_str, '<use_dynamic_moi_rescaling>0</use_dynamic_moi_rescaling>',
         #     'Invalid XML dump string, value=' + str(xml_str))
 
     def test_friction_model(self):
@@ -3131,7 +3131,7 @@ class TestSDFParser(unittest.TestCase):
         with self.assertRaises(AttributeError):
             sdf_obj.precon_iters = 0
         with self.assertRaises(AttributeError):
-            sdf_obj.use_dynamic_moi_scaling = False
+            sdf_obj.use_dynamic_moi_rescaling = False
 
     def test_model(self):
         sdf_obj = create_sdf_element('model')

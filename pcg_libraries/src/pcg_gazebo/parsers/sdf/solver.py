@@ -33,7 +33,7 @@ class Solver(XMLBase):
         sor=dict(creator=Sor, default=[1.3]),
         type=dict(creator=Type, default=['quick']),
         precon_iters=dict(creator=PreConIters, default=[0], mode='ode'),
-        use_dynamic_moi_scaling=dict(creator=UseDynamicMOIRescaling, default=[False], mode='ode'),
+        use_dynamic_moi_rescaling=dict(creator=UseDynamicMOIRescaling, default=[False], mode='ode'),
         friction_model=dict(creator=FrictionModel, mode='ode')
     )
 
@@ -98,16 +98,16 @@ class Solver(XMLBase):
             raise AttributeError()
 
     @property
-    def use_dynamic_moi_scaling(self):
+    def use_dynamic_moi_rescaling(self):
         if self._mode == 'ode':
-            return self._get_child_element('use_dynamic_moi_scaling')
+            return self._get_child_element('use_dynamic_moi_rescaling')
         else:
             return None
 
-    @use_dynamic_moi_scaling.setter
-    def use_dynamic_moi_scaling(self, value):
+    @use_dynamic_moi_rescaling.setter
+    def use_dynamic_moi_rescaling(self, value):
         if self._mode == 'ode':
-            return self._add_child_element('use_dynamic_moi_scaling', value)
+            return self._add_child_element('use_dynamic_moi_rescaling', value)
         else:
             raise AttributeError()
 

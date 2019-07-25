@@ -17,7 +17,7 @@ from ..types import XMLBoolean
 
 
 class UseDynamicMOIRescaling(XMLBoolean):
-    _NAME = 'use_dynamic_moi_scaling'
+    _NAME = 'use_dynamic_moi_rescaling'
     _TYPE = 'sdf'
 
     def __init__(self, default=False):
