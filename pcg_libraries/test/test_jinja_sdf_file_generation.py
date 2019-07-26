@@ -58,7 +58,7 @@ class TestJinjaSDFFileGeneration(unittest.TestCase):
             ode_precon_iters=random.randint(1, 3),
             ode_sor=random.random(),
             ode_use_dynamic_moi_rescaling=random.choice([True, False]),
-            ode_friction_model=random.choice(['pyramid_model', 'box_model', 'code_model']),
+            ode_friction_model=random.choice(['pyramid_model', 'box_model', 'cone_model']),
             ode_cfm=random.random(),
             ode_erp=random.random(),
             ode_contact_max_correcting_vel=random.random(),
