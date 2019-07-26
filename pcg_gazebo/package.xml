@@ -10,9 +10,7 @@
 
   <author email="musa.marcusso@de.bosch.com">Musa Morena Marcusso Manhaes</author>
 
-  <buildtool_depend>catkin</buildtool_depend>
-
-  <build_depend>roslaunch</build_depend>
+  <buildtool_depend>catkin</buildtool_depend>  
 
   <exec_depend>pcg_libraries</exec_depend>
   <exec_depend>std_msgs</exec_depend>
@@ -28,4 +26,5 @@
   <exec_depend>pcg_msgs</exec_depend>
   <exec_depend>visualization_msgs</exec_depend>
 
+  <test_depend>roslaunch</test_depend>
 </package>
