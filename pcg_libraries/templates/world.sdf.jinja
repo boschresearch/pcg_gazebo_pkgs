@@ -1,0 +1,132 @@
+<?xml version="1.0" ?>
+
+{% import 'pcg_libraries'|find_ros_package ~ '/sdf/worlds.sdf.jinja' as world_macros %}
+{% import 'pcg_libraries'|find_ros_package ~ '/sdf/physics.sdf.jinja' as physics_macros %}
+
+{% set world_name = world_name|default('default', true) %}
+{% set gravity = gravity|default([0, 0, -9.8], true) %}
+{% set wind_linear_velocity = wind_linear_velocity|default(none, true) %}
+{% set audio_device = audio_device|default(none, true) %}
+{% set magnetic_field = magnetic_field|default(none, true) %}
+{% set world_items = world_items|default(none, true) %}
+
+{% set physics_engine = physics_engine|default('ode', true) %}
+{% set physics_engine_label = physics_engine_label|default('default', true) %}
+{% set physics_max_step_size = physics_max_step_size|default(0.001, true) %}
+{% set physics_real_time_factor = physics_real_time_factor|default(1, true) %}
+{% set physics_real_time_update_rate = physics_real_time_update_rate|default(1000, true) %}
+{% set physics_max_contacts = physics_max_contacts|default(20, true) %}
+
+{# Parameters for the ODE physics engine #}
+{% set ode_solver_type = ode_solver_type|default('quick', true) %}
+{% set ode_min_step_size = ode_min_step_size|default(0.0001, true) %}
+{% set ode_iters = ode_iters|default(50, true) %}
+{% set ode_precon_iters = ode_precon_iters|default(0, true) %}
+{% set ode_sor = ode_sor|default(1.3, true) %}
+{% set ode_use_dynamic_moi_rescaling = ode_use_dynamic_moi_rescaling|default(0, true) %}
+{% set ode_friction_model = ode_friction_model|default('pyramid_model', true) %}
+{% set ode_cfm = ode_cfm|default(0.0, true) %}
+{% set ode_erp = ode_erp|default(0.2, true) %}
+{% set ode_contact_max_correcting_vel = ode_contact_max_correcting_vel|default(100, true) %}
+{% set ode_contact_surface_layer = ode_contact_surface_layer|default(0.001, true) %}
+
+{% set bullet_solver_type = bullet_solver_type|default('sequential_impulse', true) %}
+{% set bullet_min_step_size = bullet_min_step_size|default(0.0001, true) %}
+{% set bullet_iters = bullet_iters|default(50, true) %}
+{% set bullet_sor = bullet_sor|default(1.3, true) %}
+{% set bullet_cfm = bullet_cfm|default(0, true) %}
+{% set bullet_erp = bullet_erp|default(0.2, true) %}
+{% set bullet_contact_surface_layer = bullet_contact_surface_layer|default(0.001, true) %}
+{% set bullet_split_impulse = bullet_split_impulse|default(1, true) %}
+{% set bullet_split_impulse_penetration_threshold = bullet_split_impulse_penetration_threshold|default(-0.01, true) %}
+
+{% set simbody_min_step_size = simbody_min_step_size|default(0.0001, true) %}
+{% set simbody_accuracy = simbody_accuracy|default(0.001, true) %}
+{% set simbody_max_transient_velocity = simbody_max_transient_velocity|default(0.01, true) %}
+{% set simbody_stiffness = simbody_stiffness|default(100000000.0, true) %}
+{% set simbody_dissipation = simbody_dissipation|default(100, true) %}
+{% set simbody_plastic_coef_restitution = simbody_plastic_coef_restitution|default(0.5, true) %}
+{% set simbody_plastic_impact_velocity = simbody_plastic_impact_velocity|default(0.5, true) %}
+{% set simbody_static_friction = simbody_static_friction|default(0.9, true) %}
+{% set simbody_dynamic_friction = simbody_dynamic_friction|default(0.9, true) %}
+{% set simbody_viscous_friction = simbody_viscous_friction|default(0, true) %}
+{% set simbody_override_impact_capture_velocity = simbody_override_impact_capture_velocity|default(0.001, true) %}
+{% set simbody_override_stiction_transition_velocity = simbody_override_stiction_transition_velocity|default(0.001, true) %}
+
+{% set physics = 'ERROR! No physics engine defined' %}
+
+{% if physics_engine == 'ode' %}    
+    {% set physics = physics_macros.physics(
+        name=physics_engine_label,
+        default=0,
+        type=physics_engine,
+        max_step_size=physics_max_step_size,
+        real_time_factor=physics_real_time_factor,
+        real_time_update_rate=physics_real_time_update_rate,
+        max_contacts=physics_max_contacts,
+        ode_solver_type=ode_solver_type,
+        ode_min_step_size=ode_min_step_size,
+        ode_iters=ode_iters,
+        ode_precon_iters=ode_precon_iters,
+        ode_sor=ode_sor,
+        ode_use_dynamic_moi_rescaling=ode_use_dynamic_moi_rescaling,
+        ode_friction_model=ode_friction_model,
+        ode_cfm=ode_cfm,
+        ode_erp=ode_erp,
+        ode_contact_max_correcting_vel=ode_contact_max_correcting_vel,
+        ode_contact_surface_layer=ode_contact_surface_layer) 
+    %}
+{% elif physics_engine == 'bullet' %}
+    {% set physics = physics_macros.physics(
+        name=physics_engine_label,
+        default=0,
+        type=physics_engine,
+        max_step_size=physics_max_step_size,
+        real_time_factor=physics_real_time_factor,
+        real_time_update_rate=physics_real_time_update_rate,
+        max_contacts=physics_max_contacts,
+        bullet_solver_type=bullet_solver_type,
+        bullet_min_step_size=bullet_min_step_size,
+        bullet_iters=bullet_iters,
+        bullet_sor=bullet_sor,
+        bullet_cfm=bullet_cfm,
+        bullet_erp=bullet_erp,
+        bullet_contact_surface_layer=bullet_contact_surface_layer,
+        bullet_split_impulse=bullet_split_impulse,
+        bullet_split_impulse_penetration_threshold=bullet_split_impulse_penetration_threshold)
+    %}
+{% elif physics_engine == 'simbody' %}
+    {% set physics = physics_macros.physics(
+        name=physics_engine_label,
+        default=0,
+        type=physics_engine,
+        max_step_size=physics_max_step_size,
+        real_time_factor=physics_real_time_factor,
+        real_time_update_rate=physics_real_time_update_rate,
+        max_contacts=physics_max_contacts,
+        simbody_min_step_size=simbody_min_step_size,
+        simbody_accuracy=simbody_accuracy,
+        simbody_max_transient_velocity=simbody_max_transient_velocity,
+        simbody_stiffness=simbody_stiffness,
+        simbody_dissipation=simbody_dissipation,
+        simbody_plastic_coef_restitution=simbody_plastic_coef_restitution,
+        simbody_plastic_impact_velocity=simbody_plastic_impact_velocity,
+        simbody_static_friction=simbody_static_friction,
+        simbody_dynamic_friction=simbody_dynamic_friction,
+        simbody_viscous_friction=simbody_viscous_friction,
+        simbody_override_impact_capture_velocity=simbody_override_impact_capture_velocity,
+        simbody_override_stiction_transition_velocity=simbody_override_stiction_transition_velocity)
+    %}
+{% endif %}
+
+<sdf version="{{ sdf_version|default('1.5', true) }}">      
+    {{ world_macros.world(
+        name=world_name,
+        gravity=gravity,
+        wind_linear_velocity=wind_linear_velocity,
+        audio_device=audio_device,
+        magnetic_field=magnetic_field,
+        physics=physics,
+        items=world_items)
+    }}
+</sdf>

@@ -16,22 +16,18 @@ limitations under the License.
 #}
 
 {% macro pose_gt(
+    namespace='',
+    name='pose_gt',
     base_link='base_link', 
     topic_name='groundtruth', 
     frame_name='world',
     gaussian_noise=0.0,
     update_rate=100,
-    prefix='',
     ros_version=1) 
-%}
-    {% if prefix != '' %}
-        {% set name = prefix ~ '_pose_gt' %}
-    {% else %}
-        {% set name = 'pose_gt' %}
-    {% endif %}
-
+%}    
     {% if ros_version == 1 %}
         <plugin name="{{ name }}" filename="libgazebo_ros_p3d.so">
+            <robotNamespace>{{ namespace }}</robotNamespace>
             <alwaysOn>true</alwaysOn>
             <updateRate>{{ update_rate }}</updateRate>
             <bodyName>{{ base_link }}</bodyName>
@@ -43,6 +39,7 @@ limitations under the License.
 {% endmacro %}
 
 {% macro diff_drive(
+    name='diff_drive_controller',
     base_link='base_link',
     command_topic='/cmd_vel',
     odometry_topic='/groundtruth',
@@ -54,14 +51,8 @@ limitations under the License.
     wheel_torque=0,
     publish_odom_tf=0,
     legacy_mode=0,
-    prefix='',
     ros_version=1) 
 %}
-    {% if prefix != '' %}
-        {% set name = prefix ~ '_diff_drive_controller' %}
-    {% else %}
-        {% set name = 'diff_drive_controller' %}
-    {% endif %}
     {% if ros_version == 1 %}
         <plugin name="{{ name }}" filename="libgazebo_ros_diff_drive.so">
             <commandTopic>{{ command_topic }}</commandTopic>
@@ -80,6 +71,7 @@ limitations under the License.
 {% endmacro %}
 
 {% macro ros_control(
+    name='gazebo_ros_control',
     robot_namespace='',
     robot_param='/robot_description',
     robot_sim_type='gazebo_ros_control/DefaultRobotHWSim',
@@ -91,7 +83,7 @@ limitations under the License.
 %}
 
     {% if ros_version == 1 %}
-        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <plugin name="{{ name }}" filename="libgazebo_ros_control.so">
             <robotNamespace>{{ robot_namespace }}</robotNamespace>
             <robotParam>{{ robot_param }}</robotParam>
             <updateRate>{{ update_rate }}</updateRate>

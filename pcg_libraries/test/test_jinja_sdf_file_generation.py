@@ -23,71 +23,122 @@ PKG = 'pcg_libraries'
 roslib.load_manifest(PKG)
 
 import os
-import sys
+import rospkg
 import unittest
-import subprocess
-from jinja2 import FileSystemLoader, Environment, \
-    BaseLoader, TemplateNotFound
-from pcg_gazebo.parsers import parse_sdf
+import random
+import string
+import numpy as np
+from pcg_gazebo.parsers import process_template, parse_sdf
 
 CUR_DIR = os.path.join(rospkg.RosPack().get_path(PKG), 'test')
 
-class AbsFileSystemLoader(BaseLoader):
-    def __init__(self, path):
-        self.path = path
+def get_random_string(size=3):
+    return ''.join(random.choice(string.ascii_letters) for i in range(size))
 
-    def get_source(self, environment, template):        
-        if os.path.isfile(template):
-            path = template
-        else:
-            path = os.path.join(self.path, template)
-            if not os.path.isfile(path):
-                raise TemplateNotFound(template)
-        mtime = os.path.getmtime(path)
-        with open(path) as f:
-            source = f.read().decode('utf-8')
-        return source, path, lambda: mtime == os.path.getmtime(path)
+def generate_sdf(test_case, params):
+    xml = process_template(os.path.join(
+        CUR_DIR, 'jinja_sdf/{}.jinja'.format(test_case)), params)            
+    return parse_sdf(xml)
 
-
-def find_ros_package(pkg_name):
-    try:
-        pkg_path = rospkg.RosPack().get_path(pkg_name)
-    except rospkg.ResourceNotFound as ex:
-        print('Error finding package {}, message={}'.format(pkg_name, ex))
-        sys.exit(-1)    
-    return pkg_path
-
-
-def pretty_print_xml(xml):
-    proc = subprocess.Popen(
-        ['xmllint', '--format', '/dev/stdin'],
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        )
-    (output, error_output) = proc.communicate(xml)
-    return output
-
-def generate_sdf(template, output_filename, vars):       
-    base_loader = FileSystemLoader(os.path.join(CUR_DIR, 'jinja_sdf'))
-    includes_loader = AbsFileSystemLoader(os.path.join(CUR_DIR, '..', 'sdf'))
-
-    base_env = Environment(loader=base_loader)
-    # Add Jinja function similar to $(find <package>) in XACRO
-    base_env.filters['find_ros_package'] = find_ros_package
-
-    model_template = base_env.get_template(template)
-    model_template.environment.loader = includes_loader
-
-    params = dict()
-    for tag in vars:
-        params[tag] = vars[tag]
-
-    output_xml = pretty_print_xml(model_template.render(**params))
-    with open(os.path.join('/tmp', output_filename), 'w+') as f:
-        f.write(output_xml)
 
 class TestJinjaSDFFileGeneration(unittest.TestCase):
-    def test_generate_inertia(self):
+    def test_jinja_ode_physics(self):
+        test_case = 'physics_ode'
+
+        params = dict(
+            label=get_random_string(3),
+            engine='ode',
+            max_step_size=random.random() * 0.1,
+            real_time_factor=random.randint(1, 5),
+            real_time_update_rate=random.randint(100, 1000),
+            max_contacts=random.randint(1, 20),
+            ode_solver_type=random.choice(['quick', 'world']),
+            ode_min_step_size=random.random() * 0.001,
+            ode_iters=random.randint(10, 50),
+            ode_precon_iters=random.randint(1, 3),
+            ode_sor=random.random(),
+            ode_use_dynamic_moi_rescaling=random.choice([True, False]),
+            ode_friction_model=random.choice(['pyramid_model', 'box_model', 'cone_model']),
+            ode_cfm=random.random(),
+            ode_erp=random.random(),
+            ode_contact_max_correcting_vel=random.random(),
+            ode_contact_surface_layer=random.random()
+        )
+
+        sdf = generate_sdf(test_case, params)            
+
+        self.assertIsNotNone(
+            sdf, 
+            'SDF was not generated {} could not be parsed'.format(test_case))
+        self.assertEqual(
+            sdf.xml_element_name, 'physics', 
+            'SDF element for file {} should be physics')
+
+        # Test general physics properties
+        self.assertEqual(sdf.name, params['label'])
+        self.assertEqual(sdf.default, '0')
+        self.assertEqual(sdf.type, 'ode')
+        self.assertTrue(np.isclose(sdf.max_step_size.value, params['max_step_size']))
+        self.assertEqual(sdf.real_time_factor.value, params['real_time_factor'])
+        self.assertEqual(sdf.real_time_update_rate.value, params['real_time_update_rate'])
+        self.assertEqual(sdf.max_contacts.value, params['max_contacts'])
+
+        # Test if the other physics engines were not created
+        self.assertIsNone(sdf.bullet)
+        self.assertIsNone(sdf.simbody)
+
+        # Test ODE default parameters
+        self.assertEqual(sdf.ode.solver.type.value, params['ode_solver_type'])
+        self.assertTrue(np.isclose(sdf.ode.solver.min_step_size.value, params['ode_min_step_size']))
+        self.assertEqual(sdf.ode.solver.iters.value, params['ode_iters'])
+        self.assertEqual(sdf.ode.solver.precon_iters.value, params['ode_precon_iters'])
+        self.assertTrue(np.isclose(sdf.ode.solver.sor.value, params['ode_sor']))
+        self.assertEqual(sdf.ode.solver.use_dynamic_moi_rescaling.value, params['ode_use_dynamic_moi_rescaling'])
+        self.assertEqual(sdf.ode.solver.friction_model.value, params['ode_friction_model'])
+
+        self.assertTrue(np.isclose(sdf.ode.constraints.cfm.value, params['ode_cfm']))
+        self.assertTrue(np.isclose(sdf.ode.constraints.erp.value, params['ode_erp']))
+        self.assertTrue(np.isclose(sdf.ode.constraints.contact_max_correcting_vel.value, params['ode_contact_max_correcting_vel']))
+        self.assertTrue(np.isclose(sdf.ode.constraints.contact_surface_layer.value, params['ode_contact_surface_layer']))
+
+    def test_jinja_default_physics(self):        
+        test_case = 'physics_default'
+        sdf = generate_sdf(test_case, None)            
+        self.assertIsNotNone(
+            sdf, 
+            'SDF was not generated {} could not be parsed'.format(test_case))
+        self.assertEqual(
+            sdf.xml_element_name, 'physics', 
+            'SDF element for file {} should be physics')
+
+        # Test general physics properties
+        self.assertEqual(sdf.name, 'default')
+        self.assertEqual(sdf.default, '0')
+        self.assertEqual(sdf.type, 'ode')
+        self.assertEqual(sdf.max_step_size.value, 0.001)
+        self.assertEqual(sdf.real_time_factor.value, 1)
+        self.assertEqual(sdf.real_time_update_rate.value, 1000)
+        self.assertEqual(sdf.max_contacts.value, 20)
+
+        # Test if the other physics engines were not created
+        self.assertIsNone(sdf.bullet)
+        self.assertIsNone(sdf.simbody)
+
+        # Test ODE default parameters
+        self.assertEqual(sdf.ode.solver.type.value, 'quick')
+        self.assertEqual(sdf.ode.solver.min_step_size.value, 0.0001)
+        self.assertEqual(sdf.ode.solver.iters.value, 50)
+        self.assertEqual(sdf.ode.solver.precon_iters.value, 0)
+        self.assertEqual(sdf.ode.solver.sor.value, 1.3)
+        self.assertEqual(sdf.ode.solver.use_dynamic_moi_rescaling.value, 0)
+        self.assertEqual(sdf.ode.solver.friction_model.value, 'pyramid_model')
+
+        self.assertEqual(sdf.ode.constraints.cfm.value, 0.0)
+        self.assertEqual(sdf.ode.constraints.erp.value, 0.2)
+        self.assertEqual(sdf.ode.constraints.contact_max_correcting_vel.value, 100)
+        self.assertEqual(sdf.ode.constraints.contact_surface_layer.value, 0.001)
+
+    def test_jinja_inertia_templates(self):
 
         INPUT_PARAMS = dict(
             inertia_solid_sphere=dict(mass=10, radius=2),
@@ -110,20 +161,11 @@ class TestJinjaSDFFileGeneration(unittest.TestCase):
         )
 
         for test_case in INPUT_PARAMS:
-            # template = os.path.join(CUR_DIR, 'jinja_sdf', '{}.jinja'.format(test_case))
-            template = test_case + '.jinja'
-            generate_sdf(template, '{}.sdf'.format(test_case), INPUT_PARAMS[test_case])
-
-            filename = os.path.join('/tmp', '{}.sdf'.format(test_case))
-
-            self.assertTrue(os.path.isfile(filename), 
-                '{} file was not generated'.format(test_case + '.sdf'))
-
-            sdf = parse_sdf(filename)
+            sdf = generate_sdf(test_case, INPUT_PARAMS[test_case])  
 
             self.assertIsNotNone(
                 sdf, 
-                'SDF file {} could not be parsed'.format(filename))
+                'SDF was not generated {} could not be parsed'.format(test_case))
             self.assertEqual(
                 sdf.xml_element_name, 'inertia', 
                 'SDF element for file {} should be inertia')

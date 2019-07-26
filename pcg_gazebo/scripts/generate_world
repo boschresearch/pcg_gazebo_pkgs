@@ -35,7 +35,7 @@ from std_msgs.msg import String
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser('Generate the Smart Life Lab world using the PCG engine')
+    parser = argparse.ArgumentParser('Generate the world using the PCG model placement engines')
     parser.add_argument(
         '--config-file', 
         type=str, 

@@ -27,5 +27,5 @@ class FrictionModel(XMLString):
 
     def _set_value(self, value):
         assert isinstance(value, str)
-        assert value in self._VALUE_OPTIONS, 'Options are {}'.format(self._VALUE_OPTIONS)
+        assert value in self._VALUE_OPTIONS, 'Options are {}, received={}'.format(self._VALUE_OPTIONS, value)
         XMLString._set_value(self, value)

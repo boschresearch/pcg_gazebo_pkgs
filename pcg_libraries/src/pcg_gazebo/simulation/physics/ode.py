@@ -25,7 +25,7 @@ class ODE(Physics):
     def __init__(self, max_step_size=0.001, real_time_factor=1,
                  real_time_update_rate=1000, max_contacts=20,
                  min_step_size=0.0001, iters=50, sor=1.3, type='quick',
-                 precon_iters=0, use_dynamic_moi_scaling=False,
+                 precon_iters=0, use_dynamic_moi_rescaling=False,
                  friction_model='pyramid_model', cfm=0, erp=0.2,
                  contact_surface_layer=0.001, contact_max_correcting_vel=100):
         Physics.__init__(
@@ -41,7 +41,7 @@ class ODE(Physics):
         assert sor > 0
         assert type in self._SOLVER_TYPES
         assert precon_iters >= 0
-        assert isinstance(use_dynamic_moi_scaling, bool)
+        assert isinstance(use_dynamic_moi_rescaling, bool)
         assert friction_model in self._FRICTION_MODELS
         assert cfm >= 0
         assert erp >= 0
@@ -53,7 +53,7 @@ class ODE(Physics):
         self._properties['sor'] = sor
         self._properties['type'] = type
         self._properties['precon_iters'] = precon_iters
-        self._properties['use_dynamic_moi_scaling'] = use_dynamic_moi_scaling
+        self._properties['use_dynamic_moi_rescaling'] = use_dynamic_moi_rescaling
         self._properties['friction_model'] = friction_model
         self._properties['cfm'] = cfm
         self._properties['erp'] = erp
@@ -70,7 +70,7 @@ class ODE(Physics):
             'parameter.'
         self._description['type'] = 'One of the following types: world, quick'
         self._description['precon_iters'] = 'Experimental parameter'
-        self._description['use_dynamic_moi_scaling'] = 'Flag to enable ' \
+        self._description['use_dynamic_moi_rescaling'] = 'Flag to enable ' \
             'dynamic rescaling of moment of inertia in constrained ' \
             'directions'
         self._description['friction_model'] = 'Name of ODE friction model to' \
@@ -139,13 +139,13 @@ class ODE(Physics):
         self._properties['precon_iters'] = value
 
     @property
-    def use_dynamic_moi_scaling(self):
-        return self._properties['use_dynamic_moi_scaling']
+    def use_dynamic_moi_rescaling(self):
+        return self._properties['use_dynamic_moi_rescaling']
 
-    @use_dynamic_moi_scaling.setter
-    def use_dynamic_moi_scaling(self, value):
+    @use_dynamic_moi_rescaling.setter
+    def use_dynamic_moi_rescaling(self, value):
         assert isinstance(value, bool)
-        self._properties['use_dynamic_moi_scaling'] = value
+        self._properties['use_dynamic_moi_rescaling'] = value
 
     @property
     def friction_model(self):
@@ -209,7 +209,7 @@ class ODE(Physics):
         # Set ODE solver parameters
         physics.ode.solver.type = self._properties['type']
         physics.ode.solver.iters = self._properties['iters']
-        physics.ode.solver.use_dynamic_moi_scaling = self._properties['use_dynamic_moi_scaling']
+        physics.ode.solver.use_dynamic_moi_rescaling = self._properties['use_dynamic_moi_rescaling']
         physics.ode.solver.precon_iters = self._properties['precon_iters']
         physics.ode.solver.sor = self._properties['sor']
         physics.ode.solver.min_step_size = self._properties['min_step_size']

@@ -15,16 +15,48 @@ See the License for the specific language governing permissions and
 limitations under the License.
 #}
 
+{% import 'pcg_libraries'|find_ros_package ~ '/sdf/physics.sdf.jinja' as physics_macros %}
+
 {% macro world(
-    name='default'
-    use_wind=false,
-    wind_linear_velocity=[0, 0, 0],
-    gravity=[0, 0, -9.8]) 
+    name='default',
+    gravity=[0, 0, -9.8],
+    wind_linear_velocity=none,
+    audio_device=none,
+    magnetic_field=none,    
+    physics=none,
+    items=none
+    ) 
 %}
     <world name="{{ name }}">
-        <wind>
-            <linear_velocity>{{ wind_linear_velocity|join(' ') }}</linear_velocity>
-        </wind>
+
+        {% if wind_linear_velocity is not none %}
+            <wind>
+                <linear_velocity>{{ wind_linear_velocity|join(' ') }}</linear_velocity>
+            </wind>
+        {% endif %} 
+
+        {% if audio_device is not none %}
+            <audio>
+                <device>{{ audio_device }}</device>
+            </audio>
+        {% endif %}
+
         <gravity>{{ gravity|join(' ') }}</gravity>
+
+        {% if magnetic_field is not none %}
+            <magnetic_field>{{ magnetic_field|join(' ') }}</magnetic_field>            
+        {% endif %} 
+
+        {% if physics is not none %}
+            {{ physics }}            
+        {% else %}            
+            {{ physics_macros.physics() }}
+        {% endif %}
+
+        {% if items is not none %}
+            {% for item in items %}
+                {{ item }}
+            {% endfor %}
+        {% endif %}
     </world>
 {% endmacro %}
