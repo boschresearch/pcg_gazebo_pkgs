@@ -13,7 +13,6 @@ install(PROGRAMS
     scripts/generate_model_description
     scripts/sdf2urdf
     scripts/urdf2sdf
-    scripts/simulation_builder_server
     scripts/gazebo2tf
     scripts/generate_world
     scripts/spawn_sdf_model
