@@ -29,3 +29,11 @@ install(PROGRAMS
 install(DIRECTORY launch
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 PATTERN "*~" EXCLUDE)
+
+if (CATKIN_ENABLE_TESTING)
+  find_package(roslaunch REQUIRED)
+  roslaunch_add_file_check(launch/gazebo2tf.launch)
+  roslaunch_add_file_check(launch/generate_model_description.launch)
+  roslaunch_add_file_check(launch/generate_world.launch)
+#   roslaunch_add_file_check(launch/start_generated_gazebo_world.launch)
+endif()

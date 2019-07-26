@@ -12,6 +12,8 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  <build_depend>roslaunch</build_depend>
+
   <exec_depend>pcg_libraries</exec_depend>
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>gazebo_msgs</exec_depend>
