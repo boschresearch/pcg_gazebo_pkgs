@@ -26,7 +26,7 @@ class Simbody(Physics):
                  max_transient_velocity=0.01, stiffness=1e8,
                  dissipation=100, plastic_coef_restitution=0.5,
                  plastic_impact_velocity=0.5, static_friction=0.9,
-                 dynamic_friction=0.9, viscous_friction=0.9,
+                 dynamic_friction=0.9, viscous_friction=0,
                  override_impact_capture_velocity=0.001,
                  override_stiction_transition_velocity=0.001):
         Physics.__init__(
