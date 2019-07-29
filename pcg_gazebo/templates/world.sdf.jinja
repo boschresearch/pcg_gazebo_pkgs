@@ -1,14 +1,13 @@
-<?xml version="1.0" ?>
-
 {% import 'pcg_libraries'|find_ros_package ~ '/sdf/worlds.sdf.jinja' as world_macros %}
 {% import 'pcg_libraries'|find_ros_package ~ '/sdf/physics.sdf.jinja' as physics_macros %}
+{% import 'pcg_libraries'|find_ros_package ~ '/sdf/models.sdf.jinja' as model_macros %}
 
 {% set world_name = world_name|default('default', true) %}
 {% set gravity = gravity|default([0, 0, -9.8], true) %}
 {% set wind_linear_velocity = wind_linear_velocity|default(none, true) %}
 {% set audio_device = audio_device|default(none, true) %}
 {% set magnetic_field = magnetic_field|default(none, true) %}
-{% set world_items = world_items|default(none, true) %}
+{% set world_items = world_items|default([], true) %}
 
 {% set physics_engine = physics_engine|default('ode', true) %}
 {% set physics_engine_label = physics_engine_label|default('default', true) %}
@@ -52,6 +51,10 @@
 {% set simbody_viscous_friction = simbody_viscous_friction|default(0, true) %}
 {% set simbody_override_impact_capture_velocity = simbody_override_impact_capture_velocity|default(0.001, true) %}
 {% set simbody_override_stiction_transition_velocity = simbody_override_stiction_transition_velocity|default(0.001, true) %}
+
+{# Parameters for basic ground_plane and sun models #}
+{% set add_ground_plane = add_ground_plane|default(false, true) %}
+{% set ground_plane_name = ground_plane_name|default('ground_plane', true) %}
 
 {% set physics = 'ERROR! No physics engine defined' %}
 
@@ -117,6 +120,14 @@
         simbody_override_impact_capture_velocity=simbody_override_impact_capture_velocity,
         simbody_override_stiction_transition_velocity=simbody_override_stiction_transition_velocity)
     %}
+{% endif %}
+
+{% if add_ground_plane %}
+    {{ world_items.append(
+        model_macros.ground_plane(
+            sdf_version=sdf_version,
+            name=ground_plane_name)
+    ) }}
 {% endif %}
 
 <sdf version="{{ sdf_version|default('1.5', true) }}">      
