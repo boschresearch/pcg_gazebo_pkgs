@@ -480,14 +480,26 @@ class WorldGenerator:
         """
         from ..simulation import is_gazebo_model
         assert isinstance(config, dict), 'Input configuration must be a dictionary'
-        assert 'assets' in config, 'Configuration input has no list of assets'
-        assert isinstance(config['assets'], list), 'Invalid list of assets'
+                
 
         if 'name' in config:
             self._name = config['name']            
             self._logger.info('Generator name: {}'.format(self._name))
 
+        if 'physics' in config:
+            if 'engine' in config['physics']:
+                physics_engine = config['physics']['engine']
+            else:
+                physics_engine = 'ode'
+            
+            if 'args' in config['physics']:
+                physics_args = config['physics']['args']
+            else:
+                physics_args = dict()
+            self._world.reset_physics(engine=physics_engine, **physics_args)
+
         if 'assets' in config:            
+            assert isinstance(config['assets'], list), 'Invalid list of assets'
             self._logger.info('Assets:')
             for tag in config['assets']:
                 if not self.is_asset(tag):
@@ -626,7 +638,7 @@ class WorldGenerator:
         `True` if all engines ran successfully.
         """
         if len(self._engines) == 0:
-            self._logger.error('No engines found')
+            self._logger.warning('No engines found')
             return False
         if not attach_models:            
             self._world.reset_models()
