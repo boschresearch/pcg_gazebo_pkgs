@@ -14,7 +14,7 @@ install(PROGRAMS
     scripts/sdf2urdf
     scripts/urdf2sdf
     scripts/gazebo2tf
-    scripts/generate_world
+    scripts/generate_pcg_world
     scripts/spawn_sdf_model
     scripts/run_model_factory
     scripts/generate_occupancy_map
@@ -33,6 +33,6 @@ if (CATKIN_ENABLE_TESTING)
   find_package(roslaunch REQUIRED)
   roslaunch_add_file_check(launch/gazebo2tf.launch)
   roslaunch_add_file_check(launch/generate_model_description.launch)
-  roslaunch_add_file_check(launch/generate_world.launch)
+  roslaunch_add_file_check(launch/generate_pcg_world.launch)
 #   roslaunch_add_file_check(launch/start_generated_gazebo_world.launch)
 endif()

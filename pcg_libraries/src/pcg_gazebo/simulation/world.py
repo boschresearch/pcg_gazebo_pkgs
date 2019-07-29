@@ -106,7 +106,7 @@ class World(object):
         """`dict`: Models"""
         return self._models
 
-    def reset_physics(self, engine='ode'):
+    def reset_physics(self, engine='ode', *args, **kwargs):
         """Reset the physics engine to its default configuration.
         
         > *Input arguments*
@@ -115,13 +115,13 @@ class World(object):
         of the physics engine, options are `ode`, `bullet` or `simbody`.
         """
         if engine == 'ode':
-            self._physics = ODE()
+            self._physics = ODE(*args, **kwargs)
         elif engine == 'bullet':
-            self._physics = Bullet()
+            self._physics = Bullet(*args, **kwargs)
         elif engine == 'simbody':
-            self._physics = Simbody()
+            self._physics = Simbody(*args, **kwargs)
         else:
-            raise AssertionError('Invalid physics engine')
+            raise ValueError('Invalid physics engine, received={}'.format(engine))
 
     def reset_models(self):
         """Reset the list of models."""

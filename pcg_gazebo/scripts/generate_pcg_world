@@ -32,6 +32,28 @@ import sys
 from pcg_gazebo.generators import WorldGenerator
 from pcg_gazebo.visualization import plot_footprints
 from std_msgs.msg import String
+from pcg_gazebo.task_manager import Server
+
+# Add a run_simulation method to test the generated world
+def run_simulation(world_filename, ros_host='localhost', ros_port=11311, 
+                   gazebo_host='localhost', gazebo_port=11345, 
+                   anonymous=False, output_log_dir=None, physics='ode'):
+    name = 'gazebo_sim'
+    server = Server()  
+    print('create simulation=', name)  
+    server.create_simulation(name, ros_host, ros_port, gazebo_host, gazebo_port, anonymous, output_log_dir)
+        
+    simulation = server.get_simulation(name)
+    simulation.create_gazebo_task(
+        name='gazebo',
+        world=world_filename,
+        gui=True,
+        physics=physics,
+        paused=False,
+        required=True)
+    print('created gazebo task')
+    simulation.run_all_tasks()
+    print('running all tasks!')
 
 
 if __name__ == '__main__':
@@ -74,16 +96,31 @@ if __name__ == '__main__':
         '--with-ground-plane',
         action='store_true',
         help='Add default ground_plane model to world')
+    parser.add_argument(
+        '--run',
+        action='store_true',
+        help='Run Gazebo with the generated world')
+    parser.add_argument(
+        '--physics',
+        type=str,
+        default='ode',
+        help='Physics engine to start with Gazebo')
 
+    rospy.init_node('generate_pcg_world', anonymous=True)
     args = parser.parse_args(rospy.myargv()[1::])
     
-    assert os.path.isfile(args.config_file), 'Invalid input file, value={}'.format(args.config_file)
-    
-    # Obtain the file with the poses of the original world configuration
-    with open(args.config_file) as config_file:
-        world_config = yaml.load(config_file)
-
-    print('Parsing configuration file=', args.config_file)
+    if args.config_file:
+        assert os.path.isfile(args.config_file), 'Invalid input file, value={}'.format(args.config_file)
+        
+        # Obtain the file with the poses of the original world configuration
+        rospy.loginfo('Parsing configuration file={}'.format(args.config_file))
+        with open(args.config_file) as config_file:
+            world_config = yaml.load(config_file)
+    elif rospy.has_param('~world'):
+        world_config = rospy.get_param('~world')
+        rospy.loginfo('Reading world configuration from ROS parameters ~world')
+    else:
+        raise rospy.ROSException('Not input found for world configuration')
 
     # Create world generator
     world_generator = WorldGenerator()
@@ -102,8 +139,6 @@ if __name__ == '__main__':
             raise rospy.ROSInitException('ROS master is not running!')
             sys.exit(-1)
 
-        rospy.init_node('generate_world', anonymous=True)
-
         pub = rospy.Publisher(args.output_topic, String, queue_size=1)
         
         start_time = time()
@@ -111,6 +146,13 @@ if __name__ == '__main__':
             sleep(0.1)
 
         pub.publish(world_filename)
+
+    if args.run:
+        rospy.loginfo('Run Gazebo with world generated in file: {}'.format(
+            world_filename))
+        run_simulation(
+            world_filename,
+            physics=args.physics)
 
     if args.plot:
         assert args.plot_width > 0 and args.plot_height > 0, \

@@ -6,8 +6,8 @@
     
     <group if="$(arg plot_footprints)">
         <node pkg="pcg_gazebo" 
-            type="generate_world" 
-            name="$(anon generate_world)"
+            type="generate_pcg_world" 
+            name="$(anon generate_pcg_world)"
             output="screen"
             args="--config-file $(arg world_config_file)
                 --output-world-file $(arg output_world_file)
@@ -18,8 +18,8 @@
 
     <group unless="$(arg plot_footprints)">
         <node pkg="pcg_gazebo" 
-            type="generate_world" 
-            name="$(anon generate_world)"
+            type="generate_pcg_world" 
+            name="$(anon generate_pcg_world)"
             output="screen"
             args="--config-file $(arg world_config_file)
                 --output-world-file $(arg output_world_file)
