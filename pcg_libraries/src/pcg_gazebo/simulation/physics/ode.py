@@ -39,12 +39,16 @@ class ODE(Physics):
         assert min_step_size > 0
         assert iters > 0
         assert sor > 0
-        assert type in self._SOLVER_TYPES
+        assert type in self._SOLVER_TYPES, \
+            'Invalid solver type, options are {}, received={}'.format(
+                self._SOLVER_TYPES, type)
         assert precon_iters >= 0
         assert isinstance(use_dynamic_moi_rescaling, bool)
-        assert friction_model in self._FRICTION_MODELS
-        assert cfm >= 0
-        assert erp >= 0
+        assert friction_model in self._FRICTION_MODELS, \
+            'Invalid friction model, options are {}, received={}'.format(
+                self._FRICTION_MODELS, friction_model)
+        assert cfm >= 0, 'cfm must be equal or greater than zero'
+        assert erp >= 0, 'erp must be equal or greater than zero'
         assert contact_surface_layer > 0
         assert contact_max_correcting_vel > 0
 
