@@ -6,7 +6,7 @@
     <arg name="plot_footprints" default="false" doc="True to output the model footprints as a bokeh plot" />
 
     <group if="$(arg generate_world)">
-        <include file="$(find pcg_gazebo)/launch/generate_world.launch">
+        <include file="$(find pcg_gazebo)/launch/generate_pcg_world.launch">
             <arg name="world_config_file" value="$(arg world_config_file)" />
             <arg name="output_world_file" value="$(arg output_world_file)"/>
             <arg name="output_topic" value="$(arg output_topic)"/>
