@@ -54,7 +54,7 @@ def _find_ros_package(pkg_name):
 def _pretty_print_xml(xml):
     import lxml.etree as etree
     root = etree.fromstring(xml)
-    return etree.tostring(root, pretty_print=True).decode('utf-8')
+    return etree.tostring(root, pretty_print=True, encoding='utf-8').decode('utf-8')
 
 
 def _parse_package_paths(xml):
@@ -106,7 +106,9 @@ def process_template(template, parameters=None, include_dir=None):
             ' template text content or filename to the template')
         return None
     
+    PCG_ROOT_LOGGER.info('Input template: {}'.format(template))
     if os.path.isfile(template):
+        PCG_ROOT_LOGGER.info('Input template is a file, {}'.format(template))
         templates_dir = os.path.dirname(template)
         base_loader = FileSystemLoader(templates_dir)
     else:
