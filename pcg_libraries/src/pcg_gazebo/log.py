@@ -24,7 +24,8 @@ PCG_LOG_DIR_ROOT = '/tmp/pcg/logs'
 
 PCG_LOG_DIR = os.path.join(
     PCG_LOG_DIR_ROOT,
-    datetime.datetime.now().isoformat().replace(':', '_') + '_{}'.format(''.join(random.choice(string.ascii_letters) for i in range(3))))
+    datetime.datetime.now().isoformat().replace(':', '_') + '_{}'.format(
+        ''.join(random.choice(string.ascii_letters) for i in range(3))))
 
 
 def update_log_dir(add_timestamp=True):
@@ -32,7 +33,8 @@ def update_log_dir(add_timestamp=True):
     if add_timestamp:
         PCG_LOG_DIR = os.path.join(
             PCG_LOG_DIR_ROOT,
-            datetime.datetime.now().isoformat().replace(':', '_') + '_{}'.format(''.join(random.choice(string.ascii_letters) for i in range(3))))
+            datetime.datetime.now().isoformat().replace(':', '_') + '_{}'.format(
+                ''.join(random.choice(string.ascii_letters) for i in range(3))))
     else:
         PCG_LOG_DIR = PCG_LOG_DIR_ROOT
 
