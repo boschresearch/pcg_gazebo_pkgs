@@ -35,3 +35,4 @@ from . import generators
 from . import simulation
 from . import parsers
 from . import task_manager
+from .path import Path
