@@ -24,7 +24,7 @@ from shapely.geometry import Polygon, MultiPolygon, LineString, \
 from shapely.ops import cascaded_union, unary_union, triangulate, polygonize
 from ...log import PCG_ROOT_LOGGER
 from ...parsers.sdf import create_sdf_element
-from .footprint import Footprint
+from ...path import Path
 
 # Disabling trimesh's logging messages
 logger = logging.getLogger('trimesh')
@@ -32,10 +32,13 @@ logger.disabled = True
 
 class Mesh(object):
     def __init__(self, filename=None, load_mesh=False):
+        self._uri = None
+        self._filename = None
         if filename is not None:
             assert isinstance(filename, str), 'Input filename is not a string'
             PCG_ROOT_LOGGER.info('Mesh created from file={}'.format(filename))
-        self._filename = filename
+            self._uri = Path(filename)
+            self._filename = self._uri.absolute_uri
         self._mesh = None
         self._bounds = None
         self._center = None
@@ -90,12 +93,13 @@ class Mesh(object):
 
     @property
     def filename(self):
-        return self._filename
+        return self._uri.absolute_uri
 
     @filename.setter
     def filename(self, value):
         assert isinstance(value, str), 'Input filename is not a string'
-        self._filename = value
+        self._uri = Path(value)
+        self._filename = self._uri.absolute_uri
 
     @property
     def mesh(self):
@@ -273,17 +277,20 @@ class Mesh(object):
             try:
                 entity = trimesh.load_mesh(self._filename)
                 if isinstance(entity, trimesh.Scene):
-                    self._mesh = trimesh.boolean.union(list(entity.dump()))
+                    meshes = list(entity.dump())
+                    PCG_ROOT_LOGGER.info('# meshes={}, filename={}'.format(
+                        len(meshes), self._filename))
+                    if len(meshes) == 1:
+                        self._mesh = meshes[0]
+                    else:
+                        self._mesh = trimesh.boolean.union(list(entity.dump()))
                 else:
                     self._mesh = entity
-                self._mesh.fill_holes()
-                self._mesh.fix_normals()
 
                 PCG_ROOT_LOGGER.info(
                     'Mesh successfully loaded from file, '
                     'filename={}, # vertices={}'.format(
-                        self._filename, self._mesh.vertices.shape[0]))
-                
+                        self._filename, self._mesh.vertices.shape[0]))                
             except ValueError as ex:
                 self._mesh = None
                 PCG_ROOT_LOGGER.error(
@@ -331,7 +338,7 @@ class Mesh(object):
 
             self._bounds['lower_z'] = bounds[0, 2]
             self._bounds['upper_z'] = bounds[1, 2]
-        return bounds
+        return self._bounds
     
     def get_footprint_polygon(self, z_limits=None, use_global_frame=False, origin=None,
         plane_normal=[0, 0, 1], transform=None, offset=[0, 0, 0], use_bounding_box=False):
@@ -634,13 +641,31 @@ class Mesh(object):
 
         return ax
 
-    def to_sdf(self):
+    def to_sdf(self, uri_type=None):
         assert self.filename is not None, \
             'Mesh has not filename to fill the SDF element'
-        mesh = create_sdf_element('mesh')
-        mesh.uri = 'file://' + self.filename
+        mesh = create_sdf_element('mesh')        
+
+        if uri_type is None:
+            if self._uri.model_uri is not None:
+                mesh.uri = self._uri.model_uri
+            elif self._uri.package_uri is not None:
+                mesh.uri = self._uri.package_uri
+            elif self._uri.file_uri is not None:
+                mesh.uri = self._uri.file_uri
+        else:
+            if uri_type == 'file':
+                mesh.uri = self._uri.file_uri
+            elif uri_type == 'model':
+                mesh.uri = self._uri.model_uri
+            elif uri_type == 'package':
+                mesh.uri = self._uri.package_uri
+            else:
+                msg = 'Invalid type of URI for SDF export'
+                PCG_ROOT_LOGGER.error(msg)
+                raise ValueError(msg)        
         mesh.scale = self._scale
-        return mesh
+        return mesh    
 
     def export_mesh(self, filename, folder='.', format='stl'):
         if not self.load_mesh():

@@ -115,11 +115,15 @@ def load_gazebo_models():
     GAZEBO_MODELS = dict()
 
     # Load all models from catkin packages
-    for ros_path in finder.get_ros_paths():        
+    for ros_pkg in finder.list():        
+        ros_path = finder.get_path(ros_pkg)
         for folder in os.listdir(ros_path):
             if not os.path.isdir(os.path.join(ros_path, folder)):
                 continue
-            GAZEBO_MODELS.update(get_gazebo_model_folders(os.path.join(ros_path, folder)))
+            models = get_gazebo_model_folders(os.path.join(ros_path, folder))
+            for tag in models:
+                models[tag]['ros_pkg'] = ros_pkg
+            GAZEBO_MODELS.update(models)
 
     # Load all models from ~/.gazebo/models
     home_folder = os.path.expanduser('~')
@@ -142,6 +146,18 @@ def get_gazebo_model_names():
     is the local `.gazebo/models` folders and catkin workspace.
     """
     return GAZEBO_MODELS.keys()
+
+
+def get_gazebo_model_ros_pkg(name):
+    """Return name of the ROS package where the Gazebo model is
+    located, None if it was found in .gazebo/models.
+    """
+    if not is_gazebo_model(name):
+        raise ValueError('{} is not a Gazebo model'.format(name))
+    if 'ros_pkg' in GAZEBO_MODELS[name]:
+        return GAZEBO_MODELS[name]['ros_pkg']
+    else:
+        return None
 
 
 def is_gazebo_model(name):

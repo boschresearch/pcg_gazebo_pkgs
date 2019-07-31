@@ -29,6 +29,7 @@ python -m pydocmd simple \
     pcg_gazebo.log++ \
     pcg_gazebo.transformations++ \
     pcg_gazebo.visualization++ \
+    pcg_gazebo.path.Path++ \
     > $ROOT_DIR/pcg_gazebo.md
 
 python -m pydocmd simple \

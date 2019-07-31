@@ -1,7 +1,0 @@
-<launch>
-    <test test-name="test_jinja_sdf_file_generation"
-        pkg="pcg_libraries"
-        type="test_jinja_sdf_file_generation.py"
-        name="test_jinja_sdf_file_generation">
-    </test>
-</launch>
