@@ -73,7 +73,7 @@ class TestResolvePaths(unittest.TestCase):
         self.assertEqual(p.original_uri, original_uri)
         self.assertEqual(p.absolute_uri, absolute_uri)
         self.assertEqual(p.file_uri, original_uri)
-        self.assertIsNone(p.ros_package)
+        self.assertEqual(p.ros_package, 'pcg_libraries')
         self.assertIsNone(p.gazebo_model)
 
     def test_ros_package_uri(self):
