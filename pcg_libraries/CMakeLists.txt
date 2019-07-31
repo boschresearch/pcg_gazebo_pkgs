@@ -26,15 +26,6 @@ catkin_install_python(PROGRAMS scripts/get_list_of_joints
 if(CATKIN_ENABLE_TESTING)
     find_package(rostest REQUIRED)
     find_package(rosunit REQUIRED)
-    foreach(T
-        test/test_jinja_sdf_file_generation.test
-        test/test_sdf_parser.test
-        test/test_simulation_objects.test
-        test/test_urdf_parser.test
-
-        )
-        add_rostest(${T})
-    endforeach()
 
     foreach(T
         test/test_inertia.py                    
@@ -45,7 +36,7 @@ if(CATKIN_ENABLE_TESTING)
         test/test_pose.py           
         test/test_simulation_object_properties.py  
         test/test_urdf_parser.py
-        
+        test/test_resolve_paths.py
         )
         catkin_add_nosetests(${T})
     endforeach()
