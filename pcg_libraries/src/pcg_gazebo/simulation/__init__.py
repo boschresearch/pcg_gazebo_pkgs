@@ -26,6 +26,7 @@ from .box import Box
 from .cylinder import Cylinder
 from .joint import Joint
 from .light import Light
+from .model_group import ModelGroup
 from .model import SimulationModel
 from .link import Link
 from .plane import Plane
