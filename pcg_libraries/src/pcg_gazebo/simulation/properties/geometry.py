@@ -290,76 +290,15 @@ class Geometry(object):
         self._mesh = Mesh.create_box(
             size=size + [0.001])
 
-    def set_mesh(self, uri, scale=[1, 1, 1], load_mesh=True):
-        self._mesh_resource = uri          
-        if os.path.isfile(uri):
-            filename = uri
-        elif 'file://' in uri:
-            filename = uri.replace('file://', '')
-            if not os.path.isfile(filename):
-                raise FileNotFoundError('File {} does not exist'.format(filename))
-        elif 'model://' in uri:
-            from .. import get_gazebo_model_path
-            self._mesh_pkg_name = uri.replace('model://', '').split('/')[0]
-            pkg_path = get_gazebo_model_path(self._mesh_pkg_name)            
-            if pkg_path is None:
-                msg = 'Invalid package path for mesh filename {}'.format(self._mesh_pkg_name)
-                PCG_ROOT_LOGGER.error(msg)
-                raise ValueError(pkg_path)
-            filename = uri.replace('model://{}'.format(self._mesh_pkg_name), pkg_path)
-        elif 'package://' in uri:            
-            result = re.findall('package://\w+/', uri)
-            if len(result) != 1:
-                msg = 'Invalid package path for provided mesh uri {}'.format(uri)
-                PCG_ROOT_LOGGER.error(msg)
-                raise ValueError(msg)
-            
-            pkg_name = result[0].replace('package://', '').replace('/', '')
-            try:
-                pkg_path = rospkg.RosPack().get_path(pkg_name)
-            except rospkg.ResourceNotFound as ex:
-                msg = 'Error finding package {}, message={}'.format(pkg_name, ex)
-                PCG_ROOT_LOGGER.error(msg)
-                raise ValueError(msg)
-
-            filename = uri.replace(result[0], pkg_path + '/')
-            self._mesh_resource = 'file://' + filename    
-        elif '$(find' in uri:
-            uri = uri.replace('$', '')
-            result = re.findall('(find \w+)', uri)
-            if len(result) == 0:
-                msg = 'Invalid package path for provided mesh uri {}'.format(uri)
-                PCG_ROOT_LOGGER.error(msg)
-                raise ValueError(msg)
-
-            pkg_name = result[0].split()[1]
-
-            try:
-                pkg_path = rospkg.RosPack().get_path(pkg_name)
-            except rospkg.ResourceNotFound as ex:
-                msg = 'Error finding package {}, message={}'.format(pkg_name, ex)
-                PCG_ROOT_LOGGER.error(msg)
-                raise ValueError(msg)
-            
-            filename = uri.replace('(find {})/'.format(pkg_name), pkg_path)
-            self._mesh_resource = 'file://' + filename                
-        else:
-            msg = 'Invalid URI format, uri={}'.format(uri)
-            PCG_ROOT_LOGGER.error(msg)
-            raise ValueError(msg)
-        
-        self._sdf = None   
-        self._mesh = Mesh(filename, load_mesh)        
+    def set_mesh(self, uri, scale=[1, 1, 1], load_mesh=True):      
+        self._mesh = Mesh(uri, load_mesh)        
+        self._sdf = self._mesh.to_sdf()   
         self._mesh.scale = scale
 
     def to_sdf(self):
         sdf = create_sdf_element('geometry')
         if self._sdf is not None:
             setattr(sdf, self._sdf._NAME, self._sdf)                        
-        elif self._mesh is not None:            
-            setattr(sdf, 'mesh', self._mesh.to_sdf())
-            if self._mesh_resource is not None:
-                sdf.mesh.uri = self._mesh_resource
         else:
             sdf = None
         
