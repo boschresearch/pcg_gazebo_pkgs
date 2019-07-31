@@ -18,8 +18,7 @@ import datetime
 import collections
 from time import sleep, time
 from .. import visualization
-from ..task_manager import GazeboProxy
-from ..task_manager import is_gazebo_running
+from ..task_manager import GazeboProxy, is_gazebo_running
 from ..parsers.sdf import create_sdf_element, is_sdf_element
 from ..simulation import SimulationModel, Light, World
 from ..simulation.physics import ODE, Simbody, Bullet
