@@ -32,11 +32,13 @@ logger.disabled = True
 
 class Mesh(object):
     def __init__(self, filename=None, load_mesh=False):
+        self._uri = None
+        self._filename = None
         if filename is not None:
             assert isinstance(filename, str), 'Input filename is not a string'
             PCG_ROOT_LOGGER.info('Mesh created from file={}'.format(filename))
-        self._uri = Path(filename)
-        self._filename = self._uri.absolute_uri
+            self._uri = Path(filename)
+            self._filename = self._uri.absolute_uri
         self._mesh = None
         self._bounds = None
         self._center = None
