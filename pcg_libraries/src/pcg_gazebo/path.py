@@ -17,18 +17,16 @@ import re
 import sys
 import rospkg
 from .log import PCG_ROOT_LOGGER
-from .simulation import get_gazebo_model_path, \
-    get_gazebo_model_ros_pkg
 
 
 class Path(object):
     def __init__(self, uri):
-        if sys.version_info[2]:
+        if sys.version_info[0] == 2:
             assert isinstance(uri, str) or isinstance(uri, unicode), \
                 'Input URI must be a string or unicode'
         else:
             assert isinstance(uri, str), 'Input URI must be a string'
-            
+
         self._original_uri = uri
         self._gazebo_model = None
         self._ros_pkg = None
@@ -73,6 +71,7 @@ class Path(object):
 
     @property
     def model_uri(self):
+        from .simulation import get_gazebo_model_path
         if self._gazebo_model is None:
             return None
         model_path = get_gazebo_model_path(self._gazebo_model)
@@ -94,12 +93,23 @@ class Path(object):
             prefix += '/'
         return prefix + relative_path
 
+    def _get_ros_package_name(self, filename):
+        finder = rospkg.RosPack()
+        if os.path.isfile(filename):
+            for pkg_name in finder.list():
+                if finder.get_path(pkg_name) in filename:
+                    return pkg_name 
+        return None            
+
     def resolve_uri(self, uri):
+        from .simulation import get_gazebo_model_path, \
+            get_gazebo_model_ros_pkg
         if os.path.isfile(uri):
             return uri
         elif 'file://' in uri:
             filename = uri.replace('file://', '')
             if os.path.isfile(filename):
+                self._ros_pkg = self._get_ros_package_name(filename)
                 return filename
             else:
                 msg = 'File {} does not exist'.format(filename)
@@ -113,7 +123,9 @@ class Path(object):
                 PCG_ROOT_LOGGER.error(msg)
                 raise ValueError(msg)
             self._ros_pkg = get_gazebo_model_ros_pkg(self._gazebo_model)
-            return uri.replace('model://{}'.format(self._gazebo_model), model_path)
+            filename = uri.replace('model://{}'.format(self._gazebo_model), model_path)
+            self._ros_pkg = self._get_ros_package_name(filename)
+            return filename
         elif 'package://' in uri:
             result = re.findall('package://\w+/', uri)
             if len(result) != 1:
