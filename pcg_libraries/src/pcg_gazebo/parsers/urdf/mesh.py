@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+import sys
 from ..types import XMLBase
 
 
@@ -34,8 +34,12 @@ class Mesh(XMLBase):
 
     @filename.setter
     def filename(self, value):
-        assert isinstance(value, str) or isinstance(value, unicode), \
-            'Filename must be a string or unicode'
+        if sys.version_info[0] == 2:
+            assert isinstance(value, str) or isinstance(value, unicode), \
+                'Filename must be a string or unicode'
+        else:
+            assert isinstance(value, str), \
+                'Filename must be a string'
         self.attributes['filename'] = value
 
     def to_sdf(self):
