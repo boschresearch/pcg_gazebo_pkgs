@@ -273,17 +273,20 @@ class Mesh(object):
             try:
                 entity = trimesh.load_mesh(self._filename)
                 if isinstance(entity, trimesh.Scene):
-                    self._mesh = trimesh.boolean.union(list(entity.dump()))
+                    meshes = list(entity.dump())
+                    PCG_ROOT_LOGGER.info('# meshes={}, filename={}'.format(
+                        len(meshes), self._filename))
+                    if len(meshes) == 1:
+                        self._mesh = meshes[0]
+                    else:
+                        self._mesh = trimesh.boolean.union(list(entity.dump()))
                 else:
                     self._mesh = entity
-                self._mesh.fill_holes()
-                self._mesh.fix_normals()
 
                 PCG_ROOT_LOGGER.info(
                     'Mesh successfully loaded from file, '
                     'filename={}, # vertices={}'.format(
-                        self._filename, self._mesh.vertices.shape[0]))
-                
+                        self._filename, self._mesh.vertices.shape[0]))                
             except ValueError as ex:
                 self._mesh = None
                 PCG_ROOT_LOGGER.error(
@@ -331,7 +334,7 @@ class Mesh(object):
 
             self._bounds['lower_z'] = bounds[0, 2]
             self._bounds['upper_z'] = bounds[1, 2]
-        return bounds
+        return self._bounds
     
     def get_footprint_polygon(self, z_limits=None, use_global_frame=False, origin=None,
         plane_normal=[0, 0, 1], transform=None, offset=[0, 0, 0], use_bounding_box=False):
