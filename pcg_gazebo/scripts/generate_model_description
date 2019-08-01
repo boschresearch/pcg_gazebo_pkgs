@@ -47,10 +47,12 @@ import yaml
 import rospkg
 from time import time, sleep
 from std_msgs.msg import String
-from std_srvs.srv import Trigger
-from pcg_gazebo.task_manager import GazeboProxy
+from std_srvs.srv import Trigger, Empty
+from gazebo_msgs.srv import SpawnModel
+from geometry_msgs.msg import Pose
 from pcg_gazebo.parsers import parse_sdf, parse_urdf, process_template, \
     sdf2urdf, urdf2sdf
+from pcg_gazebo.simulation.properties import Pose as PosePCG
 
 
 if __name__ == '__main__':
@@ -84,6 +86,8 @@ if __name__ == '__main__':
         help='Service to be used to trigger the spawning of the SDF model')
     parser.add_argument(
         '--spawn', action='store_true')
+    parser.add_argument(
+        '--unpause', action='store_true')
     parser.add_argument(
         '--robot-namespace', type=str, default='robot', help='')
     parser.add_argument(
@@ -185,13 +189,41 @@ if __name__ == '__main__':
 
     if args.sdf and args.spawn:
         rospy.loginfo('Spawning the SDF model to Gazebo')
-        gazebo_proxy = GazeboProxy()
 
-        success = gazebo_proxy.spawn_sdf_model(
+        # Connect to service
+        srv_name = '/gazebo/spawn_sdf_model'
+        rospy.wait_for_service(srv_name, timeout=60)
+        spawn_fcn = rospy.ServiceProxy(srv_name, SpawnModel)
+
+        pose = Pose()
+        pose.position.x = args.x
+        pose.position.y = args.y
+        pose.position.z = args.z
+
+        rot = PosePCG.rpy2quat(args.roll, args.pitch, args.yaw)
+
+        pose.orientation.x = rot[0]
+        pose.orientation.y = rot[1]
+        pose.orientation.z = rot[2]
+        pose.orientation.w = rot[3]
+        
+        result = spawn_fcn(
             args.robot_namespace,
             sdf.to_xml_as_str(),
-            [args.x, args.y, args.z],
-            [args.roll, args.pitch, args.yaw])
+            args.robot_namespace,
+            pose,
+            'world')
+        if result.success:
+            rospy.loginfo('Robot was spawned, namespace={}'.format(args.robot_namespace))
+        else:
+            rospy.logerr('Error spawning robot, message={}'.format(result.message))
+
+        if args.unpause:
+            rospy.loginfo('Unpausing simulation...')
+            rospy.wait_for_service('/gazebo/unpause_physics', 10)
+            unpause = rospy.ServiceProxy('/gazebo/unpause_physics', Empty)
+            unpause()
+            rospy.loginfo('Simulation unpaused')
 
     if args.output_topic:      
         rospy.loginfo('Output topic: ' + args.output_topic)
