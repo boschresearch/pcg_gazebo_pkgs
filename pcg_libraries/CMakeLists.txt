@@ -34,9 +34,10 @@ if(CATKIN_ENABLE_TESTING)
         test/test_simulation_objects.py
         test/test_jinja_sdf_file_generation.py  
         test/test_pose.py           
-        test/test_simulation_object_properties.py  
+        test/test_mesh_property.py  
         test/test_urdf_parser.py
         test/test_resolve_paths.py
+        test/test_model_group.py
         )
         catkin_add_nosetests(${T})
     endforeach()
