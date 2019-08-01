@@ -12,6 +12,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import collections
+from copy import deepcopy
 from .properties import Pose
 from .model import SimulationModel
 from ..log import PCG_ROOT_LOGGER
@@ -19,9 +21,13 @@ from ..log import PCG_ROOT_LOGGER
 
 class ModelGroup(object):
     def __init__(self, name='group', pose=[0, 0, 0, 0, 0, 0]):
-        self._name = name
-        self._pose = Pose(pose)
+        self._name = ''
+        self._pose = Pose()    
         self._models = dict()
+
+        # Set model group input parameters
+        self.name = name
+        self.pose = pose
 
     @property
     def name(self):
@@ -67,6 +73,11 @@ class ModelGroup(object):
         """`dict`: Models"""
         return self._models
 
+    @property
+    def n_models(self):
+        """`int`: Number of models"""
+        return len(self._models)
+
     def reset_models(self):
         """Reset the list of models."""
         self._models = dict()
@@ -87,6 +98,8 @@ class ModelGroup(object):
         
         `bool`: `True`, if model could be added to the world.
         """
+        assert isinstance(model, SimulationModel), \
+            'Input model is not of type SimulationModel'
         if self.model_exists(tag):
             # Add counter suffix to add models with same name
             i = 0
@@ -195,16 +208,16 @@ class ModelGroup(object):
         bounds = None
         for mesh in meshes:
             if bounds is None:
-                bounds = mesh.bounds
+                bounds = deepcopy(mesh.bounds)
             else:
-                cur_bounds = mesh.bounds
+                cur_bounds = deepcopy(mesh.bounds)
                 for i in range(3):
                     bounds[0, i] = min(bounds[0, i], cur_bounds[0, i])
                 for i in range(3):
                     bounds[1, i] = max(bounds[1, i], cur_bounds[1, i])
         return bounds
 
-     def create_scene(self, mesh_type='collision', add_pseudo_color=True):
+    def create_scene(self, mesh_type='collision', add_pseudo_color=True):
         from ..visualization import create_scene
         return create_scene(self._models.values(), mesh_type, add_pseudo_color)   
 

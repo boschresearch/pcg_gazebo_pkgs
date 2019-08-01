@@ -12,8 +12,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 from __future__ import print_function
+from copy import deepcopy
 from .properties import Pose, Inertial, Footprint, Plugin
 from .link import Link
 from .joint import Joint
@@ -1117,9 +1117,9 @@ class SimulationModel(object):
         bounds = None
         for mesh in meshes:
             if bounds is None:
-                bounds = mesh.bounds
+                bounds = deepcopy(mesh.bounds)
             else:
-                cur_bounds = mesh.bounds
+                cur_bounds = deepcopy(mesh.bounds)
                 for i in range(3):
                     bounds[0, i] = min(bounds[0, i], cur_bounds[0, i])
                 for i in range(3):
