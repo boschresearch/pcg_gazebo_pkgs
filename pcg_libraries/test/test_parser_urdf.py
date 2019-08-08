@@ -400,6 +400,7 @@ class TestURDFParser(unittest.TestCase):
         self.assertEqual(len(sensor.plugins), 1, 'There should be one plugin for sensor')
 
         plugin = sensor.plugins[0]
+        print(plugin)
         self.assertEqual(
             plugin.name, 
             'some_imu_plugin', 
