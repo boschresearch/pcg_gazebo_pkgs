@@ -36,12 +36,7 @@ def parse_sdf(input_xml):
     
     `pcg_gazebo.parsers.types.XMLBase` object.
     """
-    try:    
-        sdf = parse_xml(input_xml, type='sdf')
-    except Exception as ex:
-        PCG_ROOT_LOGGER.error('Error found while parsing from SDF={}'.format(input_xml))
-        PCG_ROOT_LOGGER.error('Message={}'.format(ex))
-        sdf = None
+    sdf = parse_xml(input_xml, type='sdf')
     return sdf
 
 def parse_urdf(input_xml):
@@ -57,12 +52,7 @@ def parse_urdf(input_xml):
     
     `pcg_gazebo.parsers.types.XMLBase` object.
     """
-    try:
-        urdf = parse_xml(input_xml, type='urdf')
-    except Exception as ex:
-        PCG_ROOT_LOGGER.error('Error found while parsing from URDF={}'.format(input_xml))
-        PCG_ROOT_LOGGER.error('Message={}'.format(ex))
-        urdf = None
+    urdf = parse_xml(input_xml, type='urdf')
     return urdf
 
 
@@ -79,12 +69,7 @@ def parse_sdf_config(input_xml):
     
     `pcg_gazebo.parsers.types.XMLBase` object.
     """
-    try:
-        sdf_config = parse_xml(input_xml, type='sdf_config')
-    except Exception as ex:
-        PCG_ROOT_LOGGER.error('Error found while parsing from SDF configuration={}'.format(input_xml))
-        PCG_ROOT_LOGGER.error('Message={}'.format(ex))
-        sdf_config = None
+    sdf_config = parse_xml(input_xml, type='sdf_config')
     return sdf_config
     
 
@@ -168,7 +153,7 @@ def parse_xml_dict(xml_dict, type='sdf'):
     from .sdf_config import create_sdf_config_element
 
     data = convert_to_dict(xml_dict)
-    
+        
     name = list(xml_dict.keys())[0]
     if type == 'sdf':
         obj = create_sdf_element(name)
@@ -179,9 +164,37 @@ def parse_xml_dict(xml_dict, type='sdf'):
     else:
         raise TypeError('File type {} is invalid'.format(type))
     assert obj is not None, 'Element {} does not exist'.format(name)
-    obj.from_dict(data[name])
+        
+    obj.from_dict(data[name])        
+    print(obj)
     return obj
 
+def convert_custom(xml_dict):
+    import collections
+    
+    if isinstance(xml_dict, list):
+        output = list()
+        for elem in xml_dict:
+            output.append(convert_custom(elem))
+    else:
+        tags = list(xml_dict.keys())
+        output = dict()
+        for tag in tags:
+            if '@' in tag:
+                if 'attributes' not in output:
+                    output['attributes'] = dict()
+                output['attributes'][tag.replace('@', '')] = convert_from_string(xml_dict[tag])                        
+            elif '#' in tag:
+                if 'value' not in output:
+                    output['value'] = dict()
+                output['value'] = convert_from_string(xml_dict[tag])
+            elif isinstance(xml_dict[tag], dict) or \
+                isinstance(xml_dict[tag], collections.OrderedDict):
+                print(tag, xml_dict[tag])
+                output[tag] = convert_custom(xml_dict[tag])
+            else:
+                output[tag] = convert_from_string(xml_dict[tag])
+    return output 
 
 def convert_to_dict(xml_dict):
     """Convert the `xmltodict` output into a dictionary that can be
@@ -197,12 +210,16 @@ def convert_to_dict(xml_dict):
     `dict`: Formatted XML dictionary.
     """
     import collections
+    custom_elements = ['plugin']
+
     tags = list(xml_dict.keys())
 
     output = dict()
 
     for tag in tags:
-        if '@' in tag:
+        if tag in custom_elements:
+            output[tag] = convert_custom(xml_dict[tag])
+        elif '@' in tag:
             if 'attributes' not in output:
                 output['attributes'] = dict()
             output['attributes'][tag.replace('@', '')] = convert_from_string(xml_dict[tag])                        
@@ -221,36 +238,10 @@ def convert_to_dict(xml_dict):
                     output[tag].append(convert_to_dict(subelem_dict[tag]))
                 else:
                     output[tag].append(convert_from_string(subelem_dict[tag]))             
-        elif isinstance(xml_dict[tag], dict):            
-            for t in xml_dict[tag]:
-                if tag not in output:
-                    output[tag] = dict()
-                if isinstance(xml_dict[tag][t], list):
-                    if t not in output[tag]:
-                        output[tag][t] = dict()
-                    output[tag][t] = list()
-                    for elem in xml_dict[tag][t]:
-                        subelem_dict = dict()
-                        subelem_dict[t] = elem
-                        output[tag][t].append(convert_to_dict(subelem_dict[t]))
-                elif '@' in t:
-                    if 'attributes' not in output[tag]:
-                        output[tag]['attributes'] = dict()
-                    output[tag]['attributes'][t.replace('@', '')] = convert_from_string(xml_dict[tag][t])            
-                elif '#' in t:
-                    if 'value' not in output[tag]:
-                        output[tag]['value'] = dict()
-                    output[tag]['value'] = convert_from_string(xml_dict[tag][t])
-                elif isinstance(xml_dict[tag][t], dict):
-                    if t not in output[tag]:
-                        output[tag][t] = dict()
-                    output[tag][t] = convert_to_dict(xml_dict[tag][t])
-                else:
-                    if t not in output[tag]:
-                        output[tag][t] = dict()
-                    output[tag][t] = convert_from_string(xml_dict[tag][t])
+        elif isinstance(xml_dict[tag], dict):  
+            output[tag] = convert_to_dict(xml_dict[tag])                
         else:
-            output[tag] = convert_from_string(xml_dict[tag])
+            output[tag] = dict(value=convert_from_string(xml_dict[tag]))            
 
     return output
 
@@ -277,7 +268,7 @@ def convert_from_string(str_input_xml):
         value = int(str_input_xml)
     elif str_input_xml in ['true', 'false', 'True', 'False']:        
         value = True if str_input_xml in ['true', 'True'] else False
-    elif ' ' in str_input_xml:        
+    elif ' ' in str_input_xml:                
         # Check if this a string with whitespaces
         is_numeric = True 
         for c in str_input_xml.split():
