@@ -28,6 +28,7 @@ import numpy as np
 import rospkg
 from random import random, choice
 import string
+from pcg_gazebo.utils import generate_random_string
 from pcg_gazebo.simulation import load_gazebo_models, get_gazebo_model_sdf, \
     get_gazebo_model_names, get_gazebo_model_path, get_gazebo_model_sdf_filenames
 from pcg_gazebo.simulation import Box, Cylinder, Sphere, Joint, SimulationModel
@@ -43,10 +44,6 @@ INVALID_SIZES = [
     'a',
     ['a' for _ in range(3)]
 ]
-
-
-def generate_random_strings(size=5):
-    return ''.join(choice(string.ascii_lowercase + string.digits) for _ in range(size))
 
 
 class TestSimulationObjects(unittest.TestCase):
@@ -235,7 +232,7 @@ class TestSimulationObjects(unittest.TestCase):
                     tag, PARAMS[tag], collision.get_ode_friction_param(tag)))
 
         PARAMS = dict(
-            soft_cfm=None,
+            soft_cfm=0,
             soft_erp=None,
             kp=None,
             kd=None,
@@ -377,7 +374,7 @@ class TestSimulationObjects(unittest.TestCase):
                 LIST_TEST_MODELS[test_model]['sdf'],
                 'Invalid list of SDF files returned for model {}'.format(test_model))
 
-        INVALID_MODELS = [generate_random_strings(4) for _ in range(10)]
+        INVALID_MODELS = [generate_random_string(4) for _ in range(10)]
 
         for model_name in INVALID_MODELS:
             self.assertIsNone(get_gazebo_model_path(model_name), 
@@ -389,10 +386,10 @@ class TestSimulationObjects(unittest.TestCase):
     def test_joint(self):
         # Test assertion error at joint constructor with missing arguments
         joint_args = [
-            dict(name=None, parent=generate_random_strings(3), child=generate_random_strings(3)),
-            dict(name=generate_random_strings(3), parent=None, child=generate_random_strings(3)),
-            dict(name=generate_random_strings(3), parent=generate_random_strings(3), child=None),
-            dict(name=generate_random_strings(3), parent=generate_random_strings(3), child=generate_random_strings(3), joint_type='abc')
+            dict(name=None, parent=generate_random_string(3), child=generate_random_string(3)),
+            dict(name=generate_random_string(3), parent=None, child=generate_random_string(3)),
+            dict(name=generate_random_string(3), parent=generate_random_string(3), child=None),
+            dict(name=generate_random_string(3), parent=generate_random_string(3), child=generate_random_string(3), joint_type='abc')
         ]
         for item in joint_args:
             with self.assertRaises(AssertionError):
@@ -404,9 +401,9 @@ class TestSimulationObjects(unittest.TestCase):
 
         N_TESTS = 10
         valid_inputs = [dict(
-            name=generate_random_strings(3),
-            parent=generate_random_strings(3),
-            child=generate_random_strings(3),
+            name=generate_random_string(3),
+            parent=generate_random_string(3),
+            child=generate_random_string(3),
             joint_type=choice(joint_types)) for _ in range(N_TESTS)]
 
         for joint_input in valid_inputs:
@@ -426,9 +423,9 @@ class TestSimulationObjects(unittest.TestCase):
 
         # Testing parameter setting for fixed joints
         joint = Joint(
-            name=generate_random_strings(3), 
-            parent=generate_random_strings(3), 
-            child=generate_random_strings(3), 
+            name=generate_random_string(3), 
+            parent=generate_random_string(3), 
+            child=generate_random_string(3), 
             joint_type='fixed')
 
         self.assertFalse(joint.set_axis_xyz([0, 0, 1]), 
@@ -450,7 +447,7 @@ class TestSimulationObjects(unittest.TestCase):
 
         N_TESTS = 10
         valid_radius = [random() for _ in range(10)]
-        names = [generate_random_strings(5) for _ in range(N_TESTS)]
+        names = [generate_random_string(5) for _ in range(N_TESTS)]
 
         for s_radius, s_name in zip(valid_radius, names):
             sphere = Sphere(name=s_name, radius=s_radius)
@@ -472,7 +469,7 @@ class TestSimulationObjects(unittest.TestCase):
 
         for pos in valid_positions:
             sphere = Sphere()
-            sphere.pose = pos + [0 for _ in range(3)]
+            sphere.pose = pos + [0.0 for _ in range(3)]
 
             self.assertEqual(sphere.pose.position.tolist(), pos, 
                 'Sphere position should be {}, retrieved={}'.format(pos, sphere.pose.position))   
@@ -481,7 +478,7 @@ class TestSimulationObjects(unittest.TestCase):
         for t in sdf_types:
             sphere = Sphere()
             radius = random()
-            name = generate_random_strings(5)
+            name = generate_random_string(5)
             # Setting random size
             sphere.radius = radius            
             sphere.name = name
@@ -514,7 +511,7 @@ class TestSimulationObjects(unittest.TestCase):
 
         N_TESTS = 10
         valid_sizes = [[random(), random()] for _ in range(N_TESTS)]
-        names = [generate_random_strings(5) for _ in range(N_TESTS)]
+        names = [generate_random_string(5) for _ in range(N_TESTS)]
 
         for cyl_size, cyl_name in zip(valid_sizes, names):
             # Testing setting cylinder size on constructor
@@ -572,7 +569,7 @@ class TestSimulationObjects(unittest.TestCase):
         for t in sdf_types:
             cylinder = Cylinder()
             size = [random(), random()]
-            name = generate_random_strings(5)
+            name = generate_random_string(5)
             # Setting random size
             cylinder.radius = size[0]
             cylinder.length = size[1]
@@ -613,7 +610,7 @@ class TestSimulationObjects(unittest.TestCase):
         # Test setting different box sizes
         N_TESTS = 10
         valid_sizes = [[random() for _ in range(3)] for _ in range(N_TESTS)]
-        names = [generate_random_strings(5) for _ in range(N_TESTS)]
+        names = [generate_random_string(5) for _ in range(N_TESTS)]
 
         for box_size, box_name in zip(valid_sizes, names):
             # Test setting box size on constructor
@@ -676,7 +673,7 @@ class TestSimulationObjects(unittest.TestCase):
         for t in sdf_types:
             box = Box()
             size = [random() for _ in range(3)]
-            name = generate_random_strings(5)
+            name = generate_random_string(5)
             # Setting random size
             box.size = size
             box.name = name
