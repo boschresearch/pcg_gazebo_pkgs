@@ -92,13 +92,15 @@ class RandomPoseEngine(Engine):
 
     def __init__(self, callback_fcn_get_model=None, callback_fcn_get_constraint=None,
         is_ground_plane=False, models=None, max_num=None, no_collision=True, 
-        max_area=1, constraints=None, policies=None, model_picker='random'):        
+        max_area=1, constraints=None, policies=None, model_picker='random',
+        collision_checker=None):        
         Engine.__init__(
             self, 
             callback_fcn_get_model=callback_fcn_get_model,
             callback_fcn_get_constraint=callback_fcn_get_constraint,
             models=models, 
-            constraints=constraints)
+            constraints=constraints,
+            collision_checker=collision_checker)
             
         assert model_picker in self._MODEL_PICKER, 'Model picking method options are {}'.format(
             self._MODEL_PICKER)

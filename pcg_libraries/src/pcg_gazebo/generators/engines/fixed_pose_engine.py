@@ -12,10 +12,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import collections
 from .engine import Engine
-from copy import deepcopy
-from ...log import PCG_ROOT_LOGGER
+from ...simulation import Light
 
 
 class FixedPoseEngine(Engine):
@@ -38,13 +36,14 @@ class FixedPoseEngine(Engine):
     _LABEL = 'fixed_pose'
 
     def __init__(self, callback_fcn_get_model, callback_fcn_get_constraint=None,
-        models=None, poses=None, constraints=None):                
+        models=None, poses=None, constraints=None, collision_checker=None):                
         Engine.__init__(
             self, 
             callback_fcn_get_model=callback_fcn_get_model,
             callback_fcn_get_constraint=callback_fcn_get_constraint,
             models=models,
-            constraints=constraints)      
+            constraints=constraints,
+            collision_checker=collision_checker)      
 
         if models is not None:
             assert len(models) == 1, 'The fixed pose engine can use only one model'
@@ -90,7 +89,7 @@ class FixedPoseEngine(Engine):
         > *Returns*
         
         List of `pcg_gazebo.simulation.SimulationModel`: Model instances.
-        """
+        """        
         if len(self.models) == 0:
             self._logger.error('No model was provided for fixed pose engine')
             return None
@@ -111,8 +110,10 @@ class FixedPoseEngine(Engine):
 
         # Add models to collision checker
         for model in models:
-            self._collision_checker.add_fixed_model(model)
-            self._logger.info('Adding model <{}> as fixed model in the collision checker'.format(model.name))
+            if not isinstance(model, Light):
+                self._collision_checker.add_fixed_model(model)
+                self._logger.info('Adding model <{}> as fixed model in the collision checker'.format(
+                    model.name))
         return models
 
         
