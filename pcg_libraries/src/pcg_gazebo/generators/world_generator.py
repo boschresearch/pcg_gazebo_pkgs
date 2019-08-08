@@ -24,6 +24,8 @@ from ..simulation import SimulationModel, Light, World
 from ..simulation.physics import ODE, Simbody, Bullet
 from .engines import create_engine
 from .constraints import create_constraint
+from .model_group_generator import ModelGroupGenerator
+from .assets_manager import AssetsManager
 from ..log import PCG_ROOT_LOGGER
 
 
@@ -40,8 +42,6 @@ class WorldGenerator:
     """
     def __init__(self, gazebo_proxy=None, output_world_dir=None,
                  output_model_dir='/tmp/gazebo_models'):        
-        self._logger = PCG_ROOT_LOGGER
-
         if gazebo_proxy is not None:
             assert isinstance(gazebo_proxy, GazeboProxy)
             self._gazebo_proxy = gazebo_proxy
@@ -49,7 +49,7 @@ class WorldGenerator:
         if output_world_dir is None:
             self._output_world_dir = '/tmp/gazebo_worlds'
 
-        self._logger.info('Output path for the Gazebo world files: {}'.format(
+        PCG_ROOT_LOGGER.info('Output path for the Gazebo world files: {}'.format(
             self._output_world_dir))
 
         # Set of world descriptions
@@ -57,6 +57,8 @@ class WorldGenerator:
         self._assets = dict()        
         self._engines = list()
         self._constraints = dict()
+        self._model_group_generators = dict()
+        self._assets_manager = AssetsManager.get_instance()
         self._name = None        
 
     def __str__(self):
@@ -134,7 +136,7 @@ class WorldGenerator:
             gazebo_port=gazebo_port,
             timeout=timeout,
             ignore_services=ignore_services)    
-        self._logger.info('New Gazebo proxy initialized, ROS configuration: {}'.format(self._gazebo_proxy.ros_config.__str__()))
+        PCG_ROOT_LOGGER.info('New Gazebo proxy initialized, ROS configuration: {}'.format(self._gazebo_proxy.ros_config.__str__()))
 
     def add_engine(self, engine_name, models, **kwargs):
         """Add a new model creator engine to the internal engines list.
@@ -151,8 +153,8 @@ class WorldGenerator:
         input_args['callback_fcn_get_model'] = self.get_asset
         input_args['callback_fcn_get_constraint'] = self.get_constraint
         self._engines.append(create_engine(engine_name, **input_args))
-        self._logger.info('New model creator engine added, type={}'.format(engine_name))
-        self._logger.info(self._engines[-1].__str__())
+        PCG_ROOT_LOGGER.info('New model creator engine added, type={}'.format(engine_name))
+        PCG_ROOT_LOGGER.info(self._engines[-1].__str__())
 
     def add_constraint(self, name, type, **kwargs):
         """Add a new positioning constraint class to the internal 
@@ -166,7 +168,7 @@ class WorldGenerator:
         to be created        
         """
         if name in self._constraints:
-            self._logger.warning('Constraint with name <{}> already exists'.format(name))
+            PCG_ROOT_LOGGER.warning('Constraint with name <{}> already exists'.format(name))
             return False
         self._constraints[name] = create_constraint(type, **kwargs)
 
@@ -179,13 +181,13 @@ class WorldGenerator:
         * `model` (*type:* `pcg_gazebo.simulation.SimulationModel`): Simulation model        
         """
         if not isinstance(model, SimulationModel):
-            self._logger.error('Invalid SimulationModel instance')
+            PCG_ROOT_LOGGER.error('Invalid SimulationModel instance')
             raise ValueError()        
         if model.name in self._assets:
-            self._logger.warning('Model {} is already an asset'.format(model.name))
+            PCG_ROOT_LOGGER.warning('Model {} is already an asset'.format(model.name))
         else:
             self._assets[model.name] = model
-            self._logger.info('New model asset added, name={}'.format(model.name))
+            PCG_ROOT_LOGGER.info('New model asset added, name={}'.format(model.name))
 
     def set_model_as_ground_plane(self, model_name):
         """Flag a model asset as part of the ground plane. This procedure will 
@@ -197,7 +199,7 @@ class WorldGenerator:
         * `model_name` (*type:* `str`): Name of the model asset        
         """
         if model_name not in self._assets:
-            self._logger.error('Model {} no in the list of assets'.format(model_name))
+            PCG_ROOT_LOGGER.error('Model {} no in the list of assets'.format(model_name))
         self._assets[model_name].is_ground_plane = True
 
     def get_asset(self, name):
@@ -258,11 +260,11 @@ class WorldGenerator:
             try:
                 model = SimulationModel.from_gazebo_model(gazebo_model_name)
             except ValueError as ex:
-                self._logger.error('Error loading Gazebo model <{}>'.format(gazebo_model_name))
+                PCG_ROOT_LOGGER.error('Error loading Gazebo model <{}>'.format(gazebo_model_name))
                 return False
 
             if model is None:
-                self._logger.error('Gazebo model with name <{}> could not be found'.format(
+                PCG_ROOT_LOGGER.error('Gazebo model with name <{}> could not be found'.format(
                     gazebo_model_name))
                 return False
             self.add_asset(model)
@@ -288,7 +290,7 @@ class WorldGenerator:
         * `poses` (*type:* `list`): List of 6D pose vectors        
         """
         self.add_asset(model)
-        self.add_engine('fixed_pose', [model.name], dict(poses=poses))        
+        self.add_engine('fixed_pose', [model.name], dict(poses=poses))            
 
     def add_gazebo_model(self, model_name, pose=[0, 0, 0, 0, 0, 0]):  
         """Add an existent Gazebo model to the world in designed poses.
@@ -313,7 +315,7 @@ class WorldGenerator:
         model.name = new_model_name        
         # Add new model
         self.add_model(model, pose)
-        self._logger.info('Model <{}> added to world description'.format(model_name))
+        PCG_ROOT_LOGGER.info('Model <{}> added to world description'.format(model_name))
 
     def remove_asset(self, name):
         """Remove model asset from the list of assets.
@@ -343,7 +345,7 @@ class WorldGenerator:
         `True` if the model could be deleted from the simulation.
         """
         if self._gazebo_proxy is None:
-            self._logger.error('Gazebo proxy was not initialized')
+            PCG_ROOT_LOGGER.error('Gazebo proxy was not initialized')
             return False
         if not is_gazebo_running(
             ros_master_uri=self._gazebo_proxy.ros_config.ros_master_uri):
@@ -483,7 +485,7 @@ class WorldGenerator:
 
         if 'name' in config:
             self._name = config['name']            
-            self._logger.info('Generator name: {}'.format(self._name))
+            PCG_ROOT_LOGGER.info('Generator name: {}'.format(self._name))
 
         if 'physics' in config:
             if 'engine' in config['physics']:
@@ -499,40 +501,41 @@ class WorldGenerator:
 
         if 'assets' in config:            
             assert isinstance(config['assets'], list), 'Invalid list of assets'
-            self._logger.info('Assets:')
-            for tag in config['assets']:
-                if not self.is_asset(tag):
-                    self.add_gazebo_model_as_asset(tag)
+            self._assets_manager.from_dict(config['assets'])
+            # PCG_ROOT_LOGGER.info('Assets:')
+            # for tag in config['assets']:
+            #     if not self.is_asset(tag):
+            #         self.add_gazebo_model_as_asset(tag)
                 
-                self._logger.info('\t - {}'.format(tag))
+            #     PCG_ROOT_LOGGER.info('\t - {}'.format(tag))
 
         if 'ground_plane' in config:
             for tag in config['ground_plane']:
                 self.set_model_as_ground_plane(tag)
                 
-                self._logger.info('Set model {} as ground plane'.format(tag))
+                PCG_ROOT_LOGGER.info('Set model {} as ground plane'.format(tag))
                     
         if 'engines' in config:
             if verbose:
-                self._logger.info('Engines:')
+                PCG_ROOT_LOGGER.info('Engines:')
             for engine in config['engines']:
                 self.add_engine(**engine)
             
             for eng in self._engines:
-                self._logger.info(eng)
+                PCG_ROOT_LOGGER.info(eng)
 
         if 'constraints' in config:
             if verbose:
-                self._logger.info('Constraints:')
+                PCG_ROOT_LOGGER.info('Constraints:')
             for cs in config['constraints']:
                 self.add_constraint(**cs)
             
             for tag in self._constraints:
-                self._logger.info(self._constraints[tag])
+                PCG_ROOT_LOGGER.info(self._constraints[tag])
 
         if 'lights' in config:
             if verbose: 
-                self._logger.info('Lights:')
+                PCG_ROOT_LOGGER.info('Lights:')
             for light in config['lights']:             
                 if 'name' not in light:
                     PCG_ROOT_LOGGER.error('Light item has no name')
@@ -566,25 +569,25 @@ class WorldGenerator:
         `True` if the model could be spawned.
         """    
         if self._gazebo_proxy is None:
-            self._logger.error('Gazebo proxy was not initialized')
+            PCG_ROOT_LOGGER.error('Gazebo proxy was not initialized')
             return False
         assert timeout >= 0, 'Timeout should be equal or greater than zero'
         start_time = time()
         while not self._gazebo_proxy.is_init() and time() - start_time < timeout:
-            self._logger.info('Waiting for Gazebo to start...')
+            PCG_ROOT_LOGGER.info('Waiting for Gazebo to start...')
             sleep(0.5)
 
         if not is_gazebo_running(
             ros_master_uri=self._gazebo_proxy.ros_config.ros_master_uri):
-            self._logger.error('Gazebo is not running!')
+            PCG_ROOT_LOGGER.error('Gazebo is not running!')
             return False
 
         if replace and robot_namespace in self._gazebo_proxy.get_model_names():
-            self._logger.info('Deleting existing model first')
+            PCG_ROOT_LOGGER.info('Deleting existing model first')
             if self._gazebo_proxy.delete_model(robot_namespace):
-                self._logger.info('Done')
+                PCG_ROOT_LOGGER.info('Done')
             else:
-                self._logger.error('Failed to delete existing model')
+                PCG_ROOT_LOGGER.error('Failed to delete existing model')
                 return False
 
         sdf = model.to_sdf(type='model')
@@ -637,38 +640,38 @@ class WorldGenerator:
         `True` if all engines ran successfully.
         """
         if len(self._engines) == 0:
-            self._logger.warning('No engines found')
+            PCG_ROOT_LOGGER.warning('No engines found')
             return False
         if not attach_models:            
             self._world.reset_models()
-            self._logger.info('List of models is now empty')
+            PCG_ROOT_LOGGER.info('List of models is now empty')
 
         fixed_pose_models = list()
         models = list()
         # Run the fixed pose engines first
-        self._logger.info('Run fixed-pose engines')
+        PCG_ROOT_LOGGER.info('Run fixed-pose engines')
         for engine in self._engines:
             if engine.label == 'fixed_pose':
                 models = engine.run()
                 if models is not None:
                     for model in models:
-                        self._logger.info('Adding model {} to world'.format(model.name))
+                        PCG_ROOT_LOGGER.info('Adding model {} to world'.format(model.name))
                         self._world.add_model(model.name, model)
                         fixed_pose_models.append(model)
         
         # Run all other engines
-        self._logger.info('Run other engines')
+        PCG_ROOT_LOGGER.info('Run other engines')
         for engine in self._engines:
             if engine.label != 'fixed_pose':
-                self._logger.info('Running engine, type={}'.format(engine.label))
+                PCG_ROOT_LOGGER.info('Running engine, type={}'.format(engine.label))
                 engine.set_fixed_pose_models(fixed_pose_models)
                 models = engine.run()
                 if models is not None:
                     for model in models:
-                        self._logger.info('Adding model {} to world'.format(model.name))
+                        PCG_ROOT_LOGGER.info('Adding model {} to world'.format(model.name))
                         self._world.add_model(model.name, model)
 
-        self._logger.info('World model generation finished, # models={}, model_names={}'.format(
+        PCG_ROOT_LOGGER.info('World model generation finished, # models={}, model_names={}'.format(
             len(self._world.models), list(self._world.models.keys())))
         return True
 
@@ -711,13 +714,13 @@ class WorldGenerator:
         elif isinstance(output_dir, str):
             world_dir = output_dir
         else:
-            self._logger.error('Directory path must be a string, provided={}, type={}'.format(
+            PCG_ROOT_LOGGER.error('Directory path must be a string, provided={}, type={}'.format(
                 output_dir, type(output_dir)))
             return None
 
         if not os.path.isdir(world_dir):
             os.makedirs(world_dir)
-            self._logger.info('Output directory {} created'.format(world_dir))
+            PCG_ROOT_LOGGER.info('Output directory {} created'.format(world_dir))
 
         if filename is None:
             timestamp = datetime.datetime.now().isoformat()
@@ -727,6 +730,9 @@ class WorldGenerator:
             world_filename = filename
             if '.world' not in world_filename:
                 world_filename += '.world'
+        else:
+            PCG_ROOT_LOGGER.error('Invalid world filename={}'.format(filename))
+            return None
 
         full_world_filename = os.path.join(world_dir, world_filename)
         sdf = self._world.to_sdf(
@@ -734,7 +740,7 @@ class WorldGenerator:
             with_default_ground_plane=with_default_ground_plane,
             with_default_sun=with_default_sun)
         sdf.export_xml(os.path.join(world_dir, world_filename))
-        self._logger.info('World stored in {}'.format(full_world_filename))
+        PCG_ROOT_LOGGER.info('World stored in {}'.format(full_world_filename))
         return full_world_filename
 
     def plot_results(self, fig=None, fig_width=1000, fig_height=800,
@@ -755,12 +761,13 @@ class WorldGenerator:
         """
         fig = None
 
+        models = self.world.models
         if len(self._constraints):
             ws_constraints = dict()
             for tag in self._constraints:
                 if self._constraints[tag]._LABEL == 'workspace':
                     ws_constraints[tag] = self._constraints[tag]
-            self._logger.info('Plotting workspaces={}'.format(list(ws_constraints.keys())))
+            PCG_ROOT_LOGGER.info('Plotting workspaces={}'.format(list(ws_constraints.keys())))
             fig = visualization.plot_workspaces(
                 ws_constraints,
                 fig=fig, 
@@ -771,10 +778,10 @@ class WorldGenerator:
                 line_style='dashdot',
                 engine=engine)
 
-        if len(self.world.models):
-            self._logger.info('Plotting model footprints={}'.format(list(self.world.models.keys())))
+        if len(models):
+            PCG_ROOT_LOGGER.info('Plotting model footprints={}'.format(list(models.keys())))
             fig = visualization.plot_footprints(
-                models=self.world.models,
+                models=models,
                 fig=fig, 
                 fig_width=fig_width,
                 fig_height=fig_height, 
@@ -791,6 +798,6 @@ class WorldGenerator:
         #     ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
         #     ax.autoscale(enable=True, axis='both', tight=True)
     
-        self._logger.info('Plotting footprints: finished')
+        PCG_ROOT_LOGGER.info('Plotting footprints: finished')
 
         return fig
