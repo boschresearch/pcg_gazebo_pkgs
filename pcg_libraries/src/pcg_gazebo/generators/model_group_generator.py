@@ -12,259 +12,141 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from .engines import create_engine
-from .constraints import create_constraint
-from ..simulation import SimulationModel, ModelGroup
+from .assets_manager import AssetsManager
+from .engine_manager import EngineManager
+from ..simulation import ModelGroup
 from ..log import PCG_ROOT_LOGGER
 
 
 class ModelGroupGenerator(object):
-    def __init__(self, name='group'):
-        self._logger = PCG_ROOT_LOGGER
-        
-        self._name = name
-        self._assets = dict()
-        self._engines = list()
-        self._constraints = dict()
-        self._states = list()
+    def __init__(self, name='generator'):
+        self._name = ''
+        self._engines_manager = EngineManager()
+        self._assets_manager = AssetsManager.get_instance()
+
+        self.name = name
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        import sys
+        if sys.version_info[0] == 2:        
+            assert isinstance(value, str) or isinstance(value, unicode), \
+                'Model name should be a string'
+        else:
+            assert isinstance(value, str), \
+                'Model name should be a string'
+        assert len(value) > 0, 'Model name cannot be an empty string'
+        self._name = value
 
     @property
     def assets(self):
-        """List of `pcg_gazebo.simulation.SimulationModel`: List of model 
-        assets that will be used of the world generation.
-        """
-        return self._assets
+        return self._assets_manager
 
     @property
     def engines(self):
-        """`dict` of `pcg_gazebo.generators.engines`: Dictionary with the
-        model creation engines.
-        """
-        return self._engines
+        return self._engines_manager
     
     @property
     def constraints(self):
-        """`dict` of `pcg_gazebo.generators.constraints`: Dictionary with the
-        positioning constraints.
-        """
-        return self._constraints
+        return self._engines_manager.constraints_manager
+            
+    def add_engine(self, tag, engine_name, models, **kwargs):        
+        return self._engines_manager.add(tag, engine_name, models, **kwargs)
 
-    def get_model_instance(self, name):
-        asset = self.get_asset(name)
-        if isinstance(asset, SimulationModel) or isinstance(asset, ModelGroup):
-            return asset
-        elif isinstance(asset, dict):
-            from .creators import config2models
-            model_sdfs = config2models(asset)
-            if len(model_sdfs) != 1:
-                PCG_ROOT_LOGGER.error(
-                    'Model factory asset {} returned an invalid'
-                    ' number of models, len={}'.format(name, len(model_sdfs)))
-                return None
-            else:
-                return model_sdfs[0]
-        elif callable(asset):
-            model = asset()
-            if not isinstance(model, SimulationModel) and not isinstance(model, ModelGroup):
-                PCG_ROOT_LOGGER.error(
-                    'Model lambda function {} did not return'
-                    ' a model or a model group, retrieved={}'.format(name, type(model)))
-            return model                
+    def get_engine(self, tag):
+        return self._engines_manager.get(tag)
+    
+    def get_asset(self, name):        
+        return self._assets_manager.get(name)
 
-    def add_engine(self, engine_name, models, **kwargs):
-        """Add a new model creator engine to the internal engines list.
-        
-        > *Input arguments*
-        
-        * `engine_name` (*type:* `str`): Name of the engine class to be created
-        * `models` (*type:* list of `str`): Name of the models that will be assets 
-        to the created engine
-        * `kwargs` (*type:* `dict`): Input arguments to the created engine.        
-        """
-        input_args = kwargs
-        input_args['models'] = models      
-        input_args['callback_fcn_get_model'] = self.get_model_instance
-        input_args['callback_fcn_get_constraint'] = self.get_constraint
-        self._engines.append(create_engine(engine_name, **input_args))
-        self._logger.info('New model creator engine added, type={}'.format(engine_name))
-        self._logger.info(self._engines[-1].__str__())
-
-    def set_model_as_ground_plane(self, model_name):
-        """Flag a model asset as part of the ground plane. This procedure will 
-        affect the collision checks during the automatic placement of models in
-        the world using the placement engines.
-        
-        > *Input arguments*
-        
-        * `model_name` (*type:* `str`): Name of the model asset        
-        """
-        if model_name not in self._assets:
-            self._logger.error('Model {} no in the list of assets'.format(model_name))
-        self._assets[model_name].is_ground_plane = True
-
-    def get_asset(self, name):
-        """Return a simulation model asset.
-        
-        > *Input arguments*
-        
-        * `name` (*type:* `str`): Name of the model asset.
-        
-        > *Returns*
-        
-        The model asset as `pcg_gazebo.simulation.SimulationModel`. 
-        `None` if `name` cannot be found in the list of model assets.
-        """
-        from ..simulation import is_gazebo_model, get_gazebo_model_sdf
-        if name not in self._assets:
-            if is_gazebo_model(name):
-                self._assets[name] = get_gazebo_model_sdf(name)
-            else:
-                PCG_ROOT_LOGGER.error(
-                    'Requested asset {} is neither already in the'
-                    ' assets list nor a Gazebo model in the ROS path'.format(name))
-                return None
-        return self._assets[name]
-
-    def remove_asset(self, name):
-        """Remove model asset from the list of assets.
-        
-        > *Input arguments*
-        
-        * `name` (*type:* `str`): Name of the model
-        
-        > *Returns*
-        
-        `True`, if model could be removed.
-        """
-        if name in self._assets:
-            del self._assets[name]
-            PCG_ROOT_LOGGER.info('Asset {} was successfully deleted'.format(name))
-            return True
-        return False
-
-    def get_constraint(self, name):
-        """Return a positioning constraint configuration.
-        
-        > *Input arguments*
-        
-        * `param` (*type:* `data_type`, *default:* `data`): Parameter description
-        
-        > *Returns*
-        
-        Description of return values
-        """
-        if name not in self._constraints:
-            PCG_ROOT_LOGGER.error('Contraint {} could not be found'.format(name))
-            return None
-        return self._constraints[name]
+    def set_asset_as_ground_plane(self, name):
+        return self._assets_manager.set_asset_as_ground_plane(name)
     
     def add_gazebo_model_as_asset(self, gazebo_model_name):
-        """Create a model asset by importing a Gazebo model that already
-        exists in the resources path of the catkin workspace. The model's
-        SDF file will be parsed and converted into a `pcg_gazebo.simulation.SimulationModel`
-        instance.
+        return self._assets_manager.add(gazebo_model_name)
 
-        Models that include lights can also be added, but will not be considered
-        assets, they will just be included into the generated world SDF file.
-        
-        > *Input arguments*
-        
-        * `gazebo_model_name` (*type:* `str`): ID name from the Gazebo model 
-        to be imported
-        
-        > *Returns*
-        
-        `True` if Gazebo model could be included in the assets list.
-        """        
-        from ..simulation import get_gazebo_model_sdf
-        sdf = get_gazebo_model_sdf(gazebo_model_name)
-        
-        if hasattr(sdf, 'lights') and sdf.lights is not None:
-            return self.add_lights_from_gazebo_model(gazebo_model_name)            
-        else:                
-            try:
-                model = SimulationModel.from_gazebo_model(gazebo_model_name)
-            except ValueError as ex:
-                self._logger.error('Error loading Gazebo model <{}>'.format(gazebo_model_name))
-                return False
+    def is_asset(self, name):        
+        return self._assets_manager.has_element(name)
 
-            if model is None:
-                self._logger.error('Gazebo model with name <{}> could not be found'.format(
-                    gazebo_model_name))
-                return False
-            self.add_asset(model)
-        return True
-
-    def is_asset(self, name):
-        """Return `True` if the model identified by the string `name`
-        is part of the list of assets.
-        
-        > *Input arguments*
-        
-        * `name` (*type:* `str`): Name of the model
-        """
-        return name in self._assets
-
-    def add_asset(self, model, name=None):
-        """Add a new model asset that can be used by the engines and 
-        added to the generated world.
-        
-        > *Input arguments*
-        
-        * `model` (*type:* `pcg_gazebo.simulation.SimulationModel`): Simulation model        
-        """        
-        if isinstance(model, dict):
-            # This model is going to be generated using the factory
-            # functions in the creators module
-            assert 'type' in model and 'args' in model, 'Invalid input for model creator'
-            assert model['type'] in ['box', 'sphere', 'cylinder', 'mesh'], \
-                'Model creator must be configured for single model generation'
-            assert name is not None, 'No name identifier given for model factory input'
-            self._assets[name] = model
-            PCG_ROOT_LOGGER.info(
-                'New model factory function was created, name={}, model={}'.format(name, model))
-        elif callable(model):
-            # This model will be generated using a lambda function or a function handle
-            assert name is not None, 'No name identifier given for model lambda function'        
-            self._assets[name] = model
-        elif isinstance(model, SimulationModel):
-            if model.name in self._assets:
-                PCG_ROOT_LOGGER.warning('Model {} is already an asset'.format(model.name))
-            else:            
-                self._assets[model.name] = model            
-                PCG_ROOT_LOGGER.info('New model asset added, name={}'.format(model.name))
-        else:
-            msg = 'Invalid simulation asset'
-            PCG_ROOT_LOGGER.error(msg)
-            raise ValueError(msg)        
-
-    def add_lights_from_gazebo_model(self, model_name):
-        """Add light models to the generated world from a Gazebo model.
-        
-        > *Input arguments*
-        
-        * `model_name` (*type:* `str`): Name of the Gazebo model
-        
-        > *Returns*
-        
-        `True` if the lights could be parsed and added to the world.
-        """
-        from ..simulation import get_gazebo_model_sdf
-        sdf = get_gazebo_model_sdf(model_name)
-        if sdf is None:
-            PCG_ROOT_LOGGER.error('Model {} is not a Gazebo model'.format(model_name))
-            return False
-        if sdf.lights is not None:
-            PCG_ROOT_LOGGER.info(
-                'Input Gazebo model {} contains lights, adding to world'.format(
-                    model_name))
-            for light in sdf.lights:
-                PCG_ROOT_LOGGER.info('Add light {}, type={}'.format(
-                    light.name, light.type))
-                self.world.add_light(light.name, Light.from_sdf(light))
-            return True
-        else:
-            PCG_ROOT_LOGGER.error('Input Gazebo model contains no lights, model_name={}'.format(model_name))
-            return False
-
+    def add_asset(self, description, tag=None, parameters=None, include_dir=None):
+        return self._assets_manager.add(description, tag=tag, parameters=parameters, include_dir=include_dir)
     
+    def add_constraint(self, name, type, **kwargs):
+        return self._engines_manager.add_constraint(name=name, type=type, **kwargs)
+    
+    def get_constraint(self, name):
+        return self._engines_manager.get_constraint(name)
+
+    def run(self, group_name='default'):
+        if self._assets_manager.has_element(group_name) and self._assets_manager.is_model_group(group_name):
+            model_group = self._assets_manager.get(group_name)
+        else:
+            model_group = ModelGroup(name=group_name)
+                
+        if self.engines.size == 0:
+            PCG_ROOT_LOGGER.warning('[{}] No engines found for model group generator'.format(
+                self.name))
+            return None
+        
+        fixed_pose_models = list()
+        models = list()
+        # TODO Pass pose offset for the group to the engine
+        # Run the fixed pose engines first
+        PCG_ROOT_LOGGER.info('[{}] Run fixed-pose engines'.format(self.name))
+        for tag in self._engines_manager.tags:
+            engine = self._engines_manager.get(tag)
+            if engine.label == 'fixed_pose':
+                models = engine.run()
+                if models is not None:
+                    for model in models:
+                        PCG_ROOT_LOGGER.info('[{}] Adding model <{}> to model group <{}>'.format(
+                            self.name, model.name, group_name))
+                        model_group.add_model(model.name, model)
+                        fixed_pose_models.append(model)
+        
+        # Run all other engines
+        PCG_ROOT_LOGGER.info('[{}] Run other engines'.format(self.name))
+        for tag in self._engines_manager.tags:
+            engine = self._engines_manager.get(tag)
+            if engine.label != 'fixed_pose':
+                PCG_ROOT_LOGGER.info('[{}] Running engine, type={}'.format(
+                    self.name, engine.label))
+                engine.set_fixed_pose_models(fixed_pose_models)
+                models = engine.run()
+                if models is not None:
+                    for model in models:
+                        PCG_ROOT_LOGGER.info('[{}] Adding model <{}> to model group <{}>'.format(
+                            self.name,
+                            model.name, 
+                            group_name))
+                        model_group.add_model(model.name, model)
+
+        PCG_ROOT_LOGGER.info('[{}] Model generation finished, group={}, # models={}, model_names={}'.format(
+            self.name,
+            model_group.name,
+            len(model_group.models), 
+            list(model_group.models.keys())))
+        return model_group
+
+    def from_dict(self, config):
+        assert isinstance(config, dict), \
+            'Input configuration must be provided as a dictionary'
+
+        if 'assets' in config:
+            self._assets_manager.from_dict(config['assets'])
+
+        if 'engines' in config:
+            if not isinstance(config['engines'], list):
+                PCG_ROOT_LOGGER.error('<engines> element in dictionary must be a list')
+            else:
+                self._engines_manager.from_dict(config['engines'])
+        if 'constraints' in config:
+            if not isinstance(config['constraints'], list):
+                PCG_ROOT_LOGGER.error('<constraints> element in dictionary must be a list')
+            for elem in config['constraints']:
+                assert isinstance(elem, dict), 'Constraint description is not a dictionary={}'.format(elem)
+                self._engines_manager.add_constraint(**elem)
