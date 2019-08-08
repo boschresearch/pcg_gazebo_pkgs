@@ -195,6 +195,13 @@ class SimulationModel(object):
     def plugins(self):
         return self._plugins
 
+    def copy(self):
+        model = SimulationModel.from_sdf(self.to_sdf())
+        model.static = self.static
+        model.is_gazebo_model = self.is_gazebo_model
+        model._source_model_name = self._source_model_name
+        return model
+
     def merge(self, model):
         for tag in model.links:            
             self.add_link(tag, link=model.links[tag])
@@ -309,6 +316,9 @@ class SimulationModel(object):
             self._logger.info('[{}] Added joint {}'.format(self.name, joint_name))
 
         self.add_link(link_name, link)
+        # If this model was a Gazebo model and it has been modified, it should not be
+        # set as a Gazebo model in order to avoid errors when using <include> blocks
+        self.is_gazebo_model = False
         return True
 
     def add_spherical_link(self, link_name=None, joint_name=None, mass=0.001,
@@ -370,6 +380,9 @@ class SimulationModel(object):
             self.add_joint(name=joint_name, parent=parent, child=link_name, joint_type=joint_type)
 
         self.add_link(link_name, link)
+        # If this model was a Gazebo model and it has been modified, it should not be
+        # set as a Gazebo model in order to avoid errors when using <include> blocks
+        self.is_gazebo_model = False
         return True
 
     def add_cylindrical_link(self, link_name=None, joint_name=None, mass=0.001,
@@ -435,6 +448,9 @@ class SimulationModel(object):
             self.add_joint(name=joint_name, parent=parent, child=link_name, joint_type=joint_type)
 
         self.add_link(link_name, link)
+        # If this model was a Gazebo model and it has been modified, it should not be
+        # set as a Gazebo model in order to avoid errors when using <include> blocks
+        self.is_gazebo_model = False
         return True
 
 
@@ -475,6 +491,9 @@ class SimulationModel(object):
             self._logger.info('Link structure already provided')
             link.name = name
         self._links[name] = link
+        # If this model was a Gazebo model and it has been modified, it should not be
+        # set as a Gazebo model in order to avoid errors when using <include> blocks
+        self.is_gazebo_model = False
         return True
 
     def add_model(self, name, model=None):
@@ -490,6 +509,9 @@ class SimulationModel(object):
             model.name = name
         model.parent = self._name
         self._models[name] = model
+        # If this model was a Gazebo model and it has been modified, it should not be
+        # set as a Gazebo model in order to avoid errors when using <include> blocks
+        self.is_gazebo_model = False
         return True
 
     def add_joint(self, name, parent='', child='', joint_type='', axis_limits=dict(), 
@@ -508,6 +530,9 @@ class SimulationModel(object):
                 joint.set_axis_xyz(axis_xyz)
             
         self._joints[name] = joint
+        # If this model was a Gazebo model and it has been modified, it should not be
+        # set as a Gazebo model in order to avoid errors when using <include> blocks
+        self.is_gazebo_model = False
         return True
         
     def add_contact_sensor(self, name='contact', link_name=None, joint_name=None, 
@@ -575,6 +600,9 @@ class SimulationModel(object):
                 topic_name=topic)
         
         self._links[link_name].add_sensor(name, sensor)
+        # If this model was a Gazebo model and it has been modified, it should not be
+        # set as a Gazebo model in order to avoid errors when using <include> blocks
+        self.is_gazebo_model = False
         return True
 
     def add_ray_sensor(self, name='ray', link_name=None, joint_name=None, 
@@ -652,6 +680,9 @@ class SimulationModel(object):
             sensor.add_ros_plugin(name=name, frame_name=link_name, topic_name=topic)
 
         self._links[link_name].add_sensor(name, sensor)
+        # If this model was a Gazebo model and it has been modified, it should not be
+        # set as a Gazebo model in order to avoid errors when using <include> blocks
+        self.is_gazebo_model = False
         return True
 
     def add_imu_sensor(self, name='imu', link_name=None, joint_name=None, 
@@ -727,6 +758,9 @@ class SimulationModel(object):
                 gaussian_noise=gaussian_noise)
 
         self._links[link_name].add_sensor(name, sensor)
+        # If this model was a Gazebo model and it has been modified, it should not be
+        # set as a Gazebo model in order to avoid errors when using <include> blocks
+        self.is_gazebo_model = False
         return True
 
     def add_camera_sensor(self, name='camera', link_name=None, joint_name=None, 
@@ -813,6 +847,9 @@ class SimulationModel(object):
                 frame_name=link_name)
 
         self._links[link_name].add_sensor(name, sensor)
+        # If this model was a Gazebo model and it has been modified, it should not be
+        # set as a Gazebo model in order to avoid errors when using <include> blocks
+        self.is_gazebo_model = False
         return True
 
     def add_plugin(self, name='', filename='', plugin=None, **kwargs):
@@ -823,6 +860,9 @@ class SimulationModel(object):
             self._plugins[name].params = kwargs.copy()
         else:
             self._plugins[plugin.name] = plugin
+        # If this model was a Gazebo model and it has been modified, it should not be
+        # set as a Gazebo model in order to avoid errors when using <include> blocks
+        self.is_gazebo_model = False
 
     def to_sdf(self, type='model', sdf_version='1.6'):
         assert type in ['model', 'sdf'], 'Output type must be either model or sdf'
