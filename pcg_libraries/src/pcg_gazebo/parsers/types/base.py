@@ -17,6 +17,7 @@ from __future__ import print_function
 from copy import deepcopy
 import collections
 import re
+import numpy as np
 import sys
 from lxml import etree
 from lxml.etree import ElementTree, Element, SubElement
@@ -70,6 +71,34 @@ class XMLBase(object):
         msg = self.to_xml_as_str(pretty_print=True)
         return msg
 
+    def __ne__(self, other):
+        result = self.__eq__(other)
+        return not result
+
+    def __eq__(self, other):
+        if self._NAME != other._NAME:
+            return False
+        for tag in self.attributes:
+            if tag not in other.attributes:
+                return False
+            if self.attributes[tag] != other.attributes[tag]:
+                return False
+
+        if self._value is not None and other._value is not None:
+            if self._is_numeric_vector(self._value) and self._is_numeric_vector(other._value):
+                return np.isclose(self._value, other._value).all()
+            elif self._is_scalar(self._value) and self._is_scalar(self._value):
+                return np.isclose(self._value, other._value)
+            else:
+                return self._value == other._value
+
+        for tag in self.children:
+            if tag not in other.children:
+                return False
+            if self.children[tag] != other.children[tag]:
+                return False
+        return True        
+
     @property
     def xml_element_name(self):
         """`str`: Name of the SDF element"""
@@ -97,7 +126,7 @@ class XMLBase(object):
         except (ValueError, TypeError):
             return False
 
-    def _is_numeric_vector(self, vec, range=None):
+    def _is_numeric_vector(self, vec, range=None):        
         if not self._is_array(vec):
             return False
         try:            
@@ -232,8 +261,11 @@ class XMLBase(object):
                             if obj._NAME != 'empty':
                                 has_mult = False
                                 if not obj._has_custom_elements:
-                                    assert elem in obj._CHILDREN_CREATORS, \
-                                        '<{}> element is not a child element from <{}>, input={}'.format(elem, obj._NAME, value[elem])
+                                    if elem not in obj._CHILDREN_CREATORS:
+                                        msg = '<{}> element is not a child element from <{}>, input={}'.format(
+                                            elem, obj._NAME, value[elem])
+                                        PCG_ROOT_LOGGER.error(msg)
+                                        return
                                     if 'n_elems' in obj._CHILDREN_CREATORS[elem]:
                                         if obj._CHILDREN_CREATORS[elem]['n_elems'] == '+':
                                             has_mult = True
@@ -583,7 +615,7 @@ class XMLBase(object):
         for tag in sdf_data:
             if tag in ignore_tags:
                 continue
-            if isinstance(sdf_data[tag], list):                
+            if isinstance(sdf_data[tag], list) and tag != 'value':                
                 for elem in sdf_data[tag]:
                     self._add_child_element(tag, elem)
             elif tag == 'attributes':
