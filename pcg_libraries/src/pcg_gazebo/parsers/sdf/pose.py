@@ -43,7 +43,7 @@ class Pose(XMLVector):
 
     @pose.setter
     def pose(self, value):
-        self.value = value
+        XMLVector._set_value(self, value)
 
     @property
     def x(self):
