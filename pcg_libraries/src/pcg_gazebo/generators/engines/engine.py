@@ -200,16 +200,8 @@ class Engine(object):
         model = self._callback_fcn_get_model(name)        
         if model is None:
             self._logger.error('Model <{}> is not a valid asset'.format(name))
-            return None
-
-        # Making a copy of the model structure
-        model_sdf = model.to_sdf('model')
-        output_model = SimulationModel.from_sdf(model_sdf)
-        output_model.is_ground_plane = model.is_ground_plane 
-        output_model.is_gazebo_model = model.is_gazebo_model
-        output_model._source_model_name = model._source_model_name
-
-        return output_model
+            return None        
+        return model
 
     def _get_constraint(self, name):
         """Return a constraint identified by the input `name`.
