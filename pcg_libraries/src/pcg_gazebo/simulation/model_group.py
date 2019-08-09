@@ -21,7 +21,8 @@ from ..log import PCG_ROOT_LOGGER
 
 
 class ModelGroup(object):
-    def __init__(self, name='group', pose=[0, 0, 0, 0, 0, 0], is_ground_plane=False):
+    def __init__(self, name='group', pose=[0, 0, 0, 0, 0, 0], 
+        is_ground_plane=False):
         self._name = ''
         self._pose = Pose()    
         self._models = dict()
@@ -90,7 +91,7 @@ class ModelGroup(object):
 
     @property
     def models(self):
-        """`dict`: Models"""
+        """`dict`: Models"""        
         return self._models
 
     @property
@@ -101,7 +102,13 @@ class ModelGroup(object):
     @property
     def n_models(self):
         """`int`: Number of models"""
-        return len(self._models)
+        n_models = 0
+        for tag in self._models:
+            if isinstance(self._models[tag], SimulationModel):
+                n_models += 1
+            else:
+                n_models += self._models[tag].n_models
+        return n_models
 
     @property
     def n_lights(self):
@@ -121,7 +128,7 @@ class ModelGroup(object):
         a model with the same name already exists, the model will be
         created with a counter suffix in the format `_i`, `i` being 
         an integer.
-        * `model` (*type:* `pcg_gazebo.simulaton.SimulationModel`): 
+        * `model` (*type:* `pcg_gazebo.simulation.SimulationModel`): 
         Model object
         
         > *Returns*
