@@ -220,4 +220,8 @@ class Light(object):
         light._sdf = deepcopy(sdf)
         return light
 
+    @staticmethod
+    def from_dict(config):
+        return Light(**config)
+
     
