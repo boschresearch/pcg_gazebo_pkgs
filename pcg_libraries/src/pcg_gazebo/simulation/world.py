@@ -191,7 +191,7 @@ class World(object):
         a model with the same name already exists, the model will be
         created with a counter suffix in the format `_i`, `i` being 
         an integer.
-        * `model` (*type:* `pcg_gazebo.simulaton.SimulationModel`): 
+        * `model` (*type:* `pcg_gazebo.simulation.SimulationModel`): 
         Model object
         
         > *Returns*
@@ -200,7 +200,27 @@ class World(object):
         """
         if group not in self._model_groups:
             self.create_model_group(group)
-        return self._model_groups[group].add_model(tag, model)        
+        return self._model_groups[group].add_model(tag, model)
+    
+    def add_model_group(self, group, tag=None):
+        from copy import deepcopy
+        if tag is None:
+            tag = deepcopy(group.name)
+
+        if tag in self._model_groups:
+            # Add counter suffix to add models with same name
+            i = 0
+            new_name = '{}'.format(tag)
+            while new_name in self._model_groups:
+                i += 1
+                new_name = '{}_{}'.format(tag, i)
+            name = new_name
+        else:
+            name = tag
+
+        self._model_groups[name] = group
+        self._model_groups[name].name = name
+        return name
         
     def rm_model(self, tag, group='default'):
         """Remove model from world.
