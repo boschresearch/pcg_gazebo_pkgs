@@ -23,7 +23,6 @@ class ModelGroupGenerator(object):
         self._name = ''
         self._engines_manager = EngineManager()
         self._assets_manager = AssetsManager.get_instance()
-
         self.name = name
 
     @property
@@ -81,7 +80,7 @@ class ModelGroupGenerator(object):
     def get_constraint(self, name):
         return self._engines_manager.get_constraint(name)
 
-    def run(self, group_name='default'):
+    def run(self, group_name='default', pose=[0, 0, 0, 0, 0, 0]):
         if self._assets_manager.has_element(group_name) and self._assets_manager.is_model_group(group_name):
             model_group = self._assets_manager.get(group_name)
         else:
@@ -130,23 +129,32 @@ class ModelGroupGenerator(object):
             model_group.name,
             len(model_group.models), 
             list(model_group.models.keys())))
+
+        model_group.pose = pose
         return model_group
 
-    def from_dict(self, config):
+    @staticmethod
+    def from_dict(config):
         assert isinstance(config, dict), \
             'Input configuration must be provided as a dictionary'
 
+        name = 'generator'
+        if 'name' in config:
+            name = config['name']
+        generator = ModelGroupGenerator(name=name)
         if 'assets' in config:
-            self._assets_manager.from_dict(config['assets'])
+            generator._assets_manager.from_dict(config['assets'])
 
         if 'engines' in config:
             if not isinstance(config['engines'], list):
                 PCG_ROOT_LOGGER.error('<engines> element in dictionary must be a list')
             else:
-                self._engines_manager.from_dict(config['engines'])
+                generator._engines_manager.from_dict(config['engines'])
+
         if 'constraints' in config:
             if not isinstance(config['constraints'], list):
                 PCG_ROOT_LOGGER.error('<constraints> element in dictionary must be a list')
             for elem in config['constraints']:
                 assert isinstance(elem, dict), 'Constraint description is not a dictionary={}'.format(elem)
-                self._engines_manager.add_constraint(**elem)
+                generator._engines_manager.add_constraint(**elem)
+        return generator
