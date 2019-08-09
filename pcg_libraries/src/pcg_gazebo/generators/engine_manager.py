@@ -18,6 +18,7 @@ from .constraints_manager import ConstraintsManager
 from .assets_manager import AssetsManager
 from .collision_checker import CollisionChecker
 from ..log import PCG_ROOT_LOGGER
+from ..utils import generate_random_string
 
 
 class EngineManager(_CollectionManager):
@@ -63,6 +64,8 @@ class EngineManager(_CollectionManager):
             for elem in config:
                 self.from_dict(elem)
         else:
+            if 'tag' not in config:
+                config['tag'] = generate_random_string(10)
             if not self.add(**config):
                 PCG_ROOT_LOGGER.error('Failed to add engine={}'.format(config))
             
