@@ -167,8 +167,7 @@ class TestModelGroupGenerator(unittest.TestCase):
             ]
         )
 
-        generator = ModelGroupGenerator()
-        generator.from_dict(config)
+        generator = ModelGroupGenerator.from_dict(config)
 
         self.assertTrue(generator.is_asset('box_floor'))
         self.assertTrue(generator.is_asset('box'))
