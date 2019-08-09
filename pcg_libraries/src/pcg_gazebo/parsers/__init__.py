@@ -166,7 +166,6 @@ def parse_xml_dict(xml_dict, type='sdf'):
     assert obj is not None, 'Element {} does not exist'.format(name)
         
     obj.from_dict(data[name])        
-    print(obj)
     return obj
 
 def convert_custom(xml_dict):
@@ -346,12 +345,29 @@ def sdf2urdf(sdf):
                 joint = model_sdf.joints[i]
                 if joint.parent.value != 'world':
                     parent_link = model_sdf.get_link_by_name(joint.parent.value)
-                    parent_pose = Pose(parent_link.pose.value[0:3], parent_link.pose.value[3::])
+                    if parent_link is None:
+                        msg = 'Parent link <{}> for joint <{}> does not exist!'.format(
+                            joint.parent.value, joint.name)
+                        PCG_ROOT_LOGGER.error(msg)                    
+                        raise ValueError(msg)
+                    if parent_link.pose is not None:
+                        parent_pose = Pose(parent_link.pose.value[0:3], parent_link.pose.value[3::])
+                    else:                        
+                        parent_pose = Pose()
                 else:
                     parent_pose = Pose()
 
-                child_link = model_sdf.get_link_by_name(joint.child.value)                       
-                child_pose = Pose(child_link.pose.value[0:3], child_link.pose.value[3::])
+                child_link = model_sdf.get_link_by_name(joint.child.value)   
+                if child_link is None:
+                    msg = 'Child link <{}> for joint <{}> does not exist!'.format(
+                        joint.child.value, joint.name)
+                    PCG_ROOT_LOGGER.error(msg)                    
+                    raise ValueError(msg)
+                
+                if child_link.pose is not None:                
+                    child_pose = Pose(child_link.pose.value[0:3], child_link.pose.value[3::])
+                else:
+                    child_pose = Pose()
 
                 # Calculate relative pose of the joint regarding the parent's pose
                 pose_diff = Pose(
