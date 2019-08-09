@@ -18,6 +18,8 @@ import datetime
 import collections
 from time import sleep, time
 from .. import visualization
+from ..log import PCG_ROOT_LOGGER
+from ..utils import load_yaml
 from ..task_manager import GazeboProxy, is_gazebo_running
 from ..parsers.sdf import create_sdf_element, is_sdf_element
 from ..simulation import SimulationModel, Light, World
@@ -26,7 +28,7 @@ from .engines import create_engine
 from .constraints import create_constraint
 from .model_group_generator import ModelGroupGenerator
 from .assets_manager import AssetsManager
-from ..log import PCG_ROOT_LOGGER
+from .engine_manager import EngineManager
 
 
 class WorldGenerator:
@@ -54,19 +56,16 @@ class WorldGenerator:
 
         # Set of world descriptions
         self._world = World()
-        self._assets = dict()        
-        self._engines = list()
-        self._constraints = dict()
-        self._model_group_generators = dict()
-        self._assets_manager = AssetsManager.get_instance()
+        self._assets = AssetsManager.get_instance()        
+        self._engines = EngineManager()
         self._name = None        
 
     def __str__(self):
         msg = 'PCG Generator\n'
         msg += '\t - Assets:\n'
-        for tag in self._assets:
+        for tag in self._assets.tags:
             msg += '\t\t - Name = {}, Is Gazebo model? {}\n'.format(
-                tag, self._assets[tag].is_gazebo_model)
+                tag, self._assets.is_gazebo_model(tag))
         return msg
 
     @property 
@@ -107,7 +106,7 @@ class WorldGenerator:
         """`dict` of `pcg_gazebo.generators.constraints`: Dictionary with the
         positioning constraints.
         """
-        return self._constraints
+        return self._engines.constraints_manager
 
     def init_gazebo_proxy(self, ros_host='localhost', ros_port=11311,
         gazebo_host='localhost', gazebo_port=11345, timeout=30,
@@ -138,7 +137,7 @@ class WorldGenerator:
             ignore_services=ignore_services)    
         PCG_ROOT_LOGGER.info('New Gazebo proxy initialized, ROS configuration: {}'.format(self._gazebo_proxy.ros_config.__str__()))
 
-    def add_engine(self, engine_name, models, **kwargs):
+    def add_engine(self, tag, engine_name, models, **kwargs):
         """Add a new model creator engine to the internal engines list.
         
         > *Input arguments*
@@ -148,13 +147,7 @@ class WorldGenerator:
         to the created engine
         * `kwargs` (*type:* `dict`): Input arguments to the created engine.        
         """
-        input_args = kwargs
-        input_args['models'] = models      
-        input_args['callback_fcn_get_model'] = self.get_asset
-        input_args['callback_fcn_get_constraint'] = self.get_constraint
-        self._engines.append(create_engine(engine_name, **input_args))
-        PCG_ROOT_LOGGER.info('New model creator engine added, type={}'.format(engine_name))
-        PCG_ROOT_LOGGER.info(self._engines[-1].__str__())
+        self._engines.add(tag, engine_name, models, **kwargs)
 
     def add_constraint(self, name, type, **kwargs):
         """Add a new positioning constraint class to the internal 
@@ -167,12 +160,9 @@ class WorldGenerator:
         * `kwargs` (*type:* `dict`): Input arguments for the constraint class 
         to be created        
         """
-        if name in self._constraints:
-            PCG_ROOT_LOGGER.warning('Constraint with name <{}> already exists'.format(name))
-            return False
-        self._constraints[name] = create_constraint(type, **kwargs)
+        return self._engines.add_constraint(name, type, **kwargs)
 
-    def add_asset(self, model):
+    def add_asset(self, *args, **kwargs):
         """Add a new model asset that can be used by the engines and 
         added to the generated world.
         
@@ -180,14 +170,7 @@ class WorldGenerator:
         
         * `model` (*type:* `pcg_gazebo.simulation.SimulationModel`): Simulation model        
         """
-        if not isinstance(model, SimulationModel):
-            PCG_ROOT_LOGGER.error('Invalid SimulationModel instance')
-            raise ValueError()        
-        if model.name in self._assets:
-            PCG_ROOT_LOGGER.warning('Model {} is already an asset'.format(model.name))
-        else:
-            self._assets[model.name] = model
-            PCG_ROOT_LOGGER.info('New model asset added, name={}'.format(model.name))
+        self._assets.add(*args, **kwargs)
 
     def set_model_as_ground_plane(self, model_name):
         """Flag a model asset as part of the ground plane. This procedure will 
@@ -197,10 +180,8 @@ class WorldGenerator:
         > *Input arguments*
         
         * `model_name` (*type:* `str`): Name of the model asset        
-        """
-        if model_name not in self._assets:
-            PCG_ROOT_LOGGER.error('Model {} no in the list of assets'.format(model_name))
-        self._assets[model_name].is_ground_plane = True
+        """        
+        return self._assets.set_asset_as_ground_plane(model_name)
 
     def get_asset(self, name):
         """Return a simulation model asset.
@@ -214,9 +195,7 @@ class WorldGenerator:
         The model asset as `pcg_gazebo.simulation.SimulationModel`. 
         `None` if `name` cannot be found in the list of model assets.
         """
-        if name not in self._assets:
-            return None
-        return self._assets[name]
+        return self._assets.get(name)
 
     def get_constraint(self, name):
         """Return a positioning constraint configuration.
@@ -229,9 +208,7 @@ class WorldGenerator:
         
         Description of return values
         """
-        if name not in self._constraints:
-            return None
-        return self._constraints[name]
+        return self._engines.constraints_manager.get(name)
 
     def add_gazebo_model_as_asset(self, gazebo_model_name):
         """Create a model asset by importing a Gazebo model that already
@@ -278,7 +255,7 @@ class WorldGenerator:
         
         * `name` (*type:* `str`): Name of the model
         """
-        return name in self._assets
+        return name in self._assets.tags
 
     def add_model(self, model, poses):
         """Add an instance of `pcg_gazebo.simulation.SimulationModel` to 
@@ -328,10 +305,7 @@ class WorldGenerator:
         
         `True`, if model could be removed.
         """
-        if name in self._assets:
-            del self._assets[name]
-            return True
-        return False
+        return self._assets.remove(name)
 
     def delete_model(self, model_name):
         """Delete a model from the currently running Gazebo instance
@@ -384,7 +358,11 @@ class WorldGenerator:
             PCG_ROOT_LOGGER.error('Input Gazebo model contains no lights, model_name={}'.format(model_name))
             return False
         
-    def parse_configuration(self, config, verbose=False):
+    def from_yaml(self, filename):
+        config = load_yaml(filename)
+        self.from_dict(config)
+
+    def from_dict(self, config):
         """Parse a configuration settings `dict` with all information on the
         list of model assets, engines, constraints and lights and instantiate the
         necessary objects.
@@ -499,16 +477,9 @@ class WorldGenerator:
                 physics_args = dict()
             self._world.reset_physics(engine=physics_engine, **physics_args)
 
-        if 'assets' in config:            
-            assert isinstance(config['assets'], list), 'Invalid list of assets'
-            self._assets_manager.from_dict(config['assets'])
-            # PCG_ROOT_LOGGER.info('Assets:')
-            # for tag in config['assets']:
-            #     if not self.is_asset(tag):
-            #         self.add_gazebo_model_as_asset(tag)
-                
-            #     PCG_ROOT_LOGGER.info('\t - {}'.format(tag))
-
+        if 'assets' in config:                        
+            self._assets.from_dict(config['assets'])
+            
         if 'ground_plane' in config:
             for tag in config['ground_plane']:
                 self.set_model_as_ground_plane(tag)
@@ -516,26 +487,30 @@ class WorldGenerator:
                 PCG_ROOT_LOGGER.info('Set model {} as ground plane'.format(tag))
                     
         if 'engines' in config:
-            if verbose:
-                PCG_ROOT_LOGGER.info('Engines:')
-            for engine in config['engines']:
-                self.add_engine(**engine)
+            if not isinstance(config['engines'], list):
+                PCG_ROOT_LOGGER.error('<engines> element in dictionary must be a list')
+            else:
+                self._engines.from_dict(config['engines'])
             
-            for eng in self._engines:
-                PCG_ROOT_LOGGER.info(eng)
+            PCG_ROOT_LOGGER.info('Engines:')
+                
+            for eng in self._engines.tags:
+                PCG_ROOT_LOGGER.info('\t - {}'.format(eng))
 
         if 'constraints' in config:
-            if verbose:
-                PCG_ROOT_LOGGER.info('Constraints:')
-            for cs in config['constraints']:
-                self.add_constraint(**cs)
+            if not isinstance(config['constraints'], list):
+                PCG_ROOT_LOGGER.error('<constraints> element in dictionary must be a list')
+            for elem in config['constraints']:
+                assert isinstance(elem, dict), 'Constraint description is not a dictionary={}'.format(elem)
+                self._engines.add_constraint(**elem)
+        
+            PCG_ROOT_LOGGER.info('Constraints:')
             
-            for tag in self._constraints:
-                PCG_ROOT_LOGGER.info(self._constraints[tag])
+            for tag in self._engines.constraints_manager.tags:
+                PCG_ROOT_LOGGER.info('\t - {}'.format(self._engines.constraints_manager.get(tag)))
 
-        if 'lights' in config:
-            if verbose: 
-                PCG_ROOT_LOGGER.info('Lights:')
+        if 'lights' in config:            
+            PCG_ROOT_LOGGER.info('Lights:')
             for light in config['lights']:             
                 if 'name' not in light:
                     PCG_ROOT_LOGGER.error('Light item has no name')
@@ -639,7 +614,7 @@ class WorldGenerator:
         
         `True` if all engines ran successfully.
         """
-        if len(self._engines) == 0:
+        if self._engines.size == 0:
             PCG_ROOT_LOGGER.warning('No engines found')
             return False
         if not attach_models:            
@@ -650,26 +625,37 @@ class WorldGenerator:
         models = list()
         # Run the fixed pose engines first
         PCG_ROOT_LOGGER.info('Run fixed-pose engines')
-        for engine in self._engines:
+        for tag in self._engines.tags:
+            engine = self._engines.get(tag)
             if engine.label == 'fixed_pose':
                 models = engine.run()
                 if models is not None:
                     for model in models:
-                        PCG_ROOT_LOGGER.info('Adding model {} to world'.format(model.name))
-                        self._world.add_model(model.name, model)
+                        if isinstance(model, SimulationModel):
+                            PCG_ROOT_LOGGER.info('Adding model {} to world'.format(model.name))
+                            self._world.add_model(model.name, model)
+                        else:
+                            PCG_ROOT_LOGGER.info('Adding model group {} to world'.format(model.name))
+                            self._world.add_model_group(model, model.name)
                         fixed_pose_models.append(model)
+                        
         
         # Run all other engines
         PCG_ROOT_LOGGER.info('Run other engines')
-        for engine in self._engines:
+        for tag in self._engines.tags:
+            engine = self._engines.get(tag)
             if engine.label != 'fixed_pose':
                 PCG_ROOT_LOGGER.info('Running engine, type={}'.format(engine.label))
                 engine.set_fixed_pose_models(fixed_pose_models)
                 models = engine.run()
                 if models is not None:
                     for model in models:
-                        PCG_ROOT_LOGGER.info('Adding model {} to world'.format(model.name))
-                        self._world.add_model(model.name, model)
+                        if isinstance(model, SimulationModel):
+                            PCG_ROOT_LOGGER.info('Adding model {} to world'.format(model.name))
+                            self._world.add_model(model.name, model)
+                        else:
+                            PCG_ROOT_LOGGER.info('Adding model group {} to world'.format(model.name))
+                            self._world.add_model_group(model, model.name)
 
         PCG_ROOT_LOGGER.info('World model generation finished, # models={}, model_names={}'.format(
             len(self._world.models), list(self._world.models.keys())))
@@ -688,6 +674,13 @@ class WorldGenerator:
         acceleration vector        
         """
         self._world = World(name=name, engine=engine, gravity=gravity)
+
+    def set_physics_engine(self, engine, *args, **kwargs):
+        if engine in ['ode', 'bullet', 'simbody']:
+            self._world.reset_physics(engine, *args, **kwargs)
+        elif isinstance(engine, ODE) or isinstance(engine, Simbody) or \
+            isinstance(engine, Bullet):
+            self._world.physics = engine
 
     def export_world(self, output_dir=None, filename=None, 
         with_default_ground_plane=True, with_default_sun=True):        
@@ -762,11 +755,11 @@ class WorldGenerator:
         fig = None
 
         models = self.world.models
-        if len(self._constraints):
+        if self._engines.constraints_manager.size:
             ws_constraints = dict()
-            for tag in self._constraints:
-                if self._constraints[tag]._LABEL == 'workspace':
-                    ws_constraints[tag] = self._constraints[tag]
+            for tag in self._engines.constraints_manager.tags:
+                if self._engines.constraints_manager.get(tag)._LABEL == 'workspace':
+                    ws_constraints[tag] = self._engines.constraints_manager.get(tag)
             PCG_ROOT_LOGGER.info('Plotting workspaces={}'.format(list(ws_constraints.keys())))
             fig = visualization.plot_workspaces(
                 ws_constraints,
