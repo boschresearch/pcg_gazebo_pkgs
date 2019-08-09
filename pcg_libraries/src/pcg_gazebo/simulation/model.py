@@ -237,6 +237,8 @@ class SimulationModel(object):
         mesh_scale=[1, 1, 1], add_collision=True, parent=None, joint_type='fixed',
         pose=[0, 0, 0, 0, 0, 0], color=None):        
         assert isinstance(link_name, str), 'Link name must be a string'
+        assert isinstance(size, collections.Iterable), 'Size must be an array'
+        assert len(list(size)) == 3, 'Input size must have 3 elements'
 
         self._logger.info('[{}] Adding cuboid link {}'.format(
             self.name, link_name))
@@ -260,10 +262,11 @@ class SimulationModel(object):
                 return False
 
         link = Link(name=link_name)
-        if mass > 0:
+        if mass > 0:            
             link.inertial = Inertial.create_cuboid_inertia(mass, *size)
-            self._logger.info('[{}] Setting mass={}, link={}'.format(
-                self.name, mass, link_name))
+            self._logger.info('[{}] Setting mass={}, size={}, link={}'.format(
+                self.name, mass, size, link_name))
+            
         link.pose = pose
         self._logger.info('[{}] Link {} pose={}'.format(self.name, link_name, pose))
 
