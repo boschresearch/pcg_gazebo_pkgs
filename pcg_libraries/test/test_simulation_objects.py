@@ -342,10 +342,6 @@ class TestSimulationObjects(unittest.TestCase):
                 sdf.collisions[0].surface.friction.torsional.ode.slip.value, SLIP))
 
     def test_load_gazebo_models(self):
-        # Initially, the list of Gazebo models should be empty
-        self.assertEqual(len(get_gazebo_model_names()), 0, 
-            'Initial list of Gazebo models should be empty')
-
         load_gazebo_models()
 
         self.assertGreater(len(get_gazebo_model_names()), 1, 
