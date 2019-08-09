@@ -76,7 +76,7 @@ class AssetsManager(_CollectionManager):
                 return True
         return False
     
-    def add(self, description, tag=None, parameters=None, include_dir=None):
+    def add(self, description, tag=None, type=None, parameters=None, include_dir=None):
         import os
         from ..parsers import parse_sdf, parse_urdf, urdf2sdf
         from .model_group_generator import ModelGroupGenerator
@@ -119,9 +119,42 @@ class AssetsManager(_CollectionManager):
                     elif len(sdf.models) > 0 or len(sdf.lights) > 0:
                         return self.add(ModelGroup.from_sdf(sdf), tag=tag)
             else:
+                # The string must be otherwise an already existant
+                # Gazebo model
+                if not self.is_gazebo_model(tag):
+                    PCG_ROOT_LOGGER.error('Input string does not refer to a Gazebo'
+                    ' model, value={}'.format(description))
+                    return False
                 self._collection[tag] = description
         else:
-            self._collection[tag] = description
+            if type is None or type == 'factory':
+                if not isinstance(description, dict):
+                    PCG_ROOT_LOGGER.error(
+                        'Factory model constructor must be a dict, value={}'.format(
+                        description))
+                    return False
+                if 'type' not in description or 'args' not in description:
+                    PCG_ROOT_LOGGER.error('Factory model constructor requires '
+                        'type and args inputs')
+                    return False
+                if description['type'] not in \
+                    ['box', 'sphere', 'cylinder', 'mesh']:
+                    PCG_ROOT_LOGGER.error('Type of factory model constructor must be either'
+                        ' box, sphere, cylinder or mesh, received={}'.format(description['type']))
+                    return False
+                type = 'factory'
+                self._collection[tag] = description
+                PCG_ROOT_LOGGER.info('Added model factory <{}>'.format(tag))
+            elif type in ['model_generator', 'light']:                
+                if type == 'model_generator':
+                    self._collection[tag] = ModelGroupGenerator.from_dict(description)
+                    PCG_ROOT_LOGGER.info('Added model group generator <{}>'.format(tag))
+                else:
+                    self._collection[tag] = Light.from_dict(description)
+                    PCG_ROOT_LOGGER.info('Added light <{}>'.format(tag))
+            else:
+                return False
+
         PCG_ROOT_LOGGER.info('New asset added={}'.format(tag))
         return True
 
@@ -137,8 +170,8 @@ class AssetsManager(_CollectionManager):
                 model = SimulationModel.from_gazebo_model(tag)
             except ValueError as ex:            
                 model = ModelGroup.from_gazebo_model(tag)            
-        elif self.is_model_group_generator(self):
-            model = self._collection[tag].run(*args, **kwargs)    
+        elif self.is_model_group_generator(tag):
+            model = self._collection[tag].run(group_name=tag, *args, **kwargs)    
         elif self.is_factory_input(tag):
             from .creators import config2models
             model = SimulationModel.from_sdf(config2models(self._collection[tag])[0])
