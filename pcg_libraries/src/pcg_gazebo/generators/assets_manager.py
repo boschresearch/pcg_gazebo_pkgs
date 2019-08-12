@@ -12,60 +12,129 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import os
+from ..utils import load_yaml
 from ..simulation import SimulationModel, ModelGroup, Light
 from ._collection_manager import _CollectionManager
 from ..log import PCG_ROOT_LOGGER
 
 
 class AssetsManager(_CollectionManager):
+    """Assets manager containing all valid Gazebo models and model group 
+    generators. This collection should be initialized as a singleton object
+    in order to have a single source of model to all instances of engines, model
+    and world generators. 
+    The asset types allowed to be added are:
+    
+    * `pcg_gazebo.simulation.SimulationModel`: Description for a model
+    * `pcg_gazebo.simulation.Light`: Description for light sources
+    * `pcg_gazebo.simulation.ModelGroup`: Group of models and light sources 
+    * `pcg_gazebo.generators.ModelGroupGenerator`: Dynamic model group generator
+    * `dict`: Input configuration of the `creators` factory methods for `box`,
+    `sphere`, `cylinder` and `mesh` models, for an instance of 
+    `pcg_gazebo.simulation.Light`, or an instance of 
+    `pcg_gazebo.generators.ModelGroupGenerator`
+    * `str`: Name of an existing Gazebo model that can be found in the 
+    Gazebo resources path        
+    """
     def __init__(self):
         super(AssetsManager, self).__init__()
         self._ground_plane_assets = list()
     
     @staticmethod
     def get_instance():
+        """Return singleton instance of the `AssetsMananger`"""
         if AssetsManager._INSTANCE is None:
             AssetsManager._INSTANCE = AssetsManager()
         return AssetsManager._INSTANCE
 
     @property
     def tags(self):
+        """`list`: List of strings with all asset tags"""
         from ..simulation import get_gazebo_model_names
         return list(self._collection.keys()) + list(get_gazebo_model_names())
 
     @property
     def ground_planes(self):
+        """`list`: List of strings with tags of ground plane models"""
         return self._ground_plane_assets
 
     def is_model(self, tag):
+        """Return if asset identified by `tag` is an instance of `pcg_gazebo.simulation.SimulationModel`.
+        
+        > *Input arguments*
+        
+        * `tag` (*type:* `str`): Tag of the asset.
+        """
         if tag in self._collection:
             return isinstance(self._collection[tag], SimulationModel)
         return False
 
     def is_light(self, tag):
+        """Return if asset identified by `tag` is an instance of `pcg_gazebo.simulation.Light`.
+    
+        > *Input arguments*
+        
+        * `tag` (*type:* `str`): Tag of the asset.
+        """
         if tag in self._collection:
             return isinstance(self._collection[tag], Light)
         return False
     
     def is_model_group(self, tag):
+        """Return if asset identified by `tag` is an instance of `pcg_gazebo.simulation.ModelGroup`.
+
+        > *Input arguments*
+        
+        * `tag` (*type:* `str`): Tag of the asset.
+        """
         if tag in self._collection:
             return isinstance(self._collection[tag], ModelGroup)
         return False
 
     def is_gazebo_model(self, tag):
+        """Return if asset identified by `tag` is a Gazebo model
+        found in Gazebo's resources path.
+
+        > *Input arguments*
+        
+        * `tag` (*type:* `str`): Tag of the asset.
+        """    
         from ..simulation import is_gazebo_model
         return is_gazebo_model(tag)
 
     def is_model_group_generator(self, tag):
+        """Return if asset identified by `tag` is an instance of 
+        `pcg_gazebo.generators.ModelGroupGenerator`.
+
+        > *Input arguments*
+        
+        * `tag` (*type:* `str`): Tag of the asset.
+        """
         from .model_group_generator import ModelGroupGenerator
         if tag in self._collection:
             return isinstance(self._collection[tag], ModelGroupGenerator)
         return False
 
     def is_ground_plane(self, tag):
+        """Return if asset identified by `tag` is flagged as a ground 
+        plane model.
+
+        > *Input arguments*
+        
+        * `tag` (*type:* `str`): Tag of the asset.
+        """
         return tag in self._ground_plane_assets
 
     def is_factory_input(self, tag):
+        """Return if asset identified by `tag` is a `dict` containing
+        the inputs for a `pcg_gazebo.generators.creators` factory method
+        to create a `box`, `sphere`, `cylinder` or `mesh` model.
+
+        > *Input arguments*
+        
+        * `tag` (*type:* `str`): Tag of the asset.
+        """
         if self.has_element(tag):
             if not isinstance(self._collection[tag], dict):
                 return False
@@ -77,7 +146,24 @@ class AssetsManager(_CollectionManager):
         return False
     
     def add(self, description, tag=None, type=None, parameters=None, include_dir=None):
-        import os
+        """Add new asset to the collection.
+        
+        > *Input arguments*
+        
+        * `description` (*type:* `str`, `dict`, `pcg_gazebo.simulation.SimulationModel`, 
+        `pcg_gazebo.simulation.Light`, `pcg_gazebo.simulation.ModelGroup` or 
+        `pcg_gazebo.generators.ModelGroupGenerator`): Model description.
+        * `tag` (*type:* `str`, *default:* `None`): Asset's tag. If `None` is provided, 
+        the input `description` must have an attribute `name` which will be used as a 
+        tag, otherwise the function returns `False`.
+        * `type` (*type:* `str`, *default:* `None`): When the provided description is
+        `dict`, the type of asset that must be generated with the `dict` input must be
+        then provided as either `factory`, `model_generator` or `light`.
+                
+        > *Returns*
+        
+        `True`, if asset could be added to the collection.
+        """        
         from ..parsers import parse_sdf, parse_urdf, urdf2sdf
         from .model_group_generator import ModelGroupGenerator
         assert isinstance(description, SimulationModel) or \
@@ -159,6 +245,19 @@ class AssetsManager(_CollectionManager):
         return True
 
     def get(self, tag, *args, **kwargs):
+        """Return an asset reference by `tag`.
+        
+        > *Input arguments*
+        
+        * `tag` (*type:* `str`): Tag of the asset. In case `tag` is referencing a 
+        `pcg_gazebo.generators.ModelGroupGenerator`, additional inputs to run
+        the engines can be provided using `*args` and `**kwargs`.
+        
+        > *Returns*
+        
+        `pcg_gazebo.simulation.SimulationModel` or `pcg_gazebo.simulation.ModelGroup`. 
+        `None`, if `tag` is invalid.
+        """
         model = None
         if self.is_model(tag) or self.is_light(tag):
             model = self._collection[tag].copy()
@@ -199,6 +298,19 @@ class AssetsManager(_CollectionManager):
             return True
 
     def from_dict(self, config):
+        """Read assets from an input `dict`. The dictionary should have a list of
+        asset descriptions under the tag `assets` and, if necessary, a list of 
+        strings referring to models that must be flagged as ground plane under the 
+        tag `ground_plane`.
+        
+        > *Input arguments*
+        
+        * `config` (*type:* `data_type`, *default:* `data`): Parameter description
+        
+        > *Returns*
+        
+        Description of return values
+        """
         assert isinstance(config, dict), 'Input must be a dictionary'
 
         if 'assets' in config:
@@ -218,4 +330,11 @@ class AssetsManager(_CollectionManager):
                         tag))
             
     def from_yaml(self, filename):
-        pass
+        """Load the assets from a YAML file.
+        
+        > *Input arguments*
+        
+        * `filename` (*type:* `str`): YAML filename.        
+        """
+        config = load_yaml(filename)
+        self.from_dict(config)

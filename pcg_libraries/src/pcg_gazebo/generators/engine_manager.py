@@ -12,6 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from ..utils import load_yaml
 from .engines import create_engine
 from ._collection_manager import _CollectionManager
 from .constraints_manager import ConstraintsManager
@@ -70,7 +71,14 @@ class EngineManager(_CollectionManager):
                 PCG_ROOT_LOGGER.error('Failed to add engine={}'.format(config))
             
     def from_yaml(self, filename):
-        raise NotImplementedError()
+        """Load the engines from a YAML file.
+
+        > *Input arguments*
+        
+        * `filename` (*type:* `str`): YAML filename.        
+        """
+        config = load_yaml(filename)
+        self.from_dict(config)
 
     def add_constraint(self, name, type, **kwargs):
         return self._constraints_manager.add(name=name, type=type, **kwargs)

@@ -15,7 +15,6 @@
 import rospy
 import os
 import datetime
-import collections
 from time import sleep, time
 from .. import visualization
 from ..log import PCG_ROOT_LOGGER
@@ -24,9 +23,6 @@ from ..task_manager import GazeboProxy, is_gazebo_running
 from ..parsers.sdf import create_sdf_element, is_sdf_element
 from ..simulation import SimulationModel, Light, World
 from ..simulation.physics import ODE, Simbody, Bullet
-from .engines import create_engine
-from .constraints import create_constraint
-from .model_group_generator import ModelGroupGenerator
 from .assets_manager import AssetsManager
 from .engine_manager import EngineManager
 
