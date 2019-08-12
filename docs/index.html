@@ -1025,6 +1025,7 @@
 <p>The Procedural Generation for Gazebo package is an Open Source
 Project extending the simulation capabilities of the robotics simulator Gazebo
 for automation and scripting of Gazebo simulations.</p>
+<p>Visit the <a href="https://boschresearch.github.io/pcg_gazebo_pkgs/">documentation page</a> for more information.</p>
 <h5 id="purpose-of-the-project">Purpose of the project<a class="headerlink" href="#purpose-of-the-project" title="Permanent link">&para;</a></h5>
 <p>This software is a research prototype.</p>
 <p>The software is not ready for production use. It has neither been developed nor
@@ -1036,20 +1037,20 @@ standards (e.g. ISO 26262).</p>
 <h5 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h5>
 <h6 id="installation-from-source">Installation from source<a class="headerlink" href="#installation-from-source" title="Permanent link">&para;</a></h6>
 <p>Clone the repository into your catkin workspace</p>
-<div class="codehilite"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">catkin_ws</span><span class="o">/</span><span class="n">src</span>
-<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">boschresearch</span><span class="o">/</span><span class="n">pcg_gazebo_pkgs</span><span class="p">.</span><span class="n">git</span>
+<div class="codehilite"><pre><span></span>cd ~/catkin_ws/src
+git clone https://github.com/boschresearch/pcg_gazebo_pkgs.git
 </pre></div>
 
-<p>then install the dependencies (replace <code class="codehilite"><span class="n">kinetic</span></code> for the ROS distribution you are using)</p>
-<div class="codehilite"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">catkin_ws</span>
-<span class="n">rosdep</span> <span class="n">install</span> <span class="c1">--from-paths src --ignore-src --rosdistro=kinetic -y -r</span>
+<p>then install the dependencies (replace <code class="codehilite">kinetic</code> for the ROS distribution you are using)</p>
+<div class="codehilite"><pre><span></span>cd ~/catkin_ws
+rosdep install --from-paths src --ignore-src --rosdistro=kinetic -y -r
 </pre></div>
 
-<p>and then run <code class="codehilite"><span class="n">catkin</span> <span class="n">build</span></code>.</p>
+<p>and then run <code class="codehilite">catkin build</code>.</p>
 <h6 id="installation-of-python-dependencies">Installation of Python dependencies<a class="headerlink" href="#installation-of-python-dependencies" title="Permanent link">&para;</a></h6>
-<p>The Python dependencies for the <code class="codehilite"><span class="n">pcg_gazebo</span></code> library can be found in <a href="https://github.com/boschresearch/pcg_gazebo_pkgs/blob/master/pcg_libraries/requirements.txt"><code class="codehilite"><span class="n">pcg_libraries</span><span class="o">/</span><span class="n">requirements</span><span class="p">.</span><span class="n">txt</span></code></a>.
-Since some of them cannot be resolved using <code class="codehilite"><span class="n">rosdep</span></code>, the missing dependencies are going
-to be installed in <code class="codehilite"><span class="n">pip</span></code> using the default <code class="codehilite"><span class="n">python</span></code> version in the target system in the <code class="codehilite"><span class="k">user</span></code> 
+<p>The Python dependencies for the <code class="codehilite">pcg_gazebo</code> library can be found in <a href="https://github.com/boschresearch/pcg_gazebo_pkgs/blob/master/pcg_libraries/requirements.txt"><code class="codehilite">pcg_libraries/requirements.txt</code></a>.
+Since some of them cannot be resolved using <code class="codehilite">rosdep</code>, the missing dependencies are going
+to be installed in <code class="codehilite">pip</code> using the default <code class="codehilite">python</code> version in the target system in the <code class="codehilite">user</code> 
 space.</p>
 <h5 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h5>
 <p>Procedural Generation for Gazebo is open-sourced under the Apache-2.0 license. See the <a href="https://github.com/boschresearch/pcg_gazebo_pkgs/blob/master/LICENSE">LICENSE</a> file for details.</p>

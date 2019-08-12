@@ -1047,6 +1047,11 @@
 <span class="n">simulation</span><span class="o">.</span><span class="n">run_all_tasks</span><span class="p">()</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>[&#39;gazebo&#39;]
+Is Gazebo running: False
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">pcg_gazebo.generators</span> <span class="kn">import</span> <span class="n">WorldGenerator</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="c1"># Create a Gazebo proxy</span>
@@ -1066,24 +1071,124 @@
 <span class="k">print</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">inertial</span><span class="p">)</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>Size:
+[1, 1, 1]
+Inertial:
+None
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="c1"># When generating the SDF elements for the box, a few options can be used</span>
 <span class="k">print</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;box&#39;</span><span class="p">))</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>&lt;box&gt;
+  &lt;size&gt;1 1 1&lt;/size&gt;
+&lt;/box&gt;
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;geometry&#39;</span><span class="p">))</span>
 </pre></div>
+
+<div class="codehilite"><pre><span></span>&lt;geometry&gt;
+  &lt;box&gt;
+    &lt;size&gt;1 1 1&lt;/size&gt;
+  &lt;/box&gt;
+&lt;/geometry&gt;
+</pre></div>
+
 
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;collision&#39;</span><span class="p">))</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>&lt;collision name=&quot;collision&quot;&gt;
+  &lt;max_contacts&gt;10&lt;/max_contacts&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;geometry&gt;
+    &lt;box&gt;
+      &lt;size&gt;1 1 1&lt;/size&gt;
+    &lt;/box&gt;
+  &lt;/geometry&gt;
+&lt;/collision&gt;
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;visual&#39;</span><span class="p">))</span>
 </pre></div>
+
+<div class="codehilite"><pre><span></span>&lt;visual name=&quot;visual&quot;&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;geometry&gt;
+    &lt;box&gt;
+      &lt;size&gt;1 1 1&lt;/size&gt;
+    &lt;/box&gt;
+  &lt;/geometry&gt;
+  &lt;transparency&gt;0.0&lt;/transparency&gt;
+  &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
+&lt;/visual&gt;
+</pre></div>
+
 
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;link&#39;</span><span class="p">))</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>&lt;link name=&quot;box&quot;&gt;
+  &lt;collision name=&quot;collision&quot;&gt;
+    &lt;max_contacts&gt;10&lt;/max_contacts&gt;
+    &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+    &lt;geometry&gt;
+      &lt;box&gt;
+        &lt;size&gt;1 1 1&lt;/size&gt;
+      &lt;/box&gt;
+    &lt;/geometry&gt;
+  &lt;/collision&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;visual name=&quot;visual&quot;&gt;
+    &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+    &lt;geometry&gt;
+      &lt;box&gt;
+        &lt;size&gt;1 1 1&lt;/size&gt;
+      &lt;/box&gt;
+    &lt;/geometry&gt;
+    &lt;transparency&gt;0.0&lt;/transparency&gt;
+    &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
+  &lt;/visual&gt;
+&lt;/link&gt;
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">))</span>
 </pre></div>
+
+<div class="codehilite"><pre><span></span>&lt;model name=&quot;box&quot;&gt;
+  &lt;link name=&quot;box&quot;&gt;
+    &lt;collision name=&quot;collision&quot;&gt;
+      &lt;max_contacts&gt;10&lt;/max_contacts&gt;
+      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+      &lt;geometry&gt;
+        &lt;box&gt;
+          &lt;size&gt;1 1 1&lt;/size&gt;
+        &lt;/box&gt;
+      &lt;/geometry&gt;
+    &lt;/collision&gt;
+    &lt;visual name=&quot;visual&quot;&gt;
+      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+      &lt;geometry&gt;
+        &lt;box&gt;
+          &lt;size&gt;1 1 1&lt;/size&gt;
+        &lt;/box&gt;
+      &lt;/geometry&gt;
+      &lt;transparency&gt;0.0&lt;/transparency&gt;
+      &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
+    &lt;/visual&gt;
+  &lt;/link&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;allow_auto_disable&gt;0&lt;/allow_auto_disable&gt;
+  &lt;static&gt;0&lt;/static&gt;
+&lt;/model&gt;
+</pre></div>
+
 
 <div class="codehilite"><pre><span></span><span class="c1"># To set the inertial, use the function add_inertial giving the mass of the box,</span>
 <span class="c1"># the moments of inertia will be computed from the box&#39;s dimensions</span>
@@ -1092,10 +1197,98 @@
 <span class="k">print</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">inertial</span><span class="p">)</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>Mass [Kg]=20
+Pose=[0. 0. 0.]
+I =
+    Ixx=0.6666666666666666
+    Iyy=0.21666666666666665
+    Izz=0.7499999999999999
+    Ixy=0
+    Ixz=0
+    Iyz=0
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="c1"># The inertial information will be added to the SDF description in link and model modes</span>
 <span class="k">print</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;link&#39;</span><span class="p">))</span>
 <span class="k">print</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">))</span>
 </pre></div>
+
+<div class="codehilite"><pre><span></span>&lt;link name=&quot;box&quot;&gt;
+  &lt;collision name=&quot;collision&quot;&gt;
+    &lt;max_contacts&gt;10&lt;/max_contacts&gt;
+    &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+    &lt;geometry&gt;
+      &lt;box&gt;
+        &lt;size&gt;0.3 0.6 0.2&lt;/size&gt;
+      &lt;/box&gt;
+    &lt;/geometry&gt;
+  &lt;/collision&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;inertial&gt;
+    &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+    &lt;mass&gt;20.0&lt;/mass&gt;
+    &lt;inertia&gt;
+      &lt;iyz&gt;0.0&lt;/iyz&gt;
+      &lt;ixy&gt;0.0&lt;/ixy&gt;
+      &lt;ixz&gt;0.0&lt;/ixz&gt;
+      &lt;izz&gt;0.7499999999999999&lt;/izz&gt;
+      &lt;ixx&gt;0.6666666666666666&lt;/ixx&gt;
+      &lt;iyy&gt;0.21666666666666665&lt;/iyy&gt;
+    &lt;/inertia&gt;
+  &lt;/inertial&gt;
+  &lt;visual name=&quot;visual&quot;&gt;
+    &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+    &lt;geometry&gt;
+      &lt;box&gt;
+        &lt;size&gt;0.3 0.6 0.2&lt;/size&gt;
+      &lt;/box&gt;
+    &lt;/geometry&gt;
+    &lt;transparency&gt;0.0&lt;/transparency&gt;
+    &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
+  &lt;/visual&gt;
+&lt;/link&gt;
+
+&lt;model name=&quot;box&quot;&gt;
+  &lt;link name=&quot;box&quot;&gt;
+    &lt;collision name=&quot;collision&quot;&gt;
+      &lt;max_contacts&gt;10&lt;/max_contacts&gt;
+      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+      &lt;geometry&gt;
+        &lt;box&gt;
+          &lt;size&gt;0.3 0.6 0.2&lt;/size&gt;
+        &lt;/box&gt;
+      &lt;/geometry&gt;
+    &lt;/collision&gt;
+    &lt;visual name=&quot;visual&quot;&gt;
+      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+      &lt;geometry&gt;
+        &lt;box&gt;
+          &lt;size&gt;0.3 0.6 0.2&lt;/size&gt;
+        &lt;/box&gt;
+      &lt;/geometry&gt;
+      &lt;transparency&gt;0.0&lt;/transparency&gt;
+      &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
+    &lt;/visual&gt;
+    &lt;inertial&gt;
+      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+      &lt;inertia&gt;
+        &lt;iyz&gt;0.0&lt;/iyz&gt;
+        &lt;ixy&gt;0.0&lt;/ixy&gt;
+        &lt;ixz&gt;0.0&lt;/ixz&gt;
+        &lt;izz&gt;0.7499999999999999&lt;/izz&gt;
+        &lt;ixx&gt;0.6666666666666666&lt;/ixx&gt;
+        &lt;iyy&gt;0.21666666666666665&lt;/iyy&gt;
+      &lt;/inertia&gt;
+      &lt;mass&gt;20.0&lt;/mass&gt;
+    &lt;/inertial&gt;
+  &lt;/link&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;allow_auto_disable&gt;0&lt;/allow_auto_disable&gt;
+  &lt;static&gt;0&lt;/static&gt;
+&lt;/model&gt;
+</pre></div>
+
 
 <div class="codehilite"><pre><span></span><span class="n">model_counter</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">]:</span>
@@ -1114,6 +1307,10 @@
 <span class="k">print</span><span class="p">(</span><span class="n">generator</span><span class="o">.</span><span class="n">gazebo_proxy</span><span class="o">.</span><span class="n">get_model_names</span><span class="p">())</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>[&#39;ground_plane&#39;, &#39;box_0&#39;, &#39;box_1&#39;, &#39;box_2&#39;, &#39;box_3&#39;, &#39;box_4&#39;, &#39;box_5&#39;, &#39;box_6&#39;, &#39;box_7&#39;, &#39;box_8&#39;]
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="c1"># End the simulation by killing the Gazebo task</span>
 <span class="c1"># simulation.kill_task(&#39;gazebo&#39;)</span>
 </pre></div>
@@ -1127,24 +1324,124 @@
 <span class="k">print</span><span class="p">(</span><span class="n">sphere</span><span class="o">.</span><span class="n">inertial</span><span class="p">)</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>Radius:
+1
+Inertial:
+None
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="c1"># When generating the SDF elements for the box, a few options can be used</span>
 <span class="k">print</span><span class="p">(</span><span class="n">sphere</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;sphere&#39;</span><span class="p">))</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>&lt;sphere&gt;
+  &lt;radius&gt;1.0&lt;/radius&gt;
+&lt;/sphere&gt;
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">sphere</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;geometry&#39;</span><span class="p">))</span>
 </pre></div>
+
+<div class="codehilite"><pre><span></span>&lt;geometry&gt;
+  &lt;sphere&gt;
+    &lt;radius&gt;1.0&lt;/radius&gt;
+  &lt;/sphere&gt;
+&lt;/geometry&gt;
+</pre></div>
+
 
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">sphere</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;collision&#39;</span><span class="p">))</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>&lt;collision name=&quot;collision&quot;&gt;
+  &lt;max_contacts&gt;10&lt;/max_contacts&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;geometry&gt;
+    &lt;sphere&gt;
+      &lt;radius&gt;1.0&lt;/radius&gt;
+    &lt;/sphere&gt;
+  &lt;/geometry&gt;
+&lt;/collision&gt;
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">sphere</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;visual&#39;</span><span class="p">))</span>
 </pre></div>
+
+<div class="codehilite"><pre><span></span>&lt;visual name=&quot;visual&quot;&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;geometry&gt;
+    &lt;sphere&gt;
+      &lt;radius&gt;1.0&lt;/radius&gt;
+    &lt;/sphere&gt;
+  &lt;/geometry&gt;
+  &lt;transparency&gt;0.0&lt;/transparency&gt;
+  &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
+&lt;/visual&gt;
+</pre></div>
+
 
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">sphere</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;link&#39;</span><span class="p">))</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>&lt;link name=&quot;sphere&quot;&gt;
+  &lt;collision name=&quot;collision&quot;&gt;
+    &lt;max_contacts&gt;10&lt;/max_contacts&gt;
+    &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+    &lt;geometry&gt;
+      &lt;sphere&gt;
+        &lt;radius&gt;1.0&lt;/radius&gt;
+      &lt;/sphere&gt;
+    &lt;/geometry&gt;
+  &lt;/collision&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;visual name=&quot;visual&quot;&gt;
+    &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+    &lt;geometry&gt;
+      &lt;sphere&gt;
+        &lt;radius&gt;1.0&lt;/radius&gt;
+      &lt;/sphere&gt;
+    &lt;/geometry&gt;
+    &lt;transparency&gt;0.0&lt;/transparency&gt;
+    &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
+  &lt;/visual&gt;
+&lt;/link&gt;
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">sphere</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">))</span>
 </pre></div>
+
+<div class="codehilite"><pre><span></span>&lt;model name=&quot;sphere&quot;&gt;
+  &lt;link name=&quot;sphere&quot;&gt;
+    &lt;collision name=&quot;collision&quot;&gt;
+      &lt;max_contacts&gt;10&lt;/max_contacts&gt;
+      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+      &lt;geometry&gt;
+        &lt;sphere&gt;
+          &lt;radius&gt;1.0&lt;/radius&gt;
+        &lt;/sphere&gt;
+      &lt;/geometry&gt;
+    &lt;/collision&gt;
+    &lt;visual name=&quot;visual&quot;&gt;
+      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+      &lt;geometry&gt;
+        &lt;sphere&gt;
+          &lt;radius&gt;1.0&lt;/radius&gt;
+        &lt;/sphere&gt;
+      &lt;/geometry&gt;
+      &lt;transparency&gt;0.0&lt;/transparency&gt;
+      &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
+    &lt;/visual&gt;
+  &lt;/link&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;allow_auto_disable&gt;0&lt;/allow_auto_disable&gt;
+  &lt;static&gt;0&lt;/static&gt;
+&lt;/model&gt;
+</pre></div>
+
 
 <div class="codehilite"><pre><span></span><span class="c1"># To set the inertial, use the function add_inertial giving the mass of the sphere,</span>
 <span class="c1"># the moments of inertia will be computed from the sphere&#39;s dimensions</span>
@@ -1153,10 +1450,98 @@
 <span class="k">print</span><span class="p">(</span><span class="n">sphere</span><span class="o">.</span><span class="n">inertial</span><span class="p">)</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>Mass [Kg]=20
+Pose=[0. 0. 0.]
+I =
+    Ixx=0.72
+    Iyy=0.72
+    Izz=0.72
+    Ixy=0
+    Ixz=0
+    Iyz=0
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="c1"># The inertial information will be added to the SDF description in link and model modes</span>
 <span class="k">print</span><span class="p">(</span><span class="n">sphere</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;link&#39;</span><span class="p">))</span>
 <span class="k">print</span><span class="p">(</span><span class="n">sphere</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">))</span>
 </pre></div>
+
+<div class="codehilite"><pre><span></span>&lt;link name=&quot;sphere&quot;&gt;
+  &lt;collision name=&quot;collision&quot;&gt;
+    &lt;max_contacts&gt;10&lt;/max_contacts&gt;
+    &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+    &lt;geometry&gt;
+      &lt;sphere&gt;
+        &lt;radius&gt;0.3&lt;/radius&gt;
+      &lt;/sphere&gt;
+    &lt;/geometry&gt;
+  &lt;/collision&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;inertial&gt;
+    &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+    &lt;mass&gt;20.0&lt;/mass&gt;
+    &lt;inertia&gt;
+      &lt;iyz&gt;0.0&lt;/iyz&gt;
+      &lt;ixy&gt;0.0&lt;/ixy&gt;
+      &lt;ixz&gt;0.0&lt;/ixz&gt;
+      &lt;izz&gt;0.72&lt;/izz&gt;
+      &lt;ixx&gt;0.72&lt;/ixx&gt;
+      &lt;iyy&gt;0.72&lt;/iyy&gt;
+    &lt;/inertia&gt;
+  &lt;/inertial&gt;
+  &lt;visual name=&quot;visual&quot;&gt;
+    &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+    &lt;geometry&gt;
+      &lt;sphere&gt;
+        &lt;radius&gt;0.3&lt;/radius&gt;
+      &lt;/sphere&gt;
+    &lt;/geometry&gt;
+    &lt;transparency&gt;0.0&lt;/transparency&gt;
+    &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
+  &lt;/visual&gt;
+&lt;/link&gt;
+
+&lt;model name=&quot;sphere&quot;&gt;
+  &lt;link name=&quot;sphere&quot;&gt;
+    &lt;collision name=&quot;collision&quot;&gt;
+      &lt;max_contacts&gt;10&lt;/max_contacts&gt;
+      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+      &lt;geometry&gt;
+        &lt;sphere&gt;
+          &lt;radius&gt;0.3&lt;/radius&gt;
+        &lt;/sphere&gt;
+      &lt;/geometry&gt;
+    &lt;/collision&gt;
+    &lt;visual name=&quot;visual&quot;&gt;
+      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+      &lt;geometry&gt;
+        &lt;sphere&gt;
+          &lt;radius&gt;0.3&lt;/radius&gt;
+        &lt;/sphere&gt;
+      &lt;/geometry&gt;
+      &lt;transparency&gt;0.0&lt;/transparency&gt;
+      &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
+    &lt;/visual&gt;
+    &lt;inertial&gt;
+      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+      &lt;inertia&gt;
+        &lt;iyz&gt;0.0&lt;/iyz&gt;
+        &lt;ixy&gt;0.0&lt;/ixy&gt;
+        &lt;ixz&gt;0.0&lt;/ixz&gt;
+        &lt;izz&gt;0.72&lt;/izz&gt;
+        &lt;ixx&gt;0.72&lt;/ixx&gt;
+        &lt;iyy&gt;0.72&lt;/iyy&gt;
+      &lt;/inertia&gt;
+      &lt;mass&gt;20.0&lt;/mass&gt;
+    &lt;/inertial&gt;
+  &lt;/link&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;allow_auto_disable&gt;0&lt;/allow_auto_disable&gt;
+  &lt;static&gt;0&lt;/static&gt;
+&lt;/model&gt;
+</pre></div>
+
 
 <div class="codehilite"><pre><span></span><span class="c1"># Run Gazebo again, if not already running</span>
 <span class="n">simulation</span><span class="o">.</span><span class="n">run_task</span><span class="p">(</span><span class="s1">&#39;gazebo&#39;</span><span class="p">)</span>
@@ -1190,24 +1575,132 @@
 <span class="k">print</span><span class="p">(</span><span class="n">cylinder</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>Radius:
+1
+Length:
+1
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="c1"># When generating the SDF elements for the cylinder, a few options can be used</span>
 <span class="k">print</span><span class="p">(</span><span class="n">cylinder</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;cylinder&#39;</span><span class="p">))</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>&lt;cylinder&gt;
+  &lt;length&gt;1.0&lt;/length&gt;
+  &lt;radius&gt;1.0&lt;/radius&gt;
+&lt;/cylinder&gt;
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">cylinder</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;geometry&#39;</span><span class="p">))</span>
 </pre></div>
+
+<div class="codehilite"><pre><span></span>&lt;geometry&gt;
+  &lt;cylinder&gt;
+    &lt;length&gt;1.0&lt;/length&gt;
+    &lt;radius&gt;1.0&lt;/radius&gt;
+  &lt;/cylinder&gt;
+&lt;/geometry&gt;
+</pre></div>
+
 
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">cylinder</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;collision&#39;</span><span class="p">))</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>&lt;collision name=&quot;collision&quot;&gt;
+  &lt;max_contacts&gt;10&lt;/max_contacts&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;geometry&gt;
+    &lt;cylinder&gt;
+      &lt;length&gt;1.0&lt;/length&gt;
+      &lt;radius&gt;1.0&lt;/radius&gt;
+    &lt;/cylinder&gt;
+  &lt;/geometry&gt;
+&lt;/collision&gt;
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">cylinder</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;visual&#39;</span><span class="p">))</span>
 </pre></div>
+
+<div class="codehilite"><pre><span></span>&lt;visual name=&quot;visual&quot;&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;geometry&gt;
+    &lt;cylinder&gt;
+      &lt;length&gt;1.0&lt;/length&gt;
+      &lt;radius&gt;1.0&lt;/radius&gt;
+    &lt;/cylinder&gt;
+  &lt;/geometry&gt;
+  &lt;transparency&gt;0.0&lt;/transparency&gt;
+  &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
+&lt;/visual&gt;
+</pre></div>
+
 
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">cylinder</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;link&#39;</span><span class="p">))</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>&lt;link name=&quot;cylinder&quot;&gt;
+  &lt;collision name=&quot;collision&quot;&gt;
+    &lt;max_contacts&gt;10&lt;/max_contacts&gt;
+    &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+    &lt;geometry&gt;
+      &lt;cylinder&gt;
+        &lt;length&gt;1.0&lt;/length&gt;
+        &lt;radius&gt;1.0&lt;/radius&gt;
+      &lt;/cylinder&gt;
+    &lt;/geometry&gt;
+  &lt;/collision&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;visual name=&quot;visual&quot;&gt;
+    &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+    &lt;geometry&gt;
+      &lt;cylinder&gt;
+        &lt;length&gt;1.0&lt;/length&gt;
+        &lt;radius&gt;1.0&lt;/radius&gt;
+      &lt;/cylinder&gt;
+    &lt;/geometry&gt;
+    &lt;transparency&gt;0.0&lt;/transparency&gt;
+    &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
+  &lt;/visual&gt;
+&lt;/link&gt;
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">cylinder</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">))</span>
 </pre></div>
+
+<div class="codehilite"><pre><span></span>&lt;model name=&quot;cylinder&quot;&gt;
+  &lt;link name=&quot;cylinder&quot;&gt;
+    &lt;collision name=&quot;collision&quot;&gt;
+      &lt;max_contacts&gt;10&lt;/max_contacts&gt;
+      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+      &lt;geometry&gt;
+        &lt;cylinder&gt;
+          &lt;length&gt;1.0&lt;/length&gt;
+          &lt;radius&gt;1.0&lt;/radius&gt;
+        &lt;/cylinder&gt;
+      &lt;/geometry&gt;
+    &lt;/collision&gt;
+    &lt;visual name=&quot;visual&quot;&gt;
+      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+      &lt;geometry&gt;
+        &lt;cylinder&gt;
+          &lt;length&gt;1.0&lt;/length&gt;
+          &lt;radius&gt;1.0&lt;/radius&gt;
+        &lt;/cylinder&gt;
+      &lt;/geometry&gt;
+      &lt;transparency&gt;0.0&lt;/transparency&gt;
+      &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
+    &lt;/visual&gt;
+  &lt;/link&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;allow_auto_disable&gt;0&lt;/allow_auto_disable&gt;
+  &lt;static&gt;0&lt;/static&gt;
+&lt;/model&gt;
+</pre></div>
+
 
 <div class="codehilite"><pre><span></span><span class="c1"># To set the inertial, use the function add_inertial giving the mass of the cylinder,</span>
 <span class="c1"># the moments of inertia will be computed from the cylinder&#39;s dimensions</span>
@@ -1217,10 +1710,102 @@
 <span class="k">print</span><span class="p">(</span><span class="n">cylinder</span><span class="o">.</span><span class="n">inertial</span><span class="p">)</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>Mass [Kg]=20
+Pose=[0. 0. 0.]
+I =
+    Ixx=1.5166666666666668
+    Iyy=1.5166666666666668
+    Izz=0.8999999999999999
+    Ixy=0
+    Ixz=0
+    Iyz=0
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="c1"># The inertial information will be added to the SDF description in link and model modes</span>
 <span class="k">print</span><span class="p">(</span><span class="n">cylinder</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;link&#39;</span><span class="p">))</span>
 <span class="k">print</span><span class="p">(</span><span class="n">cylinder</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">))</span>
 </pre></div>
+
+<div class="codehilite"><pre><span></span>&lt;link name=&quot;cylinder&quot;&gt;
+  &lt;collision name=&quot;collision&quot;&gt;
+    &lt;max_contacts&gt;10&lt;/max_contacts&gt;
+    &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+    &lt;geometry&gt;
+      &lt;cylinder&gt;
+        &lt;length&gt;0.8&lt;/length&gt;
+        &lt;radius&gt;0.3&lt;/radius&gt;
+      &lt;/cylinder&gt;
+    &lt;/geometry&gt;
+  &lt;/collision&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;inertial&gt;
+    &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+    &lt;mass&gt;20.0&lt;/mass&gt;
+    &lt;inertia&gt;
+      &lt;iyz&gt;0.0&lt;/iyz&gt;
+      &lt;ixy&gt;0.0&lt;/ixy&gt;
+      &lt;ixz&gt;0.0&lt;/ixz&gt;
+      &lt;izz&gt;0.8999999999999999&lt;/izz&gt;
+      &lt;ixx&gt;1.5166666666666668&lt;/ixx&gt;
+      &lt;iyy&gt;1.5166666666666668&lt;/iyy&gt;
+    &lt;/inertia&gt;
+  &lt;/inertial&gt;
+  &lt;visual name=&quot;visual&quot;&gt;
+    &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+    &lt;geometry&gt;
+      &lt;cylinder&gt;
+        &lt;length&gt;0.8&lt;/length&gt;
+        &lt;radius&gt;0.3&lt;/radius&gt;
+      &lt;/cylinder&gt;
+    &lt;/geometry&gt;
+    &lt;transparency&gt;0.0&lt;/transparency&gt;
+    &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
+  &lt;/visual&gt;
+&lt;/link&gt;
+
+&lt;model name=&quot;cylinder&quot;&gt;
+  &lt;link name=&quot;cylinder&quot;&gt;
+    &lt;collision name=&quot;collision&quot;&gt;
+      &lt;max_contacts&gt;10&lt;/max_contacts&gt;
+      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+      &lt;geometry&gt;
+        &lt;cylinder&gt;
+          &lt;length&gt;0.8&lt;/length&gt;
+          &lt;radius&gt;0.3&lt;/radius&gt;
+        &lt;/cylinder&gt;
+      &lt;/geometry&gt;
+    &lt;/collision&gt;
+    &lt;visual name=&quot;visual&quot;&gt;
+      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+      &lt;geometry&gt;
+        &lt;cylinder&gt;
+          &lt;length&gt;0.8&lt;/length&gt;
+          &lt;radius&gt;0.3&lt;/radius&gt;
+        &lt;/cylinder&gt;
+      &lt;/geometry&gt;
+      &lt;transparency&gt;0.0&lt;/transparency&gt;
+      &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
+    &lt;/visual&gt;
+    &lt;inertial&gt;
+      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+      &lt;inertia&gt;
+        &lt;iyz&gt;0.0&lt;/iyz&gt;
+        &lt;ixy&gt;0.0&lt;/ixy&gt;
+        &lt;ixz&gt;0.0&lt;/ixz&gt;
+        &lt;izz&gt;0.8999999999999999&lt;/izz&gt;
+        &lt;ixx&gt;1.5166666666666668&lt;/ixx&gt;
+        &lt;iyy&gt;1.5166666666666668&lt;/iyy&gt;
+      &lt;/inertia&gt;
+      &lt;mass&gt;20.0&lt;/mass&gt;
+    &lt;/inertial&gt;
+  &lt;/link&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;allow_auto_disable&gt;0&lt;/allow_auto_disable&gt;
+  &lt;static&gt;0&lt;/static&gt;
+&lt;/model&gt;
+</pre></div>
+
 
 <div class="codehilite"><pre><span></span><span class="c1"># Run Gazebo again, if not already running</span>
 <span class="n">simulation</span><span class="o">.</span><span class="n">run_task</span><span class="p">(</span><span class="s1">&#39;gazebo&#39;</span><span class="p">)</span>
@@ -1251,24 +1836,112 @@
 <span class="k">print</span><span class="p">(</span><span class="n">plane</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>Normal:
+[0, 0, 1]
+Size:
+[1, 1]
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="c1"># When generating the SDF elements for the plane, a few options can be used</span>
 <span class="k">print</span><span class="p">(</span><span class="n">plane</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;plane&#39;</span><span class="p">))</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>&lt;plane&gt;
+  &lt;normal&gt;0 0 1&lt;/normal&gt;
+  &lt;size&gt;1 1&lt;/size&gt;
+&lt;/plane&gt;
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">plane</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;geometry&#39;</span><span class="p">))</span>
 </pre></div>
+
+<div class="codehilite"><pre><span></span>&lt;geometry&gt;
+  &lt;plane&gt;
+    &lt;normal&gt;0 0 1&lt;/normal&gt;
+    &lt;size&gt;1 1&lt;/size&gt;
+  &lt;/plane&gt;
+&lt;/geometry&gt;
+</pre></div>
+
 
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">plane</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;visual&#39;</span><span class="p">))</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>&lt;visual name=&quot;visual&quot;&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;geometry&gt;
+    &lt;plane&gt;
+      &lt;normal&gt;0 0 1&lt;/normal&gt;
+      &lt;size&gt;1 1&lt;/size&gt;
+    &lt;/plane&gt;
+  &lt;/geometry&gt;
+  &lt;transparency&gt;0.0&lt;/transparency&gt;
+  &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
+&lt;/visual&gt;
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">plane</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;collision&#39;</span><span class="p">))</span>
 </pre></div>
+
+<div class="codehilite"><pre><span></span>&lt;collision name=&quot;collision&quot;&gt;
+  &lt;max_contacts&gt;10&lt;/max_contacts&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;geometry&gt;
+    &lt;plane&gt;
+      &lt;normal&gt;0 0 1&lt;/normal&gt;
+      &lt;size&gt;1 1&lt;/size&gt;
+    &lt;/plane&gt;
+  &lt;/geometry&gt;
+&lt;/collision&gt;
+</pre></div>
+
 
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">plane</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;link&#39;</span><span class="p">))</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>&lt;link name=&quot;plane&quot;&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;visual name=&quot;visual&quot;&gt;
+    &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+    &lt;geometry&gt;
+      &lt;plane&gt;
+        &lt;normal&gt;0 0 1&lt;/normal&gt;
+        &lt;size&gt;1 1&lt;/size&gt;
+      &lt;/plane&gt;
+    &lt;/geometry&gt;
+    &lt;transparency&gt;0.0&lt;/transparency&gt;
+    &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
+  &lt;/visual&gt;
+&lt;/link&gt;
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">plane</span><span class="o">.</span><span class="n">to_sdf</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">))</span>
 </pre></div>
+
+<div class="codehilite"><pre><span></span>&lt;model name=&quot;plane&quot;&gt;
+  &lt;link name=&quot;plane&quot;&gt;
+    &lt;visual name=&quot;visual&quot;&gt;
+      &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+      &lt;geometry&gt;
+        &lt;plane&gt;
+          &lt;normal&gt;0 0 1&lt;/normal&gt;
+          &lt;size&gt;1 1&lt;/size&gt;
+        &lt;/plane&gt;
+      &lt;/geometry&gt;
+      &lt;transparency&gt;0.0&lt;/transparency&gt;
+      &lt;cast_shadows&gt;1&lt;/cast_shadows&gt;
+    &lt;/visual&gt;
+  &lt;/link&gt;
+  &lt;pose frame=&quot;&quot;&gt;0 0 0 0.0 -0.0 0.0&lt;/pose&gt;
+  &lt;allow_auto_disable&gt;0&lt;/allow_auto_disable&gt;
+  &lt;static&gt;1&lt;/static&gt;
+&lt;/model&gt;
+</pre></div>
+
 
 <div class="codehilite"><pre><span></span><span class="c1"># Run Gazebo again, if not already running</span>
 <span class="n">simulation</span><span class="o">.</span><span class="n">run_task</span><span class="p">(</span><span class="s1">&#39;gazebo&#39;</span><span class="p">)</span>
@@ -1292,6 +1965,10 @@
     <span class="n">robot_namespace</span><span class="o">=</span><span class="s1">&#39;new_plane&#39;</span><span class="p">,</span>
     <span class="n">pos</span><span class="o">=</span><span class="p">[(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span><span class="p">,</span> <span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span><span class="p">,</span> <span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">5</span><span class="p">])</span>
 </pre></div>
+
+<div class="codehilite"><pre><span></span>True
+</pre></div>
+
 
 <p>The output should look like this</p>
 <p><img alt="generating objects" src="../images/generating_objects.png" /></p>
