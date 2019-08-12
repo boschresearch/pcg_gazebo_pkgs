@@ -34,8 +34,13 @@ python -m pydocmd simple \
 
 python -m pydocmd simple \
     pcg_gazebo.generators++ \
+    pcg_gazebo.generators._collection_manager++ \
+    pcg_gazebo.generators.assets_manager++ \
+    pcg_gazebo.generators.constraints_manager++ \
     pcg_gazebo.generators.collision_checker++ \
+    pcg_gazebo.generators.engine_manager++ \
     pcg_gazebo.generators.creators++ \
+    pcg_gazebo.generators.model_group_generator++ \
     pcg_gazebo.generators.occupancy++ \
     pcg_gazebo.generators.patterns++ \
     pcg_gazebo.generators.world_generator++ \
