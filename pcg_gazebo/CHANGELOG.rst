@@ -2,8 +2,8 @@
 Changelog for package pcg_gazebo
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.0 (2019-08-12)
+------------------
 * Use world generator from_dict and from_yaml loaders
   Signed-off-by: Musa Morena Marcusso Manhaes <Musa.Marcusso@de.bosch.com>
 * Use spawn model service and unpause simulation after generated SDF

@@ -2,8 +2,8 @@
 Changelog for package pcg_examples
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.0 (2019-08-12)
+------------------
 * Add missing dependencies
   Signed-off-by: Musa Morena Marcusso Manhães <musa.marcusso@de.bosch.com>
 * Clean up CMakeLists.txt and install folders
