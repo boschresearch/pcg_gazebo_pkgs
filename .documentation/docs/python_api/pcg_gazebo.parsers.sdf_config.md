@@ -1,37 +1,45 @@
+
 # pcg_gazebo.parsers.sdf_config
+
 
 # Author
 ```python
-Author(self)
+Author()
 ```
+
 
 # Description
 ```python
-Description(self, default='none')
+Description()
 ```
+
 
 # EMail
 ```python
-EMail(self, default='none')
+EMail()
 ```
+
 
 # Model
 ```python
-Model(self)
+Model()
 ```
+
 
 # Name
 ```python
-Name(self, default='none')
+Name()
 ```
+
 
 # SDF
 ```python
-SDF(self, default='model.sdf')
+SDF()
 ```
+
 
 # Version
 ```python
-Version(self, default='none')
+Version()
 ```
 

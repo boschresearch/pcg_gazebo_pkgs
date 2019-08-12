@@ -38,6 +38,18 @@ print(box)
 # box.export_xml('/tmp/box.urdf')
 ```
 
+    Default box
+    <box size="0 0 0"/>
+    
+    Default box - as dict
+    {'box': {'attributes': {'size': '0 0 0'}}}
+    Default box - as URDF
+    <box size="0 0 0"/>
+    Custom box
+    <box size="2 3 4"/>
+    
+
+
 #### Cylinder
 
 
@@ -63,6 +75,18 @@ print(cylinder)
 # cylinder.export_xml('/tmp/cylinder.urdf')
 ```
 
+    Default cylinder
+    <cylinder length="0" radius="0"/>
+    
+    Default cylinder - as dict
+    {'cylinder': {'attributes': {'radius': '0', 'length': '0'}}}
+    Default cylinder - as URDF
+    <cylinder length="0" radius="0"/>
+    Custom cylinder
+    <cylinder length="3" radius="2"/>
+    
+
+
 #### Sphere
 
 
@@ -87,6 +111,18 @@ print(sphere)
 # sphere.export_xml('/tmp/sphere.urdf')
 ```
 
+    Default sphere
+    <sphere radius="0"/>
+    
+    Default sphere - as dict
+    {'sphere': {'attributes': {'radius': '0'}}}
+    Default sphere - as URDF
+    <sphere radius="0"/>
+    Custom sphere
+    <sphere radius="2"/>
+    
+
+
 #### Mesh
 
 
@@ -110,6 +146,18 @@ print(mesh)
 # mesh.export_xml('/tmp/mesh.urdf')
 ```
 
+    Default mesh - with default parameters
+    <mesh filename=""/>
+    
+    Default mesh - as dict
+    {'mesh': {'attributes': {'filename': ''}}}
+    Default mesh - as URDF
+    <mesh filename=""/>
+    Custom mesh
+    <mesh filename="package://mesh.dae"/>
+    
+
+
 ### Creating a geometry entity
 
 
@@ -119,6 +167,12 @@ print(mesh)
 geometry = create_urdf_element('geometry')
 print(geometry)
 ```
+
+    <geometry>
+      <box size="0 0 0"/>
+    </geometry>
+    
+
 
 
 ```python
@@ -141,6 +195,26 @@ print(geometry)
 geometry.mesh = mesh
 print(geometry)
 ```
+
+    All the geometry entity modes:
+    ['box', 'cylinder', 'sphere', 'mesh']
+    <geometry>
+      <box size="2 3 4"/>
+    </geometry>
+    
+    <geometry>
+      <cylinder length="3" radius="2"/>
+    </geometry>
+    
+    <geometry>
+      <sphere radius="2"/>
+    </geometry>
+    
+    <geometry>
+      <mesh filename="package://mesh.dae"/>
+    </geometry>
+    
+
 
 
 ```python

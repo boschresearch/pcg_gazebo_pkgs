@@ -1,8 +1,10 @@
+
 # pcg_gazebo.parsers.sdf
+
 
 # Accel
 ```python
-Accel(self)
+Accel()
 ```
 Noise parameters for linear accelerations.
 
@@ -21,260 +23,312 @@ Noise parameters for linear accelerations.
 
 * [`<accel>` (SDF 1.4)](http://sdformat.org/spec?elem=sensor&ver=1.4)
 
+
 ## bias_mean
 Return the bias mean value SDF element,
 to read the value use `obj.bias_mean.value`
+
 
 ## bias_stddev
 Return the bias standard deviation value SDF element,
 to read the value use `obj.bias_stddev.value`
 
+
 ## mean
 Return the mean value SDF element, to read the value use
 `obj.mean.value`
+
 
 ## stddev
 Return the standard deviation value SDF element,
 to read the value use `obj.stddev.value`
 
+
 # Accuracy
 ```python
-Accuracy(self, default=0.001)
+Accuracy()
 ```
+
 
 # Actor
 ```python
-Actor(self)
+Actor()
 ```
+
 
 # AllowAutoDisable
 ```python
-AllowAutoDisable(self, default=False)
+AllowAutoDisable()
 ```
+
 
 # Altimeter
 ```python
-Altimeter(self)
+Altimeter()
 ```
+
 
 # AlwaysOn
 ```python
-AlwaysOn(self, default=False)
+AlwaysOn()
 ```
+
 
 # Ambient
 ```python
-Ambient(self, size=4)
+Ambient()
 ```
+
 
 # AngularVelocity
 ```python
-AngularVelocity(self)
+AngularVelocity()
 ```
+
 
 # Animation
 ```python
-Animation(self)
+Animation()
 ```
+
 
 # Attenuation
 ```python
-Attenuation(self)
+Attenuation()
 ```
+
 
 # AutoStart
 ```python
-AutoStart(self, default=True)
+AutoStart()
 ```
+
 
 # Axis
 ```python
-Axis(self)
+Axis()
 ```
+
 
 # Axis2
 ```python
-Axis2(self)
+Axis2()
 ```
+
 
 # BiasMean
 ```python
-BiasMean(self, default=0)
+BiasMean()
 ```
+
 
 # BiasStdDev
 ```python
-BiasStdDev(self, default=0)
+BiasStdDev()
 ```
+
 
 # Bounce
 ```python
-Bounce(self)
+Bounce()
 ```
+
 
 # Box
 ```python
-Box(self)
+Box()
 ```
+
 
 # Bullet
 ```python
-Bullet(self, mode='physics')
+Bullet()
 ```
+
 
 # Camera
 ```python
-Camera(self)
+Camera()
 ```
+
 
 # CastShadows
 ```python
-CastShadows(self, default=True)
+CastShadows()
 ```
+
 
 # Center
 ```python
-Center(self, default=False)
+Center()
 ```
+
 
 # CFM
 ```python
-CFM(self, default=0)
+CFM()
 ```
+
 
 # Child
 ```python
-Child(self, default='none')
+Child()
 ```
+
 
 # Clip
 ```python
-Clip(self)
+Clip()
 ```
+
 
 # Coefficient
 ```python
-Coefficient(self, default=1)
+Coefficient()
 ```
+
 
 # Collision
 ```python
-Collision(self)
+Collision()
 ```
+
 
 # Constant
 ```python
-Constant(self, default=0)
+Constant()
 ```
+
 
 # Constraints
 ```python
-Constraints(self, engine='ode')
+Constraints()
 ```
+
 
 # ContactMaxCorrectingVel
 ```python
-ContactMaxCorrectingVel(self, default=100)
+ContactMaxCorrectingVel()
 ```
+
 
 # ContactSurfaceLayer
 ```python
-ContactSurfaceLayer(self, default=0.001)
+ContactSurfaceLayer()
 ```
+
 
 # Contact
 ```python
-Contact(self, mode='simbody')
+Contact()
 ```
+
 
 # Cylinder
 ```python
-Cylinder(self)
+Cylinder()
 ```
+
 
 # Damping
 ```python
-Damping(self, default=0)
+Damping()
 ```
+
 
 # DelayStart
 ```python
-DelayStart(self, default=0)
+DelayStart()
 ```
+
 
 # DepthCamera
 ```python
-DepthCamera(self)
+DepthCamera()
 ```
+
 
 # Diffuse
 ```python
-Diffuse(self, default=[0, 0, 0, 1])
+Diffuse()
 ```
+
 
 # Direction
 ```python
-Direction(self, default=[0, 0, -1])
+Direction()
 ```
+
 
 # Dissipation
 ```python
-Dissipation(self, default=100)
+Dissipation()
 ```
+
 
 # Distortion
 ```python
-Distortion(self)
+Distortion()
 ```
+
 
 # DynamicFriction
 ```python
-DynamicFriction(self, default=0.9)
+DynamicFriction()
 ```
+
 
 # Dynamics
 ```python
-Dynamics(self)
+Dynamics()
 ```
+
 
 # Effort
 ```python
-Effort(self, default=-1)
+Effort()
 ```
+
 
 # Emissive
 ```python
-Emissive(self, size=4)
+Emissive()
 ```
+
 
 # Empty
 ```python
-Empty(self)
+Empty()
 ```
+
 
 # EnableWind
 ```python
-EnableWind(self, default=False)
+EnableWind()
 ```
+
 
 # ERP
 ```python
-ERP(self, default=0.2)
+ERP()
 ```
+
 
 # FallOff
 ```python
-FallOff(self, default=0)
+FallOff()
 ```
+
 
 # Far
 ```python
-Far(self, default=0)
+Far()
 ```
+
 
 # FDir1
 ```python
-FDir1(self, default=[0, 0, 0])
+FDir1()
 ```
 
 3-tuple specifying direction of mu1 in the collision local reference frame
@@ -285,34 +339,40 @@ Args:
 Attributes:
     value (list): Stored direction unit vector
 
+
 # Filename
 ```python
-Filename(self, default='none')
+Filename()
 ```
+
 
 # ForceTorque
 ```python
-ForceTorque(self)
+ForceTorque()
 ```
+
 
 # Format
 ```python
-Format(self, default='R8G8B8')
+Format()
 ```
+
 
 # Frame
 ```python
-Frame(self, default='')
+Frame()
 ```
+
 
 # FrictionModel
 ```python
-FrictionModel(self)
+FrictionModel()
 ```
+
 
 # Friction
 ```python
-Friction(self)
+Friction()
 ```
 
 Configuration of the collision friction parameters.
@@ -323,289 +383,346 @@ Args:
 Attributes:
     value (float): Stored coefficient of friction
 
+
 # Friction2
 ```python
-Friction2(self, default=1)
+Friction2()
 ```
+
 
 # Geometry
 ```python
-Geometry(self)
+Geometry()
 ```
+
 
 # Granularity
 ```python
-Granularity(self, default=1)
+Granularity()
 ```
+
 
 # Gravity
 ```python
-Gravity(self, default=True)
+Gravity()
 ```
+
 
 # Height
 ```python
-Height(self, default=1)
+Height()
 ```
+
 
 # HorizontalFOV
 ```python
-HorizontalFOV(self, default=1.047)
+HorizontalFOV()
 ```
+
 
 # Horizontal
 ```python
-Horizontal(self)
+Horizontal()
 ```
+
 
 # Image
 ```python
-Image(self, mode='geometry')
+Image()
 ```
+
 
 # IMU
 ```python
-IMU(self)
+IMU()
 ```
+
 
 # Include
 ```python
-Include(self)
+Include()
 ```
+
 
 # Inertia
 ```python
-Inertia(self)
+Inertia()
 ```
+
 
 # Inertial
 ```python
-Inertial(self)
+Inertial()
 ```
+
 
 # InitialPosition
 ```python
-InitialPosition(self, default=0)
+InitialPosition()
 ```
+
 
 # InnerAngle
 ```python
-InnerAngle(self, default=0)
+InnerAngle()
 ```
+
 
 # InterpolateX
 ```python
-InterpolateX(self, default=False)
+InterpolateX()
 ```
+
 
 # Iters
 ```python
-Iters(self, default=50)
+Iters()
 ```
+
 
 # IXX
 ```python
-IXX(self, default=0)
+IXX()
 ```
+
 
 # IXY
 ```python
-IXY(self, default=0)
+IXY()
 ```
+
 
 # IXZ
 ```python
-IXZ(self, default=0)
+IXZ()
 ```
+
 
 # IYY
 ```python
-IYY(self, default=0)
+IYY()
 ```
+
 
 # IYZ
 ```python
-IYZ(self, default=0)
+IYZ()
 ```
+
 
 # IZZ
 ```python
-IZZ(self, default=0)
+IZZ()
 ```
+
 
 # Joint
 ```python
-Joint(self)
+Joint()
 ```
+
 
 # K1
 ```python
-K1(self, default=0)
+K1()
 ```
+
 
 # K2
 ```python
-K2(self, default=0)
+K2()
 ```
+
 
 # K3
 ```python
-K3(self, default=0)
+K3()
 ```
+
 
 # Kd
 ```python
-Kd(self, default=1)
+Kd()
 ```
+
 
 # Kinematic
 ```python
-Kinematic(self, default=False)
+Kinematic()
 ```
+
 
 # Kp
 ```python
-Kp(self, default=1000000000000.0)
+Kp()
 ```
+
 
 # LaserRetro
 ```python
-LaserRetro(self, default=0)
+LaserRetro()
 ```
+
 
 # Length
 ```python
-Length(self)
+Length()
 ```
+
 
 # Light
 ```python
-Light(self)
+Light()
 ```
+
 
 # Lighting
 ```python
-Lighting(self, default=False)
+Lighting()
 ```
+
 
 # Limit
 ```python
-Limit(self, mode='axis')
+Limit()
 ```
+
 
 # LinearAcceleration
 ```python
-LinearAcceleration(self)
+LinearAcceleration()
 ```
+
 
 # Linear
 ```python
-Linear(self, default=0)
+Linear()
 ```
+
 
 # Link
 ```python
-Link(self)
+Link()
 ```
+
 
 # Localization
 ```python
-Localization(self, default='CUSTOM')
+Localization()
 ```
+
 
 # Loop
 ```python
-Loop(self, default=False)
+Loop()
 ```
+
 
 # Lower
 ```python
-Lower(self, default=-1e+16)
+Lower()
 ```
+
 
 # Mass
 ```python
-Mass(self)
+Mass()
 ```
+
 
 # Material
 ```python
-Material(self)
+Material()
 ```
+
 
 # MaxAngle
 ```python
-MaxAngle(self, default=0)
+MaxAngle()
 ```
+
 
 # MaxContacts
 ```python
-MaxContacts(self, default=20)
+MaxContacts()
 ```
+
 
 # MaxStepSize
 ```python
-MaxStepSize(self, default=0.001)
+MaxStepSize()
 ```
+
 
 # MaxTransientVelocity
 ```python
-MaxTransientVelocity(self, default=0.01)
+MaxTransientVelocity()
 ```
+
 
 # MaxVel
 ```python
-MaxVel(self, default=0.01)
+MaxVel()
 ```
+
 
 # Max
 ```python
-Max(self, default=0)
+Max()
 ```
+
 
 # Mean
 ```python
-Mean(self)
+Mean()
 ```
+
 
 # MeasureDirection
 ```python
-MeasureDirection(self, default='child_to_parent')
+MeasureDirection()
 ```
+
 
 # Mesh
 ```python
-Mesh(self)
+Mesh()
 ```
+
 
 # MinAngle
 ```python
-MinAngle(self, default=0)
+MinAngle()
 ```
+
 
 # MinDepth
 ```python
-MinDepth(self, default=0)
+MinDepth()
 ```
+
 
 # MinStepSize
 ```python
-MinStepSize(self, default=0.0001)
+MinStepSize()
 ```
+
 
 # Min
 ```python
-Min(self, default=0)
+Min()
 ```
+
 
 # Model
 ```python
-Model(self)
+Model()
 ```
+
 
 # Mu
 ```python
-Mu(self, default=1)
+Mu()
 ```
 
 Coefficient of friction in the range of [0, 1]
@@ -616,9 +733,10 @@ Args:
 Attributes:
     value (float): Stored coefficient of friction
 
+
 # Mu2
 ```python
-Mu2(self, default=1)
+Mu2()
 ```
 
 Second coefficient of friction in the range of [0, 1]
@@ -629,259 +747,310 @@ Args:
 Attributes:
     value (float): Stored coefficient of friction
 
+
 # MustBeLoopJoint
 ```python
-MustBeLoopJoint(self, default=False)
+MustBeLoopJoint()
 ```
+
 
 # Name
 ```python
-Name(self, default='none')
+Name()
 ```
+
 
 # Near
 ```python
-Near(self, default=0)
+Near()
 ```
+
 
 # Noise
 ```python
-Noise(self, type='none')
+Noise()
 ```
+
 
 # NormalMap
 ```python
-NormalMap(self, default='')
+NormalMap()
 ```
+
 
 # Normal
 ```python
-Normal(self)
+Normal()
 ```
+
 
 # ODE
 ```python
-ODE(self, mode)
+ODE()
 ```
+
 
 # OrientationReferenceFrame
 ```python
-OrientationReferenceFrame(self)
+OrientationReferenceFrame()
 ```
+
 
 # OuterAngle
 ```python
-OuterAngle(self, default=0)
+OuterAngle()
 ```
+
 
 # Output
 ```python
-Output(self, default='depths')
+Output()
 ```
+
 
 # OverrideImpactCaptureVelocity
 ```python
-OverrideImpactCaptureVelocity(self, default=0.001)
+OverrideImpactCaptureVelocity()
 ```
+
 
 # OverrideStictionTransitionVelocity
 ```python
-OverrideStictionTransitionVelocity(self, default=0.9)
+OverrideStictionTransitionVelocity()
 ```
+
 
 # P1
 ```python
-P1(self, default=0)
+P1()
 ```
+
 
 # P2
 ```python
-P2(self, default=0)
+P2()
 ```
+
 
 # Parent
 ```python
-Parent(self, default='parent')
+Parent()
 ```
+
 
 # PatchRadius
 ```python
-PatchRadius(self, default=0)
+PatchRadius()
 ```
+
 
 # Path
 ```python
-Path(self, default='__default__')
+Path()
 ```
+
 
 # Physics
 ```python
-Physics(self, mode='ode')
+Physics()
 ```
+
 
 # Plane
 ```python
-Plane(self)
+Plane()
 ```
+
 
 # PlasticCoefRestitution
 ```python
-PlasticCoefRestitution(self, default=0.5)
+PlasticCoefRestitution()
 ```
+
 
 # PlasticImpactVelocity
 ```python
-PlasticImpactVelocity(self, default=0.5)
+PlasticImpactVelocity()
 ```
+
 
 # Plugin
 ```python
-Plugin(self, default={})
+Plugin()
 ```
+
 
 # Point
 ```python
-Point(self, vec_length=2)
+Point()
 ```
+
 
 # Polyline
 ```python
-Polyline(self)
+Polyline()
 ```
+
 
 # Pose
 ```python
-Pose(self)
+Pose()
 ```
+
 
 # Precision
 ```python
-Precision(self)
+Precision()
 ```
+
 
 # PreConIters
 ```python
-PreConIters(self, default=0)
+PreConIters()
 ```
+
 
 # ProvideFeedback
 ```python
-ProvideFeedback(self, default=False)
+ProvideFeedback()
 ```
+
 
 # Quadratic
 ```python
-Quadratic(self, default=0)
+Quadratic()
 ```
+
 
 # Radius
 ```python
-Radius(self, default=0)
+Radius()
 ```
+
 
 # Range
 ```python
-Range(self)
+Range()
 ```
+
 
 # Rate
 ```python
-Rate(self, type='none')
+Rate()
 ```
+
 
 # Ray
 ```python
-Ray(self)
+Ray()
 ```
+
 
 # RealTimeFactor
 ```python
-RealTimeFactor(self, default=1)
+RealTimeFactor()
 ```
+
 
 # RealTimeUpdateRate
 ```python
-RealTimeUpdateRate(self, default=1)
+RealTimeUpdateRate()
 ```
+
 
 # Resolution
 ```python
-Resolution(self, default=0)
+Resolution()
 ```
+
 
 # RestitutionCoefficient
 ```python
-RestitutionCoefficient(self, default=0)
+RestitutionCoefficient()
 ```
+
 
 # RollingFriction
 ```python
-RollingFriction(self, default=1)
+RollingFriction()
 ```
+
 
 # Samples
 ```python
-Samples(self, default=640)
+Samples()
 ```
+
 
 # Save
 ```python
-Save(self)
+Save()
 ```
+
 
 # Scale
 ```python
-Scale(self, size=3)
+Scale()
 ```
+
 
 # Scan
 ```python
-Scan(self)
+Scan()
 ```
+
 
 # Script
 ```python
-Script(self, mode='material')
+Script()
 ```
+
 
 # SDF
 ```python
-SDF(self, mode='world')
+SDF()
 ```
+
 
 # SelfCollide
 ```python
-SelfCollide(self, default=False)
+SelfCollide()
 ```
+
 
 # Sensor
 ```python
-Sensor(self, mode='altimeter')
+Sensor()
 ```
+
 
 # Shader
 ```python
-Shader(self)
+Shader()
 ```
+
 
 # Simbody
 ```python
-Simbody(self, mode='physics')
+Simbody()
 ```
+
 
 # Size
 ```python
-Size(self, vec_length=3)
+Size()
 ```
+
 
 # Skin
 ```python
-Skin(self)
+Skin()
 ```
+
 
 # Slip
 ```python
-Slip(self, default=0)
+Slip()
 ```
 
 Force dependent slip direction 1 in collision local frame, between the
@@ -892,10 +1061,11 @@ Args:
 
 Attributes:
     value (float): Stored slip coefficient
+
 
 # Slip1
 ```python
-Slip1(self, default=0)
+Slip1()
 ```
 
 Force dependent slip direction 1 in collision local frame, between the
@@ -906,10 +1076,11 @@ Args:
 
 Attributes:
     value (float): Stored slip coefficient
+
 
 # Slip2
 ```python
-Slip2(self, default=0)
+Slip2()
 ```
 
 Force dependent slip direction 1 in collision local frame, between the
@@ -921,233 +1092,279 @@ Args:
 Attributes:
     value (float): Stored slip coefficient
 
+
 # SoftCFM
 ```python
-SoftCFM(self, default=0)
+SoftCFM()
 ```
+
 
 # SoftERP
 ```python
-SoftERP(self, default=0.2)
+SoftERP()
 ```
+
 
 # Solver
 ```python
-Solver(self, engine='ode')
+Solver()
 ```
+
 
 # Sor
 ```python
-Sor(self, default=1.3)
+Sor()
 ```
+
 
 # Specular
 ```python
-Specular(self, default=[0.1, 0.1, 0.1, 1])
+Specular()
 ```
+
 
 # Sphere
 ```python
-Sphere(self)
+Sphere()
 ```
+
 
 # SplitImpulsePenetrationThreshold
 ```python
-SplitImpulsePenetrationThreshold(self, default=-0.01)
+SplitImpulsePenetrationThreshold()
 ```
+
 
 # SplitImpulse
 ```python
-SplitImpulse(self, default=True)
+SplitImpulse()
 ```
+
 
 # Spot
 ```python
-Spot(self)
+Spot()
 ```
+
 
 # SpringReference
 ```python
-SpringReference(self, default=0)
+SpringReference()
 ```
+
 
 # SpringStiffness
 ```python
-SpringStiffness(self, default=0)
+SpringStiffness()
 ```
+
 
 # StaticFriction
 ```python
-StaticFriction(self, default=0.9)
+StaticFriction()
 ```
+
 
 # Static
 ```python
-Static(self, default=False)
+Static()
 ```
+
 
 # StdDev
 ```python
-StdDev(self)
+StdDev()
 ```
+
 
 # Stiffness
 ```python
-Stiffness(self, default=100000000.0)
+Stiffness()
 ```
+
 
 # SubMesh
 ```python
-SubMesh(self)
+SubMesh()
 ```
+
 
 # SurfaceRadius
 ```python
-SurfaceRadius(self, default=0)
+SurfaceRadius()
 ```
+
 
 # Surface
 ```python
-Surface(self)
+Surface()
 ```
+
 
 # Threshold
 ```python
-Threshold(self, default=0)
+Threshold()
 ```
+
 
 # Time
 ```python
-Time(self, default=0)
+Time()
 ```
+
 
 # Topic
 ```python
-Topic(self, default='none')
+Topic()
 ```
+
 
 # Torsional
 ```python
-Torsional(self)
+Torsional()
 ```
+
 
 # Trajectory
 ```python
-Trajectory(self)
+Trajectory()
 ```
+
 
 # Transparency
 ```python
-Transparency(self, default=0)
+Transparency()
 ```
+
 
 # Type
 ```python
-Type(self, default='')
+Type()
 ```
+
 
 # UpdateRate
 ```python
-UpdateRate(self, default=0)
+UpdateRate()
 ```
+
 
 # Upper
 ```python
-Upper(self, default=1e+16)
+Upper()
 ```
+
 
 # URDF
 ```python
-URDF(self, mode='model')
+URDF()
 ```
+
 
 # URI
 ```python
-URI(self, default='')
+URI()
 ```
+
 
 # UseDynamicMOIRescaling
 ```python
-UseDynamicMOIRescaling(self, default=False)
+UseDynamicMOIRescaling()
 ```
+
 
 # UseParentModelFrame
 ```python
-UseParentModelFrame(self, default=False)
+UseParentModelFrame()
 ```
+
 
 # UsePatchRadius
 ```python
-UsePatchRadius(self, default=True)
+UsePatchRadius()
 ```
+
 
 # Velocity
 ```python
-Velocity(self, default=-1)
+Velocity()
 ```
+
 
 # VerticalPosition
 ```python
-VerticalPosition(self)
+VerticalPosition()
 ```
+
 
 # VerticalVelocity
 ```python
-VerticalVelocity(self)
+VerticalVelocity()
 ```
+
 
 # Vertical
 ```python
-Vertical(self)
+Vertical()
 ```
+
 
 # ViscousFriction
 ```python
-ViscousFriction(self, default=0)
+ViscousFriction()
 ```
+
 
 # Visual
 ```python
-Visual(self)
+Visual()
 ```
+
 
 # Visualize
 ```python
-Visualize(self, default=False)
+Visualize()
 ```
+
 
 # Waypoint
 ```python
-Waypoint(self)
+Waypoint()
 ```
+
 
 # Width
 ```python
-Width(self, default=320)
+Width()
 ```
+
 
 # World
 ```python
-World(self)
+World()
 ```
+
 
 # X
 ```python
-X(self)
+X()
 ```
+
 
 # XYZ
 ```python
-XYZ(self, default=[0, 0, 1])
+XYZ()
 ```
+
 
 # Y
 ```python
-Y(self)
+Y()
 ```
+
 
 # Z
 ```python
-Z(self)
+Z()
 ```
 
