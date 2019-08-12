@@ -1,5 +1,6 @@
 <launch>
     <arg name="generate_world" default="false"/>
+    <arg name="physics" default="ode"/>
     <arg name="output_world_file" default="/tmp/pcg.world" doc="Path to generated output world file"/>
     <arg name="world_config_file" doc="YAML file with the configuration of the assets and engines used to generate the Gazebo world"/>
     <arg name="output_topic" default="/world_sdf" doc="Topic name to publish the resulting XML file" />
@@ -17,7 +18,9 @@
             type="start_gazebo_world" 
             name="start_gazebo_world"
             output="screen"
-            args="--input_topic $(arg output_topic)"/>            
+            args="
+            --input_topic $(arg output_topic)
+            --physics $(arg physics)"/>            
     </group>
 
     <group unless="$(arg generate_world)">
@@ -25,7 +28,9 @@
             type="start_gazebo_world" 
             name="start_gazebo_world"
             output="screen"
-            args="--input_world_filename $(arg output_world_file)"/>            
+            args="
+            --input_world_filename $(arg output_world_file)
+            --physics $(arg physics)"/>            
     </group>
 
 </launch>
