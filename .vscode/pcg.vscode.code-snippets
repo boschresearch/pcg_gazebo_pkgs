@@ -1,4 +1,22 @@
 {	
+	"jinja_set_var": {
+		"prefix": "pcg.jinja.set",
+		"scope": "jinja",
+		"description": "Jinja Set Variable",
+		"body": [
+			"{% set var = 0 %}"
+		]
+	},
+
+	"jinja_set_var_default": {
+		"prefix": "pcg.jinja.set_default",
+		"scope": "jinja",
+		"description": "Jinja Set Variable with Default Value",
+		"body": [
+			"{% set var = var|default(0, true) %}"
+		]
+	},
+	
 	"py_class_md_docstring": {
 		"prefix": "pcg.py.doc.class",
 		"scope": "python",
