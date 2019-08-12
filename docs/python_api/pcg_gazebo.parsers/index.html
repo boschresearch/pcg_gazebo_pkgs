@@ -1091,117 +1091,117 @@
 <p><div class="codehilite"><pre><span></span><span class="n">parse_sdf</span><span class="p">(</span><span class="n">input_xml</span><span class="p">)</span>
 </pre></div>
 Parse an XML file in the SDF format and generates
-an <code class="codehilite"><span class="n">pcg_gazebo</span></code> SDF instance.</p>
+an <code class="codehilite">pcg_gazebo</code> SDF instance.</p>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">input_xml</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>): Filename of the SDF file or
+<li><code class="codehilite">input_xml</code> (<em>type:</em> <code class="codehilite">str</code>): Filename of the SDF file or
 SDF XML formatted text.</li>
 </ul>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
-<p><code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="n">parsers</span><span class="p">.</span><span class="n">types</span><span class="p">.</span><span class="n">XMLBase</span></code> object.</p>
+<p><code class="codehilite">pcg_gazebo.parsers.types.XMLBase</code> object.</p>
 <h5 id="parse_urdf">parse_urdf<a class="headerlink" href="#parse_urdf" title="Permanent link">&para;</a></h5>
 <p><div class="codehilite"><pre><span></span><span class="n">parse_urdf</span><span class="p">(</span><span class="n">input_xml</span><span class="p">)</span>
 </pre></div>
 Parse an XML file in the URDF format and generates
-an <code class="codehilite"><span class="n">pcg_gazebo</span></code> URDF instance.</p>
+an <code class="codehilite">pcg_gazebo</code> URDF instance.</p>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">input_xml</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>): Filename of the URDF file or
+<li><code class="codehilite">input_xml</code> (<em>type:</em> <code class="codehilite">str</code>): Filename of the URDF file or
 URDF XML formatted text.</li>
 </ul>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
-<p><code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="n">parsers</span><span class="p">.</span><span class="n">types</span><span class="p">.</span><span class="n">XMLBase</span></code> object.</p>
+<p><code class="codehilite">pcg_gazebo.parsers.types.XMLBase</code> object.</p>
 <h5 id="parse_sdf_config">parse_sdf_config<a class="headerlink" href="#parse_sdf_config" title="Permanent link">&para;</a></h5>
 <p><div class="codehilite"><pre><span></span><span class="n">parse_sdf_config</span><span class="p">(</span><span class="n">input_xml</span><span class="p">)</span>
 </pre></div>
 Parse an XML file in the SDF Configuration format and generates
-an <code class="codehilite"><span class="n">pcg_gazebo</span></code> SDF Configuration instance.</p>
+an <code class="codehilite">pcg_gazebo</code> SDF Configuration instance.</p>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">input_xml</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>): Filename of the SDF Configuration file or
+<li><code class="codehilite">input_xml</code> (<em>type:</em> <code class="codehilite">str</code>): Filename of the SDF Configuration file or
 SDF Configuration XML formatted text.</li>
 </ul>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
-<p><code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="n">parsers</span><span class="p">.</span><span class="n">types</span><span class="p">.</span><span class="n">XMLBase</span></code> object.</p>
+<p><code class="codehilite">pcg_gazebo.parsers.types.XMLBase</code> object.</p>
 <h5 id="parse_xml">parse_xml<a class="headerlink" href="#parse_xml" title="Permanent link">&para;</a></h5>
 <p><div class="codehilite"><pre><span></span><span class="n">parse_xml</span><span class="p">(</span><span class="n">input_xml</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;sdf&#39;</span><span class="p">)</span>
 </pre></div>
-Parse an XML file into an <code class="codehilite"><span class="n">collections</span><span class="p">.</span><span class="n">OrderedDict</span></code>.</p>
+Parse an XML file into an <code class="codehilite">collections.OrderedDict</code>.</p>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">input_xml</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>): Filename of the XML file or
+<li><code class="codehilite">input_xml</code> (<em>type:</em> <code class="codehilite">str</code>): Filename of the XML file or
 XML formatted text.</li>
-<li><code class="codehilite"><span class="k">type</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>): Type of XML format used in the input
-file, options are <code class="codehilite"><span class="n">sdf</span></code>, <code class="codehilite"><span class="n">urdf</span></code> or <code class="codehilite"><span class="n">sdf_config</span></code>.</li>
+<li><code class="codehilite">type</code> (<em>type:</em> <code class="codehilite">str</code>): Type of XML format used in the input
+file, options are <code class="codehilite">sdf</code>, <code class="codehilite">urdf</code> or <code class="codehilite">sdf_config</code>.</li>
 </ul>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
-<p><code class="codehilite"><span class="n">collections</span><span class="p">.</span><span class="n">OrderedDict</span></code>: Dictionary where the XML tags are the keys.</p>
+<p><code class="codehilite">collections.OrderedDict</code>: Dictionary where the XML tags are the keys.</p>
 <h5 id="parse_xml_str">parse_xml_str<a class="headerlink" href="#parse_xml_str" title="Permanent link">&para;</a></h5>
 <p><div class="codehilite"><pre><span></span><span class="n">parse_xml_str</span><span class="p">(</span><span class="n">xml_str</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;sdf&#39;</span><span class="p">)</span>
 </pre></div>
 Parse an XML formatted string into an
-<code class="codehilite"><span class="n">collections</span><span class="p">.</span><span class="n">OrderedDict</span></code>.</p>
+<code class="codehilite">collections.OrderedDict</code>.</p>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">input_xml</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>): XML formatted text.</li>
-<li><code class="codehilite"><span class="k">type</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>): Type of XML format used in the input
-file, options are <code class="codehilite"><span class="n">sdf</span></code>, <code class="codehilite"><span class="n">urdf</span></code> or <code class="codehilite"><span class="n">sdf_config</span></code>.</li>
+<li><code class="codehilite">input_xml</code> (<em>type:</em> <code class="codehilite">str</code>): XML formatted text.</li>
+<li><code class="codehilite">type</code> (<em>type:</em> <code class="codehilite">str</code>): Type of XML format used in the input
+file, options are <code class="codehilite">sdf</code>, <code class="codehilite">urdf</code> or <code class="codehilite">sdf_config</code>.</li>
 </ul>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
-<p><code class="codehilite"><span class="n">collections</span><span class="p">.</span><span class="n">OrderedDict</span></code>: Dictionary where the XML tags are the keys.</p>
+<p><code class="codehilite">collections.OrderedDict</code>: Dictionary where the XML tags are the keys.</p>
 <h5 id="parse_xml_dict">parse_xml_dict<a class="headerlink" href="#parse_xml_dict" title="Permanent link">&para;</a></h5>
 <p><div class="codehilite"><pre><span></span><span class="n">parse_xml_dict</span><span class="p">(</span><span class="n">xml_dict</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;sdf&#39;</span><span class="p">)</span>
 </pre></div>
-Converts an <code class="codehilite"><span class="n">collections</span><span class="p">.</span><span class="n">OrderedDict</span></code> created from a XML file
-and return an SDF, URDF or SDF Configuration <code class="codehilite"><span class="n">pcg_gazebo</span></code> element.</p>
+Converts an <code class="codehilite">collections.OrderedDict</code> created from a XML file
+and return an SDF, URDF or SDF Configuration <code class="codehilite">pcg_gazebo</code> element.</p>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">xml_dict</span></code> (<em>type:</em> <code class="codehilite"><span class="n">collections</span><span class="p">.</span><span class="n">OrderedDict</span></code>): XML contents.</li>
-<li><code class="codehilite"><span class="k">type</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>): Type of XML format used in the input
-file, options are <code class="codehilite"><span class="n">sdf</span></code>, <code class="codehilite"><span class="n">urdf</span></code> or <code class="codehilite"><span class="n">sdf_config</span></code>.</li>
+<li><code class="codehilite">xml_dict</code> (<em>type:</em> <code class="codehilite">collections.OrderedDict</code>): XML contents.</li>
+<li><code class="codehilite">type</code> (<em>type:</em> <code class="codehilite">str</code>): Type of XML format used in the input
+file, options are <code class="codehilite">sdf</code>, <code class="codehilite">urdf</code> or <code class="codehilite">sdf_config</code>.</li>
 </ul>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
-<p><code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="n">parsers</span><span class="p">.</span><span class="n">types</span><span class="p">.</span><span class="n">XMLBase</span></code> object.</p>
+<p><code class="codehilite">pcg_gazebo.parsers.types.XMLBase</code> object.</p>
 <h5 id="convert_to_dict">convert_to_dict<a class="headerlink" href="#convert_to_dict" title="Permanent link">&para;</a></h5>
 <p><div class="codehilite"><pre><span></span><span class="n">convert_to_dict</span><span class="p">(</span><span class="n">xml_dict</span><span class="p">)</span>
 </pre></div>
-Convert the <code class="codehilite"><span class="n">xmltodict</span></code> output into a dictionary that can be
-parsed into a <code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="n">parsers</span><span class="p">.</span><span class="n">types</span><span class="p">.</span><span class="n">XMLBase</span></code>.</p>
+Convert the <code class="codehilite">xmltodict</code> output into a dictionary that can be
+parsed into a <code class="codehilite">pcg_gazebo.parsers.types.XMLBase</code>.</p>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">xml_dict</span></code> (<em>type:</em> <code class="codehilite"><span class="n">collections</span><span class="p">.</span><span class="n">OrderedDict</span></code>): XML content in
+<li><code class="codehilite">xml_dict</code> (<em>type:</em> <code class="codehilite">collections.OrderedDict</code>): XML content in
 dictionary form.</li>
 </ul>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
-<p><code class="codehilite"><span class="n">dict</span></code>: Formatted XML dictionary.</p>
+<p><code class="codehilite">dict</code>: Formatted XML dictionary.</p>
 <h5 id="convert_from_string">convert_from_string<a class="headerlink" href="#convert_from_string" title="Permanent link">&para;</a></h5>
 <p><div class="codehilite"><pre><span></span><span class="n">convert_from_string</span><span class="p">(</span><span class="n">str_input_xml</span><span class="p">)</span>
 </pre></div>
@@ -1210,42 +1210,42 @@ Convert a string into a Python data structure type.</p>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">str_input_xml</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>): Input string</li>
+<li><code class="codehilite">str_input_xml</code> (<em>type:</em> <code class="codehilite">str</code>): Input string</li>
 </ul>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
-<p><code class="codehilite"><span class="n">bool</span></code>, <code class="codehilite"><span class="nb">int</span></code>, <code class="codehilite"><span class="nb">float</span></code>, list of <code class="codehilite"><span class="nb">float</span></code> or <code class="codehilite"><span class="n">str</span></code>.</p>
+<p><code class="codehilite">bool</code>, <code class="codehilite">int</code>, <code class="codehilite">float</code>, list of <code class="codehilite">float</code> or <code class="codehilite">str</code>.</p>
 <h5 id="sdf2urdf">sdf2urdf<a class="headerlink" href="#sdf2urdf" title="Permanent link">&para;</a></h5>
 <p><div class="codehilite"><pre><span></span><span class="n">sdf2urdf</span><span class="p">(</span><span class="n">sdf</span><span class="p">)</span>
 </pre></div>
-Recursively convert a SDF <code class="codehilite"><span class="n">pcg_gazebo</span></code> element and its child elements
-into an URDF <code class="codehilite"><span class="n">pcg_gazebo</span></code> element.</p>
+Recursively convert a SDF <code class="codehilite">pcg_gazebo</code> element and its child elements
+into an URDF <code class="codehilite">pcg_gazebo</code> element.</p>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">sdf</span></code> (<em>type:</em> <code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="n">parsers</span><span class="p">.</span><span class="n">types</span><span class="p">.</span><span class="n">XMLBase</span></code>): Valid SDF element</li>
+<li><code class="codehilite">sdf</code> (<em>type:</em> <code class="codehilite">pcg_gazebo.parsers.types.XMLBase</code>): Valid SDF element</li>
 </ul>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
-<p><code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="n">parsers</span><span class="p">.</span><span class="n">types</span><span class="p">.</span><span class="n">XMLBase</span></code> as an URDF element.</p>
+<p><code class="codehilite">pcg_gazebo.parsers.types.XMLBase</code> as an URDF element.</p>
 <h5 id="urdf2sdf">urdf2sdf<a class="headerlink" href="#urdf2sdf" title="Permanent link">&para;</a></h5>
 <p><div class="codehilite"><pre><span></span><span class="n">urdf2sdf</span><span class="p">(</span><span class="n">urdf</span><span class="p">)</span>
 </pre></div>
-Recursively convert an URDF <code class="codehilite"><span class="n">pcg_gazebo</span></code> element and its child elements
-into a SDF <code class="codehilite"><span class="n">pcg_gazebo</span></code> element.</p>
+Recursively convert an URDF <code class="codehilite">pcg_gazebo</code> element and its child elements
+into a SDF <code class="codehilite">pcg_gazebo</code> element.</p>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">urdf</span></code> (<em>type:</em> <code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="n">parsers</span><span class="p">.</span><span class="n">types</span><span class="p">.</span><span class="n">XMLBase</span></code>): Valid URDF element</li>
+<li><code class="codehilite">urdf</code> (<em>type:</em> <code class="codehilite">pcg_gazebo.parsers.types.XMLBase</code>): Valid URDF element</li>
 </ul>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
-<p><code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="n">parsers</span><span class="p">.</span><span class="n">types</span><span class="p">.</span><span class="n">XMLBase</span></code> as a SDF element.</p>
+<p><code class="codehilite">pcg_gazebo.parsers.types.XMLBase</code> as a SDF element.</p>
                 
                   
                 

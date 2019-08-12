@@ -109,23 +109,22 @@ if __name__ == '__main__':
     rospy.init_node('generate_pcg_world', anonymous=True)
     args = parser.parse_args(rospy.myargv()[1::])
     
+    # Create world generator
+    world_generator = WorldGenerator()
+
     if args.config_file:
         assert os.path.isfile(args.config_file), 'Invalid input file, value={}'.format(args.config_file)
         
         # Obtain the file with the poses of the original world configuration
         rospy.loginfo('Parsing configuration file={}'.format(args.config_file))
-        with open(args.config_file) as config_file:
-            world_config = yaml.load(config_file)
+        world_generator.from_yaml(args.config_file)
     elif rospy.has_param('~world'):
         world_config = rospy.get_param('~world')
         rospy.loginfo('Reading world configuration from ROS parameters ~world')
+        world_generator.from_dict(world_config)
     else:
         raise rospy.ROSException('Not input found for world configuration')
-
-    # Create world generator
-    world_generator = WorldGenerator()
-    world_generator.parse_configuration(world_config, verbose=args.verbose)
-
+    
     world_generator.run_engines()
 
     world_filename = world_generator.export_world(
@@ -137,7 +136,6 @@ if __name__ == '__main__':
     if args.output_topic:
         if rospy.is_shutdown():
             raise rospy.ROSInitException('ROS master is not running!')
-            sys.exit(-1)
 
         pub = rospy.Publisher(args.output_topic, String, queue_size=1)
         

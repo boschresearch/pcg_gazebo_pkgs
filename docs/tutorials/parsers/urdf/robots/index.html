@@ -939,8 +939,80 @@
 <span class="k">print</span><span class="p">(</span><span class="n">robot</span><span class="p">)</span>
 </pre></div>
 
+<div class="codehilite"><pre><span></span>&lt;robot name=&quot;robot&quot;/&gt;
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span><span class="n">robot</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">with_optional_elements</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">robot</span><span class="p">)</span>
+</pre></div>
+
+<div class="codehilite"><pre><span></span>&lt;robot name=&quot;robot&quot;&gt;
+  &lt;link name=&quot;link&quot;&gt;
+    &lt;visual name=&quot;visual&quot;&gt;
+      &lt;material name=&quot;&quot;&gt;
+        &lt;color rgba=&quot;0 0 0 1&quot;/&gt;
+        &lt;gazebo/&gt;
+      &lt;/material&gt;
+      &lt;geometry&gt;
+        &lt;box size=&quot;0 0 0&quot;/&gt;
+      &lt;/geometry&gt;
+      &lt;origin rpy=&quot;0 0 0&quot; xyz=&quot;0 0 0&quot;/&gt;
+      &lt;gazebo/&gt;
+    &lt;/visual&gt;
+    &lt;collision name=&quot;collision&quot;&gt;
+      &lt;geometry&gt;
+        &lt;box size=&quot;0 0 0&quot;/&gt;
+      &lt;/geometry&gt;
+      &lt;origin rpy=&quot;0 0 0&quot; xyz=&quot;0 0 0&quot;/&gt;
+      &lt;gazebo/&gt;
+    &lt;/collision&gt;
+    &lt;inertial&gt;
+      &lt;inertia ixx=&quot;0&quot; ixy=&quot;0&quot; ixz=&quot;0&quot; iyy=&quot;0&quot; iyz=&quot;0&quot; izz=&quot;0&quot;/&gt;
+      &lt;origin rpy=&quot;0 0 0&quot; xyz=&quot;0 0 0&quot;/&gt;
+      &lt;mass value=&quot;0&quot;/&gt;
+    &lt;/inertial&gt;
+    &lt;gazebo&gt;
+      &lt;maxVel&gt;0.01&lt;/maxVel&gt;
+      &lt;kd&gt;1&lt;/kd&gt;
+      &lt;maxContacts&gt;20&lt;/maxContacts&gt;
+      &lt;mu2&gt;0&lt;/mu2&gt;
+      &lt;selfCollide&gt;0&lt;/selfCollide&gt;
+      &lt;mu1&gt;0&lt;/mu1&gt;
+      &lt;minDepth&gt;0&lt;/minDepth&gt;
+      &lt;kp&gt;1000000000000.0&lt;/kp&gt;
+    &lt;/gazebo&gt;
+  &lt;/link&gt;
+  &lt;joint name=&quot;joint&quot; type=&quot;revolute&quot;&gt;
+    &lt;axis xyz=&quot;1 0 0&quot;/&gt;
+    &lt;parent link=&quot;link&quot;/&gt;
+    &lt;gazebo&gt;
+      &lt;stopErp&gt;0.2&lt;/stopErp&gt;
+      &lt;stopCfm&gt;0.0&lt;/stopCfm&gt;
+    &lt;/gazebo&gt;
+    &lt;limit effort=&quot;0&quot; lower=&quot;0&quot; upper=&quot;0&quot; velocity=&quot;0&quot;&gt;
+      &lt;gazebo/&gt;
+    &lt;/limit&gt;
+    &lt;mimic multiplier=&quot;1&quot; offset=&quot;0&quot;/&gt;
+    &lt;safety_controller k_position=&quot;0&quot; k_velocity=&quot;0&quot; soft_lower_limit=&quot;0&quot; soft_upper_limit=&quot;0&quot;/&gt;
+    &lt;child link=&quot;link&quot;/&gt;
+    &lt;origin rpy=&quot;0 0 0&quot; xyz=&quot;0 0 0&quot;/&gt;
+    &lt;dynamics damping=&quot;0&quot; friction=&quot;0&quot;&gt;
+      &lt;gazebo/&gt;
+    &lt;/dynamics&gt;
+  &lt;/joint&gt;
+  &lt;transmission name=&quot;transmission&quot;&gt;
+    &lt;actuator name=&quot;actuator&quot;&gt;
+      &lt;mechanicalReduction&gt;1&lt;/mechanicalReduction&gt;
+      &lt;hardwareInterface&gt;EffortJointInterface&lt;/hardwareInterface&gt;
+    &lt;/actuator&gt;
+    &lt;joint name=&quot;joint&quot;&gt;
+      &lt;hardwareInterface&gt;EffortJointInterface&lt;/hardwareInterface&gt;
+    &lt;/joint&gt;
+    &lt;type&gt;transmission_interface/SimpleTransmission&lt;/type&gt;
+  &lt;/transmission&gt;
+  &lt;gazebo/&gt;
+&lt;/robot&gt;
 </pre></div>
                 
                   

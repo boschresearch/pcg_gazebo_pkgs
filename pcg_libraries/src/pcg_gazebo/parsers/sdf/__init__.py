@@ -103,6 +103,7 @@ from .k3 import K3
 from .kd import Kd
 from .kinematic import Kinematic
 from .kp import Kp
+from .laser_retro import LaserRetro
 from .length import Length
 from .light import Light
 from .lighting import Lighting
@@ -136,6 +137,7 @@ from .name import Name
 from .near import Near
 from .noise import Noise
 from .normal_map import NormalMap
+from .normal import Normal
 from .ode import ODE
 from .orientation_reference_frame import OrientationReferenceFrame
 from .outer_angle import OuterAngle

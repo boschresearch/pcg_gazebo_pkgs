@@ -17,7 +17,8 @@ from ...parsers.sdf import Pose as PoseSDF
 from ...parsers.urdf import Origin
 from ...transformations import quaternion_from_euler, euler_from_quaternion, \
     quaternion_conjugate, quaternion_multiply, rotation_matrix, \
-    quaternion_from_matrix, random_rotation_matrix, quaternion_matrix
+    quaternion_from_matrix, random_rotation_matrix, quaternion_matrix, \
+    is_same_transform
 import collections
 import numpy as np
 
@@ -77,6 +78,10 @@ class Pose(object):
         p = np.array(self.position) - np.dot(
             quaternion_matrix(self.quat)[0:3, 0:3], pose.position)
         return Pose(pos=p, quat=q)
+
+    def __eq__(self, pose):
+        return np.allclose(self.position, pose.position) and \
+            is_same_transform(quaternion_matrix(self.quat), quaternion_matrix(pose.quat))
 
     @property
     def is_updated(self):

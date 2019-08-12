@@ -1,3 +1,4 @@
+
 # pcg_gazebo.parsers
 Parsing module to generated and convert SDF, URDF and SDF Configuration formats.
 
@@ -5,6 +6,7 @@ Parsing module to generated and convert SDF, URDF and SDF Configuration formats.
 
 * [SDF format](http://sdformat.org/)
 * [URDF format specifications](https://wiki.ros.org/urdf/XML)
+
 
 ## parse_sdf
 ```python
@@ -22,6 +24,7 @@ SDF XML formatted text.
 
 `pcg_gazebo.parsers.types.XMLBase` object.
 
+
 ## parse_urdf
 ```python
 parse_urdf(input_xml)
@@ -38,6 +41,7 @@ URDF XML formatted text.
 
 `pcg_gazebo.parsers.types.XMLBase` object.
 
+
 ## parse_sdf_config
 ```python
 parse_sdf_config(input_xml)
@@ -53,6 +57,7 @@ SDF Configuration XML formatted text.
 > *Returns*
 
 `pcg_gazebo.parsers.types.XMLBase` object.
+
 
 ## parse_xml
 ```python
@@ -71,6 +76,7 @@ file, options are `sdf`, `urdf` or `sdf_config`.
 
 `collections.OrderedDict`: Dictionary where the XML tags are the keys.
 
+
 ## parse_xml_str
 ```python
 parse_xml_str(xml_str, type='sdf')
@@ -87,6 +93,7 @@ file, options are `sdf`, `urdf` or `sdf_config`.
 > *Returns*
 
 `collections.OrderedDict`: Dictionary where the XML tags are the keys.
+
 
 ## parse_xml_dict
 ```python
@@ -105,6 +112,7 @@ file, options are `sdf`, `urdf` or `sdf_config`.
 
 `pcg_gazebo.parsers.types.XMLBase` object.
 
+
 ## convert_to_dict
 ```python
 convert_to_dict(xml_dict)
@@ -121,6 +129,7 @@ dictionary form.
 
 `dict`: Formatted XML dictionary.
 
+
 ## convert_from_string
 ```python
 convert_from_string(str_input_xml)
@@ -134,6 +143,7 @@ Convert a string into a Python data structure type.
 > *Returns*
 
 `bool`, `int`, `float`, list of `float` or `str`.
+
 
 ## sdf2urdf
 ```python
@@ -149,6 +159,7 @@ into an URDF `pcg_gazebo` element.
 > *Returns*
 
 `pcg_gazebo.parsers.types.XMLBase` as an URDF element.
+
 
 ## urdf2sdf
 ```python

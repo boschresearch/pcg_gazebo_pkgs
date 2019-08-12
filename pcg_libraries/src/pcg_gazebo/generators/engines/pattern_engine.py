@@ -25,13 +25,14 @@ class PatternEngine(Engine):
 
     def __init__(self, callback_fcn_get_model, callback_fcn_get_constraint=None,
         models=None, poses=None, constraints=None, pose=[0, 0, 0, 0, 0, 0],
-        mode=None, args=None):                
+        mode=None, args=None, collision_checker=None):                
         Engine.__init__(
             self, 
             callback_fcn_get_model=callback_fcn_get_model,
             callback_fcn_get_constraint=callback_fcn_get_constraint,
             models=models,
-            constraints=constraints)      
+            constraints=constraints,
+            collision_checker=collision_checker)      
 
         if mode not in self._MODES:
             msg = 'Invalid pattern mode, options={}'.format(self._MODES)

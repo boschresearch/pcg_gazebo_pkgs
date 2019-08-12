@@ -37,7 +37,7 @@ class Light(XMLBase):
         specular=dict(creator=Specular, default=[[0.1, 0.1, 0.1, 1]]),
         attenuation=dict(creator=Attenuation),
         direction=dict(creator=Direction, default=[[0, 0, -1]]),
-        spot=dict(creator=Spot),
+        spot=dict(creator=Spot, optional=True),
         pose=dict(creator=Pose, optional=True)   
     )
 
@@ -51,8 +51,13 @@ class Light(XMLBase):
 
     @name.setter
     def name(self, value):
-        assert isinstance(value, str) or isinstance(value, unicode), \
-            'Name should be a string, received={}, type={}'.format(value, type(value))
+        import sys
+        if sys.version_info[0] == 2:
+            assert isinstance(value, str) or isinstance(value, unicode), \
+                'Name should be a string, received={}, type={}'.format(value, type(value))
+        else:
+            assert isinstance(value, str), \
+                'Name should be a string, received={}, type={}'.format(value, type(value))
         assert len(value) > 0, \
             'Name string should not be empty'
         self.attributes['name'] = value
@@ -63,8 +68,13 @@ class Light(XMLBase):
 
     @type.setter
     def type(self, value):
-        assert isinstance(value, str) or isinstance(value, unicode), \
-            'Name should be a string, received={}, type={}'.format(value, type(value))
+        import sys
+        if sys.version_info[0] == 2:
+            assert isinstance(value, str) or isinstance(value, unicode), \
+                'Name should be a string, received={}, type={}'.format(value, type(value))
+        else:
+            assert isinstance(value, str), \
+                'Name should be a string, received={}, type={}'.format(value, type(value))
         assert len(value) > 0, \
             'Name string should not be empty'
         assert value in ['point', 'directional', 'spot'], \

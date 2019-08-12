@@ -1331,17 +1331,17 @@ models according to pre-defined rules.</p>
 <p><div class="codehilite"><pre><span></span><span class="n">create_engine</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </pre></div>
 Engine factory that returns the engine according
-to its <code class="codehilite"><span class="n">LABEL</span></code> definition. It returns <code class="codehilite"><span class="k">None</span></code> if the engine name
+to its <code class="codehilite">LABEL</code> definition. It returns <code class="codehilite">None</code> if the engine name
 is invalid.</p>
 <blockquote>
 <p><em>Input parameters</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">tag</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>): Name of the engine class</li>
-<li><code class="codehilite"><span class="n">kwargs</span></code>: Inputs for the engine class constructor</li>
+<li><code class="codehilite">tag</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the engine class</li>
+<li><code class="codehilite">kwargs</code>: Inputs for the engine class constructor</li>
 </ul>
 <h4 id="engine">Engine<a class="headerlink" href="#engine" title="Permanent link">&para;</a></h4>
-<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback_fcn_get_model</span><span class="p">,</span> <span class="n">callback_fcn_get_constraint</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">models</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">constraints</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="p">()</span>
 </pre></div>
 Base class for model factory engines. The engines are responsible
 of computing poses for models in the world and performing collision
@@ -1351,27 +1351,27 @@ This class includes methods common to all derived engine classes.</p>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">callback_fcn_get_model</span></code> (<em>type:</em> <code class="codehilite"><span class="n">callable</span></code>): Handle to a function
-or a lambda function that returns a <code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="n">simulation</span><span class="p">.</span><span class="n">SimulationModel</span></code>
+<li><code class="codehilite">callback_fcn_get_model</code> (<em>type:</em> <code class="codehilite">callable</code>): Handle to a function
+or a lambda function that returns a <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>
 associated with a tag name.</li>
-<li><code class="codehilite"><span class="n">callback_fcn_get_constraint</span></code> (<em>type:</em> <code class="codehilite"><span class="n">callable</span></code>, <em>default:</em> <code class="codehilite"><span class="k">None</span></code>):
+<li><code class="codehilite">callback_fcn_get_constraint</code> (<em>type:</em> <code class="codehilite">callable</code>, <em>default:</em> <code class="codehilite">None</code>):
 Handle to a function or a lambda function that returns a
-<code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="k">constraints</span><span class="p">.</span><span class="k">Constraint</span></code> associated with a tag name.</li>
-<li><code class="codehilite"><span class="n">models</span></code> (<em>type:</em> <code class="codehilite"><span class="n">list</span></code>, <em>default:</em> <code class="codehilite"><span class="k">None</span></code>): List of models names as <code class="codehilite"><span class="n">str</span></code>
+<code class="codehilite">pcg_gazebo.constraints.Constraint</code> associated with a tag name.</li>
+<li><code class="codehilite">models</code> (<em>type:</em> <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">None</code>): List of models names as <code class="codehilite">str</code>
 relative to the models that the engine will have as assets.</li>
-<li><code class="codehilite"><span class="k">constraints</span></code> (<em>type:</em> <code class="codehilite"><span class="n">list</span></code>, <em>default:</em> <code class="codehilite"><span class="k">None</span></code>): List of local constraint
+<li><code class="codehilite">constraints</code> (<em>type:</em> <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">None</code>): List of local constraint
 configurations that will be applied on to the engine's model assets.</li>
 </ul>
 <h5 id="label">label<a class="headerlink" href="#label" title="Permanent link">&para;</a></h5>
-<p><code class="codehilite"><span class="n">str</span></code>: Engine name identifier</p>
+<p><code class="codehilite">str</code>: Engine name identifier</p>
 <h5 id="models">models<a class="headerlink" href="#models" title="Permanent link">&para;</a></h5>
-<p>List of <code class="codehilite"><span class="n">str</span></code>: List of model name tags regarding
+<p>List of <code class="codehilite">str</code>: List of model name tags regarding
 the engine's model assets</p>
 <h5 id="poses">poses<a class="headerlink" href="#poses" title="Permanent link">&para;</a></h5>
-<p><code class="codehilite"><span class="n">dict</span></code>: List of fixed poses associated with model
+<p><code class="codehilite">dict</code>: List of fixed poses associated with model
 names.</p>
 <h5 id="add_local_constraint">add_local_constraint<a class="headerlink" href="#add_local_constraint" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="o">.</span><span class="n">add_local_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">constraint_name</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="o">.</span><span class="n">add_local_constraint</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">constraint_name</span><span class="p">)</span>
 </pre></div>
 Add an association of a constraint definitions with an
 specific model tag to be taken into account when running
@@ -1380,11 +1380,11 @@ the placement engine.</p>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">model_name</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>): Name of the model</li>
-<li><code class="codehilite"><span class="k">constraint_name</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>): Name of the constraint definition</li>
+<li><code class="codehilite">model_name</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the model</li>
+<li><code class="codehilite">constraint_name</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the constraint definition</li>
 </ul>
 <h5 id="get_local_constraints_for_model">get_local_constraints_for_model<a class="headerlink" href="#get_local_constraints_for_model" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="o">.</span><span class="n">get_local_constraints_for_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="o">.</span><span class="n">get_local_constraints_for_model</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
 </pre></div>
 Return the name of the local constraint definitions for
 a model.</p>
@@ -1392,16 +1392,16 @@ a model.</p>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">model_name</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>): Name of the model</li>
+<li><code class="codehilite">model_name</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the model</li>
 </ul>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
-<p>List of <code class="codehilite"><span class="n">str</span></code>: List of constraint definition names associated
+<p>List of <code class="codehilite">str</code>: List of constraint definition names associated
 with the model. If the model has no constraints, am empty
 list is returned.</p>
 <h5 id="apply_local_constraints">apply_local_constraints<a class="headerlink" href="#apply_local_constraints" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="o">.</span><span class="n">apply_local_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="o">.</span><span class="n">apply_local_constraints</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 </pre></div>
 Apply spatial constraints to model. This will modify the pose
 of the model if it violates the constraint.</p>
@@ -1409,74 +1409,74 @@ of the model if it violates the constraint.</p>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">model</span></code> (<em>type:</em> <code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="n">simulation</span><span class="p">.</span><span class="n">SimulationModel</span></code>): Model
+<li><code class="codehilite">model</code> (<em>type:</em> <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>): Model
 instance</li>
 </ul>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
-<p><code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="n">simulation</span><span class="p">.</span><span class="n">SimulationModel</span></code>: Model with modified pose.</p>
+<p><code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>: Model with modified pose.</p>
 <h5 id="add_model">add_model<a class="headerlink" href="#add_model" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="o">.</span><span class="n">add_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="o">.</span><span class="n">add_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 </pre></div>
 Add a model name to the list of model assets for this engine.</p>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">model</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>): Name of the model</li>
+<li><code class="codehilite">model</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the model</li>
 </ul>
 <h5 id="set_fixed_pose_models">set_fixed_pose_models<a class="headerlink" href="#set_fixed_pose_models" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="o">.</span><span class="n">set_fixed_pose_models</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">models</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="o">.</span><span class="n">set_fixed_pose_models</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
 </pre></div>
 Function description</p>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">param</span></code> (<em>type:</em> <code class="codehilite"><span class="n">data_type</span></code>, <em>default:</em> <code class="codehilite"><span class="k">data</span></code>): Parameter description</li>
+<li><code class="codehilite">param</code> (<em>type:</em> <code class="codehilite">data_type</code>, <em>default:</em> <code class="codehilite">data</code>): Parameter description</li>
 </ul>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
 <p>Description of return values</p>
 <h5 id="run">run<a class="headerlink" href="#run" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">Engine</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 This function should be implemented by the derived
 classes.</p>
 <h4 id="fixedposeengine">FixedPoseEngine<a class="headerlink" href="#fixedposeengine" title="Permanent link">&para;</a></h4>
-<p><div class="codehilite"><pre><span></span><span class="n">FixedPoseEngine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback_fcn_get_model</span><span class="p">,</span> <span class="n">callback_fcn_get_constraint</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">models</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">poses</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">constraints</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">FixedPoseEngine</span><span class="p">()</span>
 </pre></div>
 Engine that just places models on pre-configured fixed poses. This
 engine only accepts one model asset.</p>
 <ul>
-<li><code class="codehilite"><span class="n">callback_fcn_get_model</span></code> (<em>type:</em> <code class="codehilite"><span class="n">callable</span></code>): Handle to a function
-or a lambda function that returns a <code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="n">simulation</span><span class="p">.</span><span class="n">SimulationModel</span></code>
+<li><code class="codehilite">callback_fcn_get_model</code> (<em>type:</em> <code class="codehilite">callable</code>): Handle to a function
+or a lambda function that returns a <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>
 associated with a tag name.</li>
-<li><code class="codehilite"><span class="n">callback_fcn_get_constraint</span></code> (<em>type:</em> <code class="codehilite"><span class="n">callable</span></code>, <em>default:</em> <code class="codehilite"><span class="k">None</span></code>):
+<li><code class="codehilite">callback_fcn_get_constraint</code> (<em>type:</em> <code class="codehilite">callable</code>, <em>default:</em> <code class="codehilite">None</code>):
 Handle to a function or a lambda function that returns a
-<code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="k">constraints</span><span class="p">.</span><span class="k">Constraint</span></code> associated with a tag name.</li>
-<li><code class="codehilite"><span class="n">models</span></code> (<em>type:</em> <code class="codehilite"><span class="n">list</span></code>, <em>default:</em> <code class="codehilite"><span class="k">None</span></code>): List of models names as <code class="codehilite"><span class="n">str</span></code>
+<code class="codehilite">pcg_gazebo.constraints.Constraint</code> associated with a tag name.</li>
+<li><code class="codehilite">models</code> (<em>type:</em> <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">None</code>): List of models names as <code class="codehilite">str</code>
 relative to the models that the engine will have as assets.</li>
-<li><code class="codehilite"><span class="k">constraints</span></code> (<em>type:</em> <code class="codehilite"><span class="n">list</span></code>, <em>default:</em> <code class="codehilite"><span class="k">None</span></code>): List of local constraint
+<li><code class="codehilite">constraints</code> (<em>type:</em> <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">None</code>): List of local constraint
 configurations that will be applied on to the engine's model assets.</li>
-<li><code class="codehilite"><span class="n">poses</span></code> (<em>type:</em> <code class="codehilite"><span class="n">list</span></code>): List of 6- (position and Euler angles) or 7 element
+<li><code class="codehilite">poses</code> (<em>type:</em> <code class="codehilite">list</code>): List of 6- (position and Euler angles) or 7 element
 (position and quaternion) poses.</li>
 </ul>
 <h5 id="add_pose">add_pose<a class="headerlink" href="#add_pose" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">FixedPoseEngine</span><span class="o">.</span><span class="n">add_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pose</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">FixedPoseEngine</span><span class="o">.</span><span class="n">add_pose</span><span class="p">(</span><span class="n">pose</span><span class="p">)</span>
 </pre></div>
 Add pose to the list of fixed-poses.</p>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">pose</span></code> (<em>type:</em> <code class="codehilite"><span class="n">list</span></code>): 6- (position and Euler angles) or 7 element
+<li><code class="codehilite">pose</code> (<em>type:</em> <code class="codehilite">list</code>): 6- (position and Euler angles) or 7 element
 (position and quaternion) poses.</li>
 </ul>
 <h5 id="run_1">run<a class="headerlink" href="#run_1" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">FixedPoseEngine</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">FixedPoseEngine</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 Generate instances of the model asset for all
 the poses provided. If any local constraints were also provided,
@@ -1484,13 +1484,13 @@ they will be applied to the model after its placement.</p>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
-<p>List of <code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="n">simulation</span><span class="p">.</span><span class="n">SimulationModel</span></code>: Model instances.</p>
+<p>List of <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>: Model instances.</p>
 <h4 id="patternengine">PatternEngine<a class="headerlink" href="#patternengine" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">PatternEngine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback_fcn_get_model</span><span class="p">,</span> <span class="n">callback_fcn_get_constraint</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">models</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">poses</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">constraints</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">pose</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">mode</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">PatternEngine</span><span class="p">()</span>
 </pre></div>
 
 <h4 id="randomposeengine">RandomPoseEngine<a class="headerlink" href="#randomposeengine" title="Permanent link">&para;</a></h4>
-<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback_fcn_get_model</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">callback_fcn_get_constraint</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">is_ground_plane</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">models</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">max_num</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">no_collision</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">max_area</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">constraints</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">policies</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">model_picker</span><span class="o">=</span><span class="s1">&#39;random&#39;</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="p">()</span>
 </pre></div>
 Placement engine that generates a random pose for its model
 assets respecting input local constraints, if any is provided,
@@ -1502,170 +1502,170 @@ each other.</p>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">callback_fcn_get_model</span></code> (<em>type:</em> <code class="codehilite"><span class="n">callable</span></code>): Handle to a function
-or a lambda function that returns a <code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="n">simulation</span><span class="p">.</span><span class="n">SimulationModel</span></code>
+<li><code class="codehilite">callback_fcn_get_model</code> (<em>type:</em> <code class="codehilite">callable</code>): Handle to a function
+or a lambda function that returns a <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>
 associated with a tag name.</li>
-<li><code class="codehilite"><span class="n">callback_fcn_get_constraint</span></code> (<em>type:</em> <code class="codehilite"><span class="n">callable</span></code>, <em>default:</em> <code class="codehilite"><span class="k">None</span></code>):
+<li><code class="codehilite">callback_fcn_get_constraint</code> (<em>type:</em> <code class="codehilite">callable</code>, <em>default:</em> <code class="codehilite">None</code>):
 Handle to a function or a lambda function that returns a
-<code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="k">constraints</span><span class="p">.</span><span class="k">Constraint</span></code> associated with a tag name.</li>
-<li><code class="codehilite"><span class="n">models</span></code> (<em>type:</em> <code class="codehilite"><span class="n">list</span></code>, <em>default:</em> <code class="codehilite"><span class="k">None</span></code>): List of models names as <code class="codehilite"><span class="n">str</span></code>
+<code class="codehilite">pcg_gazebo.constraints.Constraint</code> associated with a tag name.</li>
+<li><code class="codehilite">models</code> (<em>type:</em> <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">None</code>): List of models names as <code class="codehilite">str</code>
 relative to the models that the engine will have as assets.</li>
-<li><code class="codehilite"><span class="k">constraints</span></code> (<em>type:</em> <code class="codehilite"><span class="n">list</span></code>, <em>default:</em> <code class="codehilite"><span class="k">None</span></code>): List of local constraint
+<li><code class="codehilite">constraints</code> (<em>type:</em> <code class="codehilite">list</code>, <em>default:</em> <code class="codehilite">None</code>): List of local constraint
 configurations that will be applied on to the engine's model assets.</li>
-<li><code class="codehilite"><span class="n">max_num</span></code> (<em>type:</em> <code class="codehilite"><span class="n">dict</span></code>, <em>default:</em> <code class="codehilite"><span class="k">None</span></code>): Maximum number of instances
+<li><code class="codehilite">max_num</code> (<em>type:</em> <code class="codehilite">dict</code>, <em>default:</em> <code class="codehilite">None</code>): Maximum number of instances
 of the model assets, the key being the model asset's name, and the value
 the maximum number.</li>
-<li><code class="codehilite"><span class="n">no_collision</span></code> (<em>type:</em> <code class="codehilite"><span class="n">bool</span></code>, <em>default:</em> <code class="codehilite"><span class="k">True</span></code>): If <code class="codehilite"><span class="k">True</span></code>, the model
+<li><code class="codehilite">no_collision</code> (<em>type:</em> <code class="codehilite">bool</code>, <em>default:</em> <code class="codehilite">True</code>): If <code class="codehilite">True</code>, the model
 instances are only added to the world if there are no collisions with the
 already existing models (except for models flagged as ground plane).</li>
-<li><code class="codehilite"><span class="n">max_area</span></code> (<em>type:</em> <code class="codehilite"><span class="nb">float</span></code>, <em>default:</em> <code class="codehilite"><span class="mi">1</span></code>): Percentage of the allowed
+<li><code class="codehilite">max_area</code> (<em>type:</em> <code class="codehilite">float</code>, <em>default:</em> <code class="codehilite">1</code>): Percentage of the allowed
 area to fill with the models.</li>
-<li><code class="codehilite"><span class="n">model_picker</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>, <em>default:</em> <code class="codehilite"><span class="k">random</span></code>): Strategy for picking
+<li><code class="codehilite">model_picker</code> (<em>type:</em> <code class="codehilite">str</code>, <em>default:</em> <code class="codehilite">random</code>): Strategy for picking
 a model from the list of assets for the next placement in the world. Options
-are <code class="codehilite"><span class="k">random</span></code> (selecting a random model from the list of assets) or <code class="codehilite"><span class="n">area</span></code>
+are <code class="codehilite">random</code> (selecting a random model from the list of assets) or <code class="codehilite">area</code>
 (selecting the models for the biggest to the smallest).</li>
-<li><code class="codehilite"><span class="n">policies</span></code> (<em>type:</em> <code class="codehilite"><span class="n">dict</span></code>, <em>default:</em> <code class="codehilite"><span class="k">None</span></code>): The rules for model
+<li><code class="codehilite">policies</code> (<em>type:</em> <code class="codehilite">dict</code>, <em>default:</em> <code class="codehilite">None</code>): The rules for model
 generation associated with each degree of freedom.</li>
 </ul>
-<div class="codehilite"><pre><span></span><span class="nt">policies</span><span class="p">:</span>
-    <span class="p p-Indicator">-</span> <span class="nt">models</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">policies</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">models</span><span class="p p-Indicator">:</span>
     <span class=" -Error"> </span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">model_1</span>
      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">model_2</span>
      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">model_3</span>
-     <span class="nt">config</span><span class="p">:</span>
-     <span class="p p-Indicator">-</span> <span class="nt">dofs</span><span class="p">:</span>
+     <span class="l l-Scalar l-Scalar-Plain">config</span><span class="p p-Indicator">:</span>
+     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">dofs</span><span class="p p-Indicator">:</span>
        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">x</span>
        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">y</span>
-       <span class="nt">policy</span><span class="p">:</span>
-         <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">workspace</span>
-         <span class="nt">args</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">area_1</span>     <span class="c1"># For more information on workspaces, check the class definition for `pcg_gazebo.constraints.WorkspaceConstraint`</span>
-     <span class="p p-Indicator">-</span> <span class="nt">dofs</span><span class="p">:</span>
+       <span class="l l-Scalar l-Scalar-Plain">policy</span><span class="p p-Indicator">:</span>
+         <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">workspace</span>
+         <span class="l l-Scalar l-Scalar-Plain">args</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">area_1</span>     <span class="c1"># For more information on workspaces, check the class definition for `pcg_gazebo.constraints.WorkspaceConstraint`</span>
+     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">dofs</span><span class="p p-Indicator">:</span>
        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">z</span>
        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">roll</span>
        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">pitch</span>
-       <span class="nt">policy</span><span class="p">:</span>
-         <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">value</span>
-         <span class="nt">args</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-     <span class="p p-Indicator">-</span> <span class="nt">dofs</span><span class="p">:</span>
+       <span class="l l-Scalar l-Scalar-Plain">policy</span><span class="p p-Indicator">:</span>
+         <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">value</span>
+         <span class="l l-Scalar l-Scalar-Plain">args</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">dofs</span><span class="p p-Indicator">:</span>
        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">yaw</span>
-       <span class="nt">policy</span><span class="p">:</span>
-         <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">uniform</span>
-         <span class="nt">args</span><span class="p">:</span>
-            <span class="nt">min</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-3.141592653589793</span>
-            <span class="nt">max</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.141592653589793</span>
+       <span class="l l-Scalar l-Scalar-Plain">policy</span><span class="p p-Indicator">:</span>
+         <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">uniform</span>
+         <span class="l l-Scalar l-Scalar-Plain">args</span><span class="p p-Indicator">:</span>
+            <span class="l l-Scalar l-Scalar-Plain">min</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">-3.141592653589793</span>
+            <span class="l l-Scalar l-Scalar-Plain">max</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">3.141592653589793</span>
 </pre></div>
 
 <h5 id="reset_counter">reset_counter<a class="headerlink" href="#reset_counter" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">reset_counter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">reset_counter</span><span class="p">()</span>
 </pre></div>
 Reset all model counters.</p>
 <h5 id="increase_counter">increase_counter<a class="headerlink" href="#increase_counter" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">increase_counter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">increase_counter</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 </pre></div>
 Increase the counter for a model.</p>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">name</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>): Model name</li>
+<li><code class="codehilite">name</code> (<em>type:</em> <code class="codehilite">str</code>): Model name</li>
 </ul>
 <h5 id="get_num_models">get_num_models<a class="headerlink" href="#get_num_models" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">get_num_models</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">get_num_models</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 </pre></div>
 Return the current value for the model counter.</p>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">name</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>): Model name</li>
+<li><code class="codehilite">name</code> (<em>type:</em> <code class="codehilite">str</code>): Model name</li>
 </ul>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
-<p><code class="codehilite"><span class="nb">int</span></code>: Number of models</p>
+<p><code class="codehilite">int</code>: Number of models</p>
 <h5 id="get_max_num_models">get_max_num_models<a class="headerlink" href="#get_max_num_models" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">get_max_num_models</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">get_max_num_models</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 </pre></div>
 Return the defined maximum number of instances for a model.</p>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">name</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>): Model name</li>
+<li><code class="codehilite">name</code> (<em>type:</em> <code class="codehilite">str</code>): Model name</li>
 </ul>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
-<p><code class="codehilite"><span class="nb">int</span></code>: Maximum number of instances</p>
+<p><code class="codehilite">int</code>: Maximum number of instances</p>
 <h5 id="choose_model">choose_model<a class="headerlink" href="#choose_model" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">choose_model</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">choose_model</span><span class="p">()</span>
 </pre></div>
 Select the next model instance to be placed in the world.
-This method is affected by the constructor input <code class="codehilite"><span class="n">model_picker</span></code>.
-In case the <code class="codehilite"><span class="n">model_picker</span></code> option was set as <code class="codehilite"><span class="k">random</span></code>, a random
-model will be chosen from the assets available. If it is <code class="codehilite"><span class="n">area</span></code>,
+This method is affected by the constructor input <code class="codehilite">model_picker</code>.
+In case the <code class="codehilite">model_picker</code> option was set as <code class="codehilite">random</code>, a random
+model will be chosen from the assets available. If it is <code class="codehilite">area</code>,
 the models will be ordered by footprint size and the models are
 chosen by an descending footprint size.</p>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
-<p><code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="n">simulation</span><span class="p">.</span><span class="n">SimulationModel</span></code>: Chosen model</p>
+<p><code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>: Chosen model</p>
 <h5 id="is_model_in_workspace">is_model_in_workspace<a class="headerlink" href="#is_model_in_workspace" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">is_model_in_workspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">footprint</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">is_model_in_workspace</span><span class="p">(</span><span class="n">footprint</span><span class="p">)</span>
 </pre></div>
 Verify if the model is in the allowed workspace</p>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">footprint</span></code> (<em>type:</em> <code class="codehilite"><span class="n">dict</span></code> or <code class="codehilite"><span class="n">shapely</span><span class="p">.</span><span class="n">geometries</span><span class="p">.</span><span class="n">Polygon</span></code>): A <code class="codehilite"><span class="n">shapely</span></code>
+<li><code class="codehilite">footprint</code> (<em>type:</em> <code class="codehilite">dict</code> or <code class="codehilite">shapely.geometries.Polygon</code>): A <code class="codehilite">shapely</code>
 polygon or a dictionary with the values being the footprints for different
 submodels.</li>
 </ul>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
-<p><code class="codehilite"><span class="n">bool</span></code>: <code class="codehilite"><span class="k">True</span></code> if the polygon is entirely contained inside the workspace</p>
+<p><code class="codehilite">bool</code>: <code class="codehilite">True</code> if the polygon is entirely contained inside the workspace</p>
 <h5 id="get_list_of_footprint_polygons">get_list_of_footprint_polygons<a class="headerlink" href="#get_list_of_footprint_polygons" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">get_list_of_footprint_polygons</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">footprint</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">get_list_of_footprint_polygons</span><span class="p">(</span><span class="n">footprint</span><span class="p">)</span>
 </pre></div>
-Return the list of polygons contained in the <code class="codehilite"><span class="n">footprint</span></code> input.</p>
+Return the list of polygons contained in the <code class="codehilite">footprint</code> input.</p>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">footprint</span></code> (<em>type:</em> <code class="codehilite"><span class="n">dict</span></code> or <code class="codehilite"><span class="n">shapely</span><span class="p">.</span><span class="n">geometries</span><span class="p">.</span><span class="n">Polygon</span></code>): A <code class="codehilite"><span class="n">shapely</span></code>
+<li><code class="codehilite">footprint</code> (<em>type:</em> <code class="codehilite">dict</code> or <code class="codehilite">shapely.geometries.Polygon</code>): A <code class="codehilite">shapely</code>
 polygon or a dictionary with the values being the footprints for different
 submodels.</li>
 </ul>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
-<p>List of <code class="codehilite"><span class="n">shapely</span><span class="p">.</span><span class="n">geometry</span><span class="p">.</span><span class="n">Polygon</span></code>: List of footprint polygons</p>
+<p>List of <code class="codehilite">shapely.geometry.Polygon</code>: List of footprint polygons</p>
 <h5 id="has_collision">has_collision<a class="headerlink" href="#has_collision" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">has_collision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">has_collision</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 </pre></div>
-Run the collision checker of the input <code class="codehilite"><span class="n">model</span></code>
+Run the collision checker of the input <code class="codehilite">model</code>
 against the current scene of the simulation.</p>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">model</span></code> (<em>type:</em> <code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="n">simulation</span><span class="p">.</span><span class="n">SimulationModel</span></code>):</li>
+<li><code class="codehilite">model</code> (<em>type:</em> <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>):</li>
 </ul>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
-<p><code class="codehilite"><span class="n">bool</span></code>: <code class="codehilite"><span class="k">True</span></code>, if any collision is detected</p>
+<p><code class="codehilite">bool</code>: <code class="codehilite">True</code>, if any collision is detected</p>
 <h5 id="run_2">run<a class="headerlink" href="#run_2" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">RandomPoseEngine</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 Run the placement engine and generate a list of models placed
 according to the input policies and respecting spatial constraints.</p>
 <blockquote>
 <p><em>Returns</em></p>
 </blockquote>
-<p>List of <code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="n">simulation</span><span class="p">.</span><span class="n">SimulationModel</span></code></p>
+<p>List of <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code></p>
                 
                   
                 

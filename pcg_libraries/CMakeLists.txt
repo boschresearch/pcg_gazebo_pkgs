@@ -30,13 +30,16 @@ if(CATKIN_ENABLE_TESTING)
     foreach(T
         test/test_inertia.py                    
         test/test_model_factory.py  
-        test/test_sdf_parser.py                    
+        test/test_sdf.py                    
         test/test_simulation_objects.py
         test/test_jinja_sdf_file_generation.py  
         test/test_pose.py           
-        test/test_simulation_object_properties.py  
-        test/test_urdf_parser.py
+        test/test_mesh_property.py  
+        test/test_parser_urdf.py
         test/test_resolve_paths.py
+        test/test_model_group.py
+        test/test_load_yaml.py
+        test/test_parse_sdf.py
         )
         catkin_add_nosetests(${T})
     endforeach()

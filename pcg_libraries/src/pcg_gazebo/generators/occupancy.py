@@ -20,7 +20,7 @@ from shapely.ops import triangulate, unary_union
 from time import time
 from ..log import PCG_ROOT_LOGGER
 from ..visualization import create_scene
-from ..simulation import SimulationModel
+from ..simulation import SimulationModel, ModelGroup
 from time import time
 
 
@@ -30,7 +30,7 @@ def _get_model_limits(model, mesh_type='collision'):
     z_limits = None
 
     meshes = list()
-    if isinstance(model, SimulationModel):
+    if isinstance(model, SimulationModel) or isinstance(model, ModelGroup):
         PCG_ROOT_LOGGER.info('Processing the bounds of simulation model={}'.format(model.name))
         meshes = model.get_meshes(mesh_type)
     elif isinstance(model, trimesh.Trimesh):

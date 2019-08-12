@@ -20,11 +20,13 @@ class MeasureDirection(XMLString):
     _NAME = 'measure_direction'
     _TYPE = 'sdf'
 
+    _VALUE_OPTIONS = ['child_to_parent', 'parent_to_link']
+
     def __init__(self, default='child_to_parent'):
         XMLString.__init__(self, default)
 
     def _set_value(self, value):
-        assert value in ['child_to_parent', 'parent_to_link'], \
+        assert value in self._VALUE_OPTIONS, \
             'measure_direction can be either child_to_parent or ' \
             'parent_to_child'
-        XMLString._set_value(value)
+        XMLString._set_value(self, value)

@@ -171,9 +171,9 @@ class Link(object):
         link.add_empty_visual(name='visual')
         link.get_visual_by_name('visual').set_mesh_as_geometry(
             uri=visual_mesh_filename, scale=visual_mesh_scale)
-            
-        mesh = trimesh.boolean.union(link.get_meshes('visual'))
-        
+    
+        mesh = trimesh.Scene()
+        mesh.add_geometry(link.get_meshes('visual'))
         # Use the meshes's centroid as offset
         link.get_visual_by_name('visual').pose.position = -1 * mesh.centroid
     
@@ -201,7 +201,8 @@ class Link(object):
                 link.get_collision_by_name('collision').set_mesh_as_geometry(
                     uri=collision_mesh_filename, scale=collision_mesh_scale)
         
-        mesh = trimesh.boolean.union(link.get_meshes('collision'))
+        mesh = trimesh.Scene()
+        mesh.add_geometry(link.get_meshes('collision'))
         link.get_collision_by_name('collision').pose.position = -1 * mesh.centroid
 
         if color is not None:
@@ -216,7 +217,8 @@ class Link(object):
 
             # Setting the approximated inertia
         if use_approximated_inertia and mass > 0:
-            mesh = trimesh.boolean.union(link.get_meshes('collision'))
+            mesh = trimesh.Scene()
+            mesh.add_geometry(link.get_meshes('collision'))
             assert approximated_inertia_model in ['box', 'cylinder', 'sphere'], \
                 'Invalid model for approximated inertia, provided={}'.format(
                     approximated_inertia_model)

@@ -51,7 +51,7 @@ def get_log_dir():
 
 
 def create_logger(name, log_filename=None, output_dir=None, 
-    log_level=logging.ERROR):
+    log_level=logging.WARNING):
     logger = logging.getLogger(name)
     if len(logger.handlers) == 0:
         out_hdlr = logging.StreamHandler(sys.stdout)

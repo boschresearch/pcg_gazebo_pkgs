@@ -43,9 +43,10 @@
                     </torsional>
                 </friction>
                 <contact>
-                    <ode/>
-                </contact>
-                <bounce/>
+                    <ode>
+                        <soft_cfm>0</soft_cfm>
+                    </ode>
+                </contact>                
             </surface>
             <max_contacts>10</max_contacts>
         </collision>

@@ -1122,27 +1122,27 @@
 <p><div class="codehilite"><pre><span></span><span class="n">create_constraint</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </pre></div>
 Constraint factory that returns the constraint according
-to its <code class="codehilite"><span class="n">LABEL</span></code> definition. It returns <code class="codehilite"><span class="k">None</span></code> if the constraint name
+to its <code class="codehilite">LABEL</code> definition. It returns <code class="codehilite">None</code> if the constraint name
 is invalid.</p>
 <blockquote>
 <p><em>Input parameters</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">tag</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>): Name of the constraint class</li>
-<li><code class="codehilite"><span class="n">kwargs</span></code>: Inputs for the constraint class constructor</li>
+<li><code class="codehilite">tag</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the constraint class</li>
+<li><code class="codehilite">kwargs</code>: Inputs for the constraint class constructor</li>
 </ul>
 <h4 id="constraint">Constraint<a class="headerlink" href="#constraint" title="Permanent link">&para;</a></h4>
-<p><div class="codehilite"><pre><span></span><span class="n">Constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">Constraint</span><span class="p">()</span>
 </pre></div>
 Abstract constraint class.</p>
 <blockquote>
 <p><em>Attributes</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">LABEL</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>): Name of the constraint class.</li>
+<li><code class="codehilite">LABEL</code> (<em>type:</em> <code class="codehilite">str</code>): Name of the constraint class.</li>
 </ul>
 <h4 id="tangentconstraint">TangentConstraint<a class="headerlink" href="#tangentconstraint" title="Permanent link">&para;</a></h4>
-<p><div class="codehilite"><pre><span></span><span class="n">TangentConstraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="s1">&#39;world&#39;</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">TangentConstraint</span><span class="p">()</span>
 </pre></div>
 Class that allows computation of the closes position
 for a model regarding a reference to have it placed tangent
@@ -1150,10 +1150,10 @@ to the reference.
 Reference can be a plane or another model, at the moment.</p>
 <p>The input reference types that are supported are</p>
 <ul>
-<li><code class="codehilite"><span class="n">plane</span></code>:</li>
+<li><code class="codehilite">plane</code>:</li>
 </ul>
 <p>To set a reference plane to which models will be placed tangently,
-the <code class="codehilite"><span class="n">reference</span></code> input must be provided as</p>
+the <code class="codehilite">reference</code> input must be provided as</p>
 <div class="codehilite"><pre><span></span><span class="n">reference</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
     <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;plane&#39;</span><span class="p">,</span>
     <span class="n">args</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
@@ -1167,19 +1167,19 @@ the <code class="codehilite"><span class="n">reference</span></code> input must 
 <p><em>Attributes</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">LABEL</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>, <em>value:</em> <code class="codehilite"><span class="s1">&#39;tangent&#39;</span></code>): Name of the constraint class</li>
-<li><code class="codehilite"><span class="n">_REFERENCE_TYPES</span></code> (<em>type:</em> <code class="codehilite"><span class="n">list</span></code>): List of types of references that can be used for the computation</li>
-<li><code class="codehilite"><span class="n">_reference</span></code> (<em>type:</em> <code class="codehilite"><span class="n">dict</span></code>): Arguments of the type of reference used.</li>
+<li><code class="codehilite">LABEL</code> (<em>type:</em> <code class="codehilite">str</code>, <em>value:</em> <code class="codehilite">&#39;tangent&#39;</code>): Name of the constraint class</li>
+<li><code class="codehilite">_REFERENCE_TYPES</code> (<em>type:</em> <code class="codehilite">list</code>): List of types of references that can be used for the computation</li>
+<li><code class="codehilite">_reference</code> (<em>type:</em> <code class="codehilite">dict</code>): Arguments of the type of reference used.</li>
 </ul>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">reference</span></code> (<em>type:</em> <code class="codehilite"><span class="n">dict</span></code>): Arguments for the reference used for the tangent computation</li>
-<li><code class="codehilite"><span class="n">frame</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>, <em>default:</em> <code class="codehilite"><span class="n">world</span></code>): Name of the frame of reference with respect to which the poses are going to be generated (<strong>not implemented</strong>)</li>
+<li><code class="codehilite">reference</code> (<em>type:</em> <code class="codehilite">dict</code>): Arguments for the reference used for the tangent computation</li>
+<li><code class="codehilite">frame</code> (<em>type:</em> <code class="codehilite">str</code>, <em>default:</em> <code class="codehilite">world</code>): Name of the frame of reference with respect to which the poses are going to be generated (<strong>not implemented</strong>)</li>
 </ul>
 <h5 id="apply_constraint">apply_constraint<a class="headerlink" href="#apply_constraint" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">TangentConstraint</span><span class="o">.</span><span class="n">apply_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">TangentConstraint</span><span class="o">.</span><span class="n">apply_constraint</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 </pre></div>
 Compute and apply the tangent constraint for the
 provided model using the reference input.</p>
@@ -1187,19 +1187,19 @@ provided model using the reference input.</p>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">model</span></code> (<em>type:</em> <code class="codehilite"><span class="n">pcg_gazebo</span><span class="p">.</span><span class="n">simulation</span><span class="p">.</span><span class="n">SimulationModel</span></code>): Model entity to have its pose adapted so that it is placed tangent to the reference</li>
+<li><code class="codehilite">model</code> (<em>type:</em> <code class="codehilite">pcg_gazebo.simulation.SimulationModel</code>): Model entity to have its pose adapted so that it is placed tangent to the reference</li>
 </ul>
 <h4 id="workspaceconstraint">WorkspaceConstraint<a class="headerlink" href="#workspaceconstraint" title="Permanent link">&para;</a></h4>
-<p><div class="codehilite"><pre><span></span><span class="n">WorkspaceConstraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="s1">&#39;world&#39;</span><span class="p">,</span> <span class="n">holes</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">WorkspaceConstraint</span><span class="p">()</span>
 </pre></div>
 Class that represents the spatial workspace where models are allowed in.
-The <code class="codehilite"><span class="n">geometry</span></code> input is a <code class="codehilite"><span class="n">dict</span></code> containing all the arguments necessary to
+The <code class="codehilite">geometry</code> input is a <code class="codehilite">dict</code> containing all the arguments necessary to
 generate the workspace geometry. For now, only 2D workspaces are supported.
-The <code class="codehilite"><span class="n">holes</span></code> input is a list of <code class="codehilite"><span class="n">dict</span></code> with the same geometry description of
-the input <code class="codehilite"><span class="n">geometry</span></code> and describe exclusion areas inside the workspace.</p>
+The <code class="codehilite">holes</code> input is a list of <code class="codehilite">dict</code> with the same geometry description of
+the input <code class="codehilite">geometry</code> and describe exclusion areas inside the workspace.</p>
 <p>The supported geometry inputs to represent a workspace are</p>
 <ul>
-<li><code class="codehilite"><span class="n">area</span></code></li>
+<li><code class="codehilite">area</code></li>
 </ul>
 <div class="codehilite"><pre><span></span><span class="n">geometry</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
     <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;area&#39;</span>
@@ -1214,7 +1214,7 @@ the input <code class="codehilite"><span class="n">geometry</span></code> and de
 </pre></div>
 
 <ul>
-<li><code class="codehilite"><span class="n">line</span></code></li>
+<li><code class="codehilite">line</code></li>
 </ul>
 <div class="codehilite"><pre><span></span><span class="n">geometry</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
     <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;line&#39;</span><span class="p">,</span>
@@ -1229,7 +1229,7 @@ the input <code class="codehilite"><span class="n">geometry</span></code> and de
 </pre></div>
 
 <ul>
-<li><code class="codehilite"><span class="n">circle</span></code></li>
+<li><code class="codehilite">circle</code></li>
 </ul>
 <div class="codehilite"><pre><span></span><span class="n">geometry</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
     <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;circle&#39;</span>
@@ -1245,27 +1245,27 @@ the input <code class="codehilite"><span class="n">geometry</span></code> and de
 <p><em>Attributes</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">LABEL</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>, <em>value:</em> <code class="codehilite"><span class="n">workspace</span></code>): Name of the constraint class</li>
-<li><code class="codehilite"><span class="n">GEOMETRIES</span></code> (<em>type:</em> <code class="codehilite"><span class="n">list</span></code>): List of input geometries that can be used to set a workspace</li>
+<li><code class="codehilite">LABEL</code> (<em>type:</em> <code class="codehilite">str</code>, <em>value:</em> <code class="codehilite">workspace</code>): Name of the constraint class</li>
+<li><code class="codehilite">GEOMETRIES</code> (<em>type:</em> <code class="codehilite">list</code>): List of input geometries that can be used to set a workspace</li>
 </ul>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">geometry</span></code> (<em>type:</em> <code class="codehilite"><span class="n">dict</span></code>, <em>default:</em> <code class="codehilite"><span class="k">None</span></code>): Input arguments of the geometry to be generated</li>
-<li><code class="codehilite"><span class="n">frame</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>, <em>default:</em> <code class="codehilite"><span class="s1">&#39;world&#39;</span></code>): Name of the frame of reference of the workspace (<strong>not implemented</strong>)</li>
-<li><code class="codehilite"><span class="n">holes</span></code> (<em>type:</em> <code class="codehilite"><span class="n">dict</span></code>, <em>default:</em> <code class="codehilite"><span class="k">None</span></code>): Geometries that represent exclusion areas inside the workspace</li>
+<li><code class="codehilite">geometry</code> (<em>type:</em> <code class="codehilite">dict</code>, <em>default:</em> <code class="codehilite">None</code>): Input arguments of the geometry to be generated</li>
+<li><code class="codehilite">frame</code> (<em>type:</em> <code class="codehilite">str</code>, <em>default:</em> <code class="codehilite">&#39;world&#39;</code>): Name of the frame of reference of the workspace (<strong>not implemented</strong>)</li>
+<li><code class="codehilite">holes</code> (<em>type:</em> <code class="codehilite">dict</code>, <em>default:</em> <code class="codehilite">None</code>): Geometries that represent exclusion areas inside the workspace</li>
 </ul>
 <h5 id="generate_geometry">generate_geometry<a class="headerlink" href="#generate_geometry" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">WorkspaceConstraint</span><span class="o">.</span><span class="n">generate_geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">description</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">WorkspaceConstraint</span><span class="o">.</span><span class="n">generate_geometry</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">description</span><span class="p">)</span>
 </pre></div>
-Generate a <code class="codehilite"><span class="n">shapely</span></code> entity according to the geometry description
-provided. The input <code class="codehilite"><span class="k">type</span></code> containts the name of the geometry to
-be generated and the necessary arguments must be provided in the <code class="codehilite"><span class="n">dict</span></code>
-input <code class="codehilite"><span class="n">description</span></code>.</p>
-<p>Possible geometries according to the different input values in <code class="codehilite"><span class="k">type</span></code> are:</p>
+Generate a <code class="codehilite">shapely</code> entity according to the geometry description
+provided. The input <code class="codehilite">type</code> containts the name of the geometry to
+be generated and the necessary arguments must be provided in the <code class="codehilite">dict</code>
+input <code class="codehilite">description</code>.</p>
+<p>Possible geometries according to the different input values in <code class="codehilite">type</code> are:</p>
 <ul>
-<li><code class="codehilite"><span class="n">area</span></code></li>
+<li><code class="codehilite">area</code></li>
 </ul>
 <div class="codehilite"><pre><span></span><span class="n">description</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
    <span class="n">points</span><span class="o">=</span><span class="p">[</span>
@@ -1277,7 +1277,7 @@ input <code class="codehilite"><span class="n">description</span></code>.</p>
 </pre></div>
 
 <ul>
-<li><code class="codehilite"><span class="n">line</span></code></li>
+<li><code class="codehilite">line</code></li>
 </ul>
 <div class="codehilite"><pre><span></span><span class="n">description</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
    <span class="n">points</span><span class="o">=</span><span class="p">[</span>
@@ -1289,7 +1289,7 @@ input <code class="codehilite"><span class="n">description</span></code>.</p>
 </pre></div>
 
 <ul>
-<li><code class="codehilite"><span class="n">circle</span></code></li>
+<li><code class="codehilite">circle</code></li>
 </ul>
 <div class="codehilite"><pre><span></span><span class="n">description</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
   <span class="n">center</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">6.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.8</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="c1"># Center of the circle</span>
@@ -1302,39 +1302,39 @@ input <code class="codehilite"><span class="n">description</span></code>.</p>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="k">type</span></code> (<em>type:</em> <code class="codehilite"><span class="n">str</span></code>): Geometry type. Options are: <code class="codehilite"><span class="n">line</span></code>, <code class="codehilite"><span class="n">area</span></code>, <code class="codehilite"><span class="n">volume</span></code>, <code class="codehilite"><span class="n">multi_line</span></code>, <code class="codehilite"><span class="n">multi_point</span></code>, <code class="codehilite"><span class="n">circle</span></code></li>
-<li><code class="codehilite"><span class="n">description</span></code> (<em>type:</em> <code class="codehilite"><span class="n">dict</span></code>): Arguments to describe the geometry</li>
+<li><code class="codehilite">type</code> (<em>type:</em> <code class="codehilite">str</code>): Geometry type. Options are: <code class="codehilite">line</code>, <code class="codehilite">area</code>, <code class="codehilite">volume</code>, <code class="codehilite">multi_line</code>, <code class="codehilite">multi_point</code>, <code class="codehilite">circle</code></li>
+<li><code class="codehilite">description</code> (<em>type:</em> <code class="codehilite">dict</code>): Arguments to describe the geometry</li>
 </ul>
 <h5 id="get_bounds">get_bounds<a class="headerlink" href="#get_bounds" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">WorkspaceConstraint</span><span class="o">.</span><span class="n">get_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">WorkspaceConstraint</span><span class="o">.</span><span class="n">get_bounds</span><span class="p">()</span>
 </pre></div>
 Return the polygon bounds</p>
 <h5 id="get_random_position">get_random_position<a class="headerlink" href="#get_random_position" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">WorkspaceConstraint</span><span class="o">.</span><span class="n">get_random_position</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">WorkspaceConstraint</span><span class="o">.</span><span class="n">get_random_position</span><span class="p">()</span>
 </pre></div>
 Return a random position that belongs to the workspace</p>
 <h5 id="contains_point">contains_point<a class="headerlink" href="#contains_point" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">WorkspaceConstraint</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">WorkspaceConstraint</span><span class="o">.</span><span class="n">contains_point</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
 </pre></div>
-Return True if <code class="codehilite"><span class="n">point</span></code> is part of the workspace.</p>
+Return True if <code class="codehilite">point</code> is part of the workspace.</p>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">point</span></code> (<em>type:</em> <code class="codehilite"><span class="n">list</span></code> or <code class="codehilite"><span class="n">numpy</span><span class="p">.</span><span class="n">ndarray</span></code>): 2D point</li>
+<li><code class="codehilite">point</code> (<em>type:</em> <code class="codehilite">list</code> or <code class="codehilite">numpy.ndarray</code>): 2D point</li>
 </ul>
 <h5 id="contains_polygons">contains_polygons<a class="headerlink" href="#contains_polygons" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">WorkspaceConstraint</span><span class="o">.</span><span class="n">contains_polygons</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polygons</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">WorkspaceConstraint</span><span class="o">.</span><span class="n">contains_polygons</span><span class="p">(</span><span class="n">polygons</span><span class="p">)</span>
 </pre></div>
-Return True if polygons in the <code class="codehilite"><span class="n">polygons</span></code> list are part of the workspace.</p>
+Return True if polygons in the <code class="codehilite">polygons</code> list are part of the workspace.</p>
 <blockquote>
 <p><em>Input arguments</em></p>
 </blockquote>
 <ul>
-<li><code class="codehilite"><span class="n">polygons</span></code> (<em>type:</em> list of <code class="codehilite"><span class="n">shapely</span><span class="p">.</span><span class="n">Polygon</span></code>): List of polygons</li>
+<li><code class="codehilite">polygons</code> (<em>type:</em> list of <code class="codehilite">shapely.Polygon</code>): List of polygons</li>
 </ul>
 <h5 id="get_geometry">get_geometry<a class="headerlink" href="#get_geometry" title="Permanent link">&para;</a></h5>
-<p><div class="codehilite"><pre><span></span><span class="n">WorkspaceConstraint</span><span class="o">.</span><span class="n">get_geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<p><div class="codehilite"><pre><span></span><span class="n">WorkspaceConstraint</span><span class="o">.</span><span class="n">get_geometry</span><span class="p">()</span>
 </pre></div>
 Return the workspace geometry</p>
                 

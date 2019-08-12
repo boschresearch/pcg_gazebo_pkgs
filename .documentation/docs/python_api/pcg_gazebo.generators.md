@@ -1,12 +1,245 @@
+
 # pcg_gazebo.generators
 The tools in this modules allow the generation of models and worlds using
 policy rules for object placement and constraints.
 
+
+# pcg_gazebo.generators._collection_manager
+
+
+# pcg_gazebo.generators.assets_manager
+
+
+## AssetsManager
+```python
+AssetsManager()
+```
+Assets manager containing all valid Gazebo models and model group
+generators. This collection should be initialized as a singleton object
+in order to have a single source of model to all instances of engines, model
+and world generators.
+The asset types allowed to be added are:
+
+* `pcg_gazebo.simulation.SimulationModel`: Description for a model
+* `pcg_gazebo.simulation.Light`: Description for light sources
+* `pcg_gazebo.simulation.ModelGroup`: Group of models and light sources
+* `pcg_gazebo.generators.ModelGroupGenerator`: Dynamic model group generator
+* `dict`: Input configuration of the `creators` factory methods for `box`,
+`sphere`, `cylinder` and `mesh` models, for an instance of
+`pcg_gazebo.simulation.Light`, or an instance of
+`pcg_gazebo.generators.ModelGroupGenerator`
+* `str`: Name of an existing Gazebo model that can be found in the
+Gazebo resources path
+
+
+### ground_planes
+`list`: List of strings with tags of ground plane models
+
+### tags
+`list`: List of strings with all asset tags
+
+### get_instance
+Return singleton instance of the `AssetsMananger`
+
+### is_model
+```python
+AssetsManager.is_model(tag)
+```
+Return if asset identified by `tag` is an instance of `pcg_gazebo.simulation.SimulationModel`.
+
+> *Input arguments*
+
+* `tag` (*type:* `str`): Tag of the asset.
+
+
+### is_light
+```python
+AssetsManager.is_light(tag)
+```
+Return if asset identified by `tag` is an instance of `pcg_gazebo.simulation.Light`.
+
+> *Input arguments*
+
+* `tag` (*type:* `str`): Tag of the asset.
+
+
+### is_model_group
+```python
+AssetsManager.is_model_group(tag)
+```
+Return if asset identified by `tag` is an instance of `pcg_gazebo.simulation.ModelGroup`.
+
+> *Input arguments*
+
+* `tag` (*type:* `str`): Tag of the asset.
+
+
+### is_gazebo_model
+```python
+AssetsManager.is_gazebo_model(tag)
+```
+Return if asset identified by `tag` is a Gazebo model
+found in Gazebo's resources path.
+
+> *Input arguments*
+
+* `tag` (*type:* `str`): Tag of the asset.
+
+
+### is_model_group_generator
+```python
+AssetsManager.is_model_group_generator(tag)
+```
+Return if asset identified by `tag` is an instance of
+`pcg_gazebo.generators.ModelGroupGenerator`.
+
+> *Input arguments*
+
+* `tag` (*type:* `str`): Tag of the asset.
+
+
+### is_ground_plane
+```python
+AssetsManager.is_ground_plane(tag)
+```
+Return if asset identified by `tag` is flagged as a ground
+plane model.
+
+> *Input arguments*
+
+* `tag` (*type:* `str`): Tag of the asset.
+
+
+### is_factory_input
+```python
+AssetsManager.is_factory_input(tag)
+```
+Return if asset identified by `tag` is a `dict` containing
+the inputs for a `pcg_gazebo.generators.creators` factory method
+to create a `box`, `sphere`, `cylinder` or `mesh` model.
+
+> *Input arguments*
+
+* `tag` (*type:* `str`): Tag of the asset.
+
+
+### add
+```python
+AssetsManager.add(description,
+                  tag=None,
+                  type=None,
+                  parameters=None,
+                  include_dir=None)
+```
+Add new asset to the collection.
+
+> *Input arguments*
+
+* `description` (*type:* `str`, `dict`, `pcg_gazebo.simulation.SimulationModel`,
+`pcg_gazebo.simulation.Light`, `pcg_gazebo.simulation.ModelGroup` or
+`pcg_gazebo.generators.ModelGroupGenerator`): Model description.
+* `tag` (*type:* `str`, *default:* `None`): Asset's tag. If `None` is provided,
+the input `description` must have an attribute `name` which will be used as a
+tag, otherwise the function returns `False`.
+* `type` (*type:* `str`, *default:* `None`): When the provided description is
+`dict`, the type of asset that must be generated with the `dict` input must be
+then provided as either `factory`, `model_generator` or `light`.
+
+> *Returns*
+
+`True`, if asset could be added to the collection.
+
+
+### get
+```python
+AssetsManager.get(tag, *args, **kwargs)
+```
+Return an asset reference by `tag`.
+
+> *Input arguments*
+
+* `tag` (*type:* `str`): Tag of the asset. In case `tag` is referencing a
+`pcg_gazebo.generators.ModelGroupGenerator`, additional inputs to run
+the engines can be provided using `*args` and `**kwargs`.
+
+> *Returns*
+
+`pcg_gazebo.simulation.SimulationModel` or `pcg_gazebo.simulation.ModelGroup`.
+`None`, if `tag` is invalid.
+
+
+### set_asset_as_ground_plane
+```python
+AssetsManager.set_asset_as_ground_plane(tag)
+```
+Flag a model asset as part of the ground plane. This procedure will
+affect the collision checks during the automatic placement of models in
+the world using the placement engines.
+
+> *Input arguments*
+
+* `tag` (*type:* `str`): Name of the model asset
+
+
+### from_dict
+```python
+AssetsManager.from_dict(config)
+```
+Read assets from an input `dict`. The dictionary should have a list of
+asset descriptions under the tag `assets` and, if necessary, a list of
+strings referring to models that must be flagged as ground plane under the
+tag `ground_plane`.
+
+> *Input arguments*
+
+* `config` (*type:* `data_type`, *default:* `data`): Parameter description
+
+> *Returns*
+
+Description of return values
+
+
+### from_yaml
+```python
+AssetsManager.from_yaml(filename)
+```
+Load the assets from a YAML file.
+
+> *Input arguments*
+
+* `filename` (*type:* `str`): YAML filename.
+
+
+# pcg_gazebo.generators.constraints_manager
+
+
+## ConstraintsManager
+```python
+ConstraintsManager()
+```
+
+
+### add
+```python
+ConstraintsManager.add(name, type, **kwargs)
+```
+Add a new positioning constraint class to the internal
+constraints list.
+
+> *Input arguments*
+
+* `name` (*type:* `str`): ID name for the constraint class instance
+* `type` (*type:* `str`): Name of the constraints class to be created
+* `kwargs` (*type:* `dict`): Input arguments for the constraint class
+to be created
+
+
 # pcg_gazebo.generators.collision_checker
+
 
 ## CollisionChecker
 ```python
-CollisionChecker(self, ignore_ground_plane=True)
+CollisionChecker()
 ```
 Mesh-based collision checker manager. The meshes can be
 added to the collision check scene and used to check any
@@ -16,21 +249,25 @@ other object for collisions.
 
 * `ignore_ground_plane` (*type:* `bool`, *value:* `True`): Ignores the meshes flagged as ground plane when performing collision checks.
 
+
 ### scene
 `trimesh.scene.Scene`: Collision check scenario
+
 ### reset_scenario
 ```python
-CollisionChecker.reset_scenario(self)
+CollisionChecker.reset_scenario()
 ```
 Remove all meshes from collision check scene.
+
 ### reset_to_fixed_model_scenario
 ```python
-CollisionChecker.reset_to_fixed_model_scenario(self)
+CollisionChecker.reset_to_fixed_model_scenario()
 ```
 Remove all meshes that were not generated by a fixed-pose engine.
+
 ### add_fixed_model
 ```python
-CollisionChecker.add_fixed_model(self, model)
+CollisionChecker.add_fixed_model(model)
 ```
 Add a model as a fixed-pose model to the scene.
 
@@ -38,9 +275,10 @@ Add a model as a fixed-pose model to the scene.
 
 * `model` (*type:* `pcg_gazebo.simulation.SimulationModel`): Simulation model structure
 
+
 ### add_model
 ```python
-CollisionChecker.add_model(self, model)
+CollisionChecker.add_model(model)
 ```
 Add model to collision checking scene.
 
@@ -48,14 +286,16 @@ Add model to collision checking scene.
 
 * `model` (*type:* `pcg_gazebo.simulation.SimulationModel`): Simulation model structure
 
+
 ### show
 ```python
-CollisionChecker.show(self)
+CollisionChecker.show()
 ```
 Display the current collision check scenario using `pyglet`.
+
 ### check_collision_with_current_scene
 ```python
-CollisionChecker.check_collision_with_current_scene(self, model)
+CollisionChecker.check_collision_with_current_scene(model)
 ```
 Check if there are any collisions between `model` and
 the meshes in the scene.
@@ -68,9 +308,10 @@ the meshes in the scene.
 
 `True`, if any collision is detected. `False`, otherwise.
 
+
 ### check_for_collisions
 ```python
-CollisionChecker.check_for_collisions(self)
+CollisionChecker.check_for_collisions()
 ```
 Check if there are any collisions amongst the meshes in the scene.
 
@@ -78,9 +319,10 @@ Check if there are any collisions amongst the meshes in the scene.
 
 `True`, if any collision is detected. `False`, otherwise.
 
+
 ## SingletonCollisionChecker
 ```python
-SingletonCollisionChecker(self, ignore_ground_plane=True)
+SingletonCollisionChecker()
 ```
 Singleton collision checker that can be have one instance accessed by
 multiple clients. It facilitates sharing the collision managar amongst
@@ -97,10 +339,8 @@ of the singleton collision checker that is initialized by the first call of
 * `ignore_ground_plane` (*type:* `bool`, *value:* `True`): Ignores the meshes
 flagged as ground plane when performing collision checks.
 
+
 ### get_instance
-```python
-SingletonCollisionChecker.get_instance(**kwargs)
-```
 Return a singleton instance of the collision checker.
 
 > *Input arguments*
@@ -112,8 +352,44 @@ instance.
 
 A `SingletonCollisionChecker` instance
 
+
+# pcg_gazebo.generators.engine_manager
+
+
+## EngineManager
+```python
+EngineManager()
+```
+
+
+### add
+```python
+EngineManager.add(tag, engine_name, models, **kwargs)
+```
+Add a new model creator engine to the internal engines list.
+
+> *Input arguments*
+
+* `engine_name` (*type:* `str`): Name of the engine class to be created
+* `models` (*type:* list of `str`): Name of the models that will be assets
+to the created engine
+* `kwargs` (*type:* `dict`): Input arguments to the created engine.
+
+
+### from_yaml
+```python
+EngineManager.from_yaml(filename)
+```
+Load the engines from a YAML file.
+
+> *Input arguments*
+
+* `filename` (*type:* `str`): YAML filename.
+
+
 # pcg_gazebo.generators.creators
 Factory methods to create simulation models.
+
 ## box
 ```python
 box(size, mass=0, name='box', pose=[0, 0, 0, 0, 0, 0], color=None)
@@ -136,9 +412,22 @@ color name, and/or `random` for a random RGBA color.
 
 A box-shaped `pcg_gazebo.simulation.SimulationModel` instance.
 
+
 ## mesh
 ```python
-mesh(visual_mesh_filename, collision_mesh_filename=None, use_approximated_collision=False, approximated_collision_model='box', visual_mesh_scale=[1, 1, 1], collision_mesh_scale=[1, 1, 1], name='mesh', pose=[0, 0, 0, 0, 0, 0], color=None, mass=0, inertia=None, use_approximated_inertia=True, approximated_inertia_model='box')
+mesh(visual_mesh_filename,
+     collision_mesh_filename=None,
+     use_approximated_collision=False,
+     approximated_collision_model='box',
+     visual_mesh_scale=[1, 1, 1],
+     collision_mesh_scale=[1, 1, 1],
+     name='mesh',
+     pose=[0, 0, 0, 0, 0, 0],
+     color=None,
+     mass=0,
+     inertia=None,
+     use_approximated_inertia=True,
+     approximated_inertia_model='box')
 ```
 Create a model based on a mesh input. The options for visual and
 collision meshes are:
@@ -199,6 +488,7 @@ the model. Options are `box`, `cylinder` or `sphere`.
 
 A box-shaped `pcg_gazebo.simulation.SimulationModel` instance.
 
+
 ## sphere
 ```python
 sphere(radius, mass=0, name='sphere', pose=[0, 0, 0, 0, 0, 0], color=None)
@@ -220,9 +510,15 @@ color name, and/or `random` for a random RGBA color.
 
 A sphere-shaped `pcg_gazebo.simulation.SimulationModel` instance.
 
+
 ## cylinder
 ```python
-cylinder(length, radius, mass=0, name='cylinder', pose=[0, 0, 0, 0, 0, 0], color=None)
+cylinder(length,
+         radius,
+         mass=0,
+         name='cylinder',
+         pose=[0, 0, 0, 0, 0, 0],
+         color=None)
 ```
 Return a cylinder-shaped simulation model with the rotation axis
 set per default as `[0, 0, 1]`.
@@ -243,9 +539,15 @@ color name, and/or `random` for a random RGBA color.
 
 A cylinder-shaped `pcg_gazebo.simulation.SimulationModel` instance.
 
+
 ## box_factory
 ```python
-box_factory(size, mass=None, name='box', pose=[0, 0, 0, 0, 0, 0], use_permutation=True, color=None)
+box_factory(size,
+            mass=None,
+            name='box',
+            pose=[0, 0, 0, 0, 0, 0],
+            use_permutation=True,
+            color=None)
 ```
 Factory function for box-shaped models. It parses the vector `size`
 to generate the boxes. The `mass` can be either a scalar or a vector.
@@ -284,9 +586,15 @@ color name, and/or `random` for a random RGBA color.
 
 List of `pcg_gazebo.simulation.SimulationModel` instances.
 
+
 ## sphere_factory
 ```python
-sphere_factory(radius, mass=None, name='sphere', pose=[0, 0, 0, 0, 0, 0], use_permutation=True, color=None)
+sphere_factory(radius,
+               mass=None,
+               name='sphere',
+               pose=[0, 0, 0, 0, 0, 0],
+               use_permutation=True,
+               color=None)
 ```
 Factory function for sphere-shaped models. It parses the vector `radius`
 to generate the spheres. The `mass` can be either a scalar or a vector.
@@ -325,9 +633,16 @@ color name, and/or `random` for a random RGBA color.
 
 List of `pcg_gazebo.simulation.SimulationModel` instances.
 
+
 ## cylinder_factory
 ```python
-cylinder_factory(length, radius, mass=None, name='cylinder', pose=[0, 0, 0, 0, 0, 0], use_permutation=True, color=None)
+cylinder_factory(length,
+                 radius,
+                 mass=None,
+                 name='cylinder',
+                 pose=[0, 0, 0, 0, 0, 0],
+                 use_permutation=True,
+                 color=None)
 ```
 Factory function for cylinder-shaped models. It parses the vectors `radius`
 and `length` to generate the cylinders. The `mass` can be either a scalar or a
@@ -370,6 +685,7 @@ color name, and/or `random` for a random RGBA color.
 
 List of `pcg_gazebo.simulation.SimulationModel` instances.
 
+
 ## config2models
 ```python
 config2models(config)
@@ -385,6 +701,7 @@ rules
 > *Returns*
 
 List of `pcg_gazebo.simulation.SimulationModel` instances.
+
 
 ## create_models_from_config
 ```python
@@ -404,15 +721,22 @@ processes. If `None`, then use the number of CPUs available.
 
 List of `pcg_gazebo.simulation.SimulationModel` instances.
 
+
+# pcg_gazebo.generators.model_group_generator
+
+
 # pcg_gazebo.generators.occupancy
+
 
 # pcg_gazebo.generators.patterns
 
+
 # pcg_gazebo.generators.world_generator
+
 
 ## WorldGenerator
 ```python
-WorldGenerator(self, gazebo_proxy=None, output_world_dir=None, output_model_dir='/tmp/gazebo_models')
+WorldGenerator()
 ```
 Generation of full Gazebo worlds, including physics engine configuration,
 modes and lights.
@@ -424,31 +748,43 @@ modes and lights.
 and configuration of the simulation in runtime.
 
 
+
 ### assets
 List of `pcg_gazebo.simulation.SimulationModel`: List of model
 assets that will be used of the world generation.
+
 
 ### constraints
 `dict` of `pcg_gazebo.generators.constraints`: Dictionary with the
 positioning constraints.
 
+
 ### engines
 `dict` of `pcg_gazebo.generators.engines`: Dictionary with the
 model creation engines.
+
 
 ### gazebo_proxy
 `pcg_gazebo.task_manager.GazeboProxy`: Internal instance
 of the `GazeboProxy`
 
+
 ### name
 `str`: Name of the generated world
+
 ### world
 `pcg_gazebo.simulation.World`: World abstraction
 instance
 
+
 ### init_gazebo_proxy
 ```python
-WorldGenerator.init_gazebo_proxy(self, ros_host='localhost', ros_port=11311, gazebo_host='localhost', gazebo_port=11345, timeout=30, ignore_services=None)
+WorldGenerator.init_gazebo_proxy(ros_host='localhost',
+                                 ros_port=11311,
+                                 gazebo_host='localhost',
+                                 gazebo_port=11345,
+                                 timeout=30,
+                                 ignore_services=None)
 ```
 Initialize a `GazeboProxy` instance to interface with a running
 instance of Gazebo. If a `GazeboProxy` already exists, it will be
@@ -465,9 +801,10 @@ Gazebo server
 * `gazebo_port` (*type:* `int`, *default:* `11345`): Port number of
 the Gazebo server
 
+
 ### add_engine
 ```python
-WorldGenerator.add_engine(self, engine_name, models, **kwargs)
+WorldGenerator.add_engine(tag, engine_name, models, **kwargs)
 ```
 Add a new model creator engine to the internal engines list.
 
@@ -478,9 +815,10 @@ Add a new model creator engine to the internal engines list.
 to the created engine
 * `kwargs` (*type:* `dict`): Input arguments to the created engine.
 
+
 ### add_constraint
 ```python
-WorldGenerator.add_constraint(self, name, type, **kwargs)
+WorldGenerator.add_constraint(name, type, **kwargs)
 ```
 Add a new positioning constraint class to the internal
 constraints list.
@@ -492,9 +830,10 @@ constraints list.
 * `kwargs` (*type:* `dict`): Input arguments for the constraint class
 to be created
 
+
 ### add_asset
 ```python
-WorldGenerator.add_asset(self, model)
+WorldGenerator.add_asset(*args, **kwargs)
 ```
 Add a new model asset that can be used by the engines and
 added to the generated world.
@@ -503,9 +842,10 @@ added to the generated world.
 
 * `model` (*type:* `pcg_gazebo.simulation.SimulationModel`): Simulation model
 
+
 ### set_model_as_ground_plane
 ```python
-WorldGenerator.set_model_as_ground_plane(self, model_name)
+WorldGenerator.set_model_as_ground_plane(model_name)
 ```
 Flag a model asset as part of the ground plane. This procedure will
 affect the collision checks during the automatic placement of models in
@@ -515,9 +855,10 @@ the world using the placement engines.
 
 * `model_name` (*type:* `str`): Name of the model asset
 
+
 ### get_asset
 ```python
-WorldGenerator.get_asset(self, name)
+WorldGenerator.get_asset(name)
 ```
 Return a simulation model asset.
 
@@ -530,9 +871,10 @@ Return a simulation model asset.
 The model asset as `pcg_gazebo.simulation.SimulationModel`.
 `None` if `name` cannot be found in the list of model assets.
 
+
 ### get_constraint
 ```python
-WorldGenerator.get_constraint(self, name)
+WorldGenerator.get_constraint(name)
 ```
 Return a positioning constraint configuration.
 
@@ -544,9 +886,10 @@ Return a positioning constraint configuration.
 
 Description of return values
 
+
 ### add_gazebo_model_as_asset
 ```python
-WorldGenerator.add_gazebo_model_as_asset(self, gazebo_model_name)
+WorldGenerator.add_gazebo_model_as_asset(gazebo_model_name)
 ```
 Create a model asset by importing a Gazebo model that already
 exists in the resources path of the catkin workspace. The model's
@@ -565,9 +908,10 @@ to be imported
 
 `True` if Gazebo model could be included in the assets list.
 
+
 ### is_asset
 ```python
-WorldGenerator.is_asset(self, name)
+WorldGenerator.is_asset(name)
 ```
 Return `True` if the model identified by the string `name`
 is part of the list of assets.
@@ -576,9 +920,10 @@ is part of the list of assets.
 
 * `name` (*type:* `str`): Name of the model
 
+
 ### add_model
 ```python
-WorldGenerator.add_model(self, model, poses)
+WorldGenerator.add_model(model, poses)
 ```
 Add an instance of `pcg_gazebo.simulation.SimulationModel` to
 the world in designed poses.
@@ -588,9 +933,10 @@ the world in designed poses.
 * `model` (*type:* `pcg_gazebo.simulation.SimulationModel`): Parameter description
 * `poses` (*type:* `list`): List of 6D pose vectors
 
+
 ### add_gazebo_model
 ```python
-WorldGenerator.add_gazebo_model(self, model_name, pose=[0, 0, 0, 0, 0, 0])
+WorldGenerator.add_gazebo_model(model_name, pose=[0, 0, 0, 0, 0, 0])
 ```
 Add an existent Gazebo model to the world in designed poses.
 
@@ -599,9 +945,10 @@ Add an existent Gazebo model to the world in designed poses.
 * `model_name` (*type:* `str`): ID name of the Gazebo model
 * `pose` (*type:* `list`): 6D pose vector
 
+
 ### remove_asset
 ```python
-WorldGenerator.remove_asset(self, name)
+WorldGenerator.remove_asset(name)
 ```
 Remove model asset from the list of assets.
 
@@ -613,9 +960,10 @@ Remove model asset from the list of assets.
 
 `True`, if model could be removed.
 
+
 ### delete_model
 ```python
-WorldGenerator.delete_model(self, model_name)
+WorldGenerator.delete_model(model_name)
 ```
 Delete a model from the currently running Gazebo instance
 
@@ -627,9 +975,10 @@ Delete a model from the currently running Gazebo instance
 
 `True` if the model could be deleted from the simulation.
 
+
 ### add_lights_from_gazebo_model
 ```python
-WorldGenerator.add_lights_from_gazebo_model(self, model_name)
+WorldGenerator.add_lights_from_gazebo_model(model_name)
 ```
 Add light models to the generated world from a Gazebo model.
 
@@ -641,9 +990,10 @@ Add light models to the generated world from a Gazebo model.
 
 `True` if the lights could be parsed and added to the world.
 
-### parse_configuration
+
+### from_dict
 ```python
-WorldGenerator.parse_configuration(self, config, verbose=False)
+WorldGenerator.from_dict(config)
 ```
 Parse a configuration settings `dict` with all information on the
 list of model assets, engines, constraints and lights and instantiate the
@@ -739,9 +1089,16 @@ lights:
 
 Description of return values
 
+
 ### spawn_model
 ```python
-WorldGenerator.spawn_model(self, model, robot_namespace, pos=[0, 0, 0], rot=[0, 0, 0], reference_frame='world', timeout=30, replace=False)
+WorldGenerator.spawn_model(model,
+                           robot_namespace,
+                           pos=[0, 0, 0],
+                           rot=[0, 0, 0],
+                           reference_frame='world',
+                           timeout=30,
+                           replace=False)
 ```
 Spawn a `pcg_gazebo.simulation.SimulationModel` in a running instance
 of Gazebo. A `GazeboProxy` is required for this method to finish successfully.
@@ -766,9 +1123,10 @@ in case a model with the same name already exists.
 
 `True` if the model could be spawned.
 
+
 ### get_physics_engine
 ```python
-WorldGenerator.get_physics_engine(self, engine='ode')
+WorldGenerator.get_physics_engine(engine='ode')
 ```
 Return an instance of a physics engine as
 `pcg_gazebo.simulation.physics.Physics` object.
@@ -782,9 +1140,10 @@ engine, options are `ode`, `bullet` and `simbody`.
 
 An `pcg_gazebo.simulation.physics.Physics` object.
 
+
 ### run_engines
 ```python
-WorldGenerator.run_engines(self, attach_models=False)
+WorldGenerator.run_engines(attach_models=False)
 ```
 Run all the model placement engines and add the generated
 models in the internal instance of the world representation.
@@ -798,9 +1157,10 @@ the generated models to the existent list of models in the world
 
 `True` if all engines ran successfully.
 
+
 ### reset_world
 ```python
-WorldGenerator.reset_world(self, name, engine='ode', gravity=[0, 0, -9.8])
+WorldGenerator.reset_world(name, engine='ode', gravity=[0, 0, -9.8])
 ```
 Reset the generated world instance to its default state and
 without any models.
@@ -813,9 +1173,13 @@ physics engine to be used. Options are `ode`, `bullet` or `simbody`.
 * `gravity` (*type:* `list`, *default:* `[0, 0, -9.8]`): Gravitational
 acceleration vector
 
+
 ### export_world
 ```python
-WorldGenerator.export_world(self, output_dir=None, filename=None, with_default_ground_plane=True, with_default_sun=True)
+WorldGenerator.export_world(output_dir=None,
+                            filename=None,
+                            with_default_ground_plane=True,
+                            with_default_sun=True)
 ```
 Export world to an SDF file that can be used by Gazebo.
 
@@ -835,9 +1199,14 @@ the default sun model to the world before exporting it
 
 Full name of the exported SDF world file as a `str`
 
+
 ### plot_results
 ```python
-WorldGenerator.plot_results(self, fig=None, fig_width=1000, fig_height=800, footprint_geometry='collision', engine='bokeh')
+WorldGenerator.plot_results(fig=None,
+                            fig_width=1000,
+                            fig_height=800,
+                            footprint_geometry='collision',
+                            engine='bokeh')
 ```
 Plot the footprints of models included in the current world
 instance.

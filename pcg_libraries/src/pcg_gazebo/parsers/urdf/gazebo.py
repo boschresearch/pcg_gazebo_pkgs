@@ -217,8 +217,8 @@ class Gazebo(XMLBase):
             if elem is None:
                 print('SDF element {} does not exist'.format(name))
                 return False
-            else:
-                if elem not in self.children:
+            else:                
+                if elem.xml_element_name not in self.children:
                     self.children[name] = list()
                 self.children[name].append(elem)
                 return True

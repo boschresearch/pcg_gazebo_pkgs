@@ -62,6 +62,9 @@ class Plugin(XMLCustom):
                 'Input tag must be string or unicode, received={}, type={}'.format(tag, type(tag))
         self._value[tag] = value
 
+    def from_dict(self, sdf_data, ignore_tags=list()):
+        XMLCustom.from_dict(self, sdf_data)
+
     @staticmethod
     def gazebo_ros_control(name='gazebo_ros_control', robot_namespace='',
                            control_period=None,

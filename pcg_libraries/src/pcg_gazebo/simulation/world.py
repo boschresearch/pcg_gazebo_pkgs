@@ -14,9 +14,9 @@
 # limitations under the License.
 from __future__ import print_function
 from .physics import Physics, ODE, Simbody, Bullet
-import datetime
+import collections
 from ..parsers.sdf import create_sdf_element
-from . import Light, SimulationModel
+from . import Light, SimulationModel, ModelGroup
 from .properties import Plugin
 from ..log import PCG_ROOT_LOGGER
 
@@ -57,8 +57,7 @@ class World(object):
         self._name = name
         self._engine = engine
         self._physics = None
-        self._lights = dict()
-        self._models = dict()
+        self._model_groups = dict()
         self._plugins = dict()
         self.reset_physics(engine)
 
@@ -104,7 +103,37 @@ class World(object):
     @property
     def models(self):
         """`dict`: Models"""
-        return self._models
+        models = dict()
+        for name in self._model_groups:
+            models.update(self._model_groups[name].get_models(with_group_prefix=True))
+        return models
+
+    @property
+    def lights(self):
+        """`dict`: Lights"""
+        lights = dict()
+        for name in self._model_groups:
+            lights.update(self._model_groups[name].get_lights(with_group_prefix=True))
+        return lights
+
+    @property
+    def n_models(self):
+        n_models = 0
+        for tag in self._model_groups:
+            n_models += self._model_groups[tag].n_models
+        return n_models
+
+    @property
+    def n_lights(self):
+        n_lights = 0
+        for tag in self._model_groups:
+            n_lights += self._model_groups[tag].n_lights
+        return n_lights
+
+    @property
+    def model_groups(self): 
+        """`dict`: Model groups"""       
+        return self._model_groups
 
     def reset_physics(self, engine='ode', *args, **kwargs):
         """Reset the physics engine to its default configuration.
@@ -125,9 +154,18 @@ class World(object):
 
     def reset_models(self):
         """Reset the list of models."""
-        self._models = dict()
+        for name in self._model_groups:
+            self._model_groups[name].reset_models()
+        PCG_ROOT_LOGGER.info('Models groups were resetted')
 
-    def add_include(self, include):
+    def create_model_group(self, name, pose=[0, 0, 0, 0, 0, 0]):
+        if name not in self._model_groups:
+            self._model_groups[name] = ModelGroup(name=name, pose=pose)
+            PCG_ROOT_LOGGER.info('New model group created: {}'.format(name))
+        else:
+            PCG_ROOT_LOGGER.info('Model group already exists: {}'.format(name))
+
+    def add_include(self, include, group='default'):
         """Add a model via include method.
         
         > *Input arguments*
@@ -139,34 +177,12 @@ class World(object):
         
         `bool`: `True`, if model directed by the `include` element
         could be parsed and added to the world.
-        """
-        from . import get_gazebo_model_sdf
-        model_name = include.uri.value.replace('model://', '')    
-        try:    
-            model = SimulationModel.from_gazebo_model(model_name)
-            # Set model pose, if specified
-            if include.pose is not None:
-                model.pose = include.pose.value
-            # Set the model as static, if specified
-            if include.static is not None:
-                model.static = include.static.value
-            if include.name is not None:
-                name = include.name.value
-            else:   
-                name = model_name
-            return self.add_model(name, model)
-        except ValueError as ex:
-            sdf = get_gazebo_model_sdf(model_name)
-            if sdf.lights is not None:
-                PCG_ROOT_LOGGER.info('Loading model {} as light source model'.format(
-                    model_name))        
-                for light in sdf.lights:
-                    light = Light.from_sdf(light)
-                    self.add_light(light.name, light)
-                    PCG_ROOT_LOGGER.info('Added light {} from included model {}'.format(
-                        light.name, model_name))        
+        """        
+        if group not in self._model_groups:
+            self.create_model_group(group)
+        return self._model_groups[group].add_include(include)        
 
-    def add_model(self, tag, model):
+    def add_model(self, tag, model, group='default'):
         """Add a model to the world.
         
         > *Input arguments*
@@ -175,28 +191,38 @@ class World(object):
         a model with the same name already exists, the model will be
         created with a counter suffix in the format `_i`, `i` being 
         an integer.
-        * `model` (*type:* `pcg_gazebo.simulaton.SimulationModel`): 
+        * `model` (*type:* `pcg_gazebo.simulation.SimulationModel`): 
         Model object
         
         > *Returns*
         
         `bool`: `True`, if model could be added to the world.
         """
-        if self.model_exists(tag):
+        if group not in self._model_groups:
+            self.create_model_group(group)
+        return self._model_groups[group].add_model(tag, model)
+    
+    def add_model_group(self, group, tag=None):
+        from copy import deepcopy
+        if tag is None:
+            tag = deepcopy(group.name)
+
+        if tag in self._model_groups:
             # Add counter suffix to add models with same name
             i = 0
-            new_model_name = '{}'.format(tag)
-            while self.model_exists(new_model_name):
+            new_name = '{}'.format(tag)
+            while new_name in self._model_groups:
                 i += 1
-                new_model_name = '{}_{}'.format(tag, i)
-            name = new_model_name
+                new_name = '{}_{}'.format(tag, i)
+            name = new_name
         else:
             name = tag
+
+        self._model_groups[name] = group
+        self._model_groups[name].name = name
+        return name
         
-        self._models[name] = model
-        return True   
-        
-    def rm_model(self, tag):
+    def rm_model(self, tag, group='default'):
         """Remove model from world.
         
         > *Input arguments*
@@ -209,12 +235,13 @@ class World(object):
         `bool`: `True`, if model could be removed, `False` if 
         no model with name `tag` could be found in the world.
         """
-        if tag in self._models:
-            del self._models[tag]
-            return True
-        return False
-
-    def model_exists(self, tag):
+        if group not in self._model_groups:
+            PCG_ROOT_LOGGER.error('Model group <{}> not found'.format(group))
+            return False
+        else:
+            return self._model_groups[group].rm_model(tag)
+        
+    def model_exists(self, tag, group=None):
         """Test if a model with name `tag` exists in the world description.
         
         > *Input arguments*
@@ -225,8 +252,30 @@ class World(object):
         
         `bool`: `True`, if model exists, `False`, otherwise.
         """
-        return tag in self._models
+        if group is None:
+            for name in self._model_groups:
+                if self._model_groups[name].model_exists(tag):
+                    return True
+            return False
+        if group not in self._model_groups:
+            PCG_ROOT_LOGGER.error('Model group <{}> not found'.format(group))
+            return False
+        else:
+            return self._model_groups[group].model_exists(tag)
 
+    def get_model(self, tag, group=None):
+        if group is None:
+            if 'default' in self._model_groups:
+                if self._model_groups['default'].model_exists(tag):
+                    return self._model_groups['default'].get_model(tag)
+            if '/' in tag:
+                group_name = tag.split('/')[0]
+                model_name = tag.replace('{}/'.format(group_name), '')
+        else:
+            if group not in self._model_groups:
+                PCG_ROOT_LOGGER.error('Model group <{}> does not exist'.format(group))
+                return None
+ 
     def add_plugin(self, tag, plugin):
         """Add plugin description to the world.
         
@@ -286,7 +335,7 @@ class World(object):
         """
         return tag in self._plugins
 
-    def add_light(self, tag, light):
+    def add_light(self, tag, light, group='default'):
         """Add light description to the world.
         
         > *Input arguments*
@@ -298,21 +347,13 @@ class World(object):
         * `light` (*type:* `pcg_gazebo.parsers.sdf.Light` or 
         `pcg_gazebo.simulation.properties.Light`): Light description
         """
-        if self.light_exists(tag):
-            # Add counter suffix to add lights with same name
-            i = 0
-            new_light_name = '{}'.format(tag)
-            while self.light_exists(new_light_name):
-                i += 1
-                new_light_name = '{}_{}'.format(tag, i)
-            name = new_light_name
-        else:
-            name = tag
-        
-        self._lights[name] = light
-        return True
-        
-    def rm_light(self, tag):
+        if group not in self._model_groups:
+            self.create_model_group(group)
+        PCG_ROOT_LOGGER.info('Adding light to model group, name={}, model={}, group={}'.format(
+            tag, light.name, group))
+        return self._model_groups[group].add_light(tag, light)
+                
+    def rm_light(self, tag, group='default'):
         """Remove light from world.
         
         > *Input arguments*
@@ -325,12 +366,13 @@ class World(object):
         `bool`: `True`, if light could be removed, `False` if 
         no light with name `tag` could be found in the world.
         """
-        if tag in self._lights:
-            del self._lights[tag]
-            return True
-        return False
+        if group not in self._model_groups:
+            PCG_ROOT_LOGGER.error('Model group <{}> not found'.format(group))
+            return False
+        else:
+            return self._model_groups[group].rm_light(tag)
 
-    def light_exists(self, tag):
+    def light_exists(self, tag, group='default'):
         """Test if a light with name `tag` exists in the world description.
         
         > *Input arguments*
@@ -341,7 +383,11 @@ class World(object):
         
         `bool`: `True`, if light exists, `False`, otherwise.
         """
-        return tag in self._lights
+        if group not in self._model_groups:
+            PCG_ROOT_LOGGER.error('Model group <{}> not found'.format(group))
+            return False
+        else:
+            return self._model_groups[group].light_exists(tag)
 
     def to_sdf(self, type='world', with_default_ground_plane=True,
             with_default_sun=True):
@@ -372,21 +418,18 @@ class World(object):
         # Setting the physics engine
         if self._physics is not None:
             world.physics = self._physics.to_sdf('physics')
-        # Adding models, if any are available
+       
+        for group_name in self._model_groups:
+            sdf_models, sdf_lights, sdf_includes = self._model_groups[group_name].to_sdf()
 
-        for tag in self._models:
-            if self._models[tag].is_gazebo_model or is_gazebo_model(self._models[tag].name):
-                include = create_sdf_element('include')
-                include.uri = 'model://' + self._models[tag]._source_model_name                
-                include.pose = list(self._models[tag].pose.position) + list(self._models[tag].pose.rpy)
-                include.name = tag
-                include.static = self._models[tag].static
-                world.add_include(include=include)
-            else:
-                world.add_model(tag, self._models[tag].to_sdf('model'))
+            for name in sdf_models:
+                world.add_model(name, sdf_models[name])
 
-        for tag in self._lights:
-            world.add_light(tag, self._lights[tag].to_sdf())
+            for name in sdf_lights:
+                world.add_light(name, sdf_lights[name])
+
+            for name in sdf_includes:
+                world.add_include(include=sdf_includes[name])            
 
         # TODO: Include plugins and actors on the exported file
         for tag in self._plugins:
@@ -413,7 +456,7 @@ class World(object):
     @staticmethod
     def from_sdf(sdf):
         """Parse an `pcg_gazebo.parsers.sdf.World` into a
-        c.
+        `World` class.
         
         > *Input arguments*
         
@@ -432,11 +475,29 @@ class World(object):
         world = World()
         if sdf.models is not None:
             for model in sdf.models:
-                world.add_model(model.name, SimulationModel.from_sdf(model))
+                if '/' in model.name:
+                    group_name = model.name.split('/')[0]
+                    model_name = model.name.replace(group_name + '/', '')
+                else:
+                    group_name = 'default'
+                    model_name = model.name                
+                world.add_model(
+                    model_name, 
+                    SimulationModel.from_sdf(model), 
+                    group=group_name)                   
 
         if sdf.lights is not None:
             for light in sdf.lights:
-                world.add_light(light.name, Light.from_sdf(light))
+                if '/' in light.name:
+                    group_name = light.name.split('/')[0]
+                    light_name = light.name.replace(group_name + '/', '')
+                else:
+                    group_name = 'default'
+                    light_name = light.name              
+                world.add_light(
+                    light_name, 
+                    Light.from_sdf(light), 
+                    group=group_name)
 
         if sdf.plugins is not None:
             for plugin in sdf.plugins:
@@ -445,10 +506,17 @@ class World(object):
         if sdf.includes is not None:
             for inc in sdf.includes:
                 try:
-                    world.add_include(inc)
+                    if '/' in inc.name.value:
+                        group_name = inc.name.value.split('/')[0]
+                        inc_name = inc.name.value.replace(group_name + '/', '')
+                    else:
+                        group_name = 'default'
+                        inc_name = inc.name.value   
+                    inc.name.value = inc_name
+                    world.add_include(inc, group=group_name)
                 except ValueError as ex:
                     PCG_ROOT_LOGGER.error('Cannot import model <{}>, message={}'.format(
-                        inc.uri.value, ex))
+                        inc.uri.value, ex))        
 
         if sdf.gravity is not None:
             world.gravity = sdf.gravity.value

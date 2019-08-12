@@ -1096,51 +1096,51 @@
                 
                 <h4 id="pcg_gazebosimulationproperties">pcg_gazebo.simulation.properties<a class="headerlink" href="#pcg_gazebosimulationproperties" title="Permanent link">&para;</a></h4>
 <h4 id="axis">Axis<a class="headerlink" href="#axis" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Axis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xyz</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">lower_limit</span><span class="o">=-</span><span class="mf">1e+16</span><span class="p">,</span> <span class="n">upper_limit</span><span class="o">=</span><span class="mf">1e+16</span><span class="p">,</span> <span class="n">velocity_limit</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">effort_limit</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">damping</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">friction</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">spring_reference</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">spring_stiffness</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">Axis</span><span class="p">()</span>
 </pre></div>
 
 <h4 id="boundingbox">BoundingBox<a class="headerlink" href="#boundingbox" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">BoundingBox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_corner</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">max_corner</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<div class="codehilite"><pre><span></span><span class="n">BoundingBox</span><span class="p">()</span>
 </pre></div>
 
 <h4 id="collision">Collision<a class="headerlink" href="#collision" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Collision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;collision&#39;</span><span class="p">,</span> <span class="n">pose</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">geometry_type</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">geometry_args</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">mu2</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">slip1</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">slip2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">rolling_friction</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fdir1</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">max_contacts</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">soft_cfm</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">soft_erp</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">kp</span><span class="o">=</span><span class="mf">1000000000000.0</span><span class="p">,</span> <span class="n">kd</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_vel</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">min_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">split_impulse</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">split_impulse_penetration_threshold</span><span class="o">=-</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">enable_friction</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">enable_bounce</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">enable_contact</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">Collision</span><span class="p">()</span>
 </pre></div>
 
 <h4 id="footprint">Footprint<a class="headerlink" href="#footprint" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Footprint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">Footprint</span><span class="p">()</span>
 </pre></div>
 
 <h4 id="geometry">Geometry<a class="headerlink" href="#geometry" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geo_type</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">Geometry</span><span class="p">()</span>
 </pre></div>
 
 <h4 id="inertial">Inertial<a class="headerlink" href="#inertial" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Inertial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mass</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ixx</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">iyy</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">izz</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ixy</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ixz</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">iyz</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">Inertial</span><span class="p">()</span>
 </pre></div>
 
 <h4 id="material">Material<a class="headerlink" href="#material" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Material</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">Material</span><span class="p">()</span>
 </pre></div>
 
 <h4 id="mesh">Mesh<a class="headerlink" href="#mesh" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">load_mesh</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">Mesh</span><span class="p">()</span>
 </pre></div>
 
 <h4 id="noise">Noise<a class="headerlink" href="#noise" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Noise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stddev</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bias_mean</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bias_stddev</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">Noise</span><span class="p">()</span>
 </pre></div>
 
 <h4 id="plugin">Plugin<a class="headerlink" href="#plugin" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">Plugin</span><span class="p">()</span>
 </pre></div>
 
 <h4 id="pose">Pose<a class="headerlink" href="#pose" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Pose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">rpy</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">quat</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">Pose</span><span class="p">()</span>
 </pre></div>
 
 <h4 id="visual">Visual<a class="headerlink" href="#visual" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><span class="n">Visual</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;visual&#39;</span><span class="p">,</span> <span class="n">pose</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">cast_shadows</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transparency</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">geometry_type</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">geometry_args</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">Visual</span><span class="p">()</span>
 </pre></div>
                 
                   

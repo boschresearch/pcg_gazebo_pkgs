@@ -26,6 +26,7 @@ from .box import Box
 from .cylinder import Cylinder
 from .joint import Joint
 from .light import Light
+from .model_group import ModelGroup
 from .model import SimulationModel
 from .link import Link
 from .plane import Plane
@@ -138,6 +139,7 @@ def get_gazebo_models():
     local `.gazebo/models` folder and in the catkin workspace as
     a dictionary.
     """
+    load_gazebo_models()
     return GAZEBO_MODELS
     
 
@@ -145,6 +147,7 @@ def get_gazebo_model_names():
     """Return the names of all Gazebo models that can be found 
     is the local `.gazebo/models` folders and catkin workspace.
     """
+    load_gazebo_models()
     return GAZEBO_MODELS.keys()
 
 
@@ -152,6 +155,9 @@ def get_gazebo_model_ros_pkg(name):
     """Return name of the ROS package where the Gazebo model is
     located, None if it was found in .gazebo/models.
     """
+    if name not in GAZEBO_MODELS:
+        # Try reloading the models
+        load_gazebo_models()
     if not is_gazebo_model(name):
         raise ValueError('{} is not a Gazebo model'.format(name))
     if 'ros_pkg' in GAZEBO_MODELS[name]:

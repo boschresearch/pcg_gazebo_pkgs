@@ -17,7 +17,7 @@ from ..constraints import create_constraint
 from ...simulation.properties import Pose
 from ...simulation import SimulationModel
 from ...log import PCG_ROOT_LOGGER
-from ..collision_checker import SingletonCollisionChecker
+from ..collision_checker import SingletonCollisionChecker, CollisionChecker
 
 
 class Engine(object):
@@ -43,7 +43,7 @@ class Engine(object):
 
 
     def __init__(self, callback_fcn_get_model, callback_fcn_get_constraint=None, 
-        models=None, constraints=None):
+        models=None, constraints=None, collision_checker=None):
         assert callable(callback_fcn_get_model), \
             'Invalid callback function to retrieve model, received={}'.format(
                 callback_fcn_get_model)
@@ -74,8 +74,11 @@ class Engine(object):
                     'No name for constraint element provided, data={}'.format(c)
                 self.add_local_constraint(c['model'], c['constraint'])                
         # Add collision checker
-        self._collision_checker = SingletonCollisionChecker.get_instance(
-            ignore_ground_plane=True)
+        if isinstance(collision_checker, CollisionChecker):
+            self._collision_checker = collision_checker
+        else:
+            self._collision_checker = SingletonCollisionChecker.get_instance(
+                ignore_ground_plane=True)
            
         self._callback_fcn_get_model = callback_fcn_get_model
         self._callback_fcn_get_constraint = callback_fcn_get_constraint
@@ -197,16 +200,8 @@ class Engine(object):
         model = self._callback_fcn_get_model(name)        
         if model is None:
             self._logger.error('Model <{}> is not a valid asset'.format(name))
-            return None
-
-        # Making a copy of the model structure
-        model_sdf = model.to_sdf('model')
-        output_model = SimulationModel.from_sdf(model_sdf)
-        output_model.is_ground_plane = model.is_ground_plane 
-        output_model.is_gazebo_model = model.is_gazebo_model
-        output_model._source_model_name = model._source_model_name
-
-        return output_model
+            return None        
+        return model
 
     def _get_constraint(self, name):
         """Return a constraint identified by the input `name`.
