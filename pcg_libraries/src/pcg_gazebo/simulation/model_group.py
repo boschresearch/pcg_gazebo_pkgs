@@ -497,19 +497,21 @@ class ModelGroup(object):
                     PCG_ROOT_LOGGER.warning('Adding actors not implemented yet')                
         elif sdf.xml_element_name == 'sdf':
             group = ModelGroup()
-            for elem in sdf.models:
-                model = SimulationModel.from_sdf(elem)
-                if model is None:
-                    PCG_ROOT_LOGGER.error('Failed to load model={}'.format(elem))
-                else:
-                    group.add_model(model.name, model)   
+            if sdf.models is not None:
+                for elem in sdf.models:
+                    model = SimulationModel.from_sdf(elem)
+                    if model is None:
+                        PCG_ROOT_LOGGER.error('Failed to load model={}'.format(elem))
+                    else:
+                        group.add_model(model.name, model)   
 
-            for elem in sdf.lights:
-                light = Light.from_sdf(elem)
-                if light is None:
-                    PCG_ROOT_LOGGER.error('Failed to load light={}'.format(elem))
-                else:
-                    group.add_light(light.name, light)
+            if sdf.lights is not None:
+                for elem in sdf.lights:
+                    light = Light.from_sdf(elem)
+                    if light is None:
+                        PCG_ROOT_LOGGER.error('Failed to load light={}'.format(elem))
+                    else:
+                        group.add_light(light.name, light)
 
             # TODO Add load actors function
                 
