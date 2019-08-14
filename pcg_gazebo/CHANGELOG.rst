@@ -2,8 +2,16 @@
 Changelog for package pcg_gazebo
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.1.0 (2019-08-12)
-------------------
+Forthcoming
+-----------
+* Move jinja template parser to utils module
+  Signed-off-by: Musa Morena Marcusso Manhaes <Musa.Marcusso@de.bosch.com>
+* Add paused and gui flags
+  Signed-off-by: Musa Morena Marcusso Manhaes <Musa.Marcusso@de.bosch.com>
+* Add paused and gui flags to triggered Gazebo start script
+  Signed-off-by: Musa Morena Marcusso Manhaes <Musa.Marcusso@de.bosch.com>
+* Add physics engine input
+  Signed-off-by: Musa Morena Marcusso Manhaes <Musa.Marcusso@de.bosch.com>
 * Use world generator from_dict and from_yaml loaders
   Signed-off-by: Musa Morena Marcusso Manhaes <Musa.Marcusso@de.bosch.com>
 * Use spawn model service and unpause simulation after generated SDF
@@ -54,4 +62,4 @@ Changelog for package pcg_gazebo
   Signed-off-by: Musa Morena Marcusso Manhaes <Musa.Marcusso@de.bosch.com>
 * Initial commit
   Signed-off-by: Musa Morena Marcusso Manhaes <Musa.Marcusso@de.bosch.com>
-* Contributors: Musa Morena Marcusso Manhaes
+* Contributors: Musa Morena Marcusso Manhães

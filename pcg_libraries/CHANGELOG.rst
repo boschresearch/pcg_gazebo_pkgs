@@ -2,8 +2,16 @@
 Changelog for package pcg_libraries
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.1.0 (2019-08-12)
-------------------
+Forthcoming
+-----------
+* Move jinja template parser to utils module
+  Signed-off-by: Musa Morena Marcusso Manhaes <Musa.Marcusso@de.bosch.com>
+* Fix access to child element <type>
+  Signed-off-by: Musa Morena Marcusso Manhaes <Musa.Marcusso@de.bosch.com>
+* Set default log level to ERROR
+  Signed-off-by: Musa Morena Marcusso Manhaes <Musa.Marcusso@de.bosch.com>
+* Test if list of model and lights is available before parsing the SDF elements
+  Signed-off-by: Musa Morena Marcusso Manhaes <Musa.Marcusso@de.bosch.com>
 * Add docstrings
   Signed-off-by: Musa Morena Marcusso Manhaes <Musa.Marcusso@de.bosch.com>
 * Add world generator unit tests
@@ -154,8 +162,6 @@ Changelog for package pcg_libraries
   Signed-off-by: Musa Morena Marcusso Manhaes <Musa.Marcusso@de.bosch.com>
 * Add Jinja template for basic models
   Signed-off-by: Musa Morena Marcusso Manhaes <Musa.Marcusso@de.bosch.com>
-* Move world Jinja template
-  Signed-off-by: Musa Morena Marcusso Manhaes <Musa.Marcusso@de.bosch.com>
 * Add current input value when AssertionError is thrown
   Signed-off-by: Musa Morena Marcusso Manhaes <Musa.Marcusso@de.bosch.com>
 * Fix type for cone_model in the friction model option
@@ -305,4 +311,4 @@ Changelog for package pcg_libraries
   Signed-off-by: Musa Morena Marcusso Manhaes <Musa.Marcusso@de.bosch.com>
 * Initial commit
   Signed-off-by: Musa Morena Marcusso Manhaes <Musa.Marcusso@de.bosch.com>
-* Contributors: Musa Morena Marcusso Manhaes
+* Contributors: Musa Morena Marcusso Manhães
