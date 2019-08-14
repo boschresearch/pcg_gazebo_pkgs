@@ -16,7 +16,12 @@ from __future__ import print_function
 import random
 import string
 import os
+import re
 import yaml
+import rospkg
+from jinja2 import FileSystemLoader, Environment, \
+    BaseLoader, TemplateNotFound
+from .log import PCG_ROOT_LOGGER
 
 class _PCGYAMLLoader(yaml.SafeLoader, object):
     # MIT License
@@ -120,6 +125,115 @@ def load_yaml(input_yaml):
         return data
     elif isinstance(input_yaml, str):
         return yaml.load(input_yaml, _PCGYAMLLoader)
+    
+    
+class _AbsFileSystemLoader(BaseLoader):
+    def __init__(self, path):
+        self.path = path
+
+    def get_source(self, environment, template):        
+        if os.path.isfile(template):
+            path = template
+        else:
+            path = os.path.join(self.path, template)
+            if not os.path.isfile(path):
+                raise TemplateNotFound(template)
+        mtime = os.path.getmtime(path)
+        with open(path) as f:    
+            source = f.read()
+            if not isinstance(source, str):
+                source = source.decode('utf-8')
+        return source, path, lambda: mtime == os.path.getmtime(path)
+
+
+def _find_ros_package(pkg_name):
+    try:
+        pkg_path = rospkg.RosPack().get_path(pkg_name)
+    except rospkg.ResourceNotFound as ex:
+        PCG_ROOT_LOGGER.error('Error finding package {}, message={}'.format(pkg_name, ex))
+        return None    
+    return pkg_path
+
+
+def _pretty_print_xml(xml):
+    import lxml.etree as etree
+    parser = etree.XMLParser(remove_blank_text=True)
+    root = etree.fromstring(xml, parser=parser)
+    return etree.tostring(root, pretty_print=True, encoding='unicode').decode()
+
+
+def _parse_package_paths(xml):
+    # Finding patterns package://
+    result = re.findall('package://\w+/', xml)
+    output_xml = xml
+    for item in result:        
+        pkg_name = item.replace('package://', '').replace('/', '')
+        try:
+            pkg_path = rospkg.RosPack().get_path(pkg_name)
+        except rospkg.ResourceNotFound as ex:
+            PCG_ROOT_LOGGER.error('Error finding package {}, message={}'.format(pkg_name, ex))
+            return None
+
+        output_xml = output_xml.replace(item, 'file://' + pkg_path + '/')
+
+    # Finding patterns $(find pkg)
+    result = re.findall(r'\$\(find \w+\)', output_xml)        
+    for item in result:                
+        pkg_name = item.split()[1].replace(')', '')
+        try:
+            pkg_path = rospkg.RosPack().get_path(pkg_name)
+        except rospkg.ResourceNotFound as ex:
+            PCG_ROOT_LOGGER.error('Error finding package {}, message={}'.format(pkg_name, ex))
+            return None
+
+        output_xml = output_xml.replace(item, 'file://' + pkg_path + '/')
+    return output_xml        
+
+
+def process_jinja_template(template, parameters=None, include_dir=None):    
+    if isinstance(include_dir, str):
+        if not os.path.isdir(include_dir):            
+            PCG_ROOT_LOGGER.error('Include directory in invalid, dir={}'.format(include_dir))
+            return None
+    else:
+        include_dir = '.'
+
+    if not isinstance(parameters, dict):
+        parameters = dict()
+        PCG_ROOT_LOGGER.warning(
+            'Input parameters to be replaced in the template'
+            ' must be provided as a dictionary, received {}'
+            ' instead'.format(type(parameters)))
+        
+    if not isinstance(template, str):
+        PCG_ROOT_LOGGER.error(
+            'The template input must a string, either with the'
+            ' template text content or filename to the template')
+        return None
+    
+    PCG_ROOT_LOGGER.info('Input template: {}'.format(template))
+    if os.path.isfile(template):
+        PCG_ROOT_LOGGER.info('Input template is a file, {}'.format(template))
+        templates_dir = os.path.dirname(template)
+        base_loader = FileSystemLoader(templates_dir)
+    else:
+        base_loader = FileSystemLoader('.')
+    includes_loader = _AbsFileSystemLoader(include_dir)
+
+    base_env = Environment(loader=base_loader)
+    # Add Jinja function similar to $(find <package>) in XACRO
+    base_env.filters['find_ros_package'] = _find_ros_package
+
+    if os.path.isfile(template):
+        PCG_ROOT_LOGGER.info(
+            'Retrieving template to be rendered from file {}'.format(template))
+        model_template = base_env.get_template(os.path.basename(template))
+    else:
+        model_template = base_env.from_string(template)
+    model_template.environment.loader = includes_loader
+
+    output_xml = _parse_package_paths(model_template.render(**parameters))        
+    return _pretty_print_xml(output_xml)
 
 def generate_random_string(size=3):
     return ''.join(random.choice(string.ascii_letters) for i in range(size))

@@ -28,7 +28,8 @@ import unittest
 import random
 import string
 import numpy as np
-from pcg_gazebo.parsers import process_template, parse_sdf
+from pcg_gazebo.utils import process_jinja_template
+from pcg_gazebo.parsers import parse_sdf
 
 CUR_DIR = os.path.join(rospkg.RosPack().get_path(PKG), 'test')
 
@@ -36,7 +37,7 @@ def get_random_string(size=3):
     return ''.join(random.choice(string.ascii_letters) for i in range(size))
 
 def generate_sdf(test_case, params):
-    xml = process_template(os.path.join(
+    xml = process_jinja_template(os.path.join(
         CUR_DIR, 'jinja_sdf/{}.jinja'.format(test_case)), params)            
     return parse_sdf(xml)
 

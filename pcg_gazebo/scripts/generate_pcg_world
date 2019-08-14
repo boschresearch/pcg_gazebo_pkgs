@@ -105,25 +105,30 @@ if __name__ == '__main__':
         type=str,
         default='ode',
         help='Physics engine to start with Gazebo')
-
-    rospy.init_node('generate_pcg_world', anonymous=True)
+        
     args = parser.parse_args(rospy.myargv()[1::])
-    
+        
     # Create world generator
     world_generator = WorldGenerator()
-
+    node_initialized = False
     if args.config_file:
         assert os.path.isfile(args.config_file), 'Invalid input file, value={}'.format(args.config_file)
         
         # Obtain the file with the poses of the original world configuration
-        rospy.loginfo('Parsing configuration file={}'.format(args.config_file))
+        print('Parsing configuration file={}'.format(args.config_file))
         world_generator.from_yaml(args.config_file)
-    elif rospy.has_param('~world'):
-        world_config = rospy.get_param('~world')
-        rospy.loginfo('Reading world configuration from ROS parameters ~world')
-        world_generator.from_dict(world_config)
     else:
-        raise rospy.ROSException('Not input found for world configuration')
+        if rospy.is_shutdown():
+            raise rospy.ROSInitException('ROS master is not running!')
+
+        rospy.init_node('generate_pcg_world', anonymous=True)
+        node_initialized = True
+        if rospy.has_param('~world'):
+            world_config = rospy.get_param('~world')
+            print('Reading world configuration from ROS parameters ~world')
+            world_generator.from_dict(world_config)
+        else:
+            raise rospy.ROSException('Not input found for world configuration')
     
     world_generator.run_engines()
 
@@ -134,9 +139,12 @@ if __name__ == '__main__':
         with_default_sun=args.with_sun)
 
     if args.output_topic:
+        print('Publishing the world into the topic {}'.format(args.output_topic))
         if rospy.is_shutdown():
             raise rospy.ROSInitException('ROS master is not running!')
-
+        if not node_initialized:
+            rospy.init_node('generate_pcg_world', anonymous=True)
+            
         pub = rospy.Publisher(args.output_topic, String, queue_size=1)
         
         start_time = time()
@@ -146,7 +154,7 @@ if __name__ == '__main__':
         pub.publish(world_filename)
 
     if args.run:
-        rospy.loginfo('Run Gazebo with world generated in file: {}'.format(
+        print('Run Gazebo with world generated in file: {}'.format(
             world_filename))
         run_simulation(
             world_filename,
