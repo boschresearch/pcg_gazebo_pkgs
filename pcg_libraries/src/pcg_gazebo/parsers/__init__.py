@@ -19,7 +19,6 @@
 * [SDF format](http://sdformat.org/)
 * [URDF format specifications](https://wiki.ros.org/urdf/XML)
 """
-from .jinja_template_renderer import process_template
 from ..log import PCG_ROOT_LOGGER
 
 
@@ -189,7 +188,6 @@ def convert_custom(xml_dict):
                 output['value'] = convert_from_string(xml_dict[tag])
             elif isinstance(xml_dict[tag], dict) or \
                 isinstance(xml_dict[tag], collections.OrderedDict):
-                print(tag, xml_dict[tag])
                 output[tag] = convert_custom(xml_dict[tag])
             else:
                 output[tag] = convert_from_string(xml_dict[tag])

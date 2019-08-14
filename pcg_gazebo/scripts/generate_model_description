@@ -50,10 +50,10 @@ from std_msgs.msg import String
 from std_srvs.srv import Trigger, Empty
 from gazebo_msgs.srv import SpawnModel
 from geometry_msgs.msg import Pose
-from pcg_gazebo.parsers import parse_sdf, parse_urdf, process_template, \
+from pcg_gazebo.parsers import parse_sdf, parse_urdf, \
     sdf2urdf, urdf2sdf
 from pcg_gazebo.simulation.properties import Pose as PosePCG
-
+from pcg_gazebo.utils import process_jinja_template
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Generate SDF model from Jinja2 template files')
@@ -139,7 +139,7 @@ if __name__ == '__main__':
     if os.path.isfile(args.param_file):
         rospy.loginfo('Importing parameters from file: {}'.format(args.param_file))
         with open(args.param_file, 'r') as p_file:
-            params = yaml.load(p_file)
+            params = yaml.load(p_file, Loader=yaml.FullLoader)
         rospy.loginfo('Parameters for Jinja template loaded')
         for tag in params:
             rospy.loginfo('\t {}={}'.format(tag, params[tag]))
@@ -151,7 +151,7 @@ if __name__ == '__main__':
                 params[param[0]] = param[1]
                 rospy.loginfo('Jinja input parameter: {}={}'.format(param[0], param[1]))
 
-    output_xml = process_template(args.model_template, parameters=params) 
+    output_xml = process_jinja_template(args.model_template, parameters=params) 
     
     if args.sdf:                
         rospy.loginfo('Parsing the SDF template: {}'.format(args.model_template))

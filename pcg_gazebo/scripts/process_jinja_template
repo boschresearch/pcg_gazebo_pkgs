@@ -16,9 +16,8 @@ import os
 import argparse
 import yaml
 import rospy
-
-from pcg_gazebo.parsers import process_template, parse_sdf, \
-    parse_urdf, parse_sdf_config
+from pcg_gazebo.parsers import parse_sdf, parse_urdf, parse_sdf_config
+from pcg_gazebo.utils import load_yaml, process_jinja_template
 
 
 if __name__ == '__main__':
@@ -54,8 +53,6 @@ if __name__ == '__main__':
     assert isinstance(args.output_filename, str), \
         'Output filename must be a valid string'
 
-    rospy.init_node('process_jinja_template', anonymous=True)
-
     print('Input template: {}'.format(args.input_template))
     print('Output filename: {}'.format(args.output_filename))
 
@@ -66,13 +63,9 @@ if __name__ == '__main__':
         include_dir = None    
 
     params = dict()
-    if rospy.has_param('~template_config'):
-        print('Requesting template pararameters from ROS parameter: ~template_config')
-        params = rospy.get_param('~template_config')
-    elif args.param_file is not None and os.path.isfile(args.param_file):
+    if args.param_file is not None and os.path.isfile(args.param_file):
         print('Importing parameters from file: {}'.format(args.param_file))
-        with open(args.param_file, 'r') as p_file:
-            params = yaml.load(p_file)
+        params = load_yaml(args.param_file)        
         print('Parameters for Jinja template loaded')
         for tag in params:
             print('\t {}={}'.format(tag, params[tag]))
@@ -85,11 +78,12 @@ if __name__ == '__main__':
                 params[param[0]] = param[1]
                 print('Jinja input parameter: {}={}'.format(param[0], param[1]))
 
-    print('Parameters:')
-    for tag in sorted(params.keys()):
-        print('{}: {}'.format(tag, params[tag]))
+    if len(params) > 0:
+        print('Parameters:')
+        for tag in sorted(params.keys()):
+            print('{}: {}'.format(tag, params[tag]))
 
-    output_xml = process_template(args.input_template, parameters=params) 
+    output_xml = process_jinja_template(args.input_template, parameters=params) 
 
     if args.sdf:
         # Parsing SDF file to verify its consistency
