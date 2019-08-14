@@ -57,7 +57,7 @@ class Solver(XMLBase):
             assert value in ['quick', 'world']
         else:
             assert value == 'sequential_impulse'
-        self.children['type'].type = value
+        self._add_child_element('type', value)
 
     @property
     def min_step_size(self):
