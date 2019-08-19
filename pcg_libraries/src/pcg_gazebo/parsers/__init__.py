@@ -303,6 +303,7 @@ def sdf2urdf(sdf):
     from .sdf import create_sdf_element
     from .urdf import create_urdf_element
     from ..simulation.properties import Pose
+    from ..path import Path
     import numpy as np
     
     assert sdf is not None, 'Input SDF is invalid'
@@ -415,7 +416,13 @@ def sdf2urdf(sdf):
     elif sdf._NAME == 'sphere':
         urdf.radius = sdf.radius.value
     elif sdf._NAME == 'mesh':
-        urdf.filename = sdf.uri.value
+        uri = Path(sdf.uri.value)
+        if uri.ros_package_uri is not None:
+            urdf.filename = uri.ros_package_uri
+        elif uri.package_uri is not None:
+            urdf.filename = uri.package_uri
+        else:
+            urdf.filename = uri.file_uri
     elif sdf._NAME == 'pose':
         urdf.xyz = sdf.value[0:3]
         urdf.rpy = sdf.value[3::]
@@ -522,7 +529,7 @@ def urdf2sdf(urdf):
     
     `pcg_gazebo.parsers.types.XMLBase` as a SDF element.
     """
-    from .sdf import create_sdf_element
+    from .sdf import create_sdf_element    
     import collections
 
     assert urdf is not None, 'Input URDF is invalid'
