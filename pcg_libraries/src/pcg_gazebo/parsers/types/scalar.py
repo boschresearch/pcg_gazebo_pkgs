@@ -46,4 +46,4 @@ class XMLScalar(XMLBase):
 
     def get_formatted_value_as_str(self):
         assert self.is_valid(), 'Invalid scalar value'
-        return format(self._value, 'n')
+        return '{}'.format(self._value)
