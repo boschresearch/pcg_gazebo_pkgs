@@ -1,4 +1,25 @@
 {	
+	"xml_model_config":  {
+		"prefix": "pcg.xml.model.config",
+		"scope": "xml",
+		"description": "XML Model Configuration File Template",
+		"body": [
+			"<?xml version='1.0'?>",
+			"<model>",
+			"\t<name>model_name</name>",
+			"\t<version>1.0</version>",
+			"\t<sdf version=\"1.6\">model.sdf</sdf>",
+			"",
+			"\t<author>",
+			"\t\t<name>awesome author</name>",
+			"\t\t<email>awesome.author@mail.com</email>",
+			"\t</author>",
+			"",
+			"\t<description>awesome model</description>",
+			"</model>"
+		]
+	},
+
 	"jinja_set_var": {
 		"prefix": "pcg.jinja.set",
 		"scope": "jinja",

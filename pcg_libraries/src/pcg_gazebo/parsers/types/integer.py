@@ -45,4 +45,4 @@ class XMLInteger(XMLBase):
 
     def get_formatted_value_as_str(self):
         assert self.is_valid(), 'Invalid scalar value'
-        return '{}'.format(self._value)
+        return format(self._value, 'd')

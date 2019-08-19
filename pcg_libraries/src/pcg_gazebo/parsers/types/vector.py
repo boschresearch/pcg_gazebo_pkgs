@@ -60,4 +60,4 @@ class XMLVector(XMLBase):
     def get_formatted_value_as_str(self):
         assert self.is_valid(), 'Invalid vector'
         output_str = ' '.join(['{}'] * self._size)
-        return output_str.format(*self._value)
+        return output_str.format(*[format(x, 'n') for x in self._value])

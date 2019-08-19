@@ -621,7 +621,9 @@ class XMLBase(object):
             elif tag == 'attributes':
                 for att in sdf_data[tag]:
                     if not hasattr(self, att): 
-                        print('WARNING: Attribute {} does not exist for {}'.format(att, self._NAME))
+                        PCG_ROOT_LOGGER.warning(
+                            'WARNING: Attribute {} does not exist for {}'.format(
+                                att, self._NAME))
                     else:
                         setattr(self, att, sdf_data[tag][att])
             else:
