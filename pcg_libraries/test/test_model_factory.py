@@ -49,7 +49,28 @@ class TestModelFactory(unittest.TestCase):
                         size=size,
                         name=name,
                         pose=pose,
-                        color=color
+                        color=color,
+                        collision_parameters=dict(
+                            mu=random.uniform(0, 10),
+                            mu2=random.uniform(0, 10),
+                            friction=random.uniform(0, 10),
+                            friction2=random.uniform(0, 10),
+                            slip1=random.uniform(0, 1),
+                            slip2=random.uniform(0, 1),
+                            rolling_friction=random.uniform(0, 1),
+                            fdir1=[0, 0, 0],
+                            max_contacts=1,
+                            soft_cfm=random.uniform(0, 10),
+                            soft_erp=random.uniform(0, 10),
+                            kp=random.uniform(0, 100000),
+                            kd=random.uniform(0, 10),
+                            max_vel=random.uniform(0, 0.1),
+                            min_depth=random.uniform(0, 0.1),
+                            split_impulse=random.choice([True, False]),
+                            split_impulse_penetration_threshold=-0.01,
+                            enable_friction=True,
+                            enable_contact=True
+                        )
                     ))
                 ]
             models = create_models_from_config(model_config)
@@ -75,7 +96,34 @@ class TestModelFactory(unittest.TestCase):
 
             # Test collision element
             self.assertEqual(len(models[0].links[link_name].collisions), 1)
-            geometry = models[0].links[link_name].collisions[0].geometry
+            collision = models[0].links[link_name].get_collision_by_name('collision')
+
+            tags = ['mu', 'mu2', 'slip1', 'slip2', 'fdir1']
+            for tag in tags:
+                self.assertEqual(
+                    collision.get_ode_friction_param(tag),
+                    model_config[0]['args']['collision_parameters'][tag])
+            
+            tags = ['friction', 'friction2', 'rolling_friction', 'fdir1']
+            for tag in tags:
+                self.assertEqual(
+                    collision.get_bullet_friction_param(tag),
+                    model_config[0]['args']['collision_parameters'][tag])
+
+            tags = ['soft_cfm', 'soft_erp', 'kp', 'kd', 'max_vel', 'min_depth']
+            for tag in tags:
+                self.assertEqual(
+                    collision.get_ode_contact_param(tag),
+                    model_config[0]['args']['collision_parameters'][tag])
+
+            tags = ['soft_cfm', 'soft_erp', 'kp', 'kd', 'split_impulse', \
+                'split_impulse_penetration_threshold']
+            for tag in tags:
+                self.assertEqual(
+                    collision.get_bullet_contact_param(tag),
+                    model_config[0]['args']['collision_parameters'][tag])
+            
+            geometry = collision.geometry
             self.assertEqual(geometry.get_type(), 'box')
             self.assertEqual(geometry.get_param('size'), size)
 
@@ -87,7 +135,7 @@ class TestModelFactory(unittest.TestCase):
 
             if not isinstance(color, str) and isinstance(color, list) and color is not None:
                 self.assertEqual(material.ambient.value, color)
-                self.assertEqual(material.diffuse.value, color)
+                self.assertEqual(material.diffuse.value, color)            
 
     def test_dynamic_box_model(self):
         for color in _get_colors():
@@ -103,7 +151,28 @@ class TestModelFactory(unittest.TestCase):
                         name=name,
                         pose=pose,
                         mass=mass,
-                        color=color
+                        color=color,
+                        collision_parameters=dict(
+                            mu=random.uniform(0, 10),
+                            mu2=random.uniform(0, 10),
+                            friction=random.uniform(0, 10),
+                            friction2=random.uniform(0, 10),
+                            slip1=random.uniform(0, 1),
+                            slip2=random.uniform(0, 1),
+                            rolling_friction=random.uniform(0, 1),
+                            fdir1=[0, 0, 0],
+                            max_contacts=1,
+                            soft_cfm=random.uniform(0, 10),
+                            soft_erp=random.uniform(0, 10),
+                            kp=random.uniform(0, 100000),
+                            kd=random.uniform(0, 10),
+                            max_vel=random.uniform(0, 0.1),
+                            min_depth=random.uniform(0, 0.1),
+                            split_impulse=random.choice([True, False]),
+                            split_impulse_penetration_threshold=-0.01,
+                            enable_friction=True,
+                            enable_contact=True
+                        )
                     ))
                 ]
             models = create_models_from_config(model_config)
@@ -140,7 +209,34 @@ class TestModelFactory(unittest.TestCase):
 
             # Test collision element
             self.assertEqual(len(link.collisions), 1)
-            geometry = link.collisions[0].geometry
+            collision = link.get_collision_by_name('collision')
+
+            tags = ['mu', 'mu2', 'slip1', 'slip2', 'fdir1']
+            for tag in tags:
+                self.assertEqual(
+                    collision.get_ode_friction_param(tag),
+                    model_config[0]['args']['collision_parameters'][tag])
+            
+            tags = ['friction', 'friction2', 'rolling_friction', 'fdir1']
+            for tag in tags:
+                self.assertEqual(
+                    collision.get_bullet_friction_param(tag),
+                    model_config[0]['args']['collision_parameters'][tag])
+
+            tags = ['soft_cfm', 'soft_erp', 'kp', 'kd', 'max_vel', 'min_depth']
+            for tag in tags:
+                self.assertEqual(
+                    collision.get_ode_contact_param(tag),
+                    model_config[0]['args']['collision_parameters'][tag])
+
+            tags = ['soft_cfm', 'soft_erp', 'kp', 'kd', 'split_impulse', \
+                'split_impulse_penetration_threshold']
+            for tag in tags:
+                self.assertEqual(
+                    collision.get_bullet_contact_param(tag),
+                    model_config[0]['args']['collision_parameters'][tag])
+            
+            geometry = collision.geometry
             self.assertEqual(geometry.get_type(), 'box')
             self.assertEqual(geometry.get_param('size'), size)
 
