@@ -76,7 +76,8 @@ def _parse_factory_input_as_vector(var):
         return None
 
 
-def box(size, mass=0, name='box', pose=[0, 0, 0, 0, 0, 0], color=None):
+def box(size, mass=0, name='box', pose=[0, 0, 0, 0, 0, 0], color=None,
+    visual_parameters=dict(), collision_parameters=dict()):
     """Factory method that returns a box-shaped model with one cuboid link.
     
     > *Input arguments*
@@ -102,7 +103,9 @@ def box(size, mass=0, name='box', pose=[0, 0, 0, 0, 0, 0], color=None):
         link_name='link', 
         mass=float(mass), 
         size=size,
-        color=color)
+        color=color,
+        visual_parameters=visual_parameters,
+        collision_parameters=collision_parameters)
     if mass <= 0:
         model.static = True
     
