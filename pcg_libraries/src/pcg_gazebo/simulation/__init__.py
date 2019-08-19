@@ -139,8 +139,9 @@ def load_gazebo_models():
             gazebo_folder = os.path.join('/usr', 'share', folder, 'models')
             break
             
-    if os.path.isdir(gazebo_folder):
-        GAZEBO_MODELS.update(get_gazebo_model_folders(gazebo_folder))
+    if gazebo_folder is not None:
+        if os.path.isdir(gazebo_folder):
+            GAZEBO_MODELS.update(get_gazebo_model_folders(gazebo_folder))
     return GAZEBO_MODELS
 
 
