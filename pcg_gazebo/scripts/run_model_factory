@@ -23,6 +23,7 @@ import random
 from pcg_gazebo.parsers.sdf_config import create_sdf_config_element
 from pcg_gazebo.generators.creators import create_models_from_config
 from pcg_gazebo.task_manager import GazeboProxy
+from pcg_gazebo.utils import load_yaml
 
 # TODO: Add parsing from model configuration using type=json.loads
 
@@ -76,9 +77,8 @@ if __name__ == '__main__':
         assert os.path.isfile(args.config_file), 'Invalid input file, filename={}'.format(
             args.config_file)
         
-        with open(args.config_file) as config_file:
-            config = yaml.load(config_file)            
-            models = create_models_from_config(config)
+        config = load_yaml(args.config_file)
+        models = create_models_from_config(config)
 
     if args.spawn:
         print('Connecting to Gazebo')
