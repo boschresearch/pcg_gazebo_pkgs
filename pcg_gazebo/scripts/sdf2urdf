@@ -63,13 +63,15 @@ if __name__ == '__main__':
         help='Print the file')
 
     args = parser.parse_args(rospy.myargv()[1:])
-    rospy.init_node('sdf2urdf')
-
+    
     assert args.param is not None or \
         args.filename is not None or \
         args.xml is not None or \
         args.input_topic is not None, \
             'None of the input options were provided'
+
+    if args.input_topic or args.param or args.output_parameter:
+        rospy.init_node('sdf2urdf', anonymous=True)
 
     if args.param:
         rospy.loginfo('Parsing from ROS parameter, param={}'.format(args.param))
