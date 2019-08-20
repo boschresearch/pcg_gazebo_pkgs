@@ -136,11 +136,8 @@ class Collision(object):
         for item in vec:
             assert isinstance(item, float) or isinstance(item, int), \
                 'Each pose element must be either a float or an integer'
-
-        if len(vec) == 6:
-            self._pose = Pose(pos=vec[0:3], rpy=vec[3::])
-        else:
-            self._pose = Pose(pos=vec[0:3], quat=vec[3::])
+        
+        self._pose = Pose(pos=vec[0:3], rot=vec[3::])
 
     @property
     def geometry(self):

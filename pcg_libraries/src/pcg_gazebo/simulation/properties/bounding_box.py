@@ -55,11 +55,8 @@ class BoundingBox(object):
         coord = list()
         for i in range(3):
             coord.append([self._min[i], self._max[i]])
-
-        if len(rotation) == 4:
-            pose = Pose(pos=position_offset, quat=rotation)
-        elif len(rotation) == 3:
-            pose = Pose(pos=position_offset, rpy=rotation)
+        
+        pose = Pose(pos=position_offset, rot=rotation)
         center = self.get_center()
         corners = list()
         for item in itertools.product(*coord):

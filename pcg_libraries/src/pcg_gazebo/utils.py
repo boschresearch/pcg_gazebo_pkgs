@@ -232,7 +232,7 @@ def process_jinja_template(template, parameters=None, include_dir=None):
         model_template = base_env.from_string(template)
     model_template.environment.loader = includes_loader
 
-    output_xml = _parse_package_paths(model_template.render(**parameters))        
+    output_xml = _parse_package_paths(model_template.render(**parameters)) 
     return _pretty_print_xml(output_xml)
 
 def generate_random_string(size=3):
