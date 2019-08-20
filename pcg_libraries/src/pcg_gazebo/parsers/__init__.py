@@ -597,13 +597,9 @@ def urdf2sdf(urdf):
     
     `pcg_gazebo.parsers.types.XMLBase` as a SDF element.
     """
-<<<<<<< HEAD
-    from .sdf import create_sdf_element    
-=======
     from .sdf import create_sdf_element
     from ..simulation.properties import Pose
     from ..path import Path
->>>>>>> master
     import collections
 
     assert urdf is not None, 'Input URDF is invalid'
