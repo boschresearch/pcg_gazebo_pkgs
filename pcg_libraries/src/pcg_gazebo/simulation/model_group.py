@@ -84,11 +84,9 @@ class ModelGroup(object):
             for item in vec:
                 assert isinstance(item, float) or isinstance(item, int), \
                     'All elements in pose vector must be a float or an integer'        
-            if len(vec) == 6:
-                self._pose = Pose(pos=vec[0:3], rpy=vec[3::])
-            else:
-                self._pose = Pose(pos=vec[0:3], quat=vec[3::])
-
+            
+            self._pose = Pose(pos=vec[0:3], rot=vec[3::])
+            
     @property
     def models(self):
         """`dict`: Models"""        

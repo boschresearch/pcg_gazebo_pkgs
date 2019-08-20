@@ -178,11 +178,9 @@ class Engine(object):
             'Pose vector must have 6 or 7 elements'
         if model not in self._poses:
             self._poses[model] = list()
-        if len(pose) == 6:            
-            self._poses[model].append(Pose(pos=pose[0:3], rpy=pose[3::]))
-        else:
-            self._poses[model].append(Pose(pos=pose[0:3], quat=pose[3::]))
-
+        
+        self._poses[model].append(Pose(pos=pose[0:3], rot=pose[3::]))
+        
     def _get_model(self, name):
         """Return a copy of the model asset.
         
