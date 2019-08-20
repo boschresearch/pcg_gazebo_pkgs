@@ -288,6 +288,74 @@ def convert_from_string(str_input_xml):
     return value
 
 
+def expand_nested_models(sdf):
+    from ..simulation.properties import Pose
+    from ..simulation import get_gazebo_model_sdf
+    from copy import deepcopy
+    
+    if sdf.xml_element_name == 'model':
+        if sdf.includes is None:
+            return sdf
+    elif sdf.xml_element_name == 'sdf':
+        if sdf.models is None:
+            assert sdf.models is not None, \
+                'No models found in included provided SDF'
+        assert len(sdf.models) == 1, 'Only one model per SDF will be parsed'
+        return expand_nested_models(sdf.models[0])        
+        
+    input_sdf = deepcopy(sdf)
+    
+    for inc in input_sdf.includes:
+        model_name = inc.uri.value.replace('model://', '')        
+        nested_sdf = get_gazebo_model_sdf(model_name)        
+        if nested_sdf is None:
+            msg = 'Nested model <{}> could not be found'.format(model_name)
+            PCG_ROOT_LOGGER.error(msg)
+            raise ValueError(msg)
+        # Expand the nested models in case there are any
+        if nested_sdf.xml_element_name == 'sdf':
+            assert nested_sdf.models is not None, \
+                'No models found in included model <{}>'.format(model_name)
+            assert len(nested_sdf.models) == 1, \
+                'Only one model per SDF file can be parsed'
+
+            model = expand_nested_models(nested_sdf.models[0])
+        elif nested_sdf.xml_element_name == 'model':
+            model = expand_nested_models(nested_sdf)
+
+        if inc.pose is not None:
+            include_pose = Pose(inc.pose.value[0:3], inc.pose.value[3::])
+        else:
+            include_pose = Pose()
+
+        if model.pose is not None:
+            model_pose = Pose(model.pose.value[0:3], model.pose.value[3::])
+        else:
+            model_pose = Pose()
+
+        if model.links is not None:
+            for link in model.links:
+                if link.pose is not None:
+                    link_pose = Pose(link.pose.value[0:3], link.pose.value[3::])
+                else:
+                    link_pose = Pose()
+                link_name = inc.name.value + '::' + link.name
+
+                nested_link = deepcopy(link)
+                nested_link.name = link_name
+                nested_link.pose = (include_pose + model_pose + link_pose).to_sdf()
+                input_sdf.add_link(link_name, nested_link)
+        if model.joints is not None:
+            for joint in model.joints:
+                joint_name = inc.name.value + '::' + joint.name
+                nested_joint = deepcopy(joint)
+                nested_joint.name = joint_name
+                input_sdf.add_joint(joint_name, nested_joint)
+
+    input_sdf.rm_child('include')
+
+    return input_sdf
+
 def sdf2urdf(sdf):
     """Recursively convert a SDF `pcg_gazebo` element and its child elements 
     into an URDF `pcg_gazebo` element.
@@ -303,6 +371,7 @@ def sdf2urdf(sdf):
     from .sdf import create_sdf_element
     from .urdf import create_urdf_element
     from ..simulation.properties import Pose
+    from ..path import Path
     import numpy as np
     
     assert sdf is not None, 'Input SDF is invalid'
@@ -334,7 +403,7 @@ def sdf2urdf(sdf):
 
     if sdf._NAME == 'model':        
         from copy import deepcopy
-        model_sdf = deepcopy(sdf)
+        model_sdf = expand_nested_models(deepcopy(sdf))        
         # For the URDF file the frames must be positioned in 
         # the joint blocks instead of the links
         if model_sdf.joints:            
@@ -372,7 +441,7 @@ def sdf2urdf(sdf):
                     pos=np.dot(
                         parent_pose.rotation_matrix[0:3, 0:3].T, 
                         child_pose.position - parent_pose.position),
-                    quat=Pose.get_transform(parent_pose.quat, child_pose.quat)
+                    rot=Pose.get_transform(parent_pose.quat, child_pose.quat)
                 )
 
                 model_sdf.joints[i].pose = pose_diff.to_sdf()
@@ -414,8 +483,12 @@ def sdf2urdf(sdf):
         urdf.radius = sdf.radius.value
     elif sdf._NAME == 'sphere':
         urdf.radius = sdf.radius.value
-    elif sdf._NAME == 'mesh':
-        urdf.filename = sdf.uri.value
+    elif sdf._NAME == 'mesh':        
+        uri = Path(sdf.uri.value)
+        if uri.package_uri is not None:
+            urdf.filename = uri.package_uri
+        else:
+            urdf.filename = uri.file_uri
     elif sdf._NAME == 'pose':
         urdf.xyz = sdf.value[0:3]
         urdf.rpy = sdf.value[3::]
@@ -484,8 +557,10 @@ def sdf2urdf(sdf):
         if sdf.velocity:
             urdf.velocity = sdf.velocity.value
     elif sdf._NAME == 'dynamics':
-        urdf.damping = sdf.damping.value
-        urdf.friction = sdf.friction.value
+        if sdf.damping:
+            urdf.damping = sdf.damping.value
+        if sdf.friction:
+            urdf.friction = sdf.friction.value
     elif sdf._NAME == 'material':
         if sdf.ambient:
             urdf.color = create_urdf_element('color')
@@ -523,6 +598,8 @@ def urdf2sdf(urdf):
     `pcg_gazebo.parsers.types.XMLBase` as a SDF element.
     """
     from .sdf import create_sdf_element
+    from ..simulation.properties import Pose
+    from ..path import Path
     import collections
 
     assert urdf is not None, 'Input URDF is invalid'
@@ -616,6 +693,11 @@ def urdf2sdf(urdf):
         sdf.radius.value = urdf.radius
     elif urdf._NAME == 'mesh':
         sdf.uri.value = urdf.filename
+        uri = Path(urdf.filename)
+        if uri.model_uri is not None:
+            sdf.uri.value = uri.model_uri
+        else:
+            sdf.uri.value = uri.file_uri
     elif urdf._NAME == 'origin':
         sdf.value = urdf.xyz + urdf.rpy
     elif urdf._NAME == 'geometry':        
