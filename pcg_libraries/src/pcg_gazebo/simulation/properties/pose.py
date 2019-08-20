@@ -21,10 +21,11 @@ from ...transformations import quaternion_from_euler, euler_from_quaternion, \
     is_same_transform
 import collections
 import numpy as np
+from ...log import PCG_ROOT_LOGGER
 
 
 class Pose(object):
-    def __init__(self, pos=[0, 0, 0], rpy=None, quat=None):
+    def __init__(self, pos=[0, 0, 0], rot=None):
         assert isinstance(pos, collections.Iterable), \
             'Input vector must be iterable'
         assert len(list(pos)) == 3, \
@@ -32,26 +33,30 @@ class Pose(object):
         self._pos = pos
         self._quat = np.array([0, 0, 0, 1])
 
-        if rpy is not None:
-            assert isinstance(rpy, collections.Iterable), \
-                'Input rpy vector must be iterable'
-            rpy = list(rpy)
-            assert len(rpy) == 3, 'Input rpy vector must have' \
-                ' 3 elements (roll, pitch, yaw)'            
-            for elem in rpy:
-                assert isinstance(elem, float) or isinstance(elem, int), \
-                    'Each element from rpy must be either a float or an integer'
-            self._quat = Pose.rpy2quat(*list(rpy))
-        elif quat is not None:
-            assert isinstance(quat, collections.Iterable), \
-                'Input quat vector must be iterable'
-            quat = list(quat)
-            assert len(quat) == 4, 'Input quat vector must have' \
-                ' 4 elements (qx, qy, qz, qw)'
-            for elem in quat:
-                assert isinstance(elem, float) or isinstance(elem, int), \
-                    'Each element from quaternion must be either a float or an integer'
-            self._quat = np.array(quat)
+        if rot is not None:            
+            assert isinstance(rot, collections.Iterable), \
+                'Input rot vector must be iterable'
+            if len(list(rot)) == 3:
+                rpy = list(rot)
+                assert len(rpy) == 3, 'Input rpy vector must have' \
+                    ' 3 elements (roll, pitch, yaw)'            
+                for elem in rpy:
+                    assert isinstance(elem, float) or isinstance(elem, int), \
+                        'Each element from rpy must be either a float or an integer'
+                self._quat = Pose.rpy2quat(*list(rpy))
+            elif len(list(rot)) == 4:
+                quat = list(rot)
+                assert len(quat) == 4, 'Input quat vector must have' \
+                    ' 4 elements (qx, qy, qz, qw)'
+                for elem in quat:
+                    assert isinstance(elem, float) or isinstance(elem, int), \
+                        'Each element from quaternion must be either a float or an integer'
+                self._quat = np.array(quat)
+            else:
+                msg = 'Rotation vector must have either 3 (rpy) or 4 (quat) elements, received={}'.format(
+                    len(list(rot)))
+                PCG_ROOT_LOGGER.error(msg)
+                raise ValueError(msg)
 
         self._is_updated = True
 
@@ -71,13 +76,13 @@ class Pose(object):
         q = quaternion_multiply(self.quat, pose.quat)
         p = np.array(self.position) + np.dot(
             quaternion_matrix(self.quat)[0:3, 0:3], pose.position)
-        return Pose(pos=p, quat=q)
+        return Pose(pos=p, rot=q)
 
     def __sub__(self, pose):
         q = self.get_transform(self.quat, pose.quat)
         p = np.array(self.position) - np.dot(
             quaternion_matrix(self.quat)[0:3, 0:3], pose.position)
-        return Pose(pos=p, quat=q)
+        return Pose(pos=p, rot=q)
 
     def __eq__(self, pose):
         return np.allclose(self.position, pose.position) and \
@@ -189,14 +194,14 @@ class Pose(object):
     def random_orientation():
         return Pose(
             pos=[0, 0, 0],
-            quat=quaternion_from_matrix(random_rotation_matrix(
+            rot=quaternion_from_matrix(random_rotation_matrix(
                 np.random.random(3))))
 
     @staticmethod
     def random():
         return Pose(
             pos=np.random.random(3),
-            quat=Pose.random_quaternion())
+            rot=Pose.random_quaternion())
 
     @staticmethod
     def random_quaternion():
