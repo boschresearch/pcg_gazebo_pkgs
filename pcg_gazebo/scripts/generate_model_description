@@ -72,9 +72,9 @@ if __name__ == '__main__':
     parser.add_argument(
         '--urdf', action='store_true')
     parser.add_argument(
-        '--sdf-output-param', type=str, default='/robot_description_sdf', help='')
+        '--sdf-output-param', type=str, help='')
     parser.add_argument(
-        '--urdf-output-param', type=str, default='/robot_description', help='')
+        '--urdf-output-param', type=str, help='')
     parser.add_argument(
         '--output-topic', type=str,
         help='Optional output topic to publish the resulting XML')
@@ -124,19 +124,14 @@ if __name__ == '__main__':
 
     assert os.path.isfile(args.model_template), \
         'Invalid model template file, value={}'.format(args.model_template)
-    
-    if rospy.is_shutdown():
-            raise rospy.ROSInitException('ROS master is not running!')
-
-    rospy.init_node('generate_model_description', anonymous=True)
-
+        
     if not args.sdf and not args.urdf:
         rospy.logerr('Neither the --sdf nor the --urdf flags were set')
         sys.exit(-1)
 
     params = dict()
     
-    if os.path.isfile(args.param_file):
+    if args.param_file is not None and os.path.isfile(args.param_file):
         rospy.loginfo('Importing parameters from file: {}'.format(args.param_file))
         with open(args.param_file, 'r') as p_file:
             params = yaml.load(p_file, Loader=yaml.FullLoader)
@@ -176,6 +171,13 @@ if __name__ == '__main__':
             rospy.loginfo('URDF file exported to: {}'.format(args.output_filename))
     else:
         sys.exit()
+
+    if args.sdf_output_param or args.urdf_output_param or args.spawn or \
+        args.output_topic or args.spawn_sdf_model_srv:
+        if rospy.is_shutdown():
+            raise rospy.ROSInitException('ROS master is not running!')
+
+        rospy.init_node('generate_model_description', anonymous=True)
 
     if args.sdf_output_param is not None and len(args.sdf_output_param) > 0:
         # Publish SDF robot description

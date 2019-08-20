@@ -51,7 +51,7 @@ class TestPose(unittest.TestCase):
             vec = np.zeros(3)
             vec[i] = 2 * np.pi * np.random.random()
 
-            p = Pose(quat=Pose.rpy2quat(*vec))
+            p = Pose(rot=Pose.rpy2quat(*vec))
 
             diff = Pose.get_transform(p.quat, Pose.rpy2quat(*vec))
             self.assertTrue(np.isclose(diff[0], 0))
