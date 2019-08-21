@@ -43,6 +43,8 @@ class Collision(object):
         min_depth=0,
         split_impulse=True,
         split_impulse_penetration_threshold=-0.01, 
+        restitution_coefficient=0,
+        threshold=0,
         enable_friction=False,
         enable_bounce=False,
         enable_contact=False):
@@ -105,6 +107,10 @@ class Collision(object):
             split_impulse=split_impulse,
             split_impulse_penetration_threshold=split_impulse_penetration_threshold
         )
+
+        self.set_bounce_params(
+            restitution_coefficient=restitution_coefficient,
+            threshold=threshold)
 
     @property
     def sdf(self):
@@ -203,6 +209,15 @@ class Collision(object):
     def using_property(self, name):
         assert name in self._include_in_sdf, 'Invalid property name'
         return self._include_in_sdf[name]
+
+    def get_bounce_param(self, tag):
+        assert tag in ['restitution_coefficient', 'threshold'], \
+            'Invalid bounce parameter name'
+        # try:
+        param = getattr(self._sdf_collision.surface.bounce, tag).value
+        # except:
+        #     param = None
+        return param
 
     def set_bounce_params(self, restitution_coefficient=0, threshold=1e5):
         try:
@@ -310,6 +325,52 @@ class Collision(object):
             param = None
         return param
 
+    def set_physics(self, mu=1.0, mu2=1.0, friction=1.0, friction2=1.0, slip1=0,
+        slip2=0, rolling_friction=1, fdir1=[0, 0, 0], max_contacts=10, soft_cfm=0,
+        soft_erp=0.2, kp=1e12, kd=1, max_vel=0.01, min_depth=0, split_impulse=True,
+        split_impulse_penetration_threshold=-0.01, restitution_coefficient=0,
+        threshold=0, enable_friction=False, enable_bounce=False, enable_contact=False):
+        self.max_contacts = max_contacts
+
+        self.set_ode_friction_params(
+            mu=mu,
+            mu2=mu2,
+            slip1=slip1,
+            slip2=slip2,
+            fdir1=fdir1
+        )
+        self.set_bullet_friction_params(
+            friction=friction,
+            friction2=friction2,
+            fdir1=fdir1,
+            rolling_friction=rolling_friction
+        )
+
+        self.set_ode_contact_params(
+            soft_cfm=soft_cfm,
+            soft_erp=soft_erp,
+            kp=kp,
+            kd=kd,
+            max_vel=max_vel,
+            min_depth=min_depth
+        )
+        self.set_bullet_contact_params(
+            soft_cfm=soft_cfm,
+            soft_erp=soft_erp,
+            kp=kp,
+            kd=kd,
+            split_impulse=split_impulse,
+            split_impulse_penetration_threshold=split_impulse_penetration_threshold
+        )
+
+        self.set_bounce_params(
+            restitution_coefficient=restitution_coefficient,
+            threshold=threshold)
+
+        self._include_in_sdf['friction'] = enable_friction
+        self._include_in_sdf['bounce'] = enable_bounce
+        self._include_in_sdf['contact'] = enable_contact
+        
     def to_sdf(self):
         collision = create_sdf_element('collision')
         collision.geometry = self._geometry.to_sdf()        
