@@ -118,7 +118,8 @@ def mesh(visual_mesh_filename, collision_mesh_filename=None,
     visual_mesh_scale=[1, 1, 1], collision_mesh_scale=[1, 1, 1], 
     name='mesh', pose=[0, 0, 0, 0, 0, 0], color=None, mass=0, 
     inertia=None, use_approximated_inertia=True, 
-    approximated_inertia_model='box'):        
+    approximated_inertia_model='box', visual_parameters=dict(),
+    collision_parameters=dict()):        
     """Create a model based on a mesh input. The options for visual and 
     collision meshes are:
 
@@ -200,7 +201,7 @@ def mesh(visual_mesh_filename, collision_mesh_filename=None,
     return model
 
 def sphere(radius, mass=0, name='sphere', pose=[0, 0, 0, 0, 0, 0], 
-    color=None):
+    color=None, visual_parameters=dict(), collision_parameters=dict()):
     """Return a sphere-shaped simulation model.
     
     > *Input arguments*
@@ -225,7 +226,9 @@ def sphere(radius, mass=0, name='sphere', pose=[0, 0, 0, 0, 0, 0],
         link_name='link', 
         mass=float(mass), 
         radius=float(radius),
-        color=color)
+        color=color,
+        visual_parameters=visual_parameters,
+        collision_parameters=collision_parameters)
     if mass <= 0:
         model.static = True
     model.pose = pose
@@ -233,7 +236,7 @@ def sphere(radius, mass=0, name='sphere', pose=[0, 0, 0, 0, 0, 0],
 
 
 def cylinder(length, radius, mass=0, name='cylinder', pose=[0, 0, 0, 0, 0, 0], 
-    color=None):
+    color=None, visual_parameters=dict(), collision_parameters=dict()):
     """Return a cylinder-shaped simulation model with the rotation axis
     set per default as `[0, 0, 1]`.
     
@@ -261,7 +264,9 @@ def cylinder(length, radius, mass=0, name='cylinder', pose=[0, 0, 0, 0, 0, 0],
         mass=float(mass), 
         radius=float(radius), 
         length=float(length),
-        color=color)
+        color=color,
+        visual_parameters=visual_parameters,
+        collision_parameters=collision_parameters)
     if mass <= 0:
         model.static = True
     model.pose = pose
