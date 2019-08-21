@@ -109,7 +109,8 @@ class Link(object):
         approximated_collision_model='box', visual_mesh_scale=[1, 1, 1], 
         collision_mesh_scale=[1, 1, 1], pose=[0, 0, 0, 0, 0, 0], 
         color=None, mass=0, inertia=None, use_approximated_inertia=True, 
-        approximated_inertia_model='box'):
+        approximated_inertia_model='box', visual_parameters=dict(), 
+        collision_parameters=dict()):
         """Factory method to build a link or single-link model from a mesh. 
         This method allows not only assigning a mesh as a visual and collision 
         geometry, but also using geometrical approximations of the input mesh 
@@ -171,6 +172,7 @@ class Link(object):
         link.add_empty_visual(name='visual')
         link.get_visual_by_name('visual').set_mesh_as_geometry(
             uri=visual_mesh_filename, scale=visual_mesh_scale)
+        #TODO Enable dict configuration of visual elements
     
         mesh = trimesh.Scene()
         mesh.add_geometry(link.get_meshes('visual'))
@@ -204,6 +206,7 @@ class Link(object):
         mesh = trimesh.Scene()
         mesh.add_geometry(link.get_meshes('collision'))
         link.get_collision_by_name('collision').pose.position = -1 * mesh.centroid
+        link.get_collision_by_name('collision').set_physics(**collision_parameters)
 
         if color is not None:
             if color == 'random':
@@ -215,7 +218,7 @@ class Link(object):
             elif isinstance(color, collections.Iterable) and len(list(color)) == 3:
                 link.get_visual_by_name('visual').set_color(*color)
 
-            # Setting the approximated inertia
+        # Setting the approximated inertia
         if use_approximated_inertia and mass > 0:
             mesh = trimesh.Scene()
             mesh.add_geometry(link.get_meshes('collision'))
