@@ -65,7 +65,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--output-world-file',
         type=str,
-        default='/tmp/sll.world',
+        default='/tmp/pcg.world',
         help='Output SDF world file')
     parser.add_argument(
         '--verbose', 
