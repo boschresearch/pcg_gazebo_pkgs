@@ -22,6 +22,7 @@ from .task_templates import TASK_ROS_CORE, TASK_GAZEBO_EMPTY_WORLD
 from .simulation_timer import SimulationTimer
 from .gazebo_proxy import GazeboProxy
 from .ros_config import ROSConfig
+from ..log import PCG_ROOT_LOGGER
 
 import os
 import subprocess
@@ -106,7 +107,7 @@ def get_rosparam_list(ros_master_uri='http://localhost:11311'):
         output = output.decode('utf-8').split('\n')
         return [elem for elem in output if elem != '']
     except subprocess.CalledProcessError as ex:
-        print('Error getting ROS parameter list, message={}'.format(ex))
+        PCG_ROOT_LOGGER.error('Error getting ROS parameter list, message={}'.format(ex))
         return None
 
 
@@ -128,7 +129,7 @@ def get_rostopic_list(ros_master_uri='http://localhost:11311'):
         output = output.decode('utf-8').split('\n')
         return [elem for elem in output if elem != '']
     except subprocess.CalledProcessError as ex:
-        print('Error getting ROS parameter list, message={}'.format(ex))
+        PCG_ROOT_LOGGER.error('Error getting ROS parameter list, message={}'.format(ex))
         return None
 
 
