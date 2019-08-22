@@ -11,8 +11,12 @@
   <author email="musa.marcusso@de.bosch.com">Musa Morena Marcusso Manhaes</author>
 
   <buildtool_depend>catkin</buildtool_depend>
-
+  <depend>gazebo_ros</depend>
 
   <exec_depend>pcg_libraries</exec_depend>
+
+  <export>
+    <gazebo_ros gazebo_model_path="${prefix}/models"/>
+  </export>
   
 </package>
