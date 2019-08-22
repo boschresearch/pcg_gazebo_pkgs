@@ -17,6 +17,7 @@ from ...parsers.sdf import create_sdf_element
 import collections
 from .geometry import Geometry
 from .pose import Pose
+from ...log import PCG_ROOT_LOGGER
 
 
 class Collision(object):
@@ -25,21 +26,25 @@ class Collision(object):
         pose=[0, 0, 0, 0, 0, 0],
         geometry_type=None,
         geometry_args=None,
-        mu=1.0,
-        mu2=1.0,
-        slip1=0,
-        slip2=0,
-        rolling_friction=1,
-        fdir1=[0, 0, 0],
-        max_contacts=10,
-        soft_cfm=0,
-        soft_erp=0.2,
-        kp=1e12,
-        kd=1,
-        max_vel=0.01,
-        min_depth=0,
-        split_impulse=1,
-        split_impulse_penetration_threshold=-0.01, 
+        mu=None,
+        mu2=None,
+        friction=None,
+        friction2=None,
+        slip1=None,
+        slip2=None,
+        rolling_friction=None,
+        fdir1=None,
+        max_contacts=None,
+        soft_cfm=None,
+        soft_erp=None,
+        kp=None,
+        kd=None,
+        max_vel=None,
+        min_depth=None,
+        split_impulse=None,
+        split_impulse_penetration_threshold=None, 
+        restitution_coefficient=None,
+        threshold=None,
         enable_friction=False,
         enable_bounce=False,
         enable_contact=False):
@@ -70,7 +75,8 @@ class Collision(object):
             elif geometry_type == 'box':
                 self.set_box_as_geometry(**geometry_args)
 
-        self.max_contacts = max_contacts
+        if max_contacts is not None:
+            self.max_contacts = max_contacts
 
         self.set_ode_friction_params(
             mu=mu,
@@ -80,8 +86,8 @@ class Collision(object):
             fdir1=fdir1
         )
         self.set_bullet_friction_params(
-            friction=mu,
-            friction2=mu2,
+            friction=friction,
+            friction2=friction2,
             fdir1=fdir1,
             rolling_friction=rolling_friction
         )
@@ -103,6 +109,10 @@ class Collision(object):
             split_impulse_penetration_threshold=split_impulse_penetration_threshold
         )
 
+        self.set_bounce_params(
+            restitution_coefficient=restitution_coefficient,
+            threshold=threshold)                
+
     @property
     def sdf(self):
         return self._sdf_collision
@@ -120,8 +130,10 @@ class Collision(object):
         return self._sdf_collision.max_contacts.value
 
     @max_contacts.setter
-    def max_contacts(self, max_contacts):
+    def max_contacts(self, max_contacts):        
         self._sdf_collision.max_contacts = max_contacts
+        PCG_ROOT_LOGGER.info('Set max. contacts, collision={}, max_contacts={}'.format(
+            self.name, max_contacts))
 
     @property
     def pose(self):
@@ -201,27 +213,48 @@ class Collision(object):
         assert name in self._include_in_sdf, 'Invalid property name'
         return self._include_in_sdf[name]
 
-    def set_bounce_params(self, restitution_coefficient=0, threshold=1e5):
+    def get_bounce_param(self, tag):
+        assert tag in ['restitution_coefficient', 'threshold'], \
+            'Invalid bounce parameter name'
+        # try:
+        param = getattr(self.sdf.surface.bounce, tag).value
+        # except:
+        #     param = None
+        return param
+
+    def set_bounce_params(self, restitution_coefficient=None, threshold=None):
         try:
-            self._sdf_collision.surface.bounce.restitution_coefficient = \
-                restitution_coefficient
-            self._sdf_collision.surface.bounce.threshold = threshold
+            if restitution_coefficient is not None:
+                self.sdf.surface.bounce.restitution_coefficient = \
+                    restitution_coefficient
+            if threshold is not None:
+                self.sdf.surface.bounce.threshold = threshold
+
+            PCG_ROOT_LOGGER.info('Set bounce parameters, SDF={}'.format(
+                self.sdf.surface.bounce))
         except AssertionError as ex:
-            print('Error setting bounce parameters, '
+            PCG_ROOT_LOGGER.error('Error setting bounce parameters, '
                   'message={}'.format(ex))
             return False
 
-    def set_ode_friction_params(self, mu=1, mu2=1, slip1=0, slip2=0,
-                                fdir1=[0, 0, 0]):
+    def set_ode_friction_params(self, mu=None, mu2=None, slip1=None, slip2=None,
+        fdir1=None):
         try:
-            self._sdf_collision.surface.friction.ode.mu = mu
-            self._sdf_collision.surface.friction.ode.mu2 = mu2
-            self._sdf_collision.surface.friction.ode.slip1 = slip1
-            self._sdf_collision.surface.friction.ode.slip2 = slip2
-            self._sdf_collision.surface.friction.ode.fdir1 = fdir1
+            if mu is not None:
+                self.sdf.surface.friction.ode.mu = mu
+            if mu2 is not None:
+                self.sdf.surface.friction.ode.mu2 = mu2
+            if slip1 is not None:
+                self.sdf.surface.friction.ode.slip1 = slip1
+            if slip2 is not None:
+                self.sdf.surface.friction.ode.slip2 = slip2
+            if fdir1 is not None:
+                self.sdf.surface.friction.ode.fdir1 = fdir1
+            PCG_ROOT_LOGGER.info('Set ODE friction parameters, SDF={}'.format(
+                self.sdf.surface.friction.ode))
             return True
         except AssertionError as ex:
-            print('Error setting ODE friction parameters, '
+            PCG_ROOT_LOGGER.error('Error setting ODE friction parameters, '
                   'message={}'.format(ex))
             return False
 
@@ -229,23 +262,31 @@ class Collision(object):
         assert tag in ['mu', 'mu2', 'slip1', 'slip2', 'fdir1'], \
             'Invalid ODE friction parameter name'
         try:
-            param = getattr(self._sdf_collision.surface.friction.ode, tag).value
+            param = getattr(self.sdf.surface.friction.ode, tag).value
         except:
             param = None
         return param
 
-    def set_ode_contact_params(self, soft_cfm=0, soft_erp=0.2, kp=1e12, kd=1,
-                               max_vel=0.01, min_depth=0):
+    def set_ode_contact_params(self, soft_cfm=None, soft_erp=None, kp=None, kd=None,
+                               max_vel=None, min_depth=None):
         try:
-            self._sdf_collision.surface.contact.ode.soft_cfm = soft_cfm
-            self._sdf_collision.surface.contact.ode.soft_erp = soft_erp
-            self._sdf_collision.surface.contact.ode.kp = kp
-            self._sdf_collision.surface.contact.ode.kd = kd
-            self._sdf_collision.surface.contact.ode.max_vel = max_vel
-            self._sdf_collision.surface.contact.ode.min_depth = min_depth
+            if soft_cfm is not None:
+                self.sdf.surface.contact.ode.soft_cfm = soft_cfm
+            if soft_erp is not None:
+                self.sdf.surface.contact.ode.soft_erp = soft_erp
+            if kp is not None:
+                self.sdf.surface.contact.ode.kp = kp
+            if kd is not None:
+                self.sdf.surface.contact.ode.kd = kd
+            if max_vel is not None:
+                self.sdf.surface.contact.ode.max_vel = max_vel
+            if min_depth is not None:
+                self.sdf.surface.contact.ode.min_depth = min_depth
+            PCG_ROOT_LOGGER.info('Set ODE contact parameters, SDF={}'.format(
+                self.sdf.surface.contact.ode))
             return True
         except AssertionError as ex:
-            print('Error setting ODE contact parameters, '
+            PCG_ROOT_LOGGER.error('Error setting ODE contact parameters, '
                   'message={}'.format(ex))
             return False
 
@@ -253,41 +294,125 @@ class Collision(object):
         assert tag in ['soft_cfm', 'soft_erp', 'kp', 'kd', 'max_vel', 'min_depth'], \
             'Invalid ODE contact parameter name'
         try:
-            param = getattr(self._sdf_collision.surface.contact.ode, tag).value
+            param = getattr(self.sdf.surface.contact.ode, tag).value
         except:
             param = None
         return param
 
-    def set_bullet_friction_params(self, friction=1, friction2=1,
-                                   fdir1=[0, 0, 0], rolling_friction=1):
+    def set_bullet_friction_params(self, friction=None, friction2=None,
+                                   fdir1=None, rolling_friction=None):
         try:
-            self._sdf_collision.surface.friction.bullet.friction = friction
-            self._sdf_collision.surface.friction.bullet.friction2 = friction2
-            self._sdf_collision.surface.friction.bullet.fdir1 = fdir1
-            self._sdf_collision.surface.friction.bullet.rolling_friction = \
+            if friction is not None:
+                self.sdf.surface.friction.bullet.friction = friction
+            if friction2 is not None:
+                self.sdf.surface.friction.bullet.friction2 = friction2
+            if fdir1 is not None:
+                self.sdf.surface.friction.bullet.fdir1 = fdir1
+            if rolling_friction is not None:
+                self.sdf.surface.friction.bullet.rolling_friction = \
                 rolling_friction
+            PCG_ROOT_LOGGER.info('Set Bullet friction parameters, SDF={}'.format(
+                    self.sdf.surface.friction.bullet))
             return True
         except AssertionError as ex:
-            print('Error setting Bullet friction parameters, '
+            PCG_ROOT_LOGGER.error('Error setting Bullet friction parameters, '
                   'message={}'.format(ex))
             return False
 
-    def set_bullet_contact_params(self, soft_cfm=0, soft_erp=0.2, kp=1e12,
-                                  kd=1, split_impulse=1,
-                                  split_impulse_penetration_threshold=-0.01):
+    def get_bullet_friction_param(self, tag):
+        assert tag in ['friction', 'friction2', 'rolling_friction', 'fdir1'], \
+            'Invalid Bullet friction parameter name'
         try:
-            self._sdf_collision.surface.contact.bullet.soft_cfm = soft_cfm
-            self._sdf_collision.surface.contact.bullet.soft_erp = soft_erp
-            self._sdf_collision.surface.contact.bullet.kp = kp
-            self._sdf_collision.surface.contact.bullet.kd = kd
-            self._sdf_collision.surface.contact.bullet.split_impulse = split_impulse
-            self._sdf_collision.surface.contact.bullet.split_impulse_penetration_threshold = split_impulse_penetration_threshold
+            param = getattr(self.sdf.surface.friction.bullet, tag).value
+        except:
+            param = None
+        return param
+
+    def set_bullet_contact_params(self, soft_cfm=None, soft_erp=None, kp=None,
+                                  kd=None, split_impulse=None,
+                                  split_impulse_penetration_threshold=None):
+        try:
+            if soft_cfm is not None:            
+                self.sdf.surface.contact.bullet.soft_cfm = soft_cfm
+            if soft_erp is not None:
+                self.sdf.surface.contact.bullet.soft_erp = soft_erp
+            if kp is not None:
+                self.sdf.surface.contact.bullet.kp = kp
+            if kd is not None:
+                self.sdf.surface.contact.bullet.kd = kd
+            if split_impulse is not None:
+                self.sdf.surface.contact.bullet.split_impulse = split_impulse
+            if split_impulse_penetration_threshold is not None:
+                self.sdf.surface.contact.bullet.split_impulse_penetration_threshold = \
+                    split_impulse_penetration_threshold
+            PCG_ROOT_LOGGER.info('Set Bullet contact parameters, SDF={}'.format(
+                self.sdf.surface.contact.bullet))
             return True
         except AssertionError as ex:
-            print('Error setting Bullet contact parameters, '
+            PCG_ROOT_LOGGER.error('Error setting Bullet contact parameters, '
                   'message={}'.format(ex))
             return False
 
+    def get_bullet_contact_param(self, tag):
+        assert tag in ['soft_cfm', 'soft_erp', 'kp', 'kd', 'split_impulse', \
+            'split_impulse_penetration_threshold'], \
+                'Invalid ODE contact parameter name'
+        try:
+            param = getattr(self.sdf.surface.contact.bullet, tag).value
+        except:
+            param = None
+        return param
+
+    def set_physics(self, mu=None, mu2=None, friction=None, friction2=None, slip1=None,
+        slip2=None, rolling_friction=None, fdir1=None, max_contacts=None, soft_cfm=None,
+        soft_erp=None, kp=None, kd=None, max_vel=None, min_depth=None, split_impulse=None,
+        split_impulse_penetration_threshold=None, restitution_coefficient=None,
+        threshold=None, enable_friction=None, enable_bounce=None, enable_contact=None):
+        
+        PCG_ROOT_LOGGER.info('Setting collision physics parameters')
+
+        if max_contacts is not None:
+            self.max_contacts = max_contacts
+
+        self.set_ode_friction_params(
+            mu=mu,
+            mu2=mu2,
+            slip1=slip1,
+            slip2=slip2,
+            fdir1=fdir1
+        )
+        self.set_bullet_friction_params(
+            friction=friction,
+            friction2=friction2,
+            fdir1=fdir1,
+            rolling_friction=rolling_friction
+        )
+
+        self.set_ode_contact_params(
+            soft_cfm=soft_cfm,
+            soft_erp=soft_erp,
+            kp=kp,
+            kd=kd,
+            max_vel=max_vel,
+            min_depth=min_depth
+        )
+        self.set_bullet_contact_params(
+            soft_cfm=soft_cfm,
+            soft_erp=soft_erp,
+            kp=kp,
+            kd=kd,
+            split_impulse=split_impulse,
+            split_impulse_penetration_threshold=split_impulse_penetration_threshold
+        )
+
+        self.set_bounce_params(
+            restitution_coefficient=restitution_coefficient,
+            threshold=threshold)
+
+        self._include_in_sdf['friction'] = enable_friction
+        self._include_in_sdf['bounce'] = enable_bounce
+        self._include_in_sdf['contact'] = enable_contact
+        
     def to_sdf(self):
         collision = create_sdf_element('collision')
         collision.geometry = self._geometry.to_sdf()        
@@ -298,15 +423,15 @@ class Collision(object):
         if self.using_property('friction'):
             if collision.surface is None:
                 collision.surface = create_sdf_element('surface')
-            collision.surface.friction = self._sdf_collision.surface.friction
+            collision.surface.friction = self.sdf.surface.friction
         if self.using_property('bounce'):
             if collision.surface is None:
                 collision.surface = create_sdf_element('surface')
-            collision.surface.bounce = self._sdf_collision.surface.bounce
+            collision.surface.bounce = self.sdf.surface.bounce
         if self.using_property('contact'):
             if collision.surface is None:
                 collision.surface = create_sdf_element('surface')
-            collision.surface.contact = self._sdf_collision.surface.contact
+            collision.surface.contact = self.sdf.surface.contact
         return collision
 
     @staticmethod
@@ -321,9 +446,12 @@ class Collision(object):
 
         if sdf.surface is not None:
             collision._sdf_collision.surface = sdf.surface
-
-        if sdf.contact is not None:
-            collision._sdf_collision.contact = sdf.contact
+            if collision._sdf_collision.surface.friction is not None:
+                collision.enable_property('friction')
+            if collision._sdf_collision.surface.bounce is not None:
+                collision.enable_property('bounce')            
+            if collision._sdf_collision.surface.contact is not None:
+                collision.enable_property('contact')        
 
         collision._geometry = Geometry.from_sdf(sdf.geometry)
 

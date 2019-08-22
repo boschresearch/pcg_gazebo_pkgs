@@ -260,3 +260,12 @@ limitations under the License.
         </bullet>            
     </contact>
 {% endmacro %}
+
+{% macro bounce_properties(
+    restitution=0, 
+    threshold=0) %}
+    <bounce>
+        <restitution_coefficient>{{ restitution }}</restitution_coefficient>
+        <threshold>{{ threshold }}</threshold>
+    </bounce>
+{% endmacro %}

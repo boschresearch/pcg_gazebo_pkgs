@@ -198,11 +198,13 @@ class AssetsManager(_CollectionManager):
                             description, ex))
                         return False                    
                 elif sdf.xml_element_name == 'sdf':
-                    if len(sdf.models) == 1 and len(sdf.lights) == 0:
-                        return self.add(SimulationModel.from_sdf(sdf.models[0]), tag=tag)
-                    elif len(sdf.models) == 0 and len(sdf.lights) == 1:                                         
+                    models = list() if sdf.models is None else sdf.models
+                    lights = list() if sdf.lights is None else sdf.lights
+                    if len(models) == 1 and len(lights) == 0:
+                        return self.add(SimulationModel.from_sdf(models[0]), tag=tag)
+                    elif len(models) == 0 and len(lights) == 1:                                         
                         return self.add(Light.from_sdf(sdf.lights[0]), tag=tag)
-                    elif len(sdf.models) > 0 or len(sdf.lights) > 0:
+                    elif len(models) > 0 or len(lights) > 0:
                         return self.add(ModelGroup.from_sdf(sdf), tag=tag)
             else:
                 # The string must be otherwise an already existant

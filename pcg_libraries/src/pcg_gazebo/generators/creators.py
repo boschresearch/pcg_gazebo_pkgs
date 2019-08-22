@@ -56,10 +56,10 @@ def _parse_factory_input_as_vector(var):
             vars = eval(var)
             PCG_ROOT_LOGGER.info('Generated output, fcn={}, output={}'.format(var, vars))
         except Exception as ex:
-            PCG_ROOT_LOGGER.error(
-                'Error while evaluating variable lambda function'
-                ', fcn={}'.format(var))
-            return None
+            PCG_ROOT_LOGGER.warning(
+                'Could not evaluate variable lambda function, returning string'
+                ', input={}'.format(var))
+            return var
 
         if not isinstance(vars, collections.Iterable):
             if callable(vars):
@@ -72,11 +72,14 @@ def _parse_factory_input_as_vector(var):
             return vars
         PCG_ROOT_LOGGER.info(
             'Variable provided as lambda function={}'.format(var))
+    elif callable(var):
+        return var()
     else:
         return None
 
 
-def box(size, mass=0, name='box', pose=[0, 0, 0, 0, 0, 0], color=None):
+def box(size, mass=0, name='box', pose=[0, 0, 0, 0, 0, 0], color=None,
+    visual_parameters=dict(), collision_parameters=dict()):
     """Factory method that returns a box-shaped model with one cuboid link.
     
     > *Input arguments*
@@ -97,16 +100,29 @@ def box(size, mass=0, name='box', pose=[0, 0, 0, 0, 0, 0], color=None):
     """
     from ..simulation import Box
 
+    input_mass = _parse_factory_input_as_vector(mass)[0]
+    input_size = _parse_factory_input_as_vector(size)
+    input_pose = _parse_factory_input_as_vector(pose)
+
+    input_col_params = collision_parameters.copy()
+    for tag in collision_parameters:
+        if tag == 'fdir1':
+            input_col_params[tag] = _parse_factory_input_as_vector(collision_parameters[tag])
+        else:
+            input_col_params[tag] = _parse_factory_input_as_vector(collision_parameters[tag])[0]
+        
     model = SimulationModel(name=name)
     model.add_cuboid_link(
         link_name='link', 
-        mass=float(mass), 
-        size=size,
-        color=color)
+        mass=float(input_mass), 
+        size=input_size,
+        color=color,
+        visual_parameters=visual_parameters,
+        collision_parameters=input_col_params)
     if mass <= 0:
         model.static = True
     
-    model.pose = pose
+    model.pose = input_pose
     return model
 
 
@@ -115,7 +131,8 @@ def mesh(visual_mesh_filename, collision_mesh_filename=None,
     visual_mesh_scale=[1, 1, 1], collision_mesh_scale=[1, 1, 1], 
     name='mesh', pose=[0, 0, 0, 0, 0, 0], color=None, mass=0, 
     inertia=None, use_approximated_inertia=True, 
-    approximated_inertia_model='box'):        
+    approximated_inertia_model='box', visual_parameters=dict(),
+    collision_parameters=dict()):        
     """Create a model based on a mesh input. The options for visual and 
     collision meshes are:
 
@@ -173,23 +190,36 @@ def mesh(visual_mesh_filename, collision_mesh_filename=None,
 
     > *Returns*
     
-    A box-shaped `pcg_gazebo.simulation.SimulationModel` instance.
+    A `pcg_gazebo.simulation.SimulationModel` instance.
     """
+
+    input_mass = _parse_factory_input_as_vector(mass)[0]
+    input_visual_mesh_scale = _parse_factory_input_as_vector(visual_mesh_scale)
+    input_collision_mesh_scale = _parse_factory_input_as_vector(collision_mesh_scale)
+    input_pose = _parse_factory_input_as_vector(pose)
+
+    input_col_params = collision_parameters.copy()
+    for tag in collision_parameters:
+        if tag == 'fdir1':
+            input_col_params[tag] = _parse_factory_input_as_vector(collision_parameters[tag])
+        else:
+            input_col_params[tag] = _parse_factory_input_as_vector(collision_parameters[tag])[0]
+
     model = SimulationModel(name=name)
     model.add_link(
         visual_mesh_filename=visual_mesh_filename, 
         collision_mesh_filename=collision_mesh_filename, 
         use_approximated_collision=use_approximated_collision, 
         approximated_collision_model=approximated_collision_model,
-        visual_mesh_scale=visual_mesh_scale, 
-        collision_mesh_scale=collision_mesh_scale, 
+        visual_mesh_scale=input_visual_mesh_scale, 
+        collision_mesh_scale=input_collision_mesh_scale, 
         name=name, 
         color=color, 
-        mass=mass, 
+        mass=input_mass, 
         inertia=inertia, 
         use_approximated_inertia=use_approximated_inertia, 
         approximated_inertia_model=approximated_inertia_model)
-    model.pose = pose
+    model.pose = input_pose
               
     if mass <= 0:
         model.static = True
@@ -197,7 +227,7 @@ def mesh(visual_mesh_filename, collision_mesh_filename=None,
     return model
 
 def sphere(radius, mass=0, name='sphere', pose=[0, 0, 0, 0, 0, 0], 
-    color=None):
+    color=None, visual_parameters=dict(), collision_parameters=dict()):
     """Return a sphere-shaped simulation model.
     
     > *Input arguments*
@@ -216,21 +246,34 @@ def sphere(radius, mass=0, name='sphere', pose=[0, 0, 0, 0, 0, 0],
     A sphere-shaped `pcg_gazebo.simulation.SimulationModel` instance.
     """
     from ..simulation import Sphere
+    
+    input_mass = _parse_factory_input_as_vector(mass)[0]
+    input_radius = _parse_factory_input_as_vector(radius)[0]
+    input_pose = _parse_factory_input_as_vector(pose)
+
+    input_col_params = collision_parameters.copy()
+    for tag in collision_parameters:
+        if tag == 'fdir1':
+            input_col_params[tag] = _parse_factory_input_as_vector(collision_parameters[tag])
+        else:
+            input_col_params[tag] = _parse_factory_input_as_vector(collision_parameters[tag])[0]
 
     model = SimulationModel(name=name)
     model.add_spherical_link(
         link_name='link', 
-        mass=float(mass), 
-        radius=float(radius),
-        color=color)
+        mass=float(input_mass), 
+        radius=float(input_radius),
+        color=color,
+        visual_parameters=visual_parameters,
+        collision_parameters=input_col_params)
     if mass <= 0:
         model.static = True
-    model.pose = pose
+    model.pose = input_pose
     return model
 
 
 def cylinder(length, radius, mass=0, name='cylinder', pose=[0, 0, 0, 0, 0, 0], 
-    color=None):
+    color=None, visual_parameters=dict(), collision_parameters=dict()):
     """Return a cylinder-shaped simulation model with the rotation axis
     set per default as `[0, 0, 1]`.
     
@@ -252,16 +295,30 @@ def cylinder(length, radius, mass=0, name='cylinder', pose=[0, 0, 0, 0, 0, 0],
     """
     from ..simulation import Cylinder
 
+    input_mass = _parse_factory_input_as_vector(mass)[0]
+    input_length = _parse_factory_input_as_vector(length)[0]
+    input_radius = _parse_factory_input_as_vector(radius)[0]
+    input_pose = _parse_factory_input_as_vector(pose)
+
+    input_col_params = collision_parameters.copy()
+    for tag in collision_parameters:
+        if tag == 'fdir1':
+            input_col_params[tag] = _parse_factory_input_as_vector(collision_parameters[tag])
+        else:
+            input_col_params[tag] = _parse_factory_input_as_vector(collision_parameters[tag])[0]
+
     model = SimulationModel(name=name)
     model.add_cylindrical_link(
         link_name='link', 
-        mass=float(mass), 
-        radius=float(radius), 
-        length=float(length),
-        color=color)
+        mass=float(input_mass), 
+        radius=float(input_radius), 
+        length=float(input_length),
+        color=color,
+        visual_parameters=visual_parameters,
+        collision_parameters=input_col_params)
     if mass <= 0:
         model.static = True
-    model.pose = pose
+    model.pose = input_pose
     return model
 
 

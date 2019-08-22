@@ -13,18 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from __future__ import print_function
+import collections
 from copy import deepcopy
-from .properties import Pose, Inertial, Footprint, Plugin
+import numpy as np
+from math import pi
+from .properties import Pose, Inertial, Footprint, Plugin, \
+    Visual, Collision
 from .link import Link
 from .joint import Joint
 from .sensors import IMU, Ray, Contact, Camera
 from ..parsers.sdf import create_sdf_element, is_sdf_element
 from ..parsers import sdf2urdf
 from ..log import PCG_ROOT_LOGGER
-from geometry_msgs.msg import TransformStamped
-import collections
-import numpy as np
-from math import pi
 
 
 # FIXME: Add parsing of light sources and actors
@@ -233,12 +233,15 @@ class SimulationModel(object):
     def add_cuboid_link(self, link_name=None, joint_name=None, mass=0.001, 
         size=[0.001, 0.001, 0.001], add_visual=True, mesh_filename=None, 
         mesh_scale=[1, 1, 1], add_collision=True, parent=None, joint_type='fixed',
-        pose=[0, 0, 0, 0, 0, 0], color=None):        
+        pose=[0, 0, 0, 0, 0, 0], color=None, visual_parameters=dict(), 
+        collision_parameters=dict()):        
         assert isinstance(link_name, str), 'Link name must be a string'
         assert isinstance(size, collections.Iterable), 'Size must be an array'
         assert len(list(size)) == 3, 'Input size must have 3 elements'
+        assert isinstance(visual_parameters, dict), 'Visual geometry parameters must be a dict'
+        assert isinstance(collision_parameters, dict), 'Collision geometry parameters must be a dict'
 
-        self._logger.info('[{}] Adding cuboid link {}'.format(
+        self._logger.info('[{}] Creating cuboid link <{}>'.format(
             self.name, link_name))
         
         if joint_name is not None:
@@ -268,18 +271,28 @@ class SimulationModel(object):
         link.pose = pose
         self._logger.info('[{}] Link {} pose={}'.format(self.name, link_name, pose))
 
-        if add_visual:
-            link.enable_visual()
-            link.add_empty_visual(name='visual')
-            if mesh_filename is None:
-                link.get_visual_by_name('visual').set_box_as_geometry(size=size)
-                self._logger.info('[{}] Creating box visual geometry, size={}'.format(
+        if add_visual:            
+            visual_input = dict(
+                name='visual'
+            )
+            if mesh_filename is None:                
+                visual_input['geometry_type'] = 'box'
+                visual_input['geometry_args'] = dict(size=size)
+                self._logger.info('[{}] Adding box visual geometry, size={}'.format(
                     self.name, size))
             else:
-                link.get_visual_by_name('visual').set_mesh_as_geometry(
-                    uri=mesh_filename, scale=mesh_scale)
-                self._logger.info('[{}] Setting visual mesh to cuboid link {}, filename={}'.format(
-                    self.name, link_name, mesh_filename))
+                visual_input['geometry_type'] = 'mesh'
+                visual_input['geometry_args'] = dict(
+                    uri=mesh_filename,
+                    scale=mesh_scale
+                )
+                self._logger.info('[{}] Adding mesh visual geometry, uri={}, scale={}'.format(
+                    self.name, mesh_filename, mesh_scale))
+            
+            if len(visual_parameters):
+                visual_input.update(visual_parameters)
+
+            link.add_visual(Visual(**visual_input))            
 
             if color is not None:
                 if color == 'random':
@@ -306,9 +319,16 @@ class SimulationModel(object):
             link.disable_visual()
 
         if add_collision:
-            link.enable_collision()
-            link.add_empty_collision(name='collision')
-            link.get_collision_by_name('collision').set_box_as_geometry(size=size)
+            collision_input = dict(
+                name='collision',
+                geometry_type='box',
+                geometry_args=dict(size=size)
+            )
+
+            if len(collision_parameters) > 0:
+                collision_input.update(collision_parameters)
+
+            link.add_collision(Collision(**collision_input))
             self._logger.info('[{}] Adding box collision geometry, size={}'.format(
                 self.name, size))
 
@@ -325,11 +345,13 @@ class SimulationModel(object):
     def add_spherical_link(self, link_name=None, joint_name=None, mass=0.001,
         radius=0.001, add_visual=True, mesh_filename=None, mesh_scale=[1, 1, 1],
         add_collision=True, parent=None, joint_type='fixed', pose=[0, 0, 0, 0, 0, 0], 
-        color=None):
+        color=None, visual_parameters=dict(), collision_parameters=dict()):
         assert isinstance(link_name, str), 'Link name must be a string'
+        assert isinstance(visual_parameters, dict), 'Visual geometry parameters must be a dict'
+        assert isinstance(collision_parameters, dict), 'Collision geometry parameters must be a dict'
 
-        self._logger.info('Adding spherical link {} to model {}'.format(
-            link_name, self.name))
+        self._logger.info('[{}] Creating spherical link {}'.format(
+            self.name, link_name))
 
         if joint_name is not None:
             if not isinstance(joint_name, str):
@@ -353,12 +375,27 @@ class SimulationModel(object):
         link.pose = pose
 
         if add_visual:
-            link.enable_visual()
-            link.add_empty_visual(name='visual')
-            if mesh_filename is None:
-                link.get_visual_by_name('visual').set_sphere_as_geometry(radius=radius)
+            visual_input = dict(
+                name='visual'
+            )
+            if mesh_filename is None:                
+                visual_input['geometry_type'] = 'sphere'
+                visual_input['geometry_args'] = dict(radius=radius)
+                self._logger.info('[{}] Adding sphere visual geometry, radius={}'.format(
+                    self.name, radius))
             else:
-                link.get_visual_by_name('visual').set_mesh_as_geometry(uri=mesh_filename, scale=mesh_scale)
+                visual_input['geometry_type'] = 'mesh'
+                visual_input['geometry_args'] = dict(
+                    uri=mesh_filename,
+                    scale=mesh_scale
+                )
+                self._logger.info('[{}] Adding mesh visual geometry, uri={}, scale={}'.format(
+                    self.name, mesh_filename, mesh_scale))
+            
+            if len(visual_parameters):
+                visual_input.update(visual_parameters)
+
+            link.add_visual(Visual(**visual_input))        
 
             if color is not None:
                 if color == 'random':
@@ -373,9 +410,18 @@ class SimulationModel(object):
             link.disable_visual()
 
         if add_collision:
-            link.enable_collision()
-            link.add_empty_collision(name='collision')
-            link.get_collision_by_name('collision').set_sphere_as_geometry(radius=radius)
+            collision_input = dict(
+                name='collision',
+                geometry_type='sphere',
+                geometry_args=dict(radius=radius)
+            )
+
+            if len(collision_parameters) > 0:
+                collision_input.update(collision_parameters)
+
+            link.add_collision(Collision(**collision_input))
+            self._logger.info('[{}] Adding sphere collision geometry, size={}'.format(
+                self.name, radius))
 
         if parent is not None:            
             self.add_joint(name=joint_name, parent=parent, child=link_name, joint_type=joint_type)
@@ -389,8 +435,11 @@ class SimulationModel(object):
     def add_cylindrical_link(self, link_name=None, joint_name=None, mass=0.001,
         radius=0.001, length=0.001, add_visual=True, mesh_filename=None, 
         mesh_scale=[1, 1, 1], add_collision=True, parent=None, joint_type='fixed', 
-        pose=[0, 0, 0, 0, 0, 0], color=None):
+        pose=[0, 0, 0, 0, 0, 0], color=None, visual_parameters=dict(), 
+        collision_parameters=dict()):
         assert isinstance(link_name, str), 'Link name must be a string'
+        assert isinstance(visual_parameters, dict), 'Visual geometry parameters must be a dict'
+        assert isinstance(collision_parameters, dict), 'Collision geometry parameters must be a dict'
 
         self._logger.info('Adding cylindrical link {} to model {}'.format(
             link_name, self.name))
@@ -418,14 +467,29 @@ class SimulationModel(object):
         link.pose = pose
 
         if add_visual:
-            link.enable_visual()
-            link.add_empty_visual(name='visual')
-            if mesh_filename is None:
-                link.get_visual_by_name('visual').set_cylinder_as_geometry(
-                    radius=radius, length=length)
+            visual_input = dict(
+                name='visual'
+            )
+            if mesh_filename is None:                
+                visual_input['geometry_type'] = 'cylinder'
+                visual_input['geometry_args'] = dict(
+                    radius=radius,
+                    length=length)
+                self._logger.info('[{}] Adding cylinder visual geometry, radius={}, length={}'.format(
+                    self.name, radius, length))
             else:
-                link.get_visual_by_name('visual').set_mesh_as_geometry(
-                    uri=mesh_filename, scale=mesh_scale)
+                visual_input['geometry_type'] = 'mesh'
+                visual_input['geometry_args'] = dict(
+                    uri=mesh_filename,
+                    scale=mesh_scale
+                )
+                self._logger.info('[{}] Adding mesh visual geometry, uri={}, scale={}'.format(
+                    self.name, mesh_filename, mesh_scale))
+            
+            if len(visual_parameters):
+                visual_input.update(visual_parameters)
+
+            link.add_visual(Visual(**visual_input))          
 
             if color is not None:
                 if color == 'random':
@@ -440,10 +504,20 @@ class SimulationModel(object):
             link.disable_visual()
 
         if add_collision:
-            link.enable_collision()
-            link.add_empty_collision(name='collision')
-            link.get_collision_by_name('collision').set_cylinder_as_geometry(
-                    radius=radius, length=length)
+            collision_input = dict(
+                name='collision',
+                geometry_type='cylinder',
+                geometry_args=dict(
+                    radius=radius,
+                    length=length)
+            )
+
+            if len(collision_parameters) > 0:
+                collision_input.update(collision_parameters)
+
+            link.add_collision(Collision(**collision_input))
+            self._logger.info('[{}] Adding cylinder collision geometry, radius={}, length={}'.format(
+                self.name, radius, length))
 
         if parent is not None:            
             self.add_joint(name=joint_name, parent=parent, child=link_name, joint_type=joint_type)
@@ -460,7 +534,8 @@ class SimulationModel(object):
         approximated_collision_model='box', visual_mesh_scale=[1, 1, 1], 
         collision_mesh_scale=[1, 1, 1], pose=[0, 0, 0, 0, 0, 0], 
         color=None, mass=0, inertia=None, use_approximated_inertia=True, 
-        approximated_inertia_model='box'):
+        approximated_inertia_model='box', visual_parameters=dict(), 
+        collision_parameters=dict()):
         if name in self.links:
             self._logger.error('Link with name {} already exists'.format(name))
             return False
@@ -485,13 +560,16 @@ class SimulationModel(object):
                     mass=mass, 
                     inertia=inertia, 
                     use_approximated_inertia=use_approximated_inertia, 
-                    approximated_inertia_model=approximated_inertia_model)
+                    approximated_inertia_model=approximated_inertia_model,
+                    visual_parameters=visual_parameters,
+                    collision_parameters=collision_parameters)
         else:
             assert isinstance(link, Link), \
                 'Input link is not a valid simulation object, provided={}'.format(link)
             self._logger.info('Link structure already provided')
             link.name = name
         self._links[name] = link
+        PCG_ROOT_LOGGER.info('[{}] Add link <{}>'.format(self.name, name))
         # If this model was a Gazebo model and it has been modified, it should not be
         # set as a Gazebo model in order to avoid errors when using <include> blocks
         self.is_gazebo_model = False
@@ -985,6 +1063,7 @@ class SimulationModel(object):
         return sdf2urdf(model_sdf)
 
     def get_tf_transforms(self):
+        from geometry_msgs.msg import TransformStamped
         tfs = list()
 
         # Set frame IDs and timestamp
