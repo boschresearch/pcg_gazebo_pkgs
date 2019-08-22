@@ -93,6 +93,7 @@ class TestParseSDF(unittest.TestCase):
                 value = random.choice([True, False])
             sdf_str = '<{}>{}</{}>'.format(name, int(value), name)
             expected_sdf = create_sdf_element(name)
+            self.assertIsNone(expected_sdf, '{} returned None'.format(name))
             expected_sdf.value = value
             return sdf_str, expected_sdf
 
