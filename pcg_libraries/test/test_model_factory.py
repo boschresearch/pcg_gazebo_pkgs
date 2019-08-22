@@ -71,7 +71,8 @@ class TestModelFactory(unittest.TestCase):
                             restitution_coefficient=random.uniform(0, 1),
                             threshold=random.uniform(0, 1),
                             enable_friction=True,
-                            enable_contact=True
+                            enable_contact=True,
+                            enable_bounce=True
                         )
                     ))
                 ]
@@ -126,6 +127,7 @@ class TestModelFactory(unittest.TestCase):
                     model_config[0]['args']['collision_parameters'][tag])
 
             tags = ['restitution_coefficient', 'threshold']
+            print(collision.sdf)
             for tag in tags:
                 self.assertEqual(
                     collision.get_bounce_param(tag),
@@ -181,7 +183,8 @@ class TestModelFactory(unittest.TestCase):
                             restitution_coefficient=random.uniform(0, 1),
                             threshold=random.uniform(0, 1),
                             enable_friction=True,
-                            enable_contact=True
+                            enable_contact=True,
+                            enable_bounce=True
                         )
                     ))
                 ]
@@ -540,7 +543,8 @@ class TestModelFactory(unittest.TestCase):
                             restitution_coefficient=random.uniform(0, 1),
                             threshold=random.uniform(0, 1),
                             enable_friction=True,
-                            enable_contact=True
+                            enable_contact=True,
+                            enable_bounce=True
                         )
                     ))
                 ]
@@ -654,7 +658,8 @@ class TestModelFactory(unittest.TestCase):
                             restitution_coefficient=random.uniform(0, 1),
                             threshold=random.uniform(0, 1),
                             enable_friction=True,
-                            enable_contact=True
+                            enable_contact=True,
+                            enable_bounce=True
                         )
                     ))
                 ]
@@ -1032,7 +1037,8 @@ class TestModelFactory(unittest.TestCase):
                             restitution_coefficient=random.uniform(0, 1),
                             threshold=random.uniform(0, 1),
                             enable_friction=True,
-                            enable_contact=True
+                            enable_contact=True,
+                            enable_bounce=True
                         )
                     ))
                 ]
@@ -1142,7 +1148,8 @@ class TestModelFactory(unittest.TestCase):
                             restitution_coefficient=random.uniform(0, 1),
                             threshold=random.uniform(0, 1),
                             enable_friction=True,
-                            enable_contact=True
+                            enable_contact=True,
+                            enable_bounce=True
                         )
                     ))
                 ]
