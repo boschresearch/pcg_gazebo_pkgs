@@ -61,12 +61,16 @@ def _parse_factory_input_as_vector(var):
                 ', input={}'.format(var))
             return var
 
-        if not isinstance(vars, collections.Iterable):
+        if isinstance(vars, float) or isinstance(vars, int):
+            PCG_ROOT_LOGGER.info('Variable provided as scalar={}'.format(
+                var))
+            return np.array([vars])
+        elif not isinstance(vars, collections.Iterable):
             if callable(vars):
                 vars = vars()
             else:
                 PCG_ROOT_LOGGER.error(
-                    'No vector returned after evaluating lambda function, fcn={}'.format(var))
+                    'No value returned after evaluating lambda function, fcn={}'.format(var))
                 return None
         else:
             return vars
