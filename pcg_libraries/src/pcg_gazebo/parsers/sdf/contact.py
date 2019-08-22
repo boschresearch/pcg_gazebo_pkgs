@@ -26,6 +26,9 @@ from .override_stiction_transition_velocity import OverrideStictionTransitionVel
 from .ode import ODE
 from .bullet import Bullet
 from .topic import Topic
+from .collide_bitmask import CollideBitmask
+from .collide_without_contact import CollideWithoutContact
+from .collide_without_contact_bitmask import CollideWithoutContactBitmask
 
 
 class ContactCollisionName(XMLString):
@@ -53,7 +56,10 @@ class Contact(XMLBase):
         ode=dict(creator=ODE, default=['contact'], optional=True, mode='collision'),
         bullet=dict(creator=Bullet, default=['contact'], optional=True, mode='collision'),
         collision=dict(creator=ContactCollisionName, mode='sensor'),
-        topic=dict(creator=Topic, default=['__default_topic__'], mode='sensor')
+        topic=dict(creator=Topic, default=['__default_topic__'], mode='sensor'),
+        collide_bitmask=dict(creator=CollideBitmask, default=[65535], optional=True, mode='collision'),
+        collide_without_contact=dict(creator=CollideWithoutContact, default=[False], optional=True, mode='collision'),
+        collide_without_contact_bitmask=dict(creator=CollideWithoutContactBitmask, default=[True], optional=True, mode='collision')
     )
 
     _MODES = ['simbody', 'collision', 'sensor']
@@ -191,3 +197,33 @@ class Contact(XMLBase):
         if self._mode != 'sensor':
             self.reset(mode='sensor')
         self._add_child_element('topic', value)
+
+    @property
+    def collide_bitmask(self):
+        return self._get_child_element('collide_bitmask')
+
+    @collide_bitmask.setter
+    def collide_bitmask(self, value):
+        if self._mode != 'collision':
+            self.reset(mode='collision')
+        self._add_child_element('collide_bitmask', value)
+
+    @property
+    def collide_without_contact(self):
+        return self._get_child_element('collide_without_contact')
+    
+    @collide_without_contact.setter
+    def collide_without_contact(self, value):        
+        if self._mode != 'collision':
+            self.reset(mode='collision')
+        self._add_child_element('collide_without_contact', value)
+
+    @property
+    def collide_without_contact_bitmask(self):
+        return self._get_child_element('collide_without_contact_bitmask')
+    
+    @collide_without_contact_bitmask.setter
+    def collide_without_contact_bitmask(self, value):
+        if self._mode != 'collision':
+            self.reset(mode='collision')        
+        self._add_child_element('collide_without_contact_bitmask', value)
