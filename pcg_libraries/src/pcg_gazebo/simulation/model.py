@@ -241,7 +241,7 @@ class SimulationModel(object):
         assert isinstance(visual_parameters, dict), 'Visual geometry parameters must be a dict'
         assert isinstance(collision_parameters, dict), 'Collision geometry parameters must be a dict'
 
-        self._logger.info('[{}] Adding cuboid link {}'.format(
+        self._logger.info('[{}] Creating cuboid link <{}>'.format(
             self.name, link_name))
         
         if joint_name is not None:
@@ -350,8 +350,8 @@ class SimulationModel(object):
         assert isinstance(visual_parameters, dict), 'Visual geometry parameters must be a dict'
         assert isinstance(collision_parameters, dict), 'Collision geometry parameters must be a dict'
 
-        self._logger.info('Adding spherical link {} to model {}'.format(
-            link_name, self.name))
+        self._logger.info('[{}] Creating spherical link {}'.format(
+            self.name, link_name))
 
         if joint_name is not None:
             if not isinstance(joint_name, str):
@@ -396,13 +396,6 @@ class SimulationModel(object):
                 visual_input.update(visual_parameters)
 
             link.add_visual(Visual(**visual_input))        
-
-            link.enable_visual()
-            link.add_empty_visual(name='visual')
-            if mesh_filename is None:
-                link.get_visual_by_name('visual').set_sphere_as_geometry(radius=radius)
-            else:
-                link.get_visual_by_name('visual').set_mesh_as_geometry(uri=mesh_filename, scale=mesh_scale)
 
             if color is not None:
                 if color == 'random':
@@ -498,15 +491,6 @@ class SimulationModel(object):
 
             link.add_visual(Visual(**visual_input))          
 
-            link.enable_visual()
-            link.add_empty_visual(name='visual')
-            if mesh_filename is None:
-                link.get_visual_by_name('visual').set_cylinder_as_geometry(
-                    radius=radius, length=length)
-            else:
-                link.get_visual_by_name('visual').set_mesh_as_geometry(
-                    uri=mesh_filename, scale=mesh_scale)
-
             if color is not None:
                 if color == 'random':
                     link.get_visual_by_name('visual').set_color()
@@ -585,6 +569,7 @@ class SimulationModel(object):
             self._logger.info('Link structure already provided')
             link.name = name
         self._links[name] = link
+        PCG_ROOT_LOGGER.info('[{}] Add link <{}>'.format(self.name, name))
         # If this model was a Gazebo model and it has been modified, it should not be
         # set as a Gazebo model in order to avoid errors when using <include> blocks
         self.is_gazebo_model = False
