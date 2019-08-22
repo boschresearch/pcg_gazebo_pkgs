@@ -44,6 +44,8 @@ from .cfm import CFM
 from .child import Child
 from .clip import Clip
 from .coefficient import Coefficient
+from .collide_bitmask import CollideBitmask
+from .collide_without_contact import CollideWithoutContact
 from .collision import Collision
 from .constant import Constant
 from .constraints import Constraints
