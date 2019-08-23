@@ -45,18 +45,21 @@ class Collision(object):
         split_impulse_penetration_threshold=None, 
         restitution_coefficient=None,
         threshold=None,
-        enable_friction=False,
-        enable_bounce=False,
-        enable_contact=False):
+        collide_bitmask=None,
+        collide_without_contact=None,
+        collide_without_contact_bitmask=None,
+        category_bitmask=None,
+        poissons_ratio=None,
+        elastic_modulus=None):
 
         self._sdf_collision = create_sdf_element('collision')
         self._sdf_collision.reset(with_optional_elements=True)        
         self._include_in_sdf = dict(
             max_contacts=True,
             pose=True,
-            friction=enable_friction,
-            bounce=enable_bounce,
-            contact=enable_contact
+            friction=False,
+            bounce=False,
+            contact=False
         )
         self._geometry = Geometry()
         self._pose = Pose()
@@ -112,6 +115,14 @@ class Collision(object):
         self.set_bounce_params(
             restitution_coefficient=restitution_coefficient,
             threshold=threshold)                
+        
+        self.set_contact_params(
+            collide_bitmask=collide_bitmask,
+            collide_without_contact=collide_without_contact,
+            collide_without_contact_bitmask=collide_without_contact_bitmask,
+            category_bitmask=category_bitmask,
+            poissons_ratio=poissons_ratio,
+            elastic_modulus=elastic_modulus)
 
     @property
     def sdf(self):
@@ -213,25 +224,60 @@ class Collision(object):
         assert name in self._include_in_sdf, 'Invalid property name'
         return self._include_in_sdf[name]
 
+    def set_contact_params(self, collide_bitmask, collide_without_contact,
+        collide_without_contact_bitmask, category_bitmask, poissons_ratio,
+        elastic_modulus, ode_parameters=None, bullet_parameters=None):
+        try:
+            if collide_bitmask is not None:
+                self.sdf.surface.contact.collide_bitmask = collide_bitmask
+            if collide_without_contact is not None:
+                self.sdf.surface.contact.collide_without_contact = collide_without_contact
+            if collide_without_contact_bitmask is not None:
+                self.sdf.surface.contact.collide_without_contact_bitmask = \
+                    collide_without_contact_bitmask
+            if category_bitmask is not None:
+                self.sdf.surface.contact.category_bitmask = category_bitmask
+            if poissons_ratio is not None:
+                self.sdf.surface.contact.poissons_ratio = poissons_ratio
+            if elastic_modulus is not None:
+                self.sdf.surface.contact.elastic_modulus = elastic_modulus
+            if ode_parameters is not None and isinstance(ode_parameters, dict):
+                if not self.set_ode_contact_params(**ode_parameters):
+                    return False
+            if bullet_parameters is not None and isinstance(bullet_parameters, dict):
+                if not self.set_bullet_contact_params(**bullet_parameters):
+                    return False
+            if any(x is not None for x in [collide_bitmask, collide_without_contact,
+                collide_without_contact_bitmask, category_bitmask, poissons_ratio,
+                elastic_modulus, ode_parameters, bullet_parameters]):
+                self.enable_property('contact')
+            return True
+        except AssertionError as ex:
+            PCG_ROOT_LOGGER.error('Error setting bounce parameters, '
+                  'message={}'.format(ex))
+            return False
+
     def get_bounce_param(self, tag):
         assert tag in ['restitution_coefficient', 'threshold'], \
             'Invalid bounce parameter name'
-        # try:
-        param = getattr(self.sdf.surface.bounce, tag).value
-        # except:
-        #     param = None
+        try:
+            param = getattr(self.sdf.surface.bounce, tag).value
+        except:
+            param = None
         return param
 
     def set_bounce_params(self, restitution_coefficient=None, threshold=None):
-        try:
-            if restitution_coefficient is not None:
+        try:            
+            if restitution_coefficient is not None:                
                 self.sdf.surface.bounce.restitution_coefficient = \
                     restitution_coefficient
             if threshold is not None:
                 self.sdf.surface.bounce.threshold = threshold
-
+            if any(x is not None for x in [restitution_coefficient, threshold]):
+                self.enable_property('bounce')
             PCG_ROOT_LOGGER.info('Set bounce parameters, SDF={}'.format(
                 self.sdf.surface.bounce))
+            return True
         except AssertionError as ex:
             PCG_ROOT_LOGGER.error('Error setting bounce parameters, '
                   'message={}'.format(ex))
@@ -239,8 +285,8 @@ class Collision(object):
 
     def set_ode_friction_params(self, mu=None, mu2=None, slip1=None, slip2=None,
         fdir1=None):
-        try:
-            if mu is not None:
+        try:            
+            if mu is not None:                
                 self.sdf.surface.friction.ode.mu = mu
             if mu2 is not None:
                 self.sdf.surface.friction.ode.mu2 = mu2
@@ -250,6 +296,8 @@ class Collision(object):
                 self.sdf.surface.friction.ode.slip2 = slip2
             if fdir1 is not None:
                 self.sdf.surface.friction.ode.fdir1 = fdir1
+            if any(x is not None for x in [mu, mu2, slip1, slip2, fdir1]):
+                self.enable_property('friction')
             PCG_ROOT_LOGGER.info('Set ODE friction parameters, SDF={}'.format(
                 self.sdf.surface.friction.ode))
             return True
@@ -269,7 +317,7 @@ class Collision(object):
 
     def set_ode_contact_params(self, soft_cfm=None, soft_erp=None, kp=None, kd=None,
                                max_vel=None, min_depth=None):
-        try:
+        try:            
             if soft_cfm is not None:
                 self.sdf.surface.contact.ode.soft_cfm = soft_cfm
             if soft_erp is not None:
@@ -282,6 +330,9 @@ class Collision(object):
                 self.sdf.surface.contact.ode.max_vel = max_vel
             if min_depth is not None:
                 self.sdf.surface.contact.ode.min_depth = min_depth
+            if any(x is not None for x in [soft_cfm, soft_erp, kp, kd, max_vel, 
+                min_depth]):
+                self.enable_property('contact')
             PCG_ROOT_LOGGER.info('Set ODE contact parameters, SDF={}'.format(
                 self.sdf.surface.contact.ode))
             return True
@@ -301,7 +352,7 @@ class Collision(object):
 
     def set_bullet_friction_params(self, friction=None, friction2=None,
                                    fdir1=None, rolling_friction=None):
-        try:
+        try:            
             if friction is not None:
                 self.sdf.surface.friction.bullet.friction = friction
             if friction2 is not None:
@@ -311,6 +362,8 @@ class Collision(object):
             if rolling_friction is not None:
                 self.sdf.surface.friction.bullet.rolling_friction = \
                 rolling_friction
+            if any(x is not None for x in [friction, friction2, fdir1, rolling_friction]):
+                self.enable_property('friction')
             PCG_ROOT_LOGGER.info('Set Bullet friction parameters, SDF={}'.format(
                     self.sdf.surface.friction.bullet))
             return True
@@ -331,7 +384,7 @@ class Collision(object):
     def set_bullet_contact_params(self, soft_cfm=None, soft_erp=None, kp=None,
                                   kd=None, split_impulse=None,
                                   split_impulse_penetration_threshold=None):
-        try:
+        try:            
             if soft_cfm is not None:            
                 self.sdf.surface.contact.bullet.soft_cfm = soft_cfm
             if soft_erp is not None:
@@ -345,6 +398,9 @@ class Collision(object):
             if split_impulse_penetration_threshold is not None:
                 self.sdf.surface.contact.bullet.split_impulse_penetration_threshold = \
                     split_impulse_penetration_threshold
+            if any(x is not None for x in [soft_cfm, soft_erp, kp, kd, split_impulse, 
+                split_impulse_penetration_threshold]):
+                self.enable_property('contact')
             PCG_ROOT_LOGGER.info('Set Bullet contact parameters, SDF={}'.format(
                 self.sdf.surface.contact.bullet))
             return True
@@ -367,7 +423,9 @@ class Collision(object):
         slip2=None, rolling_friction=None, fdir1=None, max_contacts=None, soft_cfm=None,
         soft_erp=None, kp=None, kd=None, max_vel=None, min_depth=None, split_impulse=None,
         split_impulse_penetration_threshold=None, restitution_coefficient=None,
-        threshold=None, enable_friction=None, enable_bounce=None, enable_contact=None):
+        threshold=None, collide_bitmask=None, collide_without_contact=None,
+        collide_without_contact_bitmask=None, category_bitmask=None, poissons_ratio=None,
+        elastic_modulus=None):
         
         PCG_ROOT_LOGGER.info('Setting collision physics parameters')
 
@@ -408,10 +466,14 @@ class Collision(object):
         self.set_bounce_params(
             restitution_coefficient=restitution_coefficient,
             threshold=threshold)
-
-        self._include_in_sdf['friction'] = enable_friction
-        self._include_in_sdf['bounce'] = enable_bounce
-        self._include_in_sdf['contact'] = enable_contact
+            
+        self.set_contact_params(
+            collide_bitmask=collide_bitmask,
+            collide_without_contact=collide_without_contact,
+            collide_without_contact_bitmask=collide_without_contact_bitmask,
+            category_bitmask=category_bitmask,
+            poissons_ratio=poissons_ratio,
+            elastic_modulus=elastic_modulus)
         
     def to_sdf(self):
         collision = create_sdf_element('collision')
