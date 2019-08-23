@@ -12,8 +12,6 @@ assets:
         mass: "__import__('numpy').random.random()"
         color: xkcd
         collision_parameters:
-          enable_bounce: true
-          enable_contact: true
           restitution_coefficient: 1
           threshold: 0
           max_vel: 10
