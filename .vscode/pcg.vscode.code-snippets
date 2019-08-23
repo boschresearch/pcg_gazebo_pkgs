@@ -280,11 +280,11 @@
 			"\t_NAME = 'sdf_element'",
 			"\t_TYPE = 'sdf'",
 			"",
-			"def __init__(self, default=0):",
-			"\tXMLScalar.__init__(self, default)",
+			"\tdef __init__(self, default=0):",
+			"\t\tXMLScalar.__init__(self, default)",
 			"",
-			"def _set_value(self, value):",
-			"\tXMLScalar._set_value(self, value)"
+			"\tdef _set_value(self, value):",
+			"\t\tXMLScalar._set_value(self, value)"
 		]
 	},
 
