@@ -24,6 +24,5 @@ class MaxContacts(XMLInteger):
         XMLInteger.__init__(self, default)
 
     def _set_value(self, value):
-        assert isinstance(value, int)
-        assert value > 0
+        assert value > 0, 'Max. contacts must be greater than zero'
         XMLInteger._set_value(self, value)
