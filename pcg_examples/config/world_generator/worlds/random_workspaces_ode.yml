@@ -43,7 +43,7 @@ engines:
   models:
   - ball
   max_num:
-    ball: 4
+    ball: 15
   model_picker: random
   no_collision: true
   policies:
@@ -63,7 +63,7 @@ engines:
   models:
   - cuboid
   max_num:
-    cuboid: 4
+    cuboid: 15
   model_picker: random
   no_collision: true
   policies:
@@ -93,7 +93,7 @@ engines:
   models:
   - cylinder
   max_num:
-    cylinder: 4
+    cylinder: 15
   model_picker: random
   no_collision: true
   policies:
@@ -106,49 +106,58 @@ engines:
       policy:
         name: workspace
         args: cylinders
+    - dofs:
+      - roll
+      - pitch      
+      policy:
+        name: uniform
+        args:
+          mean: 0
+          min: -3.141592653589793
+          max: 3.141592653589793
   constraints:
   - model: cylinder
     constraint: tangent_to_ground_plane
-# - engine_name: random_pose
-#   models:
-#   - cylinder
-#   - cuboid
-#   - ball
-#   max_num:
-#     cylinder: 2
-#     cuboid: 2
-#     ball: 2
-#   model_picker: random
-#   no_collision: true
-#   policies:
-#   - models:
-#     - cylinder
-#     - cuboid
-#     - ball
-#     config:
-#     - dofs:
-#       - x
-#       - y
-#       policy:
-#         name: workspace
-#         args: mixed
-#     - dofs:
-#       - roll
-#       - pitch
-#       - yaw
-#       policy:
-#         name: uniform
-#         args:
-#           mean: 0
-#           min: -3.141592653589793
-#           max: 3.141592653589793
-#   constraints:
-#   - model: cylinder
-#     constraint: tangent_to_ground_plane
-#   - model: cuboid
-#     constraint: tangent_to_ground_plane
-#   - model: ball
-#     constraint: tangent_to_ground_plane
+- engine_name: random_pose
+  models:
+  - cylinder
+  - cuboid
+  - ball
+  max_num:
+    cylinder: 4
+    cuboid: 4
+    ball: 4
+  model_picker: random
+  no_collision: true
+  policies:
+  - models:
+    - cylinder
+    - cuboid
+    - ball
+    config:
+    - dofs:
+      - x
+      - y
+      policy:
+        name: workspace
+        args: mixed
+    - dofs:
+      - roll
+      - pitch
+      - yaw
+      policy:
+        name: uniform
+        args:
+          mean: 0
+          min: -3.141592653589793
+          max: 3.141592653589793
+  constraints:
+  - model: cylinder
+    constraint: tangent_to_ground_plane
+  - model: cuboid
+    constraint: tangent_to_ground_plane
+  - model: ball
+    constraint: tangent_to_ground_plane
 physics: !find pcg_examples/config/world_generator/physics/default_ode.yml
 constraints:
 - name: cylinders
@@ -184,17 +193,17 @@ constraints:
       - [-5, 15, 0]
       - [5, 15, 0]
       - [5, 5, 0]
-# - name: mixed
-#   type: workspace
-#   frame: world
-#   geometry: 
-#     type: area
-#     description:
-#       points: 
-#       - [-5, -5, 0]
-#       - [-5, 5, 0]
-#       - [5, 5, 0]
-#       - [5, -5, 0]
+- name: mixed
+  type: workspace
+  frame: world
+  geometry: 
+    type: area
+    description:
+      points: 
+      - [-5, -5, 0]
+      - [-5, 5, 0]
+      - [5, 5, 0]
+      - [5, -5, 0]
 - name: tangent_to_ground_plane
   type: tangent
   frame: world
