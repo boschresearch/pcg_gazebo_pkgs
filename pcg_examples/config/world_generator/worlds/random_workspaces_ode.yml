@@ -56,9 +56,12 @@ engines:
       policy:
         name: workspace
         args: spheres
-  constraints:
-  - model: ball
-    constraint: tangent_to_ground_plane
+    - dofs:
+      - z
+      policy:
+        name: choice
+        args:
+          values: [1, 2, 4]  
 - engine_name: random_pose
   models:
   - cuboid
