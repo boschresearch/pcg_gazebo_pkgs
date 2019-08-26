@@ -27,10 +27,7 @@ class Engine(object):
     This class includes methods common to all derived engine classes.
     
     > *Input arguments*
-    
-    * `callback_fcn_get_model` (*type:* `callable`): Handle to a function
-    or a lambda function that returns a `pcg_gazebo.simulation.SimulationModel` 
-    associated with a tag name.
+        
     * `callback_fcn_get_constraint` (*type:* `callable`, *default:* `None`): 
     Handle to a function or a lambda function that returns a 
     `pcg_gazebo.constraints.Constraint` associated with a tag name.
@@ -42,11 +39,8 @@ class Engine(object):
     _LABEL = None
 
 
-    def __init__(self, callback_fcn_get_model, callback_fcn_get_constraint=None, 
+    def __init__(self, assets_manager, callback_fcn_get_constraint=None, 
         models=None, constraints=None, collision_checker=None):
-        assert callable(callback_fcn_get_model), \
-            'Invalid callback function to retrieve model, received={}'.format(
-                callback_fcn_get_model)
         if callback_fcn_get_constraint is not None:
             assert callable(callback_fcn_get_constraint), \
                 'Invalid callback function to retrieve constraints, ' \
@@ -80,7 +74,7 @@ class Engine(object):
             self._collision_checker = SingletonCollisionChecker.get_instance(
                 ignore_ground_plane=True)
            
-        self._callback_fcn_get_model = callback_fcn_get_model
+        self._assets_manager = assets_manager
         self._callback_fcn_get_constraint = callback_fcn_get_constraint
 
     def __str__(self):
@@ -195,7 +189,7 @@ class Engine(object):
         if name not in self._models:
             return None
 
-        model = self._callback_fcn_get_model(name)        
+        model = self._assets_manager.get(name)        
         if model is None:
             self._logger.error('Model <{}> is not a valid asset'.format(name))
             return None        
