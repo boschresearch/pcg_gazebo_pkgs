@@ -23,12 +23,12 @@ class PatternEngine(Engine):
 
     _MODES = ['rectangular', 'circular', 'cuboid']
 
-    def __init__(self, callback_fcn_get_model, callback_fcn_get_constraint=None,
+    def __init__(self, assets_manager, callback_fcn_get_constraint=None,
         models=None, poses=None, constraints=None, pose=[0, 0, 0, 0, 0, 0],
         mode=None, args=None, collision_checker=None):                
         Engine.__init__(
             self, 
-            callback_fcn_get_model=callback_fcn_get_model,
+            assets_manager=assets_manager,
             callback_fcn_get_constraint=callback_fcn_get_constraint,
             models=models,
             constraints=constraints,

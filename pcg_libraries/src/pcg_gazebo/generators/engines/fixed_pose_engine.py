@@ -20,9 +20,6 @@ class FixedPoseEngine(Engine):
     """Engine that just places models on pre-configured fixed poses. This
     engine only accepts one model asset.
 
-    * `callback_fcn_get_model` (*type:* `callable`): Handle to a function
-    or a lambda function that returns a `pcg_gazebo.simulation.SimulationModel` 
-    associated with a tag name.
     * `callback_fcn_get_constraint` (*type:* `callable`, *default:* `None`): 
     Handle to a function or a lambda function that returns a 
     `pcg_gazebo.constraints.Constraint` associated with a tag name.
@@ -35,11 +32,11 @@ class FixedPoseEngine(Engine):
     """
     _LABEL = 'fixed_pose'
 
-    def __init__(self, callback_fcn_get_model, callback_fcn_get_constraint=None,
+    def __init__(self, assets_manager, callback_fcn_get_constraint=None,
         models=None, poses=None, constraints=None, collision_checker=None):                
         Engine.__init__(
             self, 
-            callback_fcn_get_model=callback_fcn_get_model,
+            assets_manager=assets_manager,
             callback_fcn_get_constraint=callback_fcn_get_constraint,
             models=models,
             constraints=constraints,
