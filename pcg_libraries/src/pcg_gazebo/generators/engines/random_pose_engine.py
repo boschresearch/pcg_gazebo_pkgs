@@ -31,9 +31,7 @@ class RandomPoseEngine(Engine):
     
     > *Input arguments*
     
-    * `callback_fcn_get_model` (*type:* `callable`): Handle to a function
-    or a lambda function that returns a `pcg_gazebo.simulation.SimulationModel` 
-    associated with a tag name.
+    * `assets_manager` (*type:* `pcg_gazebo.generators.AssetsManager`)
     * `callback_fcn_get_constraint` (*type:* `callable`, *default:* `None`): 
     Handle to a function or a lambda function that returns a 
     `pcg_gazebo.constraints.Constraint` associated with a tag name.
@@ -90,13 +88,13 @@ class RandomPoseEngine(Engine):
 
     _MODEL_PICKER = ['random', 'size']
 
-    def __init__(self, callback_fcn_get_model=None, callback_fcn_get_constraint=None,
+    def __init__(self, assets_manager=None, callback_fcn_get_constraint=None,
         is_ground_plane=False, models=None, max_num=None, no_collision=True, 
         max_area=1, constraints=None, policies=None, model_picker='random',
         collision_checker=None):        
         Engine.__init__(
             self, 
-            callback_fcn_get_model=callback_fcn_get_model,
+            assets_manager=assets_manager,
             callback_fcn_get_constraint=callback_fcn_get_constraint,
             models=models, 
             constraints=constraints,
@@ -113,23 +111,20 @@ class RandomPoseEngine(Engine):
         self._cached_footprints = dict()
 
         # Compute the footprint area of each object
-        self._areas = dict()
+        self._volumes = dict()
         
         for name in self._models:
             self._max_num[name] = -1
 
-            model = self._get_model(name)
-            footprint = get_occupied_area(
-                model, 
-                step_x=0.01, 
-                step_y=0.01, 
-                model_name=model.name, 
-                mesh_type='collision')
-            self._cached_footprints[model.name] = dict(
-                footprint=footprint,
-                pose=model.pose)            
-            self._areas[name] = cascaded_union(self.get_list_of_footprint_polygons(
-                footprint)).area
+            if self._assets_manager.is_model_group(name) or \
+                self._assets_manager.is_gazebo_model(name) or \
+                    self._assets_manager.is_model(name):
+                model = self._assets_manager.get(name)
+                self._volumes[name] = 0
+                for mesh in model.get_meshes():
+                    self._volumes[name] += mesh.volume
+            else:
+                self._volumes[name] = -1
 
         self._policies = policies
 
@@ -166,27 +161,6 @@ class RandomPoseEngine(Engine):
         else:
             msg += '\tNo models\n'
         return msg
-
-    def _get_footprint(self, model_name, pose):
-        assert model_name in self._cached_footprints, \
-            'No cached footprint for {}'.format(model_name)
-
-        pose = np.array(pose)
-        cached_pose = np.hstack((
-            self._cached_footprints[model_name]['pose'].position, 
-            self._cached_footprints[model_name]['pose'].rpy)) 
-        
-        if np.isclose(np.linalg.norm(pose[3:5] - cached_pose[3:5]), 0):
-            footprint = rotate(self._cached_footprints[model_name]['footprint'], pose[5], use_radians=True)
-            footprint = translate(footprint, *pose[0:3])
-            return footprint
-        else:
-            return get_occupied_area(
-                self._get_model(model_name), 
-                step_x=0.01, 
-                step_y=0.01, 
-                model_name=model_name, 
-                mesh_type='collision')
 
     def _has_repeated_dofs(self, policy):
         """Check if policies don't interfere with repeated DoFs."""
@@ -314,7 +288,7 @@ class RandomPoseEngine(Engine):
         """
         return self._max_num[name]
 
-    def choose_model(self):
+    def choose_model(self, models=None):
         """Select the next model instance to be placed in the world.
         This method is affected by the constructor input `model_picker`.
         In case the `model_picker` option was set as `random`, a random
@@ -326,7 +300,8 @@ class RandomPoseEngine(Engine):
         
         `pcg_gazebo.simulation.SimulationModel`: Chosen model
         """
-        models = deepcopy(self._models)
+        if models is None:
+            models = deepcopy(self._models)
         model = None
 
         if self._model_picker == 'random':
@@ -346,28 +321,28 @@ class RandomPoseEngine(Engine):
                 if self.get_max_num_models(model) == self.get_num_models(model):
                     return None
         elif self._model_picker == 'size':
-            if len(self._models) == 1:
-                if self.get_max_num_models(self._models[0]) == self.get_num_models(self._models[0]):
+            if len(models) == 1:
+                if self.get_max_num_models(models[0]) == self.get_num_models(models[0]):
                     return None
                 else:
-                    return self._models[0]
+                    return models[0]
 
-            areas = list(self._areas.values())
-            max_area = np.max(areas)
+            volumes = list(self._volumes.values())
+            max_volume = np.max(volumes)
             
             while model is None:
-                for tag in self._areas:
-                    if self._areas[tag] == max_area:
+                for tag in self._volumes:
+                    if self._volumes[tag] == max_volume:
                         if self.get_max_num_models(tag) == self.get_num_models(tag):
-                            areas.remove(max_area)
-                            if len(areas) == 0:
+                            volumes.remove(max_volume)
+                            if len(volumes) == 0:
                                 return None
-                            max_area = np.max(areas)
+                            max_volume = np.max(volumes)
                         else:
                             model = tag
         return model
 
-    def is_model_in_workspace(self, footprint):
+    def is_model_in_workspace(self, model):
         """Verify if the model is in the allowed workspace
         
         > *Input arguments*
@@ -380,7 +355,11 @@ class RandomPoseEngine(Engine):
         
         `bool`: `True` if the polygon is entirely contained inside the workspace
         """
-        return self._workspace.contains_polygons(self.get_list_of_footprint_polygons(footprint))
+        meshes = model.get_meshes()                
+        for mesh in model.get_meshes():
+            if not self._workspace.contains_mesh(mesh):
+                return False
+        return True
         
     def get_list_of_footprint_polygons(self, footprint):
         """Return the list of polygons contained in the `footprint` input.
@@ -470,14 +449,12 @@ class RandomPoseEngine(Engine):
                 self._logger.info('Generated random pose: {}'.format(pose))
 
                 model.pose = pose
-                footprint = self._get_footprint(model.name, pose)
                 
-                while not self.is_model_in_workspace(footprint):
+                while not self.is_model_in_workspace(model):
                     self._logger.info('Model outside of the workspace or in collision with other objects!')
                     pose = self._get_random_pose(model_name)
                     self._logger.info('\t Generated random pose: {}'.format(pose))
                     model.pose = pose
-                    footprint = self._get_footprint(model.name, pose)
                     
                 # Enforce positioning constraints
                 model = self.apply_local_constraints(model)
