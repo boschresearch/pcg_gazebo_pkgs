@@ -259,7 +259,19 @@ def convert_from_string(str_input_xml):
         return ''
     value = None
 
-    if isinstance(str_input_xml, list):        
+    def is_hex(s):
+        for e in s:
+            if e not in string.hexdigits and e != 'x':
+                return False
+        try:
+            int(s, 16)
+        except:
+            return False
+        return len(s) % 2 == 0
+
+    if is_hex(str_input_xml):
+        value = int(str_input_xml, 0)        
+    elif isinstance(str_input_xml, list):        
         value = str_input_xml
     elif str_input_xml.isnumeric():        
         value = int(str_input_xml)

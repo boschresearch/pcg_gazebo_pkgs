@@ -69,10 +69,7 @@ class TestModelFactory(unittest.TestCase):
                             split_impulse=random.choice([True, False]),
                             split_impulse_penetration_threshold=-0.01,
                             restitution_coefficient=random.uniform(0, 1),
-                            threshold=random.uniform(0, 1),
-                            enable_friction=True,
-                            enable_contact=True,
-                            enable_bounce=True
+                            threshold=random.uniform(0, 1)
                         )
                     ))
                 ]
@@ -181,10 +178,7 @@ class TestModelFactory(unittest.TestCase):
                             split_impulse=random.choice([True, False]),
                             split_impulse_penetration_threshold=-0.01,
                             restitution_coefficient=random.uniform(0, 1),
-                            threshold=random.uniform(0, 1),
-                            enable_friction=True,
-                            enable_contact=True,
-                            enable_bounce=True
+                            threshold=random.uniform(0, 1)
                         )
                     ))
                 ]
@@ -541,10 +535,7 @@ class TestModelFactory(unittest.TestCase):
                             split_impulse=random.choice([True, False]),
                             split_impulse_penetration_threshold=-0.01,
                             restitution_coefficient=random.uniform(0, 1),
-                            threshold=random.uniform(0, 1),
-                            enable_friction=True,
-                            enable_contact=True,
-                            enable_bounce=True
+                            threshold=random.uniform(0, 1)
                         )
                     ))
                 ]
@@ -656,10 +647,7 @@ class TestModelFactory(unittest.TestCase):
                             split_impulse=random.choice([True, False]),
                             split_impulse_penetration_threshold=-0.01,
                             restitution_coefficient=random.uniform(0, 1),
-                            threshold=random.uniform(0, 1),
-                            enable_friction=True,
-                            enable_contact=True,
-                            enable_bounce=True
+                            threshold=random.uniform(0, 1)
                         )
                     ))
                 ]
@@ -1035,10 +1023,7 @@ class TestModelFactory(unittest.TestCase):
                             split_impulse=random.choice([True, False]),
                             split_impulse_penetration_threshold=-0.01,
                             restitution_coefficient=random.uniform(0, 1),
-                            threshold=random.uniform(0, 1),
-                            enable_friction=True,
-                            enable_contact=True,
-                            enable_bounce=True
+                            threshold=random.uniform(0, 1)
                         )
                     ))
                 ]
@@ -1146,10 +1131,7 @@ class TestModelFactory(unittest.TestCase):
                             split_impulse=random.choice([True, False]),
                             split_impulse_penetration_threshold=-0.01,
                             restitution_coefficient=random.uniform(0, 1),
-                            threshold=random.uniform(0, 1),
-                            enable_friction=True,
-                            enable_contact=True,
-                            enable_bounce=True
+                            threshold=random.uniform(0, 1)
                         )
                     ))
                 ]

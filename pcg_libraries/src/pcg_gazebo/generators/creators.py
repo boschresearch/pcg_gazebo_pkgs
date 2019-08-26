@@ -61,12 +61,16 @@ def _parse_factory_input_as_vector(var):
                 ', input={}'.format(var))
             return var
 
-        if not isinstance(vars, collections.Iterable):
+        if isinstance(vars, float) or isinstance(vars, int):
+            PCG_ROOT_LOGGER.info('Variable provided as scalar={}'.format(
+                var))
+            return np.array([vars])
+        elif not isinstance(vars, collections.Iterable):
             if callable(vars):
                 vars = vars()
             else:
                 PCG_ROOT_LOGGER.error(
-                    'No vector returned after evaluating lambda function, fcn={}'.format(var))
+                    'No value returned after evaluating lambda function, fcn={}'.format(var))
                 return None
         else:
             return vars
@@ -100,21 +104,21 @@ def box(size, mass=0, name='box', pose=[0, 0, 0, 0, 0, 0], color=None,
     """
     from ..simulation import Box
 
-    input_mass = _parse_factory_input_as_vector(mass)[0]
-    input_size = _parse_factory_input_as_vector(size)
-    input_pose = _parse_factory_input_as_vector(pose)
+    input_mass = float(_parse_factory_input_as_vector(mass)[0])
+    input_size = _parse_factory_input_as_vector(size).tolist()
+    input_pose = _parse_factory_input_as_vector(pose).tolist()
 
     input_col_params = collision_parameters.copy()
     for tag in collision_parameters:
         if tag == 'fdir1':
-            input_col_params[tag] = _parse_factory_input_as_vector(collision_parameters[tag])
+            input_col_params[tag] = _parse_factory_input_as_vector(collision_parameters[tag]).tolist()
         else:
-            input_col_params[tag] = _parse_factory_input_as_vector(collision_parameters[tag])[0]
+            input_col_params[tag] = float(_parse_factory_input_as_vector(collision_parameters[tag])[0])
         
     model = SimulationModel(name=name)
     model.add_cuboid_link(
         link_name='link', 
-        mass=float(input_mass), 
+        mass=input_mass, 
         size=input_size,
         color=color,
         visual_parameters=visual_parameters,
@@ -193,17 +197,17 @@ def mesh(visual_mesh_filename, collision_mesh_filename=None,
     A `pcg_gazebo.simulation.SimulationModel` instance.
     """
 
-    input_mass = _parse_factory_input_as_vector(mass)[0]
-    input_visual_mesh_scale = _parse_factory_input_as_vector(visual_mesh_scale)
-    input_collision_mesh_scale = _parse_factory_input_as_vector(collision_mesh_scale)
-    input_pose = _parse_factory_input_as_vector(pose)
+    input_mass = float(_parse_factory_input_as_vector(mass)[0])
+    input_visual_mesh_scale = _parse_factory_input_as_vector(visual_mesh_scale).tolist()
+    input_collision_mesh_scale = _parse_factory_input_as_vector(collision_mesh_scale).tolist()
+    input_pose = _parse_factory_input_as_vector(pose).tolist()
 
     input_col_params = collision_parameters.copy()
     for tag in collision_parameters:
         if tag == 'fdir1':
-            input_col_params[tag] = _parse_factory_input_as_vector(collision_parameters[tag])
+            input_col_params[tag] = _parse_factory_input_as_vector(collision_parameters[tag]).tolist()
         else:
-            input_col_params[tag] = _parse_factory_input_as_vector(collision_parameters[tag])[0]
+            input_col_params[tag] = float(_parse_factory_input_as_vector(collision_parameters[tag])[0])
 
     model = SimulationModel(name=name)
     model.add_link(
@@ -247,22 +251,22 @@ def sphere(radius, mass=0, name='sphere', pose=[0, 0, 0, 0, 0, 0],
     """
     from ..simulation import Sphere
     
-    input_mass = _parse_factory_input_as_vector(mass)[0]
-    input_radius = _parse_factory_input_as_vector(radius)[0]
-    input_pose = _parse_factory_input_as_vector(pose)
+    input_mass = float(_parse_factory_input_as_vector(mass)[0])
+    input_radius = float(_parse_factory_input_as_vector(radius)[0])
+    input_pose = _parse_factory_input_as_vector(pose).tolist()
 
     input_col_params = collision_parameters.copy()
     for tag in collision_parameters:
         if tag == 'fdir1':
-            input_col_params[tag] = _parse_factory_input_as_vector(collision_parameters[tag])
+            input_col_params[tag] = _parse_factory_input_as_vector(collision_parameters[tag]).tolist()
         else:
-            input_col_params[tag] = _parse_factory_input_as_vector(collision_parameters[tag])[0]
+            input_col_params[tag] = float(_parse_factory_input_as_vector(collision_parameters[tag])[0])
 
     model = SimulationModel(name=name)
     model.add_spherical_link(
         link_name='link', 
-        mass=float(input_mass), 
-        radius=float(input_radius),
+        mass=input_mass, 
+        radius=input_radius,
         color=color,
         visual_parameters=visual_parameters,
         collision_parameters=input_col_params)
@@ -295,24 +299,24 @@ def cylinder(length, radius, mass=0, name='cylinder', pose=[0, 0, 0, 0, 0, 0],
     """
     from ..simulation import Cylinder
 
-    input_mass = _parse_factory_input_as_vector(mass)[0]
-    input_length = _parse_factory_input_as_vector(length)[0]
-    input_radius = _parse_factory_input_as_vector(radius)[0]
-    input_pose = _parse_factory_input_as_vector(pose)
+    input_mass = float(_parse_factory_input_as_vector(mass)[0])
+    input_length = float(_parse_factory_input_as_vector(length)[0])
+    input_radius = float(_parse_factory_input_as_vector(radius)[0])
+    input_pose = _parse_factory_input_as_vector(pose).tolist()
 
     input_col_params = collision_parameters.copy()
     for tag in collision_parameters:
         if tag == 'fdir1':
-            input_col_params[tag] = _parse_factory_input_as_vector(collision_parameters[tag])
+            input_col_params[tag] = _parse_factory_input_as_vector(collision_parameters[tag]).tolist()
         else:
-            input_col_params[tag] = _parse_factory_input_as_vector(collision_parameters[tag])[0]
+            input_col_params[tag] = float(_parse_factory_input_as_vector(collision_parameters[tag])[0])
 
     model = SimulationModel(name=name)
     model.add_cylindrical_link(
         link_name='link', 
-        mass=float(input_mass), 
-        radius=float(input_radius), 
-        length=float(input_length),
+        mass=input_mass, 
+        radius=input_radius, 
+        length=input_length,
         color=color,
         visual_parameters=visual_parameters,
         collision_parameters=input_col_params)

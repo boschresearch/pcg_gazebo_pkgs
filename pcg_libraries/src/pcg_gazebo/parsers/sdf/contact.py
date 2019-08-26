@@ -26,6 +26,12 @@ from .override_stiction_transition_velocity import OverrideStictionTransitionVel
 from .ode import ODE
 from .bullet import Bullet
 from .topic import Topic
+from .collide_bitmask import CollideBitmask
+from .collide_without_contact import CollideWithoutContact
+from .collide_without_contact_bitmask import CollideWithoutContactBitmask
+from .category_bitmask import CategoryBitmask
+from .poissons_ratio import PoissonsRatio
+from .elastic_modulus import ElasticModulus
 
 
 class ContactCollisionName(XMLString):
@@ -53,7 +59,13 @@ class Contact(XMLBase):
         ode=dict(creator=ODE, default=['contact'], optional=True, mode='collision'),
         bullet=dict(creator=Bullet, default=['contact'], optional=True, mode='collision'),
         collision=dict(creator=ContactCollisionName, mode='sensor'),
-        topic=dict(creator=Topic, default=['__default_topic__'], mode='sensor')
+        topic=dict(creator=Topic, default=['__default_topic__'], mode='sensor'),
+        collide_bitmask=dict(creator=CollideBitmask, default=[65535], optional=True, mode='collision'),
+        collide_without_contact=dict(creator=CollideWithoutContact, default=[False], optional=True, mode='collision'),
+        collide_without_contact_bitmask=dict(creator=CollideWithoutContactBitmask, default=[True], optional=True, mode='collision'),
+        category_bitmask=dict(creator=CategoryBitmask, default=[65535], optional=True, mode='collision'),
+        poissons_ratio=dict(creator=PoissonsRatio, default=[0.3], optional=True, mode='collision'),
+        elastic_modulus=dict(creator=ElasticModulus, default=[-1], optional=True, mode='collision')
     )
 
     _MODES = ['simbody', 'collision', 'sensor']
@@ -191,3 +203,63 @@ class Contact(XMLBase):
         if self._mode != 'sensor':
             self.reset(mode='sensor')
         self._add_child_element('topic', value)
+
+    @property
+    def collide_bitmask(self):
+        return self._get_child_element('collide_bitmask')
+
+    @collide_bitmask.setter
+    def collide_bitmask(self, value):
+        if self._mode != 'collision':
+            self.reset(mode='collision')
+        self._add_child_element('collide_bitmask', value)
+
+    @property
+    def collide_without_contact(self):
+        return self._get_child_element('collide_without_contact')
+    
+    @collide_without_contact.setter
+    def collide_without_contact(self, value):        
+        if self._mode != 'collision':
+            self.reset(mode='collision')
+        self._add_child_element('collide_without_contact', value)
+
+    @property
+    def collide_without_contact_bitmask(self):
+        return self._get_child_element('collide_without_contact_bitmask')
+    
+    @collide_without_contact_bitmask.setter
+    def collide_without_contact_bitmask(self, value):
+        if self._mode != 'collision':
+            self.reset(mode='collision')        
+        self._add_child_element('collide_without_contact_bitmask', value)
+
+    @property
+    def category_bitmask(self):
+        return self._get_child_element('category_bitmask')
+
+    @category_bitmask.setter
+    def category_bitmask(self, value):
+        if self._mode != 'collision':
+            self.reset(mode='collision')
+        self._add_child_element('category_bitmask', value)
+
+    @property
+    def poissons_ratio(self):
+        return self._get_child_element('poissons_ratio')
+    
+    @poissons_ratio.setter
+    def poissons_ratio(self, value):
+        if self._mode != 'collision':
+            self.reset(mode='collision')
+        self._add_child_element('poissons_ratio', value)
+
+    @property
+    def elastic_modulus(self):
+        return self._get_child_element('elastic_modulus')
+    
+    @elastic_modulus.setter
+    def elastic_modulus(self, value):
+        if self._mode != 'collision':
+            self.reset(mode='collision')
+        self._add_child_element('elastic_modulus', value)

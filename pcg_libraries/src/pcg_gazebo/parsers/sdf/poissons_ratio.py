@@ -12,17 +12,17 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from ..types import XMLScalar
 
-from ..types import XMLInteger
 
-
-class MaxContacts(XMLInteger):
-    _NAME = 'max_contacts'
+class PoissonsRatio(XMLScalar):
+    _NAME = 'poissons_ratio'
     _TYPE = 'sdf'
 
-    def __init__(self, default=20):
-        XMLInteger.__init__(self, default)
+    def __init__(self, default=0.3):
+        XMLScalar.__init__(self, default)
 
     def _set_value(self, value):
-        assert value > 0, 'Max. contacts must be greater than zero'
-        XMLInteger._set_value(self, value)
+        assert value >= -1 and value <= 0.5, \
+            'Poissons ratio must lie between -1 and 0.5, received={}'.format(value)
+        XMLScalar._set_value(self, value)

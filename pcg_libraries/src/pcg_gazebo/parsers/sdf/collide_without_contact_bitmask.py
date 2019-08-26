@@ -12,17 +12,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from ..types import XMLBoolean
 
-from ..types import XMLInteger
 
-
-class MaxContacts(XMLInteger):
-    _NAME = 'max_contacts'
+class CollideWithoutContactBitmask(XMLBoolean):
+    _NAME = 'collide_without_contact_bitmask'
     _TYPE = 'sdf'
 
-    def __init__(self, default=20):
-        XMLInteger.__init__(self, default)
-
-    def _set_value(self, value):
-        assert value > 0, 'Max. contacts must be greater than zero'
-        XMLInteger._set_value(self, value)
+    def __init__(self, default=True):
+        XMLBoolean.__init__(self, default)

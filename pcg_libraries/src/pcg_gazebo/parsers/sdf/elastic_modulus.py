@@ -12,17 +12,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from ..types import XMLScalar
 
-from ..types import XMLInteger
 
-
-class MaxContacts(XMLInteger):
-    _NAME = 'max_contacts'
+class ElasticModulus(XMLScalar):
+    _NAME = 'elastic_modulus'
     _TYPE = 'sdf'
 
-    def __init__(self, default=20):
-        XMLInteger.__init__(self, default)
+    def __init__(self, default=-1):
+        XMLScalar.__init__(self, default)
 
-    def _set_value(self, value):
-        assert value > 0, 'Max. contacts must be greater than zero'
-        XMLInteger._set_value(self, value)
+    def _set_value(self, value):        
+        XMLScalar._set_value(self, value)

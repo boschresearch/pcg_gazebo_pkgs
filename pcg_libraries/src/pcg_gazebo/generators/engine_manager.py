@@ -49,7 +49,7 @@ class EngineManager(_CollectionManager):
             return False
         input_args = kwargs
         input_args['models'] = models
-        input_args['callback_fcn_get_model'] = self._assets_manager.get
+        input_args['assets_manager'] = self._assets_manager
         input_args['callback_fcn_get_constraint'] = self._constraints_manager.get      
         input_args['collision_checker'] = self._collision_checker
         self._collection[tag] = create_engine(engine_name, **input_args)

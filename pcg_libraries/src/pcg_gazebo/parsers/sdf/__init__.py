@@ -39,11 +39,15 @@ from .box import Box
 from .bullet import Bullet
 from .camera import Camera
 from .cast_shadows import CastShadows
+from .category_bitmask import CategoryBitmask
 from .center import Center
 from .cfm import CFM
 from .child import Child
 from .clip import Clip
 from .coefficient import Coefficient
+from .collide_bitmask import CollideBitmask
+from .collide_without_contact_bitmask import CollideWithoutContactBitmask
+from .collide_without_contact import CollideWithoutContact
 from .collision import Collision
 from .constant import Constant
 from .constraints import Constraints
@@ -61,6 +65,7 @@ from .distortion import Distortion
 from .dynamic_friction import DynamicFriction
 from .dynamics import Dynamics
 from .effort import Effort
+from .elastic_modulus import ElasticModulus
 from .emissive import Emissive
 from .empty import Empty
 from .enable_wind import EnableWind
@@ -155,6 +160,7 @@ from .plastic_coef_restitution import PlasticCoefRestitution
 from .plastic_impact_velocity import PlasticImpactVelocity
 from .plugin import Plugin
 from .point import Point
+from .poissons_ratio import PoissonsRatio
 from .polyline import Polyline
 from .pose import Pose
 from .precision import Precision

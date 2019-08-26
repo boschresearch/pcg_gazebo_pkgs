@@ -16,7 +16,7 @@ from .constraint import Constraint
 import numpy as np
 import collections
 import random
-from shapely.geometry import Polygon, LineString, Point
+from shapely.geometry import Polygon, LineString, Point, MultiPoint
 
 
 class WorkspaceConstraint(Constraint):
@@ -236,6 +236,13 @@ class WorkspaceConstraint(Constraint):
         pnt = Point(point[0], point[1])
         return geo.contains(pnt)
 
+    def contains_points(self, points):
+        assert isinstance(points, collections.Iterable), \
+            'Invalid list of points'
+        points = MultiPoint(points)
+        geo = self.get_geometry()
+        return geo.contains(points)
+
     def contains_polygons(self, polygons):
         """Return True if polygons in the `polygons` list are part of the workspace.
 
@@ -253,6 +260,11 @@ class WorkspaceConstraint(Constraint):
             else:
                 merged_poly = merged_poly.union(poly)
         return merged_poly.area == geo.area
+
+    def contains_mesh(self, mesh):
+        vertices = MultiPoint(mesh.vertices[:, 0:2].tolist())
+        geo = self.get_geometry()
+        return geo.contains(vertices.convex_hull)
 
     def get_geometry(self):
         """Return the workspace geometry"""

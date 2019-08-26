@@ -1,0 +1,15 @@
+#!/bin/bash
+
+WORLD_CONFIG_FOLDER=$(rospack find pcg_examples)/config/world_generator/worlds
+
+for WORLD_CONFIG in $(ls ${WORLD_CONFIG_FOLDER});
+do
+    echo "Processing ${WORLD_CONFIG}"
+    WORLD_NAME=$(echo "$WORLD_CONFIG" | cut -f 1 -d '.')
+
+    rosrun pcg_gazebo generate_pcg_world \
+        --config-file ${WORLD_CONFIG_FOLDER}/${WORLD_CONFIG} \
+        --output-world-file $(rospack find pcg_examples)/worlds/${WORLD_NAME}.world
+
+    echo "World generated=$(rospack find pcg_examples)/worlds/${WORLD_NAME}.world"
+done

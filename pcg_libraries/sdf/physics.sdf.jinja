@@ -239,9 +239,17 @@ limitations under the License.
     max_vel=0.01,
     min_depth=0.0,
     split_impulse=1,
-    split_impulse_penetration_threshold=-0.01) 
+    split_impulse_penetration_threshold=-0.01,
+    poissons_ratio=none,
+    elastic_modulus=none) 
 %}
     <contact>
+        {% if poissons_ratio is not none %}
+            <poissons_ratio>{{ poissons_ratio }}</poissons_ratio>
+        {% endif %}
+        {% if elastic_modulus is not none %}
+            <elastic_modulus>{{ elastic_modulus }}</elastic_modulus>
+        {% endif %}
         <ode>
             <soft_cfm>{{ soft_cfm }}</soft_cfm>
             <soft_erp>{{ soft_erp }}</soft_erp>

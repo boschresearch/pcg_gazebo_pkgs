@@ -33,6 +33,7 @@ class TestParseSDF(unittest.TestCase):
                 value = generate_random_string(5)
             sdf_str = '<{}>{}</{}>'.format(name, value, name)
             expected_sdf = create_sdf_element(name)
+            self.assertIsNotNone(expected_sdf, '{} returned None'.format(name))
             expected_sdf.value = value
             return sdf_str, expected_sdf
 
@@ -93,6 +94,7 @@ class TestParseSDF(unittest.TestCase):
                 value = random.choice([True, False])
             sdf_str = '<{}>{}</{}>'.format(name, int(value), name)
             expected_sdf = create_sdf_element(name)
+            self.assertIsNotNone(expected_sdf, '{} returned None'.format(name))
             expected_sdf.value = value
             return sdf_str, expected_sdf
 
@@ -119,6 +121,7 @@ class TestParseSDF(unittest.TestCase):
                 value = random.randint(1, 10)
             sdf_str = '<{}>{}</{}>'.format(name, value, name)
             expected_sdf = create_sdf_element(name)
+            self.assertIsNotNone(expected_sdf, '{} returned None'.format(name))
             expected_sdf.value = value
             return sdf_str, expected_sdf
 
@@ -145,6 +148,7 @@ class TestParseSDF(unittest.TestCase):
                 value = random.random()
             sdf_str = '<{}>{}</{}>'.format(name, value, name)
             expected_sdf = create_sdf_element(name)
+            self.assertIsNotNone(expected_sdf, '{} returned None'.format(name))
             expected_sdf.value = value
             return sdf_str, expected_sdf
 
@@ -155,7 +159,7 @@ class TestParseSDF(unittest.TestCase):
                 scalar_test_cases.append(c._NAME)
         
         # Exclude special cases
-        exclude = ['friction', 'range']
+        exclude = ['friction', 'range', 'poissons_ratio']
 
         for tag in scalar_test_cases:
             if tag in exclude:
@@ -166,10 +170,16 @@ class TestParseSDF(unittest.TestCase):
             self.assertEqual(parse_sdf(sdf_str), expected_sdf)
 
         #TODO Add tests for friction and range
+        sdf_str, expected_sdf = generate_scalar_test_obj('poissons_ratio', 
+            random.uniform(-1, 0.5)) 
+        sdf = parse_sdf(sdf_str)
+        self.assertIsNotNone(sdf)
+        self.assertEqual(parse_sdf(sdf_str), expected_sdf)
 
-    def test_parse_parse_vector_sdf_strings(self):
+    def test_parse_vector_sdf_strings(self):
         def generate_array_test_obj(name, vec=None):
             expected_sdf = create_sdf_element(name)            
+            self.assertIsNotNone(expected_sdf, '{} returned None'.format(name))
             if vec is None:
                 vec = [random.random() for _ in range(expected_sdf._size)]
             sdf_str = '<{}>{}</{}>'.format(name, ' '.join(str(x) for x in vec), name)
