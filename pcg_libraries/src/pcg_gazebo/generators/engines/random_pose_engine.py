@@ -240,11 +240,35 @@ class RandomPoseEngine(Engine):
                     if dofs[i] in config['dofs']:
                         pose[i] = config['policy']['args']
             elif config['policy']['name'] == 'uniform':
+                min_value = 0
+                max_value = 1
+
+                if 'args' in config['policy']:
+                    if 'min' in config['policy']['args']:
+                        min_value = config['policy']['args']['min']
+                    if 'max' in config['policy']['args']:
+                        max_value = config['policy']['args']['max']
+
+                assert min_value < max_value, \
+                    'For the uniform distribution, min < max must hold'
                 for i in range(len(dofs)):
                     if dofs[i] in config['dofs']:
                         pose[i] = random.uniform(
-                            config['policy']['args']['min'], 
-                            config['policy']['args']['max'])  
+                            min_value, 
+                            max_value)
+            elif config['policy']['name'] == 'choice':
+                assert 'args' in config['policy'], \
+                    'No arguments found for <choice> policy on the '\
+                        'placement of model <{}>'.format(model_name)
+                assert 'values' in config['policy']['args'], \
+                    'List of values must be available for <choice> ' \
+                        'policy on the placement of model <{}>'.format(model_name)
+                assert isinstance(config['policy']['args']['values'], list), \
+                    'Input <values> for <choice> policy must be a list of scalars'                
+                for i in range(len(dofs)):
+                    if dofs[i] in config['dofs']:
+                        value = random.choice(config['policy']['args']['values'])                        
+                        pose[i] = float(value)
         
         return pose
 
@@ -469,7 +493,8 @@ class RandomPoseEngine(Engine):
                         collision_counter = 0
 
             models.append(model)
-            self._collision_checker.add_model(model)
+            if not self._assets_manager.is_light(model_name):
+                self._collision_checker.add_model(model)
 
             # Increase the counter for this chosen model
             self.increase_counter(model_name)
