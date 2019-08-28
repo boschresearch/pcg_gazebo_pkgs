@@ -89,6 +89,11 @@ if __name__ == '__main__':
     parser.add_argument(
         '--unpause', action='store_true')
     parser.add_argument(
+        '--unpause-timeout', 
+        type=float, 
+        default=0, 
+        help='Timeout to call the Gazebo unpause physics service')
+    parser.add_argument(
         '--robot-namespace', type=str, default='robot', help='')
     parser.add_argument(
         '--x',
@@ -223,6 +228,11 @@ if __name__ == '__main__':
         if args.unpause:
             rospy.loginfo('Unpausing simulation...')
             rospy.wait_for_service('/gazebo/unpause_physics', 10)
+            if args.unpause_timeout > 0:
+                rospy.loginfo('Unpause timeout provided = {} s'.format(args.unpause_timeout))
+                start_time = time()                                
+                while time() - start_time <= args.unpause_timeout:                    
+                    sleep(0.001)                    
             unpause = rospy.ServiceProxy('/gazebo/unpause_physics', Empty)
             unpause()
             rospy.loginfo('Simulation unpaused')
