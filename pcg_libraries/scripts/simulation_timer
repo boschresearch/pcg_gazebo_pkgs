@@ -20,6 +20,7 @@ import sys
 import argparse
 from time import time, sleep
 from rosgraph_msgs.msg import Clock
+from std_srvs.srv import Empty
 
 
 CLOCK_TIME = 0
@@ -57,13 +58,15 @@ def main():
     if args.timeout < 0:
         raise rospy.ROSException('Termination time must be a positive floating point value')
 
-    rospy.loginfo('Starting simulation timer - Timeout = %2.f s' % timeout)
-    rate = rospy.Rate(100)
+    rospy.wait_for_service('/gazebo/pause_physics', 10)
+    pause = rospy.ServiceProxy('/gazebo/pause_physics', Empty)
 
+    rospy.loginfo('Starting simulation timer - Timeout = %2.f s' % timeout)
+    
     start_process_timeout = time()
 
     while CLOCK_TIME < timeout:
-        rate.sleep()
+        sleep(0.001)
         if CLOCK_TIME == 0:
             if time() - start_process_timeout > 60:
                 rospy.logerr('Clock was not initialized for 60 seconds')
@@ -71,6 +74,10 @@ def main():
         if rospy.is_shutdown():
             rospy.logerr('ROS master was killed!')
             break
+
+    rospy.loginfo('Pausing simulation...')                
+    pause()
+    rospy.loginfo('Simulation paused!')
 
     rospy.loginfo('Simulation timeout!')
 
