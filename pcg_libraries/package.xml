@@ -16,6 +16,8 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  <depend>python</depend>
+
   <exec_depend>rospy</exec_depend>
   <exec_depend>python-lxml</exec_depend>
   <exec_depend>python-numpy</exec_depend>

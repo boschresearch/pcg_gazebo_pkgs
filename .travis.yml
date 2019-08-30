@@ -22,7 +22,7 @@ env:
     - NOT_TEST_INSTALL=true
 matrix:
   include:
-    - env: BEFORE_SCRIPT="apt install libspatialindex-dev python-dev -y && pip install pip --upgrade && python /root/catkin_ws/src/pcg_gazebo_pkgs/pcg_libraries/_create_env.py" ROS_DISTRO=melodic 
+    - env: BEFORE_SCRIPT="apt install libspatialindex-dev && pip install pip --upgrade" ROS_DISTRO=melodic 
     - env: BEFORE_SCRIPT="pip install pip --upgrade && add-apt-repository ppa:thomas-schiex/blender -y && apt update && apt install blender software-properties-common libspatialindex-dev -y" ROS_DISTRO=kinetic
   allow_failures:
     - env: BEFORE_SCRIPT="pip install pip --upgrade && add-apt-repository ppa:thomas-schiex/blender -y && apt update && apt install blender software-properties-common libspatialindex-dev -y" ROS_DISTRO=kinetic
