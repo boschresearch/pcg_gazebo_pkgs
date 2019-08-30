@@ -16,4 +16,3 @@ PyYAML
 pycollada
 networkx
 scipy
-python-fcl
