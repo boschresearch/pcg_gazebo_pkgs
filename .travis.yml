@@ -24,7 +24,7 @@ matrix:
   include:
     # - env: BEFORE_SCRIPT="apt update && apt install libspatialindex-dev && pip install pip --upgrade" ROS_DISTRO=melodic 
     # - env: BEFORE_SCRIPT="apt update && apt install software-properties-common && pip install pip --upgrade && add-apt-repository ppa:thomas-schiex/blender -y && apt update && apt install blender libspatialindex-dev -y" ROS_DISTRO=kinetic
-    - env: BEFORE_SCRIPT="pip install pip --upgrade" ROS_DISTRO=melodic 
+    - env: BEFORE_SCRIPT="apt update && apt install libfcl-dev && pip install pip --upgrade" ROS_DISTRO=melodic 
     - env: BEFORE_SCRIPT="apt update && apt install software-properties-common && pip install pip --upgrade && add-apt-repository ppa:thomas-schiex/blender -y && apt update && apt install blender -y" ROS_DISTRO=kinetic
   allow_failures:
     - env: BEFORE_SCRIPT="apt update && apt install software-properties-common && pip install pip --upgrade && add-apt-repository ppa:thomas-schiex/blender -y && apt update && apt install blender -y" ROS_DISTRO=kinetic
