@@ -25,9 +25,9 @@ matrix:
     # - env: BEFORE_SCRIPT="apt update && apt install libspatialindex-dev && pip install pip --upgrade" ROS_DISTRO=melodic 
     # - env: BEFORE_SCRIPT="apt update && apt install software-properties-common && pip install pip --upgrade && add-apt-repository ppa:thomas-schiex/blender -y && apt update && apt install blender libspatialindex-dev -y" ROS_DISTRO=kinetic
     - env: BEFORE_SCRIPT="pip install pip python-fcl --upgrade" ROS_DISTRO=melodic 
-    - env: BEFORE_SCRIPT="apt update && apt install software-properties-common && pip install pip python-fcl --upgrade && add-apt-repository ppa:thomas-schiex/blender -y && apt update && apt install blender -y" ROS_DISTRO=kinetic
+    - env: BEFORE_SCRIPT="pip install pip python-fcl --upgrade" ROS_DISTRO=kinetic
   allow_failures:
-    - env: BEFORE_SCRIPT="apt update && apt install software-properties-common && pip install pip python-fcl --upgrade && add-apt-repository ppa:thomas-schiex/blender -y && apt update && apt install blender -y" ROS_DISTRO=kinetic
+    - env: BEFORE_SCRIPT="pip install pip python-fcl --upgrade" ROS_DISTRO=kinetic
 install:
   - git clone https://github.com/ros-industrial/industrial_ci.git .ci_config
 
