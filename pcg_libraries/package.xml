@@ -35,7 +35,7 @@
   <exec_depend>visualization_msgs</exec_depend>
   <exec_depend>libxml2-utils</exec_depend>
   <exec_depend>blender</exec_depend>
-  <exec_depend>libfcl-dev<exec_depend>
+  <exec_depend>libfcl-dev</exec_depend>
 
   <test_depend>rostest</test_depend>
   <test_depend>rosunit</test_depend>
