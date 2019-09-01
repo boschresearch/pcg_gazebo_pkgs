@@ -16,6 +16,8 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  <depend>python</depend>
+
   <exec_depend>rospy</exec_depend>
   <exec_depend>python-lxml</exec_depend>
   <exec_depend>python-numpy</exec_depend>
@@ -33,6 +35,7 @@
   <exec_depend>visualization_msgs</exec_depend>
   <exec_depend>libxml2-utils</exec_depend>
   <exec_depend>blender</exec_depend>
+  <exec_depend>libfcl-dev</exec_depend>
 
   <test_depend>rostest</test_depend>
   <test_depend>rosunit</test_depend>

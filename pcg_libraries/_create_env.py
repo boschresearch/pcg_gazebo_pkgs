@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+from __future__ import print_function
 import os 
 import sys
 import subprocess
@@ -46,4 +46,11 @@ if __name__ == '__main__':
                         pkg
                     )
 
+                    print(cmd)
+
                     subprocess.check_output(cmd.split())
+                else:
+                    print('{}: package available (Python {}.{})'.format(
+                        pkg,
+                        sys.version_info[0],
+                        sys.version_info[1]))

@@ -36,6 +36,18 @@ class CollisionChecker(object):
         """`trimesh.scene.Scene`: Collision check scenario"""
         return self._simulation_scenario
 
+    @property
+    def fixed_models(self):
+        return self._fixed_models
+
+    @property
+    def n_fixed_models(self):
+        return len(self._fixed_models)
+
+    @property
+    def n_meshes(self):
+        return len(self._simulation_scenario.dump())
+
     def reset_scenario(self):
         """Remove all meshes from collision check scene."""
         self._simulation_scenario = trimesh.scene.Scene()
@@ -103,10 +115,25 @@ class CollisionChecker(object):
         manager, objects = trimesh.collision.scene_to_collision(
             self._simulation_scenario)
 
+        scene_meshes = self._simulation_scenario.dump()
+
         meshes = model.get_meshes(mesh_type='collision')
         for mesh in meshes:
             if manager.in_collision_single(mesh):
                 return True
+            # Test if mesh in inside another mesh in the collision
+            # manager scene
+            # It will only work for scene meshes that are watertight
+            for scene_mesh in scene_meshes:
+                # Check if a scene mesh contains the model mesh to be tested
+                if scene_mesh.is_watertight:                    
+                    if scene_mesh.contains(mesh.vertices).any():
+                        return True
+                # Check if the model mesh being tested contains any of the
+                # scene meshes
+                if mesh.is_watertight:
+                    if mesh.contains(scene_mesh.vertices).any():
+                        return True
         return False
 
     def check_for_collisions(self):
@@ -117,7 +144,7 @@ class CollisionChecker(object):
         `True`, if any collision is detected. `False`, otherwise.
         """
         manager, objects = trimesh.collision.scene_to_collision(
-                self._simulation_scenario)
+            self._simulation_scenario)
         return manager.in_collision_internal()
 
 

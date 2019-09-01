@@ -39,6 +39,12 @@ cd ~/catkin_ws
 rosdep install --from-paths src --ignore-src --rosdistro=kinetic -y -r
 ```
 
+and install an additional dependency from `trimesh`
+
+```
+sudo apt install libspatialindex-dev
+```
+
 and then run `catkin build`.
 
 #### Installation of Python dependencies
