@@ -29,7 +29,7 @@ if(CATKIN_ENABLE_TESTING)
 
     foreach(T
         test/test_assets_manager.py        
-        test/test_collision_checker.py
+        # test/test_collision_checker.py
         test/test_engine_and_constraint_managers.py
         test/test_inertia.py                    
         test/test_jinja_sdf_file_generation.py  
