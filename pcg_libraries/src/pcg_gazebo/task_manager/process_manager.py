@@ -692,10 +692,14 @@ class ProcessManager(object):
             # Kill all tasks
             self.kill_all_tasks()
             self._logger.info('All tasks finished')
+            self._ros_config.unlock_port(self._ros_config.ros_port)
+            self._ros_config.unlock_port(self._ros_config.gazebo_port)
         elif task_name in self._tasks:
             # Wait until is_running is set
             self._is_running.wait(timeout)
             self._tasks[task_name].wait()
             self._logger.info('Task <{}> finished'.format(task_name))
+            self._ros_config.unlock_port(self._ros_config.ros_port)
+            self._ros_config.unlock_port(self._ros_config.gazebo_port)
         else:
             self._logger.error('Task with name <{}> does not exist'.format(task_name))
