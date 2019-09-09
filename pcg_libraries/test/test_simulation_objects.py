@@ -28,12 +28,15 @@ import numpy as np
 import rospkg
 from random import random, choice
 import string
+import shutil
+import getpass
 from pcg_gazebo.utils import generate_random_string
 from pcg_gazebo.simulation import load_gazebo_models, get_gazebo_model_sdf, \
     get_gazebo_model_names, get_gazebo_model_path, get_gazebo_model_sdf_filenames
 from pcg_gazebo.simulation import Box, Cylinder, Sphere, Joint, SimulationModel
 from pcg_gazebo.simulation.properties import Pose
 from pcg_gazebo.parsers.sdf import Model
+from pcg_gazebo.parsers import parse_sdf, parse_sdf_config
 
 
 INVALID_SIZES = [
@@ -85,6 +88,16 @@ class TestSimulationObjects(unittest.TestCase):
         self.assertAlmostEqual(
             np.sum(diff[0:3]), 0, 7, 
                 'Orientation should be {}, retrieved={}'.format(Pose.rpy2quat(*rpy), obj.pose.quat))
+
+    def create_random_box(self):
+        box = Box()
+        size = [random() for _ in range(3)]
+        name = generate_random_string(5)
+        # Setting random size
+        box.size = size
+        box.name = name
+        box.add_inertial(random())
+        return box
 
     def test_load_test_joint_fixed(self):
         model = SimulationModel.from_gazebo_model('test_joint_fixed')
@@ -695,7 +708,102 @@ class TestSimulationObjects(unittest.TestCase):
                 self.assertEqual(sdf.name, name, 
                     'Name property for {} was not set, expected={}, '
                     'retrieved={}'.format(sdf._NAME, name, sdf.name))
+
+    def test_export_model_to_sdf(self):
+        box = self.create_random_box()
+
+        sdf = box.to_sdf('model')
+        filename = '/tmp/box.sdf'
+        sdf.export_xml(filename, version='1.6')
+
+        self.assertTrue(os.path.isfile(filename))
+
+        # Parse the exported file
+        parsed_sdf = parse_sdf(filename)
+        self.assertIsNotNone(parsed_sdf)
+        self.assertEqual(sdf, parsed_sdf)
+
+    def test_export_model_to_gazebo_model(self):
+        box = self.create_random_box()
+        model = SimulationModel.from_sdf(box.to_sdf())
             
+        self.assertIsNotNone(model)
+
+        # Export Gazebo model with default parameters
+        model.to_gazebo_model()
+        default_dir = os.path.join(os.path.expanduser('~'), '.gazebo', 'models')
+        model_dir = os.path.join(default_dir, box.name)
+        # Check if all model files were created
+        self.assertTrue(os.path.isdir(model_dir))
+        self.assertTrue(os.path.isfile(os.path.join(model_dir, 'model.config')))
+        self.assertTrue(os.path.isfile(os.path.join(model_dir, 'model.sdf')))
+
+        # Parse model config file
+        sdf_config = parse_sdf_config(os.path.join(model_dir, 'model.config'))
+        self.assertIsNotNone(sdf_config)
+
+        # Get name of current user, used in default model metadata input
+        username = getpass.getuser()
+
+        self.assertEqual(sdf_config.name.value, box.name)
+        self.assertEqual(len(sdf_config.authors), 1)
+        self.assertEqual(sdf_config.authors[0].name.value, username)
+        self.assertEqual(sdf_config.authors[0].email.value, '{}@email.com'.format(username))
+        self.assertEqual(sdf_config.description.value, '')
+        self.assertEqual(sdf_config.version.value, '1.6')
+        self.assertEqual(len(sdf_config.sdfs), 1)
+        self.assertEqual(sdf_config.sdfs[0].value, 'model.sdf')
+        self.assertEqual(sdf_config.sdfs[0].version, '1.6')
+
+        sdf = parse_sdf(os.path.join(model_dir, 'model.sdf'))
+        self.assertIsNotNone(sdf)
+        self.assertEqual(sdf.xml_element_name, 'sdf')
+        self.assertIsNotNone(sdf.models)
+        self.assertEqual(len(sdf.models), 1)        
+
+        # Export Gazebo model with default parameters
+        author = generate_random_string(5)
+        email = generate_random_string(5)
+        description = generate_random_string(10)
+        model_metaname = generate_random_string(10)
+
+        model.to_gazebo_model(
+            author=author,
+            email=email,
+            description=description,
+            model_metaname=model_metaname,
+            overwrite=True
+        )
+
+        # Check if all model files were created
+        self.assertTrue(os.path.isdir(model_dir))
+        self.assertTrue(os.path.isfile(os.path.join(model_dir, 'model.config')))
+        self.assertTrue(os.path.isfile(os.path.join(model_dir, 'model.sdf')))
+
+        # Parse model config file
+        sdf_config = parse_sdf_config(os.path.join(model_dir, 'model.config'))
+        self.assertIsNotNone(sdf_config)
+
+        self.assertEqual(sdf_config.name.value, model_metaname)
+        self.assertEqual(len(sdf_config.authors), 1)
+        self.assertEqual(sdf_config.authors[0].name.value, author)
+        self.assertEqual(sdf_config.authors[0].email.value, email)
+        self.assertEqual(sdf_config.description.value, description)
+        self.assertEqual(sdf_config.version.value, '1.6')
+        self.assertEqual(len(sdf_config.sdfs), 1)
+        self.assertEqual(sdf_config.sdfs[0].value, 'model.sdf')
+        self.assertEqual(sdf_config.sdfs[0].version, '1.6')
+
+        # Parse the SDF file
+        sdf = parse_sdf(os.path.join(model_dir, 'model.sdf'))
+        self.assertIsNotNone(sdf)
+        self.assertEqual(sdf.xml_element_name, 'sdf')
+        self.assertIsNotNone(sdf.models)
+        self.assertEqual(len(sdf.models), 1)        
+
+        # Delete generated Gazebo model directory
+        shutil.rmtree(model_dir)
+
             
 if __name__ == '__main__':
     import rosunit

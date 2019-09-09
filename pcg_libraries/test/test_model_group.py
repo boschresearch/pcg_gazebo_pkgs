@@ -16,11 +16,14 @@
 import roslib
 import unittest
 import numpy
+import os
+import shutil
+import getpass
 from pcg_gazebo.utils import generate_random_string
 from pcg_gazebo.simulation import ModelGroup, Light, SimulationModel
 from pcg_gazebo.simulation.properties import Pose
 from pcg_gazebo.generators.creators import box_factory
-from pcg_gazebo.parsers import parse_sdf
+from pcg_gazebo.parsers import parse_sdf, parse_sdf_config
 from pcg_gazebo.parsers.sdf import create_sdf_element
 
 PKG = 'pcg_libraries'
@@ -394,6 +397,239 @@ class TestModelGroup(unittest.TestCase):
         self.assertIsNotNone(group)
         self.assertEqual(group.n_models, len(models))
         self.assertEqual(group.n_lights, len(lights))
+
+    def test_convert_wrong_model_sdf(self):
+        lights = [Light(name=generate_random_string(5)) for _ in range(3)]        
+        models = [SimulationModel(name=generate_random_string(5)) for _ in range(2)]
+        
+        sdf_elements = [light.to_sdf() for light in lights] + [model.to_sdf() for model in models]
+
+        group = ModelGroup.from_sdf(sdf_elements)
+        self.assertIsNotNone(group)
+        self.assertEqual(group.n_models, len(models))
+        self.assertEqual(group.n_lights, len(lights))
+
+        self.assertIsNone(group.to_sdf(type='model'))
+
+    def test_convert_lights_models_group_to_sdfs(self):
+        lights = [Light(name=generate_random_string(5)) for _ in range(3)]
+        light_names = [obj.name for obj in lights]
+        models = [SimulationModel(name=generate_random_string(5)) for _ in range(2)]
+        model_names = [obj.name for obj in models]
+
+        sdf_elements = [light.to_sdf() for light in lights] + [model.to_sdf() for model in models]
+
+        group = ModelGroup.from_sdf(sdf_elements)
+        group.name = generate_random_string(5)
+        self.assertIsNotNone(group)
+        self.assertEqual(group.n_models, len(models))
+        self.assertEqual(group.n_lights, len(lights))
+        
+        # Convert to separate SDF elements
+        sdf_models, sdf_lights, sdf_includes = group.to_sdf()
+        self.assertEqual(len(sdf_models), len(models))        
+        for tag in sdf_models:            
+            self.assertIn(sdf_models[tag].name.replace('{}/'.format(group.name), ''), model_names)
+        self.assertEqual(len(sdf_lights), len(lights))
+        for tag in sdf_lights:
+            self.assertIn(sdf_lights[tag].name.replace('{}/'.format(group.name), ''), light_names)
+        self.assertEqual(len(sdf_includes), 0)
+
+        # Convert to world
+        sdf_world = group.to_sdf(type='world')
+        self.assertIsNotNone(sdf_world)
+        self.assertEqual(sdf_world.xml_element_name, 'world')
+        self.assertIsNotNone(sdf_world.models)
+        self.assertEqual(len(sdf_world.models), 1)
+        self.assertEqual(len(sdf_world.models[0].models), len(models))
+        for i in range(len(sdf_world.models[0].models)):        
+            self.assertIn(sdf_world.models[0].models[i].name, model_names)
+        self.assertEqual(len(sdf_world.lights), len(lights))
+        for i in range(len(sdf_world.lights)):
+            self.assertIn(sdf_world.lights[i].name, light_names)
+
+    def test_convert_models_group_to_sdf(self):
+        models = [SimulationModel(name=generate_random_string(5)) for _ in range(2)]
+        model_names = [obj.name for obj in models]
+        sdf_elements = [model.to_sdf() for model in models]
+
+        group = ModelGroup.from_sdf(sdf_elements)
+        self.assertIsNotNone(group)
+        self.assertEqual(group.n_models, len(models))
+        self.assertEqual(group.n_lights, 0)
+
+        # Convert to separate SDF elements
+        sdf_models, sdf_lights, sdf_includes = group.to_sdf()
+        self.assertEqual(len(sdf_models), len(models))        
+        for tag in sdf_models:            
+            self.assertIn(sdf_models[tag].name.replace('{}/'.format(group.name), ''), model_names)
+        self.assertEqual(len(sdf_lights), 0)
+        self.assertEqual(len(sdf_includes), 0)
+
+        # Convert to world
+        sdf_world = group.to_sdf(type='world')
+        self.assertIsNotNone(sdf_world)
+        self.assertEqual(sdf_world.xml_element_name, 'world')
+        self.assertIsNotNone(sdf_world.models)
+        self.assertEqual(len(sdf_world.models), 1)
+        self.assertEqual(len(sdf_world.models[0].models), len(models))
+        for i in range(len(sdf_world.models[0].models)):        
+            self.assertIn(sdf_world.models[0].models[i].name, model_names)
+
+        # Convert to SDF with model group
+        sdf = group.to_sdf(type='sdf')
+        self.assertIsNotNone(sdf)
+        self.assertEqual(sdf.xml_element_name, 'sdf')
+        self.assertIsNotNone(sdf_world.models)
+        self.assertEqual(len(sdf_world.models), 1)
+        self.assertEqual(len(sdf_world.models[0].models), len(models))
+        for i in range(len(sdf_world.models[0].models)):        
+            self.assertIn(sdf_world.models[0].models[i].name, model_names)
+
+        # Convert to model with nested models
+        sdf_model = group.to_sdf(type='model')
+        self.assertIsNotNone(sdf_model)
+        self.assertIsNotNone(sdf_model.models)
+        self.assertEqual(len(sdf_model.models), len(models))
+        for i in range(len(sdf_model.models)):        
+            self.assertIn(sdf_model.models[i].name, model_names)
+
+    def test_convert_lights_group_to_sdf(self):
+        lights = [Light(name=generate_random_string(5)) for _ in range(3)]
+        light_names = [obj.name for obj in lights]
+        sdf_elements = [light.to_sdf() for light in lights]
+
+        group = ModelGroup.from_sdf(sdf_elements)
+        self.assertIsNotNone(group)
+        self.assertEqual(group.n_models, 0)
+        self.assertEqual(group.n_lights, len(lights))
+
+        # Convert to separate SDF elements
+        sdf_models, sdf_lights, sdf_includes = group.to_sdf()
+        self.assertEqual(len(sdf_models), 0)        
+        self.assertEqual(len(sdf_lights), len(lights))
+        for tag in sdf_lights:
+            self.assertIn(sdf_lights[tag].name.replace('{}/'.format(group.name), ''), light_names)
+        self.assertEqual(len(sdf_includes), 0)
+
+        # Convert to world
+        sdf_world = group.to_sdf(type='world')
+        self.assertIsNotNone(sdf_world)
+        self.assertEqual(sdf_world.xml_element_name, 'world')
+        self.assertIsNone(sdf_world.models)
+        self.assertIsNotNone(sdf_world.lights)
+        self.assertEqual(len(sdf_world.lights), len(lights))        
+        for i in range(len(sdf_world.lights)):        
+            self.assertIn(sdf_world.lights[i].name, light_names)
+
+        # Convert to SDF with light elements
+        sdf = group.to_sdf(type='sdf')
+        self.assertIsNotNone(sdf)
+        self.assertEqual(sdf.xml_element_name, 'sdf')
+        self.assertIsNotNone(sdf_world.lights)
+        self.assertEqual(len(sdf_world.lights), len(lights))
+        for i in range(len(sdf_world.lights)):        
+            self.assertIn(sdf_world.lights[i].name, light_names)
+
+    def test_export_models_to_gazebo_model(self):
+        models = [SimulationModel(name=generate_random_string(5)) for _ in range(2)]
+        model_names = [obj.name for obj in models]
+        sdf_elements = [model.to_sdf() for model in models]
+
+        group = ModelGroup.from_sdf(sdf_elements)
+        group.name = generate_random_string(5)
+        group.pose = Pose.random()
+        self.assertIsNotNone(group)
+        self.assertEqual(group.n_models, len(models))
+        self.assertEqual(group.n_lights, 0)
+
+        # Convert to separate SDF elements
+        sdf_models, sdf_lights, sdf_includes = group.to_sdf()
+        self.assertEqual(len(sdf_models), len(models))        
+        for tag in sdf_models:            
+            self.assertIn(sdf_models[tag].name.replace('{}/'.format(group.name), ''), model_names)
+        self.assertEqual(len(sdf_lights), 0)
+        self.assertEqual(len(sdf_includes), 0)
+
+        # Convert to default Gazebo model
+        self.assertTrue(group.to_gazebo_model())
+        default_dir = os.path.join(os.path.expanduser('~'), '.gazebo', 'models')
+        model_dir = os.path.join(default_dir, group.name)
+
+        # Check if all model files were created
+        self.assertTrue(os.path.isdir(model_dir))
+        self.assertTrue(os.path.isfile(os.path.join(model_dir, 'model.config')))
+        self.assertTrue(os.path.isfile(os.path.join(model_dir, 'model.sdf')))
+
+        # Parse model config file
+        sdf_config = parse_sdf_config(os.path.join(model_dir, 'model.config'))
+        self.assertIsNotNone(sdf_config)
+
+        # Get name of current user, used in default model metadata input
+        username = getpass.getuser()
+
+        self.assertEqual(sdf_config.name.value, group.name)
+        self.assertEqual(len(sdf_config.authors), 1)
+        self.assertEqual(sdf_config.authors[0].name.value, username)
+        self.assertEqual(sdf_config.authors[0].email.value, '{}@email.com'.format(username))
+        self.assertEqual(sdf_config.description.value, '')
+        self.assertEqual(sdf_config.version.value, '1.6')
+        self.assertEqual(len(sdf_config.sdfs), 1)
+        self.assertEqual(sdf_config.sdfs[0].value, 'model.sdf')
+        self.assertEqual(sdf_config.sdfs[0].version, '1.6')
+
+        # Parse the SDF file
+        sdf = parse_sdf(os.path.join(model_dir, 'model.sdf'))
+        self.assertIsNotNone(sdf)
+        self.assertEqual(sdf.xml_element_name, 'sdf')
+        self.assertIsNotNone(sdf.models)
+        self.assertEqual(len(sdf.models), 1)        
+        for i, j in zip(sdf.models[0].pose.value, group.pose.to_sdf().value):
+            self.assertTrue(numpy.isclose(i, j))
+        self.assertEqual(len(sdf.models[0].models), len(models))
+
+        for i in range(len(sdf.models[0].models)):
+            self.assertEqual(sdf.models[0].models[i].pose.value, [0 for _ in range(6)])
+            self.assertIn(sdf.models[0].models[i].name, model_names)
+
+        # Delete generated Gazebo model directory
+        shutil.rmtree(model_dir)
+
+        # Rename group
+        group.name = generate_random_string(5)
+        
+        # Export group with individually exported models
+        self.assertTrue(group.to_gazebo_model(nested=False))
+
+        # Check if model folders exist
+        self.assertTrue(os.path.isdir(os.path.join(default_dir, group.name)))
+        for name in model_names:
+            self.assertTrue(os.path.isdir(os.path.join(default_dir, name)))
+
+        # Parse the SDF file for the main model
+        sdf = parse_sdf(os.path.join(default_dir, group.name, 'model.sdf'))
+        self.assertIsNotNone(sdf)
+        self.assertEqual(sdf.xml_element_name, 'sdf')
+        self.assertIsNotNone(sdf.models)
+        self.assertEqual(len(sdf.models), 1)        
+
+        self.assertIsNone(sdf.models[0].models)
+        self.assertIsNotNone(sdf.models[0].includes)
+        self.assertEqual(len(sdf.models[0].includes), len(models))
+
+        for i, j in zip(sdf.models[0].pose.value, group.pose.to_sdf().value):
+            self.assertTrue(numpy.isclose(i, j))
+
+        for i in range(len(sdf.models[0].includes)):
+            self.assertEqual(sdf.models[0].includes[i].pose.value, [0 for _ in range(6)])
+            self.assertIn(sdf.models[0].includes[i].name.value, model_names)
+            self.assertEqual(sdf.models[0].includes[i].uri.value, 'model://{}'.format(
+                sdf.models[0].includes[i].name.value))
+
+        shutil.rmtree(os.path.join(default_dir, group.name))
+        for name in model_names:
+            shutil.rmtree(os.path.join(default_dir, name))
+
 
 if __name__ == '__main__':
     import rosunit
