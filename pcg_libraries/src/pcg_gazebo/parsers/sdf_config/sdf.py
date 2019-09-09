@@ -26,6 +26,7 @@ class SDF(XMLString):
 
     def __init__(self, default='model.sdf'):
         XMLString.__init__(self, default)
+        self.reset()
 
     @property
     def version(self):
@@ -33,5 +34,5 @@ class SDF(XMLString):
 
     @version.setter
     def version(self, value):
-        assert value in ['1.4', '1.5', '1.6']
-        self.attributes['version'] = value
+        assert str(value) in ['1.4', '1.5', '1.6']
+        self.attributes['version'] = str(value)
