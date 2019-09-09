@@ -300,7 +300,7 @@ class ModelGroup(object):
         scene = self.create_scene(mesh_type, add_pseudo_color)     
         scene.show()
 
-    def get_model(self, name, with_group_prefix=True):
+    def get_model(self, name, with_group_prefix=True, use_group_pose=True):
         prefix = self.prefix if with_group_prefix else ''
         if '/' not in name:
             if name not in self._models:
@@ -308,8 +308,9 @@ class ModelGroup(object):
                     name, self.name))
                 return None
                 
-            output = self._models[name].copy()
-            output.pose = output.pose + self._pose                        
+            output = self._models[name].copy()            
+            if use_group_pose:
+                output.pose = output.pose + self._pose 
             output.name = prefix + output.name
         else:
             sub_group_name = name.split('/')[0]
@@ -320,28 +321,30 @@ class ModelGroup(object):
             output = self._models[sub_group_name].get_model(
                 name=name.replace(sub_group_name + '/', ''), 
                 with_group_prefix=True)
-            output.pose = output.pose + self._pose                
+            if use_group_pose:
+                output.pose = output.pose + self._pose                
             output.name = prefix + output.name
         PCG_ROOT_LOGGER.info('Retrieving model <{}> from group <{}>'.format(
             output.name, self.name))
         return output
 
-    def get_models(self, with_group_prefix=True):
+    def get_models(self, with_group_prefix=True, use_group_pose=True):
         prefix = self.prefix if with_group_prefix else ''
         output_models = dict()
         for name in self._models:
             if isinstance(self._models[name], SimulationModel):
-                model = self.get_model(name, with_group_prefix)
-                output_models[model.name] = self.get_model(name, with_group_prefix)
+                model = self.get_model(name, with_group_prefix, use_group_pose)
+                output_models[model.name] = model                
             elif isinstance(self._models[name], ModelGroup):
-                models = self._models[name].get_models(with_group_prefix=True)
+                models = self._models[name].get_models(with_group_prefix=True, use_group_pose=True)
                 for name in models:
-                    models[name].name = prefix + models[name].name
-                    models[name].pose = models[name].pose + self._pose
+                    models[name].name = prefix + models[name].name                    
+                    if use_group_pose:
+                        models[name].pose = models[name].pose + self._pose
                     output_models[models[name].name] = models[name]
         return output_models
 
-    def get_light(self, name, with_group_prefix=True):
+    def get_light(self, name, with_group_prefix=True, use_group_pose=True):
         prefix = self.prefix if with_group_prefix else ''
         light = None
         if '/' not in name:
@@ -351,7 +354,8 @@ class ModelGroup(object):
                 return None            
 
             light = self._lights[name].copy()
-            light.pose = light.pose + self._pose                
+            if use_group_pose:
+                light.pose = light.pose + self._pose                
             light.name = prefix + light.name            
         else:
             sub_group_name = name.split('/')[0]
@@ -362,21 +366,22 @@ class ModelGroup(object):
             light = self._models[sub_group_name].get_light(
                 name=name.replace(sub_group_name + '/', ''), 
                 with_group_prefix=True)
-            light.pose = light.pose + self._pose                
+            if use_group_pose:
+                light.pose = light.pose + self._pose                
             light.name = prefix + light.name
         PCG_ROOT_LOGGER.info('Retrieving light model <{}> from group <{}>'.format(
             light.name, self.name))
         return light
 
-    def get_lights(self, with_group_prefix=True):
+    def get_lights(self, with_group_prefix=True, use_group_pose=True):
         prefix = self.prefix if with_group_prefix else ''
         output_lights = dict()        
         for name in self._lights:          
             light = self.get_light(name, with_group_prefix)
-            output_lights[light.name] = self.get_light(name, with_group_prefix)
+            output_lights[light.name] = self.get_light(name, with_group_prefix, use_group_pose)
         for tag in self._models:
             if isinstance(self._models[tag], ModelGroup):
-                lights = self._models[tag].get_lights(with_group_prefix=True)
+                lights = self._models[tag].get_lights(with_group_prefix=True, use_group_pose=True)
                 for name in lights:
                     lights[name].name = prefix + lights[name].name
                     lights[name].pose = lights[name].pose + self._pose
@@ -446,30 +451,96 @@ class ModelGroup(object):
         """
         return tag in self._lights
 
-    def to_sdf(self, use_include=True):
+    def to_sdf(self, type=None, use_include=True):
+        if type not in [None, 'sdf', 'world', 'model']:
+            PCG_ROOT_LOGGER.error(
+                'A model group can be converted to an <sdf>, '
+                '<world> or <model> unique SDF element or returned'
+                ' as separate SDF elements for each entity by using'
+                ' type as None, received={}'.format(type))
+            return None
         from . import is_gazebo_model
         from ..parsers.sdf import create_sdf_element
+        
+        if type == 'sdf':
+            sdf = create_sdf_element('sdf')
+            if self.n_lights > 0 and self.n_models > 0:                
+                sdf.world = self.to_sdf(type='world')                
+                return sdf
+        
         sdf_models = dict()
         sdf_lights = dict()
         sdf_includes = dict()
 
-        models = self.get_models(with_group_prefix=True)
+        with_group_prefix = type is None
+        use_group_pose = type is None
+
+        models = self.get_models(
+            with_group_prefix=with_group_prefix,
+            use_group_pose=use_group_pose)
+        PCG_ROOT_LOGGER.info(
+            'Retrieving models from group <{}>, '
+            'with_group_prefix={}, use_group_pose={}'.format(
+                self.name, with_group_prefix, use_group_pose))        
         for name in models:            
-            if (models[name].is_gazebo_model or is_gazebo_model(name)) and use_include:
+            if (models[name].is_gazebo_model or is_gazebo_model(name)) and \
+                use_include:
                 include = create_sdf_element('include')
-                include.uri = 'model://' + models[name]._source_model_name                
+                include.uri = 'model://' + models[name].source_model_name
                 include.pose = list(models[name].pose.position) + list(models[name].pose.rpy)
                 include.name = name
                 include.static = models[name].static
                 sdf_includes[name] = include
             else:
-                sdf_models[name] = models[name].to_sdf()
+                sdf_models[name] = models[name].to_sdf(type='model')
             
-        lights = self.get_lights(with_group_prefix=True)
+        lights = self.get_lights(            
+            with_group_prefix=with_group_prefix,
+            use_group_pose=use_group_pose)
         for name in lights:
             sdf_lights[name] = lights[name].to_sdf()
 
-        return sdf_models, sdf_lights, sdf_includes
+        if type is None:
+            return sdf_models, sdf_lights, sdf_includes
+
+        # Create a model for the model group
+        if len(sdf_models) or len(sdf_includes):
+            sdf_model_group = create_sdf_element('model')
+            sdf_model_group.pose = self._pose.to_sdf()
+
+            for tag in sdf_models:
+                sdf_model_group.add_model(tag, sdf_models[tag])
+
+            for tag in sdf_includes:
+                sdf_model_group.add_include(tag, sdf_includes[tag])
+        else: 
+            sdf_model_group = None
+
+        if type == 'world':
+            sdf_world = create_sdf_element('world')
+            for tag in sdf_lights:
+                sdf_world.add_light(tag, sdf_lights[tag])
+            if sdf_model_group is not None:
+                sdf_world.add_model(self.name, sdf_model_group)
+            return sdf_world
+        elif type == 'sdf':            
+            sdf = create_sdf_element('sdf')
+            if self.n_lights > 0 and self.n_models == 0:                
+                for tag in sdf_lights:
+                    sdf.add_light(tag, sdf_lights[tag])
+            elif self.n_lights == 0 and self.n_models > 0:                
+                sdf.add_model(self.name, sdf_model_group)
+            else:
+                return None                                            
+            return sdf
+        elif type == 'model':
+            if self.n_lights > 0:
+                PCG_ROOT_LOGGER.error(
+                    '[{}] A model does cannot have lights, n_lights={}, light names={}'.format(
+                        self.name, self.n_lights, list(self.lights.keys())))
+                return None
+            return sdf_model_group        
+        return None
 
     @staticmethod
     def from_sdf(sdf):
@@ -511,8 +582,7 @@ class ModelGroup(object):
                     else:
                         group.add_light(light.name, light)
 
-            # TODO Add load actors function
-                
+            # TODO Add load actors function                
         return group
 
     @staticmethod
@@ -521,3 +591,163 @@ class ModelGroup(object):
         PCG_ROOT_LOGGER.info('Importing a Gazebo model, name={}'.format(name))
         sdf = get_gazebo_model_sdf(name)        
         return ModelGroup.from_sdf(sdf)
+
+    def to_gazebo_model(self, output_dir=None, author=None, description=None, 
+        sdf_version='1.6', email=None, model_name=None, model_metaname=None, 
+        overwrite=False, nested=True):
+        import os
+        import getpass
+        from . import is_gazebo_model, get_gazebo_model_path
+        from ..parsers.sdf import create_sdf_element
+        from ..parsers.sdf_config import create_sdf_config_element
+
+        PCG_ROOT_LOGGER.info('Exporting <{}> model group as a Gazebo model'.format(
+            self.name))
+        if output_dir is None:
+            # Store the model in $HOME/.gazebo/models
+            output_dir = os.path.join(os.path.expanduser('~'), '.gazebo', 'models')
+            if not os.path.isdir(output_dir):
+                os.makedirs(output_dir)
+        elif isinstance(output_dir, str):
+            assert os.path.isdir(output_dir), 'Invalid output directory, dir={}'.format(
+                output_dir)
+
+        if model_name is None:
+            model_name = self.name
+
+        if model_metaname is None:
+            model_metaname = model_name
+        
+        PCG_ROOT_LOGGER.info('Output directory for Gazebo model <{}> = {}'.format(
+            model_name, output_dir))
+
+        if author is None or not isinstance(author, str):
+            author = getpass.getuser()
+
+        if email is None or not isinstance(email, str):
+            email = '{}@email.com'.format(getpass.getuser())
+
+        if description is None or not isinstance(description, str):
+            description = ''
+
+        PCG_ROOT_LOGGER.info('Gazebo model details <{}>:'.format(model_name))
+        PCG_ROOT_LOGGER.info('\t - Original model name: {}'.format(self.name))
+        PCG_ROOT_LOGGER.info('\t - Name: {}'.format(model_metaname))
+        PCG_ROOT_LOGGER.info('\t - Author: {}'.format(author))
+        PCG_ROOT_LOGGER.info('\t - E-mail: {}'.format(email))
+        PCG_ROOT_LOGGER.info('\t - Description: {}'.format(description))
+        PCG_ROOT_LOGGER.info('\t - SDF version: {}'.format(sdf_version))
+
+        # Check if a model with the same name already exists in the folder or in the 
+        # Gazebo resource path
+        if is_gazebo_model(model_name):
+            existing_model_path = get_gazebo_model_path(model_name)
+            PCG_ROOT_LOGGER.warning('Another model <{}> was found at {}'.format(
+                model_name, existing_model_path))
+
+            if '/usr/share' in existing_model_path:
+                PCG_ROOT_LOGGER.error(
+                    'Cannot create another model with name <{}>,'
+                    ' existing model with the same name can be '
+                    'found at {}'.format(model_name, existing_model_path))
+                return False
+            elif os.path.join(os.path.expanduser('~'), '.gazebo', 'models') in existing_model_path and \
+                not overwrite and \
+                output_dir != os.path.dirname(existing_model_path):
+                PCG_ROOT_LOGGER.error(
+                    'Another model with name <{}> can be found at {}'
+                    ' and will not be overwritten'.format(
+                        model_name, existing_model_path))
+                return False
+            elif output_dir == os.path.dirname(existing_model_path) and not overwrite:
+                PCG_ROOT_LOGGER.error(
+                    'Another model with name <{}> in the same output '
+                    'directory {} and will not be overwritten'.format(
+                        model_name, existing_model_path))
+                return False        
+        
+        if self.n_models > 0 and self.n_lights > 0:
+            PCG_ROOT_LOGGER.error(
+                'To export a model group as a model including'
+                ' other entities, the model must have either '
+                'models or lights, not both')
+            return False
+        
+        if self.n_lights > 0:
+            # Convert model group to SDF element with 
+            # nested light elements
+            sdf = self.to_sdf(type='sdf')
+        elif self.n_models > 0:            
+            if nested:         
+                # Convert model group to SDF element with nested
+                # model elements     
+                sdf = self.to_sdf(type='sdf', use_include=False)
+                assert sdf is not None, 'Could not convert model group to SDF'
+            else:
+                PCG_ROOT_LOGGER.info(
+                    'Included models and light sources that are not'
+                    ' Gazebo models already will be exported separately')                
+                # Export models that are not Gazebo models already
+                for name in self._models:                                
+                    if not is_gazebo_model(name) or overwrite:
+                        PCG_ROOT_LOGGER.info('Exporting model <{}>'.format(name))
+
+                        if isinstance(self._models[name], SimulationModel):
+                            self._models[name].to_gazebo_model(
+                                output_dir=output_dir, 
+                                author=author, 
+                                description=description, 
+                                sdf_version=sdf_version, 
+                                email=email, 
+                                model_name=name, 
+                                model_metaname=None, 
+                                overwrite=overwrite)
+                        elif isinstance(self._models[name], ModelGroup):
+                            self._models[name].to_gazebo_model(
+                                output_dir=output_dir, 
+                                author=author, 
+                                description=description, 
+                                sdf_version=sdf_version, 
+                                email=email, 
+                                model_name=name, 
+                                model_metaname=None, 
+                                overwrite=overwrite,
+                                nested=nested)
+                    else:
+                        PCG_ROOT_LOGGER.info('Model <{}> is already a Gazebo model, path={}'.format(
+                            name, get_gazebo_model_path(name)))                    
+
+                # Convert model group to SDF element with nested
+                # model elements     
+                sdf = self.to_sdf(type='sdf', use_include=True)
+                assert sdf is not None, 'Could not convert model group to SDF'
+        
+        full_model_dir = os.path.join(output_dir, model_name)       
+
+        if not os.path.isdir(full_model_dir):            
+            os.makedirs(full_model_dir)
+            PCG_ROOT_LOGGER.info('Model directory created: {}'.format(full_model_dir))
+
+        manifest_filename = 'model.config'
+        model_sdf_filename = 'model.sdf'
+
+        assert sdf is not None, 'Could not convert model group to SDF'
+        sdf.export_xml(os.path.join(full_model_dir, model_sdf_filename), sdf_version)
+
+        # Create model manifest file
+        manifest = create_sdf_config_element('model')
+        manifest.name = model_metaname
+        manifest.version = sdf_version
+        manifest.description = description
+        # Add SDF file
+        manifest.add_sdf()
+        manifest.sdfs[0].version = sdf_version
+        manifest.sdfs[0].value = model_sdf_filename
+        # Add author
+        manifest.add_author()
+        manifest.authors[0].name = author
+        manifest.authors[0].email = email
+        # Export manifest file
+        manifest.export_xml(os.path.join(full_model_dir, manifest_filename))
+            
+        return True
