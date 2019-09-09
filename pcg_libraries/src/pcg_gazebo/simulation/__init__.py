@@ -94,7 +94,8 @@ def get_gazebo_model_folders(dir_path):
             
             if has_config and has_sdf:
                 models_paths[item] = dict(
-                    path=os.path.join(dir_path, item), sdf=sdf_files)
+                    path=os.path.join(dir_path, item), 
+                    sdf=sdf_files)
             else:
                 models_paths.update(get_gazebo_model_folders(os.path.join(dir_path, item)))        
     return models_paths
