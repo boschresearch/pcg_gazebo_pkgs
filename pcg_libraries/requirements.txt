@@ -16,3 +16,6 @@ PyYAML
 pycollada
 networkx
 scipy
+pybind11
+MeshPy
+triangle

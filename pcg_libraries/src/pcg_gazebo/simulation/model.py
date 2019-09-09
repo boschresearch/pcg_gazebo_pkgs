@@ -1289,3 +1289,108 @@ class SimulationModel(object):
             pos,
             rot,
             reference_frame)
+
+    def to_gazebo_model(self, output_dir=None, author=None, description=None, 
+        sdf_version='1.6', email=None, model_name=None, model_metaname=None, 
+        overwrite=False):
+        import os
+        import getpass
+        from . import is_gazebo_model, get_gazebo_model_path
+        from ..parsers.sdf_config import create_sdf_config_element
+
+        if output_dir is None:
+            # Store the model in $HOME/.gazebo/models
+            output_dir = os.path.join(os.path.expanduser('~'), '.gazebo', 'models')
+            if not os.path.isdir(output_dir):
+                os.makedirs(output_dir)
+        elif isinstance(output_dir, str):
+            assert os.path.isdir(output_dir), 'Invalid output directory, dir={}'.format(
+                output_dir)
+
+        if model_name is None:
+            model_name = self.name
+
+        if model_metaname is None:
+            model_metaname = model_name
+        
+        PCG_ROOT_LOGGER.info('Output directory for Gazebo model <{}> = {}'.format(
+            model_name, output_dir))
+
+        if author is None or not isinstance(author, str):
+            author = getpass.getuser()
+
+        if email is None or not isinstance(email, str):
+            email = '{}@email.com'.format(getpass.getuser())
+
+        if description is None or not isinstance(description, str):
+            description = ''
+
+        PCG_ROOT_LOGGER.info('Gazebo model details <{}>:'.format(model_name))
+        PCG_ROOT_LOGGER.info('\t - Original model name: {}'.format(self.name))
+        PCG_ROOT_LOGGER.info('\t - Name: {}'.format(model_metaname))
+        PCG_ROOT_LOGGER.info('\t - Author: {}'.format(author))
+        PCG_ROOT_LOGGER.info('\t - E-mail: {}'.format(email))
+        PCG_ROOT_LOGGER.info('\t - Description: {}'.format(description))
+        PCG_ROOT_LOGGER.info('\t - SDF version: {}'.format(sdf_version))
+                
+        # Check if a model with the same name already exists in the folder or in the 
+        # Gazebo resource path
+
+        if is_gazebo_model(model_name):
+            existing_model_path = get_gazebo_model_path(model_name)
+            PCG_ROOT_LOGGER.warning('Another model <{}> was found at {}'.format(
+                model_name, existing_model_path))
+
+            if '/usr/share' in existing_model_path:
+                PCG_ROOT_LOGGER.error(
+                    'Cannot create another model with name <{}>,'
+                    ' existing model with the same name can be '
+                    'found at {}'.format(model_name, existing_model_path))
+                return False
+            elif os.path.join(os.path.expanduser('~'), '.gazebo', 'models') in existing_model_path and \
+                not overwrite and \
+                output_dir != os.path.dirname(existing_model_path):
+                PCG_ROOT_LOGGER.error(
+                    'Another model with name <{}> can be found at {}'
+                    ' and will not be overwritten'.format(
+                        model_name, existing_model_path))
+                return False
+            elif output_dir == os.path.dirname(existing_model_path) and not overwrite:
+                PCG_ROOT_LOGGER.error(
+                    'Another model with name <{}> in the same output '
+                    'directory {} and will not be overwritten'.format(
+                        model_name, existing_model_path))
+                return False
+
+        full_model_dir = os.path.join(output_dir, model_name)
+        
+        if not os.path.isdir(full_model_dir):            
+            os.makedirs(full_model_dir)
+            PCG_ROOT_LOGGER.info('Model directory created: {}'.format(full_model_dir))
+        
+        manifest_filename = 'model.config'
+        model_sdf_filename = 'model.sdf'
+
+        # Create model manifest file
+        manifest = create_sdf_config_element('model')
+        manifest.name = model_metaname
+        manifest.version = sdf_version
+        manifest.description = description
+        # Add SDF file
+        manifest.add_sdf()
+        manifest.sdfs[0].version = sdf_version
+        manifest.sdfs[0].value = model_sdf_filename
+        # Add author
+        manifest.add_author()
+        manifest.authors[0].name = author
+        manifest.authors[0].email = email
+        # Export manifest file
+        manifest.export_xml(os.path.join(full_model_dir, manifest_filename))
+
+        sdf = self.to_sdf('sdf', sdf_version)
+        sdf.export_xml(os.path.join(full_model_dir, model_sdf_filename), sdf_version)
+        
+        return True
+            
+
+

@@ -254,9 +254,9 @@ class XMLBase(object):
                     for elem in value:
                         if elem == 'attributes':
                             for att in value[elem]:
-                                setattr(obj, att, value[elem][att])                        
-                        elif obj.has_value() and elem == 'value':                            
-                            setattr(obj, 'value', value[elem])       
+                                setattr(obj, att, value[elem][att])                                                 
+                        elif obj.has_value() and elem == 'value':                                                        
+                            setattr(obj, 'value', value[elem])
                         else:
                             if obj._NAME != 'empty':
                                 has_mult = False
@@ -653,7 +653,9 @@ class XMLBase(object):
                                encoding='utf-8').decode('utf-8'))    
 
     def to_urdf(self):
-        raise NotImplementedError('{} has no implementation of to_urdf method'.format(self._NAME))
+        raise NotImplementedError(
+            '{} has no implementation of to_urdf method'.format(self._NAME))
 
     def to_sdf(self):
-        raise NotImplementedError('{} has no implementation of to_sdf method'.format(self._NAME))
+        raise NotImplementedError(
+            '{} has no implementation of to_sdf method'.format(self._NAME))
