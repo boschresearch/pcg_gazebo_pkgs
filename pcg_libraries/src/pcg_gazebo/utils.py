@@ -23,6 +23,8 @@ from jinja2 import FileSystemLoader, Environment, \
     BaseLoader, TemplateNotFound
 from .log import PCG_ROOT_LOGGER
 
+PCG_RESOURCES_ROOT_DIR = os.path.join(os.path.expanduser('~'), '.pcg')
+
 class _PCGYAMLLoader(yaml.SafeLoader, object):
     # MIT License
     #
