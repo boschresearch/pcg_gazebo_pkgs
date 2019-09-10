@@ -91,6 +91,15 @@ class Mesh(object):
         PCG_ROOT_LOGGER.info('Box mesh created, size={}'.format(size))
         return mesh
 
+    @staticmethod
+    def from_mesh(mesh, scale=[1, 1, 1]):
+        assert isinstance(mesh, trimesh.Trimesh), 'Invalid mesh structure input'
+        output = Mesh()
+        output._mesh = mesh
+        output._scale = scale
+        PCG_ROOT_LOGGER.info('Mesh created from trimesh.Trimesh object')
+        return output
+
     @property
     def filename(self):
         return self._uri.absolute_uri
@@ -642,8 +651,22 @@ class Mesh(object):
         return ax
 
     def to_sdf(self, uri_type=None):
+        if self._filename is None:            
+            from ...utils import generate_random_string, PCG_RESOURCES_ROOT_DIR 
+            folder = os.path.join(PCG_RESOURCES_ROOT_DIR, 'meshes')            
+            if not os.path.isdir(folder):                                
+                os.makedirs(folder)        
+            filename = generate_random_string(10)
+            
+            # Store the mesh as STL per default
+            self.export_mesh(filename, folder, format='stl')
+
+            # Update the URI to the mesh file
+            self._uri = Path(os.path.join(folder, filename + '.stl'))
+            self._filename = self._uri.absolute_uri            
         assert self.filename is not None, \
             'Mesh has not filename to fill the SDF element'
+        
         mesh = create_sdf_element('mesh')        
 
         if uri_type is None:
@@ -667,10 +690,10 @@ class Mesh(object):
         mesh.scale = self._scale
         return mesh    
 
-    def export_mesh(self, filename, folder='.', format='stl'):
+    def export_mesh(self, filename=None, folder=None, format='stl'):        
         if not self.load_mesh():
             PCG_ROOT_LOGGER.error('Cannot show section')
-            return False
+            return None
         export_formats = ['stl', 'dae', 'obj', 'json']
         if format not in export_formats:
             PCG_ROOT_LOGGER.error('Invalid mesh export format, options={}'.format(
@@ -680,9 +703,8 @@ class Mesh(object):
             PCG_ROOT_LOGGER.error('Export folder does not exist, provided={}'.format(
                 folder))
             return None
-
-        mesh_filename = os.path.join(folder, filename + '.' + format)
-        with open(mesh_filename, 'w+') as mesh_file:
-            trimesh.exchange.export.export_mesh(
-                self._mesh, mesh_file, file_type=format if format != 'stl' else 'stl_ascii')
-        return True
+        
+        mesh_filename = os.path.join(folder, filename + '.' + format)                
+        trimesh.exchange.export.export_mesh(
+            self._mesh, mesh_filename, file_type=format if format != 'stl' else 'stl_ascii')
+        return mesh_filename
