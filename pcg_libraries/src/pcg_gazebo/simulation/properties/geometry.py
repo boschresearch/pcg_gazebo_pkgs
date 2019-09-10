@@ -290,8 +290,11 @@ class Geometry(object):
         self._mesh = Mesh.create_box(
             size=size + [0.001])
 
-    def set_mesh(self, uri, scale=[1, 1, 1], load_mesh=True):      
-        self._mesh = Mesh(uri, load_mesh)        
+    def set_mesh(self, mesh, scale=[1, 1, 1], load_mesh=True):      
+        if isinstance(mesh, str):
+            self._mesh = Mesh(mesh, load_mesh)        
+        else:
+            self._mesh = Mesh.from_mesh(mesh, scale)
         self._sdf = self._mesh.to_sdf()   
         self._mesh.scale = scale
 
@@ -322,7 +325,7 @@ class Geometry(object):
                 normal=sdf.plane.normal.value)
         elif sdf.mesh is not None:            
             geo.set_mesh(
-                uri=sdf.mesh.uri.value, 
+                mesh=sdf.mesh.uri.value, 
                 scale=sdf.mesh.scale.value, 
                 load_mesh=False)
         return geo

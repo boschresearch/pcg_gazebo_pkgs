@@ -104,8 +104,8 @@ class Link(object):
                         'Invalid visual element input={}'.format(visual))
 
     @staticmethod
-    def create_link_from_mesh(name='link', visual_mesh_filename=None, 
-        collision_mesh_filename=None, use_approximated_collision=False, 
+    def create_link_from_mesh(name='link', visual_mesh=None, 
+        collision_mesh=None, use_approximated_collision=False, 
         approximated_collision_model='box', visual_mesh_scale=[1, 1, 1], 
         collision_mesh_scale=[1, 1, 1], pose=[0, 0, 0, 0, 0, 0], 
         color=None, mass=0, inertia=None, use_approximated_inertia=True, 
@@ -120,9 +120,9 @@ class Link(object):
         > *Input arguments*
         
         * `name` (*type:* `str`, *default:* `link`): Name of the link.
-        * `visual_mesh_filename` (*type:* `str`, *default:* `None`): Filename
-        to the visual mesh file.
-        * `collision_mesh_filename` (*type:* `str`, *default:* `None`): Filename
+        * `visual_mesh` (*type:* `str` or `trimesh.Trimesh`, *default:* `None`): Filename
+        to the visual mesh file or a mesh object.
+        * `collision_mesh` (*type:* `str` or `trimesh.Trimesh`, *default:* `None`): Filename
         to the collision mesh file. If the input is `None` and `use_approximated_collision` is
         `False`, the visual mesh will be also set as collision mesh.
         * `use_approximated_collision` (*type:* `bool`, *default:* `False`): If `True`, 
@@ -170,8 +170,9 @@ class Link(object):
 
         link.enable_visual()
         link.add_empty_visual(name='visual')
+        
         link.get_visual_by_name('visual').set_mesh_as_geometry(
-            uri=visual_mesh_filename, scale=visual_mesh_scale)
+            mesh=visual_mesh, scale=visual_mesh_scale)
         #TODO Enable dict configuration of visual elements
     
         mesh = trimesh.Scene()
@@ -196,12 +197,12 @@ class Link(object):
                 link.get_collision_by_name('collision').set_sphere_as_geometry(
                     radius=radius)
         else:
-            if collision_mesh_filename is None:
+            if collision_mesh is None:
                 link.get_collision_by_name('collision').set_mesh_as_geometry(
-                    uri=visual_mesh_filename, scale=visual_mesh_scale)
+                    mesh=visual_mesh, scale=visual_mesh_scale)
             else:
                 link.get_collision_by_name('collision').set_mesh_as_geometry(
-                    uri=collision_mesh_filename, scale=collision_mesh_scale)
+                    mesh=collision_mesh, scale=collision_mesh_scale)
         
         mesh = trimesh.Scene()
         mesh.add_geometry(link.get_meshes('collision'))

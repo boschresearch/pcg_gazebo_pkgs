@@ -208,8 +208,8 @@ class Collision(object):
     def set_cylinder_as_geometry(self, length, radius):
         self._geometry.set_cylinder(radius=radius, length=length)
 
-    def set_mesh_as_geometry(self, uri, scale=[1, 1, 1], load_mesh=True):
-        self._geometry.set_mesh(uri=uri, scale=scale, load_mesh=load_mesh)
+    def set_mesh_as_geometry(self, mesh, scale=[1, 1, 1], load_mesh=True):
+        self._geometry.set_mesh(mesh, scale=scale, load_mesh=load_mesh)
 
     def enable_property(self, name):
         assert name in self._include_in_sdf, 'Invalid property name'

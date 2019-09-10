@@ -529,8 +529,8 @@ class SimulationModel(object):
         return True
 
 
-    def add_link(self, name='link', link=None, visual_mesh_filename=None, 
-        collision_mesh_filename=None, use_approximated_collision=False, 
+    def add_link(self, name='link', link=None, visual_mesh=None, 
+        collision_mesh=None, use_approximated_collision=False, 
         approximated_collision_model='box', visual_mesh_scale=[1, 1, 1], 
         collision_mesh_scale=[1, 1, 1], pose=[0, 0, 0, 0, 0, 0], 
         color=None, mass=0, inertia=None, use_approximated_inertia=True, 
@@ -545,12 +545,12 @@ class SimulationModel(object):
                 self.name, name))
             link = Link(name=name)
 
-            if visual_mesh_filename is not None:
+            if visual_mesh is not None:
                 self._logger.info('Creating a link with the meshes provided')
                 link = Link.create_link_from_mesh(
                     name=name, 
-                    visual_mesh_filename=visual_mesh_filename, 
-                    collision_mesh_filename=collision_mesh_filename, 
+                    visual_mesh=visual_mesh, 
+                    collision_mesh=collision_mesh, 
                     use_approximated_collision=use_approximated_collision, 
                     approximated_collision_model=approximated_collision_model, 
                     visual_mesh_scale=visual_mesh_scale, 
