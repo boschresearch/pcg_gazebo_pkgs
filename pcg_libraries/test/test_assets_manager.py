@@ -213,7 +213,7 @@ class TestAssetManager(unittest.TestCase):
         mesh_config = dict(
             type='mesh',
             args=dict( 
-                visual_mesh_filename='package://pcg_libraries/test/meshes/monkey.stl',
+                visual_mesh='package://pcg_libraries/test/meshes/monkey.stl',
                 visual_mesh_scale=[1, 1, 1],
                 use_approximated_collision=True,
                 name='mesh',
