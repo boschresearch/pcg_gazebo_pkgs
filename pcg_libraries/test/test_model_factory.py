@@ -23,6 +23,7 @@ from pcg_gazebo.generators.creators import create_models_from_config
 from pcg_gazebo.task_manager import GazeboProxy
 from pcg_gazebo.simulation.properties import Material, Pose
 from pcg_gazebo.simulation import SimulationModel
+from shapely.geometry import Polygon, MultiPoint, LineString
 
 PKG = 'pcg_libraries'
 roslib.load_manifest(PKG)
@@ -1455,6 +1456,111 @@ class TestModelFactory(unittest.TestCase):
 
         models = create_models_from_config(model_config)
         self.assertEqual(len(models), n_radius * n_masses)
+
+    def test_extrude_polygon(self):
+        # Create mesh by extruding a polygon
+        vertices = [(0, 0), (0, 2), (2, 2), (2, 0), (0, 0)]
+        poly = Polygon(vertices)
+
+        name = _get_random_string(3)
+        pose = [random.random() for _ in range(6)]
+        mass = random.random()
+        height = random.random()
+
+        model_config = [
+            dict(
+                type='extrude',
+                args=dict(
+                    polygon=poly,
+                    name=name,
+                    mass=mass,
+                    height=height,
+                    pose=pose,
+                    color=None                    
+                )
+            )
+        ]
+
+        models = create_models_from_config(model_config)
+        self.assertEqual(len(models), 1)        
+
+        # Create a mesh by dilating point
+        vertices = [(random.random() * 5, random.random() * 5)]
+        poly = MultiPoint(vertices)
+
+        name = _get_random_string(3)
+        pose = [random.random() for _ in range(6)]
+        mass = random.random()
+        height = random.random()
+
+        model_config = [
+            dict(
+                type='extrude',
+                args=dict(
+                    polygon=poly,
+                    name=name,
+                    mass=mass,
+                    height=height,
+                    pose=pose,
+                    color=None,
+                    thickness=random.random()                    
+                )
+            )
+        ]
+
+        models = create_models_from_config(model_config)
+        self.assertEqual(len(models), 1) 
+
+        # Create a mesh by dilating a line       
+        vertices = [(random.random() * 5, random.random() * 5) for _ in range(5)]
+        poly = LineString(vertices)
+
+        name = _get_random_string(3)
+        pose = [random.random() for _ in range(6)]
+        mass = random.random()
+        height = random.random()
+
+        cap_style = ['round', 'flat', 'square']
+        join_style = ['round', 'mitre', 'bevel']
+
+        for cs in cap_style:
+            for js in join_style:
+                model_config = [
+                    dict(
+                        type='extrude',
+                        args=dict(
+                            polygon=poly,
+                            name=name,
+                            mass=mass,
+                            height=height,
+                            pose=pose,
+                            color=None,
+                            cap_style=cs,
+                            join_style=js,
+                            thickness=random.random()                    
+                        )
+                    )
+                ]
+
+                models = create_models_from_config(model_config)
+                self.assertEqual(len(models), 1) 
+
+    def test_invalid_polygon_extrude_inputs(self):
+        vertices = [(random.random() * 5, random.random() * 5)]
+        
+        model_config = [
+            dict(
+                type='extrude',
+                args=dict(
+                    polygon=MultiPoint(vertices),
+                    thickness=0,
+                    height=random.random()         
+                )
+            )
+        ]
+
+        with self.assertRaises(AssertionError):
+            create_models_from_config(model_config)
 
 
 if __name__ == '__main__':
