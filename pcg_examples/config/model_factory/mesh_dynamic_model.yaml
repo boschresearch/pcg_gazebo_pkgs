@@ -1,6 +1,6 @@
 - type: mesh
   args: 
-    visual_mesh_filename: package://pcg_examples/meshes/monkey.dae
+    visual_mesh: package://pcg_examples/meshes/monkey.dae
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: false
     name: monkey_dynamic_no_approx_collision
@@ -13,7 +13,7 @@
         izz: 0.1
 - type: mesh
   args: 
-    visual_mesh_filename: package://pcg_examples/meshes/monkey.dae
+    visual_mesh: package://pcg_examples/meshes/monkey.dae
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: true
     approximated_collision_model: box
@@ -24,7 +24,7 @@
     approximated_inertia_model: box
 - type: mesh
   args: 
-    visual_mesh_filename: package://pcg_examples/meshes/monkey.dae
+    visual_mesh: package://pcg_examples/meshes/monkey.dae
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: true
     approximated_collision_model: cylinder
@@ -35,7 +35,7 @@
     approximated_inertia_model: cylinder
 - type: mesh
   args: 
-    visual_mesh_filename: package://pcg_examples/meshes/monkey.dae
+    visual_mesh: package://pcg_examples/meshes/monkey.dae
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: true
     approximated_collision_model: sphere
@@ -46,7 +46,7 @@
     approximated_inertia_model: sphere
 - type: mesh
   args: 
-    visual_mesh_filename: package://pcg_examples/meshes/monkey_offset.dae
+    visual_mesh: package://pcg_examples/meshes/monkey_offset.dae
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: false
     name: monkey_offset_dynamic_no_approx_collision
@@ -59,7 +59,7 @@
         izz: 0.1
 - type: mesh
   args: 
-    visual_mesh_filename: package://pcg_examples/meshes/monkey_offset.dae
+    visual_mesh: package://pcg_examples/meshes/monkey_offset.dae
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: true
     approximated_collision_model: box
@@ -70,7 +70,7 @@
     approximated_inertia_model: box
 - type: mesh
   args: 
-    visual_mesh_filename: package://pcg_examples/meshes/monkey_offset.dae
+    visual_mesh: package://pcg_examples/meshes/monkey_offset.dae
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: true
     approximated_collision_model: cylinder
@@ -81,7 +81,7 @@
     approximated_inertia_model: cylinder
 - type: mesh
   args: 
-    visual_mesh_filename: package://pcg_examples/meshes/monkey_offset.dae
+    visual_mesh: package://pcg_examples/meshes/monkey_offset.dae
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: true
     approximated_collision_model: sphere
