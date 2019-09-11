@@ -18,11 +18,13 @@ import unittest
 import random
 import string
 import numpy as np
+import os
 from pcg_gazebo.parsers.sdf_config import create_sdf_config_element
 from pcg_gazebo.generators.creators import create_models_from_config
 from pcg_gazebo.task_manager import GazeboProxy
 from pcg_gazebo.simulation.properties import Material, Pose
 from pcg_gazebo.simulation import SimulationModel
+from pcg_gazebo.path import Path
 from shapely.geometry import Polygon, MultiPoint, LineString
 
 PKG = 'pcg_libraries'
@@ -37,6 +39,19 @@ def _get_colors():
         [ random.choice(list(Material.get_xkcd_colors_list().keys())) for _ in range(2)] + \
             [ [random.random() for _ in range(4)] for _ in range(2) ]
 
+def _delete_generated_meshes(sdf):
+    for i in range(len(sdf.links)):
+        for j in range(len(sdf.links[i].collisions)):
+            if sdf.links[i].collisions[j].geometry.mesh is not None:                
+                uri = Path(sdf.links[i].collisions[j].geometry.mesh.uri.value)
+                if os.path.isfile(uri.absolute_uri):
+                    os.remove(uri.absolute_uri)
+
+        for j in range(len(sdf.links[i].visuals)):
+            if sdf.links[i].visuals[j].geometry.mesh is not None:
+                uri = Path(sdf.links[i].visuals[j].geometry.mesh.uri.value)
+                if os.path.isfile(uri.absolute_uri):
+                    os.remove(uri.absolute_uri)
 class TestModelFactory(unittest.TestCase):
     def test_static_box_model(self):        
         for color in _get_colors():
@@ -1483,6 +1498,8 @@ class TestModelFactory(unittest.TestCase):
 
         models = create_models_from_config(model_config)
         self.assertEqual(len(models), 1)        
+        for model in models:
+            _delete_generated_meshes(model.to_sdf())
 
         # Create a mesh by dilating point
         vertices = [(random.random() * 5, random.random() * 5)]
@@ -1510,6 +1527,9 @@ class TestModelFactory(unittest.TestCase):
 
         models = create_models_from_config(model_config)
         self.assertEqual(len(models), 1) 
+
+        for model in models:
+            _delete_generated_meshes(model.to_sdf())
 
         # Create a mesh by dilating a line       
         vertices = [(random.random() * 5, random.random() * 5) for _ in range(5)]
@@ -1544,6 +1564,9 @@ class TestModelFactory(unittest.TestCase):
 
                 models = create_models_from_config(model_config)
                 self.assertEqual(len(models), 1) 
+
+                for model in models:
+                    _delete_generated_meshes(model.to_sdf())
 
     def test_invalid_polygon_extrude_inputs(self):
         vertices = [(random.random() * 5, random.random() * 5)]
