@@ -636,46 +636,18 @@ def cylinder_factory(length, radius, mass=None, name='cylinder',
 
 
 def extrude(polygon, height, thickness=0, cap_style='round', join_style='round', 
-    name='mesh', pose=[0, 0, 0, 0, 0, 0], color=None, mass=0, inertia=None, 
-    use_approximated_inertia=True, approximated_inertia_model='box', 
+    extrude_boundaries=False, name='mesh', pose=[0, 0, 0, 0, 0, 0], color=None, 
+    mass=0, inertia=None, use_approximated_inertia=True, approximated_inertia_model='box', 
     visual_parameters=dict(), collision_parameters=dict()):
-    assert height > 0, 'Extrude height must be greater than zero'
-    from trimesh.creation import extrude_polygon
-    from shapely.geometry import Polygon, Point, MultiPoint, LineString, MultiPolygon
-
-    if isinstance(polygon, Polygon):
-        assert polygon.is_valid, 'The input polygon object' \
-            ' is an invalid polygon shape'        
-        PCG_ROOT_LOGGER.info('Extruding a polygon to generate the model\'s mesh')
-        processed_polygon = polygon
-    elif isinstance(polygon, MultiPolygon):
-        pass
-    else:
-        assert thickness > 0, 'For any point or line-like input geometries, ' \
-            'a thickness has to be provided to generate the polygon by' \
-            ' dilating the input object'
-        cs_indexes = ['round', 'flat', 'square']
-        assert cap_style in cs_indexes, \
-            'Invalid cap style to dilate the geometry'
-        js_indexes = ['round', 'mitre', 'bevel']
-        assert join_style in js_indexes, \
-            'Invalid join style to dilate the geometry'
-            
-        PCG_ROOT_LOGGER.info(
-            'Dilating the input geometry, thickness={}, cap_style={}, '
-            'join_style={}'.format(thickness, cap_style, join_style))
-        processed_polygon = polygon.buffer(
-            thickness, 
-            cap_style=cs_indexes.index(cap_style) + 1,
-            join_style=js_indexes.index(join_style) + 1)
-
-        if not hasattr(processed_polygon, 'exterior'):
-            PCG_ROOT_LOGGER.warning(
-                'After dilating input polygon, the resulting polygon has no'
-                ' \'exterior\' attribute, using the convex hull instead')
-            processed_polygon = polygon.convex_hull
+    from .mesh import extrude
     
-    generated_mesh = extrude_polygon(processed_polygon, height)
+    generated_mesh = extrude(
+        polygon=polygon, 
+        height=height, 
+        thickness=thickness, 
+        cap_style=cap_style, 
+        join_style=join_style, 
+        extrude_boundaries=extrude_boundaries)
 
     model = mesh(
         visual_mesh=generated_mesh,
@@ -692,6 +664,111 @@ def extrude(polygon, height, thickness=0, cap_style='round', join_style='round',
 
     return model
 
+
+def room(polygon, wall_height=2, wall_thickness=0.1, cap_style='square', 
+    join_style='mitre', add_floor=False, floor_thickness=0.01, name='room', 
+    pose=[0, 0, 0, 0, 0, 0], color=None, mass=0, separate_models=False,
+    visual_parameters=dict(), collision_parameters=dict()):
+    from .mesh import extrude
+    from shapely.geometry import Point, MultiPoint, Polygon, MultiPolygon, \
+        LineString, MultiLineString
+
+    assert not isinstance(polygon, Point), \
+        'A room cannot be created from a point'
+
+    models = list()
+
+    if isinstance(polygon, MultiPoint):
+        PCG_ROOT_LOGGER.warning(
+            'The input for room construction is a MultiPoint'
+            ' object, using the convex hull')
+        input_poly = polygon.convex_hull
+    else:
+        input_poly = polygon
+
+    if isinstance(input_poly, LineString) or \
+        isinstance(input_poly, MultiLineString):
+        wall_mesh = extrude(
+            input_poly, 
+            height=wall_height,
+            thickness=wall_thickness,
+            cap_style='flat',
+            join_style='mitre',
+            extrude_boundaries=False)
+    else:
+        outer_wall = input_poly.buffer(
+            wall_thickness / 2.,
+            cap_style=3,
+            join_style=2)
+        inner_wall = input_poly.buffer(
+            -wall_thickness / 2.,            
+            cap_style=3,
+            join_style=2)
+        wall_poly = outer_wall.difference(inner_wall)
+        wall_mesh = extrude(
+            wall_poly, 
+            height=wall_height,
+            extrude_boundaries=False)
+    
+    
+    model = SimulationModel(name=name if not separate_models else name + '_walls')
+    
+    model.add_link(
+        visual_mesh=wall_mesh, 
+        collision_mesh=wall_mesh, 
+        use_approximated_collision=False, 
+        approximated_collision_model=False,
+        visual_mesh_scale=[1, 1, 1], 
+        collision_mesh_scale=[1, 1, 1], 
+        name='walls', 
+        color=color, 
+        mass=0, 
+        inertia=None, 
+        use_approximated_inertia=False,
+        pose=[0, 0, wall_height / 2., 0, 0, 0])    
+    model.pose = pose
+    model.static = True
+
+    models.append(model)
+
+    if add_floor:
+        if isinstance(input_poly, LineString) or \
+            isinstance(input_poly, MultiLineString):
+            floor_poly = input_poly.convex_hull
+        else:
+            floor_poly = input_poly
+
+        floor_poly = floor_poly.buffer(
+            wall_thickness / 2.,
+            cap_style=3,
+            join_style=2)
+
+        floor_mesh = extrude(
+            floor_poly, 
+            height=floor_thickness)
+        
+        floor_link_parameters = dict(
+            visual_mesh=floor_mesh, 
+            collision_mesh=floor_mesh, 
+            use_approximated_collision=False, 
+            approximated_collision_model=False,
+            visual_mesh_scale=[1, 1, 1], 
+            collision_mesh_scale=[1, 1, 1], 
+            name='floor', 
+            color=color, 
+            mass=0, 
+            inertia=None, 
+            use_approximated_inertia=False,
+            pose=[0, 0, -floor_thickness / 2., 0, 0, 0])
+
+        if separate_models:
+            floor_model = SimulationModel(name=name + '_ground_plane')
+            floor_model.add_link(**floor_link_parameters)
+            floor_model.static = True
+            models.append(floor_model)            
+        else:
+            models[0].add_link(**floor_link_parameters)    
+    return models
     
 def config2models(config):
     """Parse the input `dict` configuration and calls the respective
