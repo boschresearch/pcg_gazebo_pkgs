@@ -248,7 +248,7 @@ class Link(object):
                 assert tag in ['ixx', 'iyy', 'izz', 'ixy', 'ixz', 'iyz'], \
                     'Invalid moment of inertia tag={}'.format(tag)
                 setattr(link.inertial, tag, inertia[tag])
-        link.pose.value = pose
+        link.pose = pose
         return link
 
     @property
@@ -551,7 +551,8 @@ class Link(object):
         self._collisions.append(collision)
         return True        
 
-    def to_sdf(self, type='link', name='model', sdf_version='1.6'):
+    def to_sdf(self, type='link', name='model', sdf_version='1.6', 
+        resource_prefix='', model_folder=None, copy_resources=False):
         """Convert object to an SDF element. The object can be converted
         to different SDF elements according to the `type` input
 
@@ -581,7 +582,10 @@ class Link(object):
         if type == 'collision':
             output = list()
             for obj in self._collisions:
-                output.append(obj.to_sdf())
+                output.append(obj.to_sdf(
+                    resource_prefix=self.name if len(resource_prefix) == 0 else '{}_{}'.format(resource_prefix, self.name),
+                    model_folder=model_folder,
+                    copy_resources=copy_resources))
             if len(output) == 1:
                 return output[0]
             else:
@@ -590,25 +594,34 @@ class Link(object):
         if type == 'visual':
             output = list()
             for obj in self._visuals:
-                output.append(obj.to_sdf())
+                output.append(obj.to_sdf(
+                    resource_prefix=self.name if len(resource_prefix) == 0 else '{}_{}'.format(resource_prefix, self.name),
+                    model_folder=model_folder,
+                    copy_resources=copy_resources))
             if len(output) == 1:
                 return output[0]
             else:
                 return output
 
-        # Create a link for the plane, initialiy empty
+        # Create a link for the plane, initially empty
         link = create_sdf_element('link')
         link.name = self._name
 
         # Add collision elements
         if self._include_in_sdf['collision']:
             for item in self._collisions:
-                sdf = item.to_sdf()
+                sdf = item.to_sdf(
+                    resource_prefix=self.name if len(resource_prefix) == 0 else '{}_{}'.format(resource_prefix, self.name),
+                    model_folder=model_folder,
+                    copy_resources=copy_resources)
                 link.add_collision(sdf.name, sdf)
         # Add visual elements
         if self._include_in_sdf['visual']:
             for item in self._visuals:
-                sdf = item.to_sdf()
+                sdf = item.to_sdf(
+                    resource_prefix=self.name if len(resource_prefix) == 0 else '{}_{}'.format(resource_prefix, self.name),
+                    model_folder=model_folder,
+                    copy_resources=copy_resources)
                 link.add_visual(sdf.name, sdf)
 
         for tag in self._sensors:
