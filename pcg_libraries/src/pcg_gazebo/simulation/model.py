@@ -943,7 +943,8 @@ class SimulationModel(object):
         # set as a Gazebo model in order to avoid errors when using <include> blocks
         self.is_gazebo_model = False
 
-    def to_sdf(self, type='model', sdf_version='1.6'):
+    def to_sdf(self, type='model', sdf_version='1.6', resource_prefix='', 
+        model_folder=None, copy_resources=False):
         assert type in ['model', 'sdf'], 'Output type must be either model or sdf'
         model = create_sdf_element('model')
         model.name = self._name
@@ -953,13 +954,21 @@ class SimulationModel(object):
         model.allow_auto_disable = self._allow_auto_disable
 
         for tag in self.links:
-            model.add_link(tag, self.links[tag].to_sdf('link'))
+            model.add_link(tag, self.links[tag].to_sdf(
+                'link', 
+                resource_prefix=resource_prefix,
+                model_folder=model_folder,
+                copy_resources=copy_resources))
 
         for tag in self.joints:
             model.add_joint(tag, self.joints[tag].to_sdf())
 
         for tag in self.models:
-            model.add_model(tag, self.models[tag].to_sdf())     
+            model.add_model(tag, self.models[tag].to_sdf(
+                sdf_version=sdf_version,
+                resource_prefix=resource_prefix,
+                model_folder=model_folder,
+                copy_resources=copy_resources))     
 
         for tag in self.plugins:
             model.add_plugin(tag, plugin=self.plugins[tag].to_sdf())   
@@ -1297,7 +1306,7 @@ class SimulationModel(object):
         import getpass
         from . import is_gazebo_model, get_gazebo_model_path
         from ..parsers.sdf_config import create_sdf_config_element
-
+        PCG_ROOT_LOGGER.info('Converting model <{}> into a static Gazebo model'.format(self.name))
         if output_dir is None:
             # Store the model in $HOME/.gazebo/models
             output_dir = os.path.join(os.path.expanduser('~'), '.gazebo', 'models')
@@ -1387,8 +1396,19 @@ class SimulationModel(object):
         # Export manifest file
         manifest.export_xml(os.path.join(full_model_dir, manifest_filename))
 
-        sdf = self.to_sdf('sdf', sdf_version)
-        sdf.export_xml(os.path.join(full_model_dir, model_sdf_filename), sdf_version)
+        with open(os.path.join(full_model_dir, model_sdf_filename), 'w+') as sdf_file:
+            sdf_file.write('')
+            
+        sdf = self.to_sdf(
+            'sdf', 
+            sdf_version, 
+            resource_prefix=model_name,
+            model_folder=full_model_dir,
+            copy_resources=True)
+            
+        sdf.export_xml(
+            os.path.join(full_model_dir, model_sdf_filename), 
+            sdf_version)
         
         return True
             

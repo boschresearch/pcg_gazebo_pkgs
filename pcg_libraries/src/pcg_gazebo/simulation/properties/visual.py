@@ -191,9 +191,13 @@ class Visual(object):
         assert name in self._include_in_sdf, 'Invalid property name'
         return self._include_in_sdf[name]
 
-    def to_sdf(self):
+    def to_sdf(self, resource_prefix='', model_folder=None, 
+        copy_resources=False):
         visual = create_sdf_element('visual')
-        visual.geometry = self._geometry.to_sdf()
+        visual.geometry = self._geometry.to_sdf(
+            mesh_filename=self.name if len(resource_prefix) == 0 else '{}_{}'.format(resource_prefix, self.name), 
+            model_folder=model_folder,
+            copy_resources=copy_resources)
         if self.using_property('material'):
             visual.material = self._sdf_visual.material                        
         if self.using_property('pose'):

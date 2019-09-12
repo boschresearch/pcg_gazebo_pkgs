@@ -33,6 +33,7 @@ class Geometry(object):
         self._mesh = None
         self._mesh_pkg_name = None
         self._mesh_resource = None
+        self._geo_type = geo_type
         if geo_type is not None:
             assert geo_type in self._GEO_TYPES, \
                 'Invalid geometry type, options={}'.format(self._GEO_TYPES)
@@ -252,6 +253,7 @@ class Geometry(object):
         self.set_param('size', size)
         self._mesh = Mesh.create_box(
             size=size)
+        self._geo_type = 'box'
                 
     def set_cylinder(self, radius, length):
         assert radius > 0, 'Radius must be greater than zero'
@@ -262,6 +264,7 @@ class Geometry(object):
         self._mesh = Mesh.create_cylinder(
             radius=radius,
             height=length)
+        self._geo_type = 'cylinder'
 
     def set_sphere(self, radius):
         assert radius > 0, 'Radius must be greater than zero'
@@ -269,6 +272,7 @@ class Geometry(object):
         self.set_param('radius', radius)
         self._mesh = Mesh.create_sphere(
             radius=radius)
+        self._geo_type = 'sphere'
 
     def set_plane(self, size, normal):
         assert isinstance(size, collections.Iterable), \
@@ -289,22 +293,29 @@ class Geometry(object):
         self.set_param('normal', normal)
         self._mesh = Mesh.create_box(
             size=size + [0.001])
+        self._geo_type = 'plane'
 
     def set_mesh(self, mesh, scale=[1, 1, 1], load_mesh=True):      
         if isinstance(mesh, str):
             self._mesh = Mesh(mesh, load_mesh)        
         else:
             self._mesh = Mesh.from_mesh(mesh, scale)
-        self._sdf = self._mesh.to_sdf()   
+        # self._sdf = self._mesh.to_sdf()   
         self._mesh.scale = scale
+        self._geo_type = 'mesh'
 
-    def to_sdf(self):
+    def to_sdf(self, mesh_filename=None, model_folder=None, copy_resources=False):
+        PCG_ROOT_LOGGER.info('Convert geometry to SDF')
         sdf = create_sdf_element('geometry')
-        if self._sdf is not None:
-            setattr(sdf, self._sdf._NAME, self._sdf)                        
+        if self._sdf is not None or self._geo_type == 'mesh':
+            if self._geo_type == 'mesh':
+                self._sdf = self._mesh.to_sdf(
+                    mesh_filename=None if self._mesh.filename is not None else mesh_filename,
+                    model_folder=model_folder, 
+                    copy_resources=copy_resources)
+            setattr(sdf, self._sdf.xml_element_name, self._sdf)                        
         else:
-            sdf = None
-        
+            sdf = None        
         return sdf
 
     @staticmethod
