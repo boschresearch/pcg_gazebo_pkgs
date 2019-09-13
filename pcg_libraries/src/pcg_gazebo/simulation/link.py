@@ -674,7 +674,7 @@ class Link(object):
         link = Link()
         link.name = sdf.name
         if sdf.pose is not None:
-            link.pose.from_sdf(sdf.pose)
+            link.pose = Pose.from_sdf(sdf.pose)
         link.self_collide = False if sdf.self_collide is None else sdf.self_collide.value
         link.static = False if sdf.static is None else sdf.static.value
         link.kinematic = False if sdf.kinematic is None else sdf.kinematic.value

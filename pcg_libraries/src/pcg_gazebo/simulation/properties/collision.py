@@ -151,15 +151,18 @@ class Collision(object):
 
     @pose.setter
     def pose(self, vec):
-        assert isinstance(vec, collections.Iterable), \
-            'Input vector must be iterable'
-        assert len(vec) == 6 or len(vec) == 7, \
-            'Input vector must have either 6 or 7 elements'
-        for item in vec:
-            assert isinstance(item, float) or isinstance(item, int), \
-                'Each pose element must be either a float or an integer'
-        
-        self._pose = Pose(pos=vec[0:3], rot=vec[3::])
+        if isinstance(vec, Pose):
+            self._pose = vec
+        else:
+            assert isinstance(vec, collections.Iterable), \
+                'Input vector must be iterable'
+            assert len(vec) == 6 or len(vec) == 7, \
+                'Input vector must have either 6 or 7 elements'
+            for item in vec:
+                assert isinstance(item, float) or isinstance(item, int), \
+                    'Each pose element must be either a float or an integer'
+            
+            self._pose = Pose(pos=vec[0:3], rot=vec[3::])
 
     @property
     def geometry(self):
@@ -557,7 +560,7 @@ class Collision(object):
         collision.max_contacts = 20 if sdf.max_contacts is None else sdf.max_contacts.value
 
         if sdf.pose is not None:
-            collision.pose.from_sdf(sdf.pose)
+            collision.pose = Pose.from_sdf(sdf.pose)
 
         if sdf.surface is not None:
             collision._sdf_collision.surface = sdf.surface

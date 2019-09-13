@@ -23,7 +23,7 @@ from .link import Link
 from .joint import Joint
 from .sensors import IMU, Ray, Contact, Camera
 from ..parsers.sdf import create_sdf_element, is_sdf_element
-from ..parsers import sdf2urdf
+from ..parsers import sdf2urdf, urdf2sdf
 from ..log import PCG_ROOT_LOGGER
 
 
@@ -985,6 +985,16 @@ class SimulationModel(object):
         return sdf
 
     @staticmethod
+    def from_urdf(urdf):
+        if urdf._NAME != 'robot':
+            msg = 'URDF element must be of type <robot>'
+            PCG_ROOT_LOGGER.error(msg)
+            raise ValueError(msg)
+
+        sdf = urdf2sdf(urdf)
+        return SimulationModel.from_sdf(sdf)
+
+    @staticmethod
     def from_sdf(sdf):
         if sdf._NAME != 'model':
             msg = 'SDF element must be of type <model>'
@@ -1002,7 +1012,7 @@ class SimulationModel(object):
 
         # Set model pose
         if sdf.pose is not None:
-            model.pose.from_sdf(sdf.pose)
+            model.pose = Pose.from_sdf(sdf.pose)
         # Parse links
         if sdf.links:
             for link_sdf in sdf.links:                
