@@ -645,32 +645,33 @@ def urdf2sdf(urdf):
 
     # Parse all gazebo elements
     if urdf._NAME == 'robot':
-        for gazebo in urdf.gazebos:
-            if gazebo.reference is not None:
-                # In case the Gazebo block is referenced to a link or joint,
-                # copy child elements to the respective link or joint
-                if urdf.get_link_by_name(gazebo.reference):
-                    for link in urdf.links:
-                        if link.name == gazebo.reference:
-                            link.gazebo = gazebo
-                            break
-                if urdf.get_joint_by_name(gazebo.reference):
-                    for joint in urdf.joint:
-                        if joint.name == gazebo.reference:
-                            joint.gazebo = gazebo
-                            break
-            else:
-                # Add all model specific Gazebo elements
-                for tag in gazebo.children:
-                    if isinstance(gazebo.children[tag], collections.Iterable):
-                        for elem in gazebo.children[tag]:
-                            if elem._TYPE != 'sdf':
+        if urdf.gazebos is not None:
+            for gazebo in urdf.gazebos:
+                if gazebo.reference is not None:
+                    # In case the Gazebo block is referenced to a link or joint,
+                    # copy child elements to the respective link or joint
+                    if urdf.get_link_by_name(gazebo.reference):
+                        for link in urdf.links:
+                            if link.name == gazebo.reference:
+                                link.gazebo = gazebo
+                                break
+                    if urdf.get_joint_by_name(gazebo.reference):
+                        for joint in urdf.joint:
+                            if joint.name == gazebo.reference:
+                                joint.gazebo = gazebo
+                                break
+                else:
+                    # Add all model specific Gazebo elements
+                    for tag in gazebo.children:
+                        if isinstance(gazebo.children[tag], collections.Iterable):
+                            for elem in gazebo.children[tag]:
+                                if elem._TYPE != 'sdf':
+                                    continue
+                                sdf._add_child_element(elem._NAME, elem)
+                        else:
+                            if gazebo.children[tag]._TYPE != 'sdf':
                                 continue
-                            sdf._add_child_element(elem._NAME, elem)
-                    else:
-                        if gazebo.children[tag]._TYPE != 'sdf':
-                            continue
-                        sdf._add_child_element(tag, gazebo.children[tag])
+                            sdf._add_child_element(tag, gazebo.children[tag])
 
     # Set all Gazebo specific elements for this SDF element
     # in case the element can parse Gazebo elements
@@ -871,16 +872,78 @@ def urdf2sdf(urdf):
                 sdf.add_collision(sdf_collision.name, sdf_collision)
 
     elif urdf._NAME == 'robot':
+        import networkx
+        import sys
+        from ..simulation.properties import Pose
         sdf.name = urdf.name 
+
+        # Create a graph to find the connections between 
+        # links and compute the relative pose between them
+
+        robot_graph = networkx.DiGraph()
+
+        if urdf.links is not None:
+            for link in urdf.links:                
+                # Add link as a node
+                robot_graph.add_node(link.name)
+        
+        if urdf.joints is not None:
+            for joint in urdf.joints:
+                # Add connection between links as an edge
+                robot_graph.add_edge(
+                    joint.parent.link, joint.child.link, label=joint.name)
+                    
+        # Test if the robot graph is connected
+        for n in robot_graph.nodes():
+            if robot_graph.out_degree(n) + robot_graph.in_degree(n) == 0:
+                raise ValueError('Link <{}> is not connected by any joint'.format(n))
+
+        print('nodes=')
+        for n in robot_graph.nodes():
+            print(' - {}'.format(n))
+        print('edges=')
+        for n in robot_graph.edges():
+            print(' - {}'.format(n))
+
+        print(networkx.get_edge_attributes(robot_graph, 'label'))
+        print(networkx.to_edgelist(robot_graph))           
+
+        start_nodes = [n for n in robot_graph.nodes_iter() \
+            if robot_graph.out_degree(n) > 0 and robot_graph.in_degree(n) == 0] 
+        end_nodes = [n for n in robot_graph.nodes_iter() \
+            if robot_graph.out_degree(n) == 0 and robot_graph.in_degree(n) > 0]
+
+        assert len(start_nodes) == 1, 'The URDF structure should have only one start node'
 
         if urdf.links is not None:
             for link in urdf.links:                
                 sdf_link = urdf2sdf(link)
                 sdf.add_link(sdf_link.name, sdf_link)
-        
+                    
         if urdf.joints is not None:
             for joint in urdf.joints:
                 sdf_joint = urdf2sdf(joint)
+                sdf_joint.rm_child('pose')
                 sdf.add_joint(sdf_joint.name, sdf_joint)
+
+            # Find the paths from start node to end nodes and 
+            # compute the link poses in between
+            for e in end_nodes:
+                cur_pose = Pose()
+                for path in networkx.all_simple_paths(robot_graph, source=start_nodes[0], target=e):
+                    for i in range(len(path)):
+                        if path[i] == start_nodes[0]:
+                            continue
+                        for joint in urdf.joints:
+                            if joint.parent.link == path[i - 1] and joint.child.link == path[i]:
+                                parent_link = sdf.get_link_by_name(joint.parent.link)
+                                child_link = sdf.get_link_by_name(joint.child.link)
+
+                                if parent_link.pose is not None:
+                                    pose = Pose.from_urdf(joint.origin) + Pose.from_sdf(parent_link.pose)
+                                else:
+                                    pose = Pose.from_urdf(joint.origin) 
+                                cur_pose = Pose(joint.origin.xyz, joint.origin.rpy) + cur_pose
+                                child_link.pose = pose.to_sdf()
 
     return sdf
