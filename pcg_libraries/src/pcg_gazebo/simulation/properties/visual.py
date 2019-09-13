@@ -176,8 +176,8 @@ class Visual(object):
     def set_cylinder_as_geometry(self, length, radius):
         self._geometry.set_cylinder(radius=radius, length=length)
 
-    def set_mesh_as_geometry(self, uri, scale=[1, 1, 1], load_mesh=True):
-        self._geometry.set_mesh(uri=uri, scale=scale, load_mesh=load_mesh)
+    def set_mesh_as_geometry(self, mesh, scale=[1, 1, 1], load_mesh=True):
+        self._geometry.set_mesh(mesh=mesh, scale=scale, load_mesh=load_mesh)
 
     def enable_property(self, name):
         assert name in self._include_in_sdf, 'Invalid property name'
@@ -191,9 +191,13 @@ class Visual(object):
         assert name in self._include_in_sdf, 'Invalid property name'
         return self._include_in_sdf[name]
 
-    def to_sdf(self):
+    def to_sdf(self, resource_prefix='', model_folder=None, 
+        copy_resources=False):
         visual = create_sdf_element('visual')
-        visual.geometry = self._geometry.to_sdf()
+        visual.geometry = self._geometry.to_sdf(
+            mesh_filename=self.name if len(resource_prefix) == 0 else '{}_{}'.format(resource_prefix, self.name), 
+            model_folder=model_folder,
+            copy_resources=copy_resources)
         if self.using_property('material'):
             visual.material = self._sdf_visual.material                        
         if self.using_property('pose'):

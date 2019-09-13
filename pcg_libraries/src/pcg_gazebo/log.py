@@ -19,7 +19,7 @@ import datetime
 import random
 import string
 
-PCG_LOG_DIR_ROOT = '/tmp/pcg/logs'
+PCG_LOG_DIR_ROOT = os.path.join(os.path.expanduser('~'), '.pcg', 'logs')
 
 
 PCG_LOG_DIR = os.path.join(

@@ -18,11 +18,15 @@ import unittest
 import random
 import string
 import numpy as np
+import os
+import shutil
 from pcg_gazebo.parsers.sdf_config import create_sdf_config_element
-from pcg_gazebo.generators.creators import create_models_from_config
+from pcg_gazebo.generators.creators import create_models_from_config, extrude
 from pcg_gazebo.task_manager import GazeboProxy
 from pcg_gazebo.simulation.properties import Material, Pose
 from pcg_gazebo.simulation import SimulationModel
+from pcg_gazebo.path import Path
+from shapely.geometry import Polygon, MultiPoint, LineString
 
 PKG = 'pcg_libraries'
 roslib.load_manifest(PKG)
@@ -36,6 +40,19 @@ def _get_colors():
         [ random.choice(list(Material.get_xkcd_colors_list().keys())) for _ in range(2)] + \
             [ [random.random() for _ in range(4)] for _ in range(2) ]
 
+def _delete_generated_meshes(sdf):    
+    for i in range(len(sdf.links)):
+        for j in range(len(sdf.links[i].collisions)):
+            if sdf.links[i].collisions[j].geometry.mesh is not None:                
+                uri = Path(sdf.links[i].collisions[j].geometry.mesh.uri.value)
+                if os.path.isfile(uri.absolute_uri):
+                    os.remove(uri.absolute_uri)
+
+        for j in range(len(sdf.links[i].visuals)):
+            if sdf.links[i].visuals[j].geometry.mesh is not None:
+                uri = Path(sdf.links[i].visuals[j].geometry.mesh.uri.value)
+                if os.path.isfile(uri.absolute_uri):
+                    os.remove(uri.absolute_uri)
 class TestModelFactory(unittest.TestCase):
     def test_static_box_model(self):        
         for color in _get_colors():
@@ -1456,6 +1473,174 @@ class TestModelFactory(unittest.TestCase):
         models = create_models_from_config(model_config)
         self.assertEqual(len(models), n_radius * n_masses)
 
+    def test_extrude_polygon(self):
+        # Create mesh by extruding a polygon
+        vertices = [(0, 0), (0, 2), (2, 2), (2, 0), (0, 0)]
+        poly = Polygon(vertices)
+
+        name = _get_random_string(3)
+        pose = [random.random() for _ in range(6)]
+        mass = random.random()
+        height = random.random()
+
+        model_config = [
+            dict(
+                type='extrude',
+                args=dict(
+                    polygon=poly,
+                    name=name,
+                    mass=mass,
+                    height=height,
+                    pose=pose,
+                    color=None                    
+                )
+            )
+        ]
+
+        models = create_models_from_config(model_config)
+        self.assertEqual(len(models), 1)        
+        for model in models:
+            _delete_generated_meshes(model.to_sdf())
+
+        # Extrude only the boundaries
+        cap_style = ['round', 'flat', 'square']
+        join_style = ['round', 'mitre', 'bevel']
+
+        for cs in cap_style:
+            for js in join_style:
+                model_config = [
+                    dict(
+                        type='extrude',
+                        args=dict(
+                            polygon=poly,
+                            name=name,
+                            mass=mass,
+                            height=height,
+                            pose=pose,
+                            color=None,
+                            extrude_boundaries=True,
+                            thickness=random.random(),
+                            cap_style=cs,
+                            join_style=js
+                        )
+                    )
+                ]
+
+                models = create_models_from_config(model_config)
+                self.assertEqual(len(models), 1)        
+                
+                for model in models:
+                    _delete_generated_meshes(model.to_sdf())
+
+        # Create a mesh by dilating point
+        vertices = [(random.random() * 5, random.random() * 5)]
+        poly = MultiPoint(vertices)
+
+        name = _get_random_string(3)
+        pose = [random.random() for _ in range(6)]
+        mass = random.random()
+        height = random.random()
+
+        model_config = [
+            dict(
+                type='extrude',
+                args=dict(
+                    polygon=poly,
+                    name=name,
+                    mass=mass,
+                    height=height,
+                    pose=pose,
+                    color=None,
+                    thickness=random.random()                    
+                )
+            )
+        ]
+
+        models = create_models_from_config(model_config)
+        self.assertEqual(len(models), 1) 
+
+        for model in models:
+            _delete_generated_meshes(model.to_sdf())
+
+        # Create a mesh by dilating a line       
+        vertices = [(random.random() * 5, random.random() * 5) for _ in range(5)]
+        poly = LineString(vertices)
+
+        name = _get_random_string(3)
+        pose = [random.random() for _ in range(6)]
+        mass = random.random()
+        height = random.random()
+
+        for cs in cap_style:
+            for js in join_style:
+                model_config = [
+                    dict(
+                        type='extrude',
+                        args=dict(
+                            polygon=poly,
+                            name=name,
+                            mass=mass,
+                            height=height,
+                            pose=pose,
+                            color=None,
+                            cap_style=cs,
+                            join_style=js,
+                            thickness=random.random()                    
+                        )
+                    )
+                ]
+
+                models = create_models_from_config(model_config)
+                self.assertEqual(len(models), 1) 
+
+                for model in models:
+                    _delete_generated_meshes(model.to_sdf())
+
+    def test_invalid_polygon_extrude_inputs(self):
+        vertices = [(random.random() * 5, random.random() * 5)]
+        
+        model_config = [
+            dict(
+                type='extrude',
+                args=dict(
+                    polygon=MultiPoint(vertices),
+                    thickness=0,
+                    height=random.random()         
+                )
+            )
+        ]
+
+        with self.assertRaises(AssertionError):
+            create_models_from_config(model_config)
+
+    def test_export_to_gazebo_model(self):
+        # Create mesh by extruding a polygon
+        vertices = [(0, 0), (0, 2), (2, 2), (2, 0), (0, 0)]
+        poly = Polygon(vertices)
+
+        name = _get_random_string(3)
+        pose = [random.random() for _ in range(6)]
+        mass = random.random()
+        height = 10 * random.random()
+
+        model_config = dict(
+            polygon=poly,
+            name=name,
+            mass=mass,
+            height=height,
+            pose=pose,
+            color=None                    
+        )
+        
+        model = extrude(**model_config)
+        
+        model.to_gazebo_model()
+        model_dir = os.path.join(
+            os.path.expanduser('~'), '.gazebo', 'models', name)
+
+        self.assertTrue(os.path.isdir(model_dir))
+
+        shutil.rmtree(model_dir)
 
 if __name__ == '__main__':
     import rosunit

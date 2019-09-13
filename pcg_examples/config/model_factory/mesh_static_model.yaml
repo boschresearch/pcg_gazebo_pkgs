@@ -1,13 +1,13 @@
 - type: mesh
   args: 
-    visual_mesh_filename: package://pcg_examples/meshes/monkey.dae
+    visual_mesh: package://pcg_examples/meshes/monkey.dae
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: false
     name: monkey_static_no_approx_collision
     color: xkcd
 - type: mesh
   args: 
-    visual_mesh_filename: package://pcg_examples/meshes/monkey.dae
+    visual_mesh: package://pcg_examples/meshes/monkey.dae
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: true
     approximated_collision_model: box
@@ -15,7 +15,7 @@
     color: xkcd
 - type: mesh
   args: 
-    visual_mesh_filename: package://pcg_examples/meshes/monkey.dae
+    visual_mesh: package://pcg_examples/meshes/monkey.dae
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: true
     approximated_collision_model: cylinder
@@ -23,7 +23,7 @@
     color: xkcd
 - type: mesh
   args: 
-    visual_mesh_filename: package://pcg_examples/meshes/monkey.dae
+    visual_mesh: package://pcg_examples/meshes/monkey.dae
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: true
     approximated_collision_model: sphere
@@ -31,14 +31,14 @@
     color: xkcd
 - type: mesh
   args: 
-    visual_mesh_filename: package://pcg_examples/meshes/monkey_offset.dae
+    visual_mesh: package://pcg_examples/meshes/monkey_offset.dae
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: false
     name: monkey_offset_static_no_approx_collision
     color: xkcd
 - type: mesh
   args: 
-    visual_mesh_filename: package://pcg_examples/meshes/monkey_offset.dae
+    visual_mesh: package://pcg_examples/meshes/monkey_offset.dae
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: true
     approximated_collision_model: box
@@ -46,7 +46,7 @@
     color: xkcd
 - type: mesh
   args: 
-    visual_mesh_filename: package://pcg_examples/meshes/monkey_offset.dae
+    visual_mesh: package://pcg_examples/meshes/monkey_offset.dae
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: true
     approximated_collision_model: cylinder
@@ -54,7 +54,7 @@
     color: xkcd
 - type: mesh
   args: 
-    visual_mesh_filename: package://pcg_examples/meshes/monkey_offset.dae
+    visual_mesh: package://pcg_examples/meshes/monkey_offset.dae
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: true
     approximated_collision_model: sphere

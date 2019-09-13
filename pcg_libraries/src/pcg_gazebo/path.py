@@ -17,7 +17,7 @@ import re
 import sys
 import rospkg
 from .log import PCG_ROOT_LOGGER
-
+from .utils import PCG_RESOURCES_ROOT_DIR
 
 class Path(object):
     def __init__(self, uri):
@@ -36,7 +36,19 @@ class Path(object):
             PCG_ROOT_LOGGER.error(msg)
             raise ValueError(uri)
 
+        if PCG_RESOURCES_ROOT_DIR not in self._absolute_uri:
+            self._resolve_gazebo_model()
+            self._resolve_ros_package()
+
         PCG_ROOT_LOGGER.info('URI {} resolved={}'.format(uri, self.absolute_uri))
+        PCG_ROOT_LOGGER.info('\t - Original URI={}'.format(self.original_uri))
+        PCG_ROOT_LOGGER.info('\t - Absolute URI={}'.format(self.absolute_uri))
+        PCG_ROOT_LOGGER.info('\t - ROS package={}'.format(self.ros_package))
+        PCG_ROOT_LOGGER.info('\t - Gazebo model={}'.format(self.gazebo_model))
+        PCG_ROOT_LOGGER.info('\t - File URI={}'.format(self.file_uri))
+        PCG_ROOT_LOGGER.info('\t - Package URI={}'.format(self.package_uri))
+        PCG_ROOT_LOGGER.info('\t - Model URI={}'.format(self.model_uri))
+        PCG_ROOT_LOGGER.info('\t - ROS package URI={}'.format(self.ros_package_uri))
 
     @property
     def original_uri(self):
@@ -83,6 +95,7 @@ class Path(object):
 
     @property
     def ros_package_uri(self):
+        self.resolve_uri(self._absolute_uri)
         if self._ros_pkg is None:
             return None
         relative_path = self._absolute_uri.replace(
@@ -157,3 +170,21 @@ class Path(object):
             return uri_temp.replace('(find {})'.format(self._ros_pkg), pkg_path)            
         else:
             return None
+
+    def _resolve_gazebo_model(self):
+        from .simulation import get_gazebo_model_names, get_gazebo_model_path, \
+            load_gazebo_models
+
+        load_gazebo_models()
+        for name in get_gazebo_model_names():
+            gazebo_path = get_gazebo_model_path(name)
+            if gazebo_path in os.path.dirname(self.absolute_uri):
+                self._gazebo_model = name
+                return 
+
+    def _resolve_ros_package(self):
+        for ros_pkg in rospkg.RosPack().list():
+            pkg_path = rospkg.RosPack().get_path(ros_pkg)
+            if pkg_path in os.path.dirname(self.absolute_uri):
+                self._ros_pkg = ros_pkg
+                return

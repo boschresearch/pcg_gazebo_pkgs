@@ -104,8 +104,8 @@ class Link(object):
                         'Invalid visual element input={}'.format(visual))
 
     @staticmethod
-    def create_link_from_mesh(name='link', visual_mesh_filename=None, 
-        collision_mesh_filename=None, use_approximated_collision=False, 
+    def create_link_from_mesh(name='link', visual_mesh=None, 
+        collision_mesh=None, use_approximated_collision=False, 
         approximated_collision_model='box', visual_mesh_scale=[1, 1, 1], 
         collision_mesh_scale=[1, 1, 1], pose=[0, 0, 0, 0, 0, 0], 
         color=None, mass=0, inertia=None, use_approximated_inertia=True, 
@@ -120,9 +120,9 @@ class Link(object):
         > *Input arguments*
         
         * `name` (*type:* `str`, *default:* `link`): Name of the link.
-        * `visual_mesh_filename` (*type:* `str`, *default:* `None`): Filename
-        to the visual mesh file.
-        * `collision_mesh_filename` (*type:* `str`, *default:* `None`): Filename
+        * `visual_mesh` (*type:* `str` or `trimesh.Trimesh`, *default:* `None`): Filename
+        to the visual mesh file or a mesh object.
+        * `collision_mesh` (*type:* `str` or `trimesh.Trimesh`, *default:* `None`): Filename
         to the collision mesh file. If the input is `None` and `use_approximated_collision` is
         `False`, the visual mesh will be also set as collision mesh.
         * `use_approximated_collision` (*type:* `bool`, *default:* `False`): If `True`, 
@@ -170,8 +170,9 @@ class Link(object):
 
         link.enable_visual()
         link.add_empty_visual(name='visual')
+        
         link.get_visual_by_name('visual').set_mesh_as_geometry(
-            uri=visual_mesh_filename, scale=visual_mesh_scale)
+            mesh=visual_mesh, scale=visual_mesh_scale)
         #TODO Enable dict configuration of visual elements
     
         mesh = trimesh.Scene()
@@ -196,12 +197,12 @@ class Link(object):
                 link.get_collision_by_name('collision').set_sphere_as_geometry(
                     radius=radius)
         else:
-            if collision_mesh_filename is None:
+            if collision_mesh is None:
                 link.get_collision_by_name('collision').set_mesh_as_geometry(
-                    uri=visual_mesh_filename, scale=visual_mesh_scale)
+                    mesh=visual_mesh, scale=visual_mesh_scale)
             else:
                 link.get_collision_by_name('collision').set_mesh_as_geometry(
-                    uri=collision_mesh_filename, scale=collision_mesh_scale)
+                    mesh=collision_mesh, scale=collision_mesh_scale)
         
         mesh = trimesh.Scene()
         mesh.add_geometry(link.get_meshes('collision'))
@@ -247,7 +248,7 @@ class Link(object):
                 assert tag in ['ixx', 'iyy', 'izz', 'ixy', 'ixz', 'iyz'], \
                     'Invalid moment of inertia tag={}'.format(tag)
                 setattr(link.inertial, tag, inertia[tag])
-        link.pose.value = pose
+        link.pose = pose
         return link
 
     @property
@@ -550,7 +551,8 @@ class Link(object):
         self._collisions.append(collision)
         return True        
 
-    def to_sdf(self, type='link', name='model', sdf_version='1.6'):
+    def to_sdf(self, type='link', name='model', sdf_version='1.6', 
+        resource_prefix='', model_folder=None, copy_resources=False):
         """Convert object to an SDF element. The object can be converted
         to different SDF elements according to the `type` input
 
@@ -580,7 +582,10 @@ class Link(object):
         if type == 'collision':
             output = list()
             for obj in self._collisions:
-                output.append(obj.to_sdf())
+                output.append(obj.to_sdf(
+                    resource_prefix=self.name if len(resource_prefix) == 0 else '{}_{}'.format(resource_prefix, self.name),
+                    model_folder=model_folder,
+                    copy_resources=copy_resources))
             if len(output) == 1:
                 return output[0]
             else:
@@ -589,25 +594,34 @@ class Link(object):
         if type == 'visual':
             output = list()
             for obj in self._visuals:
-                output.append(obj.to_sdf())
+                output.append(obj.to_sdf(
+                    resource_prefix=self.name if len(resource_prefix) == 0 else '{}_{}'.format(resource_prefix, self.name),
+                    model_folder=model_folder,
+                    copy_resources=copy_resources))
             if len(output) == 1:
                 return output[0]
             else:
                 return output
 
-        # Create a link for the plane, initialiy empty
+        # Create a link for the plane, initially empty
         link = create_sdf_element('link')
         link.name = self._name
 
         # Add collision elements
         if self._include_in_sdf['collision']:
             for item in self._collisions:
-                sdf = item.to_sdf()
+                sdf = item.to_sdf(
+                    resource_prefix=self.name if len(resource_prefix) == 0 else '{}_{}'.format(resource_prefix, self.name),
+                    model_folder=model_folder,
+                    copy_resources=copy_resources)
                 link.add_collision(sdf.name, sdf)
         # Add visual elements
         if self._include_in_sdf['visual']:
             for item in self._visuals:
-                sdf = item.to_sdf()
+                sdf = item.to_sdf(
+                    resource_prefix=self.name if len(resource_prefix) == 0 else '{}_{}'.format(resource_prefix, self.name),
+                    model_folder=model_folder,
+                    copy_resources=copy_resources)
                 link.add_visual(sdf.name, sdf)
 
         for tag in self._sensors:

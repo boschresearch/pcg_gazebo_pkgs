@@ -22,6 +22,7 @@ from .collision_checker import SingletonCollisionChecker, CollisionChecker
 from .creators import *
 from .occupancy import *
 from .patterns import *
+from .mesh import *
 from .assets_manager import AssetsManager
 from .engine_manager import EngineManager
 from .constraints_manager import ConstraintsManager

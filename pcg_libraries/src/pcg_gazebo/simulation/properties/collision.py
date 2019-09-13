@@ -208,8 +208,8 @@ class Collision(object):
     def set_cylinder_as_geometry(self, length, radius):
         self._geometry.set_cylinder(radius=radius, length=length)
 
-    def set_mesh_as_geometry(self, uri, scale=[1, 1, 1], load_mesh=True):
-        self._geometry.set_mesh(uri=uri, scale=scale, load_mesh=load_mesh)
+    def set_mesh_as_geometry(self, mesh, scale=[1, 1, 1], load_mesh=True):
+        self._geometry.set_mesh(mesh, scale=scale, load_mesh=load_mesh)
 
     def enable_property(self, name):
         assert name in self._include_in_sdf, 'Invalid property name'
@@ -523,9 +523,13 @@ class Collision(object):
             poissons_ratio=poissons_ratio,
             elastic_modulus=elastic_modulus)
         
-    def to_sdf(self):
+    def to_sdf(self, resource_prefix='', model_folder=None, 
+        copy_resources=False):
         collision = create_sdf_element('collision')
-        collision.geometry = self._geometry.to_sdf()        
+        collision.geometry = self._geometry.to_sdf(
+            mesh_filename=self.name if len(resource_prefix) == 0 else '{}_{}'.format(resource_prefix, self.name), 
+            model_folder=model_folder, 
+            copy_resources=copy_resources)        
         if self.using_property('pose'):
             collision.pose = self._pose.to_sdf()
         if self._sdf_collision.max_contacts is not None:

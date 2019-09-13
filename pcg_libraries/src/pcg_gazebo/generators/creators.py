@@ -130,7 +130,7 @@ def box(size, mass=0, name='box', pose=[0, 0, 0, 0, 0, 0], color=None,
     return model
 
 
-def mesh(visual_mesh_filename, collision_mesh_filename=None, 
+def mesh(visual_mesh, collision_mesh=None, 
     use_approximated_collision=False, approximated_collision_model='box',
     visual_mesh_scale=[1, 1, 1], collision_mesh_scale=[1, 1, 1], 
     name='mesh', pose=[0, 0, 0, 0, 0, 0], color=None, mass=0, 
@@ -140,11 +140,11 @@ def mesh(visual_mesh_filename, collision_mesh_filename=None,
     """Create a model based on a mesh input. The options for visual and 
     collision meshes are:
 
-    * `visual_mesh_filename` is provided and no `collision_mesh_filename`. 
+    * `visual_mesh` is provided and no `collision_mesh`. 
     The collision mesh is then set to be the same as the visual mesh.
-    * Both `visual_mesh_filename` and `collision_mesh_filename` are provided
+    * Both `visual_mesh` and `collision_mesh` are provided
     separately.
-    * `visual_mesh_filename` is provided and no `collision_mesh_filename`, but
+    * `visual_mesh` is provided and no `collision_mesh`, but
     `use_approximated_collision` is `True`. In this case the collision geometry
     can be an approximated geometry fitted to the visual mesh. Options for 
     the approximation methods are `box`, `sphere` or `cylinder`. 
@@ -161,10 +161,11 @@ def mesh(visual_mesh_filename, collision_mesh_filename=None,
     
     > *Input arguments*
     
-    * `visual_mesh_filename` (*type:* `str`): Name of the visual mesh file
-    * `collision_mesh_filename` (*type:* `str`, *default:* `None`): Name of the 
-    collision mesh file. If `None` is provided, then the visual mesh file will
-    be used as collision geometry
+    * `visual_mesh` (*type:* `str` or `trimesh.Trimesh`): Name of the visual mesh 
+    file or mesh structure
+    * `collision_mesh` (*type:* `str` or `trimesh.Trimesh`, *default:* `None`): 
+    Name of the collision mesh file. If `None` is provided, then the visual mesh
+    file will be used as collision geometry
     * `use_approximated_collision` (*type:* `bool`, *default:* `False`): Enable
     computing an approximated collision geometry from the visual mesh.
     * `approximated_collision_model` (*type:* `str`, *default:* `'box'`): Type
@@ -211,8 +212,8 @@ def mesh(visual_mesh_filename, collision_mesh_filename=None,
 
     model = SimulationModel(name=name)
     model.add_link(
-        visual_mesh_filename=visual_mesh_filename, 
-        collision_mesh_filename=collision_mesh_filename, 
+        visual_mesh=visual_mesh, 
+        collision_mesh=collision_mesh, 
         use_approximated_collision=use_approximated_collision, 
         approximated_collision_model=approximated_collision_model,
         visual_mesh_scale=input_visual_mesh_scale, 
@@ -633,6 +634,141 @@ def cylinder_factory(length, radius, mass=None, name='cylinder',
 
     return models
 
+
+def extrude(polygon, height, thickness=0, cap_style='round', join_style='round', 
+    extrude_boundaries=False, name='mesh', pose=[0, 0, 0, 0, 0, 0], color=None, 
+    mass=0, inertia=None, use_approximated_inertia=True, approximated_inertia_model='box', 
+    visual_parameters=dict(), collision_parameters=dict()):
+    from .mesh import extrude
+    
+    generated_mesh = extrude(
+        polygon=polygon, 
+        height=height, 
+        thickness=thickness, 
+        cap_style=cap_style, 
+        join_style=join_style, 
+        extrude_boundaries=extrude_boundaries)
+
+    model = mesh(
+        visual_mesh=generated_mesh,
+        name=name,
+        pose=pose, 
+        color=color,
+        mass=mass,
+        inertia=inertia,
+        use_approximated_inertia=use_approximated_inertia,
+        approximated_inertia_model=approximated_inertia_model,
+        visual_parameters=visual_parameters,
+        collision_parameters=collision_parameters
+    )
+
+    return model
+
+
+def room(polygon, wall_height=2, wall_thickness=0.1, cap_style='square', 
+    join_style='mitre', add_floor=False, floor_thickness=0.01, name='room', 
+    pose=[0, 0, 0, 0, 0, 0], color=None, mass=0, separate_models=False,
+    visual_parameters=dict(), collision_parameters=dict()):
+    from .mesh import extrude
+    from shapely.geometry import Point, MultiPoint, Polygon, MultiPolygon, \
+        LineString, MultiLineString
+
+    assert not isinstance(polygon, Point), \
+        'A room cannot be created from a point'
+
+    models = list()
+
+    if isinstance(polygon, MultiPoint):
+        PCG_ROOT_LOGGER.warning(
+            'The input for room construction is a MultiPoint'
+            ' object, using the convex hull')
+        input_poly = polygon.convex_hull
+    else:
+        input_poly = polygon
+
+    if isinstance(input_poly, LineString) or \
+        isinstance(input_poly, MultiLineString):
+        wall_mesh = extrude(
+            input_poly, 
+            height=wall_height,
+            thickness=wall_thickness,
+            cap_style='flat',
+            join_style='mitre',
+            extrude_boundaries=False)
+    else:
+        outer_wall = input_poly.buffer(
+            wall_thickness / 2.,
+            cap_style=3,
+            join_style=2)
+        inner_wall = input_poly.buffer(
+            -wall_thickness / 2.,            
+            cap_style=3,
+            join_style=2)
+        wall_poly = outer_wall.difference(inner_wall)
+        wall_mesh = extrude(
+            wall_poly, 
+            height=wall_height,
+            extrude_boundaries=False)
+    
+    
+    model = SimulationModel(name=name if not separate_models else name + '_walls')
+    
+    model.add_link(
+        visual_mesh=wall_mesh, 
+        collision_mesh=wall_mesh, 
+        use_approximated_collision=False, 
+        approximated_collision_model=False,
+        visual_mesh_scale=[1, 1, 1], 
+        collision_mesh_scale=[1, 1, 1], 
+        name='walls', 
+        color=color, 
+        mass=0, 
+        inertia=None, 
+        use_approximated_inertia=False,
+        pose=[0, 0, wall_height / 2., 0, 0, 0])    
+    model.pose = pose
+    model.static = True
+
+    models.append(model)
+
+    if add_floor:
+        if isinstance(input_poly, LineString) or \
+            isinstance(input_poly, MultiLineString):
+            floor_poly = input_poly.convex_hull
+        else:
+            floor_poly = input_poly
+
+        floor_poly = floor_poly.buffer(
+            wall_thickness / 2.,
+            cap_style=3,
+            join_style=2)
+
+        floor_mesh = extrude(
+            floor_poly, 
+            height=floor_thickness)
+        
+        floor_link_parameters = dict(
+            visual_mesh=floor_mesh, 
+            collision_mesh=floor_mesh, 
+            use_approximated_collision=False, 
+            approximated_collision_model=False,
+            visual_mesh_scale=[1, 1, 1], 
+            collision_mesh_scale=[1, 1, 1], 
+            name='floor', 
+            color=color, 
+            mass=0, 
+            inertia=None, 
+            use_approximated_inertia=False,
+            pose=[0, 0, -floor_thickness / 2., 0, 0, 0])
+
+        if separate_models:
+            floor_model = SimulationModel(name=name + '_ground_plane')
+            floor_model.add_link(**floor_link_parameters)
+            floor_model.static = True
+            models.append(floor_model)            
+        else:
+            models[0].add_link(**floor_link_parameters)    
+    return models
     
 def config2models(config):
     """Parse the input `dict` configuration and calls the respective
@@ -662,6 +798,8 @@ def config2models(config):
         models = models + box_factory(**config['args'])
     elif config['type'] == 'mesh':
         models.append(mesh(**config['args']))
+    elif config['type'] == 'extrude':
+        models.append(extrude(**config['args']))
 
     return [model.to_sdf() for model in models]
 

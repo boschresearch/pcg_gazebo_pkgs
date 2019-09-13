@@ -91,9 +91,21 @@ class Mesh(object):
         PCG_ROOT_LOGGER.info('Box mesh created, size={}'.format(size))
         return mesh
 
+    @staticmethod
+    def from_mesh(mesh, scale=[1, 1, 1]):
+        assert isinstance(mesh, trimesh.Trimesh), 'Invalid mesh structure input'
+        output = Mesh()
+        output._mesh = mesh
+        output._scale = scale
+        PCG_ROOT_LOGGER.info('Mesh created from trimesh.Trimesh object')
+        return output
+
     @property
     def filename(self):
-        return self._uri.absolute_uri
+        if self._uri is not None:
+            return self._uri.absolute_uri
+        else:
+            return None
 
     @filename.setter
     def filename(self, value):
@@ -222,7 +234,7 @@ class Mesh(object):
             assert transform.shape == (4, 4), 'The transform matrix must be (4, 4)'
 
         if not self.load_mesh():
-            PCG_ROOT_LOGGER.error('Failed to load mesh, filename=', self.filename)
+            PCG_ROOT_LOGGER.error('Failed to load mesh, filename={}'.format(self.filename))
             return False
 
         geo = self._mesh.copy()
@@ -639,12 +651,76 @@ class Mesh(object):
             ax.set_ylim(-y_lim, y_lim)
             ax.grid(True)
 
-        return ax
+        return ax    
 
-    def to_sdf(self, uri_type=None):
+    def to_sdf(self, uri_type=None, mesh_filename=None, model_folder=None, 
+        copy_resources=False):
+        if self._filename is None:            
+            from ...utils import generate_random_string, PCG_RESOURCES_ROOT_DIR 
+            PCG_ROOT_LOGGER.info('Exporting mesh to file')
+            if mesh_filename:
+                PCG_ROOT_LOGGER.info('Mesh filename: {}'.format(mesh_filename))
+            if model_folder:
+                PCG_ROOT_LOGGER.info('Model folder: {}'.format(model_folder))            
+            if model_folder is not None:
+                if not os.path.isdir(model_folder):
+                    PCG_ROOT_LOGGER.warning(
+                        'Input resources folder to store meshes'
+                        ' does not exist, using the default {}, '
+                        'dir={}'.format(PCG_RESOURCES_ROOT_DIR, model_folder))
+                    model_folder = PCG_RESOURCES_ROOT_DIR
+                folder = os.path.join(model_folder, 'meshes')            
+
+                if mesh_filename is None:
+                    filename = generate_random_string(10)
+                else:
+                    filename = mesh_filename                
+            else:
+                folder = os.path.join(PCG_RESOURCES_ROOT_DIR, 'meshes')            
+                filename = generate_random_string(10)
+
+            if not os.path.isdir(folder):                                
+                os.makedirs(folder)        
+                        
+            # Store the mesh as STL per default
+            self.export_mesh(filename, folder, format='stl')
+
+            # Update the URI to the mesh file
+            self._uri = Path(os.path.join(folder, filename + '.stl'))
+            self._filename = self._uri.absolute_uri
+            PCG_ROOT_LOGGER.info('Mesh stored at {}'.format(self._filename))
+        elif model_folder is not None and copy_resources:
+            PCG_ROOT_LOGGER.info(
+                'Copying mesh resource <{}> to model folder <{}>'.format(
+                    self._filename, model_folder))
+            from shutil import copyfile
+            if not os.path.isdir(model_folder):
+                PCG_ROOT_LOGGER.warning(
+                    'Input resources folder to store meshes'
+                    ' does not exist, meshes will not be copied'
+                    'dir={}'.format(model_folder))
+            else:
+                folder = os.path.join(model_folder, 'meshes')
+                if not os.path.isdir(folder):                                
+                    os.makedirs(folder)       
+
+                if mesh_filename is None:
+                    mesh_filename = os.path.basename(self._uri.absolute_uri)
+                old_filename = self._uri.absolute_uri
+                copyfile(
+                    old_filename,
+                    os.path.join(folder, mesh_filename))   
+                self._uri = Path(os.path.join(folder, mesh_filename))
+                self._filename = self._uri.absolute_uri
+                PCG_ROOT_LOGGER.info('Mesh file was copied from {} to {}'.format(
+                    old_filename, self._uri.absolute_uri))
+
         assert self.filename is not None, \
             'Mesh has not filename to fill the SDF element'
+        
         mesh = create_sdf_element('mesh')        
+
+        PCG_ROOT_LOGGER.info(self._uri.model_uri)
 
         if uri_type is None:
             if self._uri.model_uri is not None:
@@ -667,10 +743,10 @@ class Mesh(object):
         mesh.scale = self._scale
         return mesh    
 
-    def export_mesh(self, filename, folder='.', format='stl'):
+    def export_mesh(self, filename=None, folder=None, format='stl'):        
         if not self.load_mesh():
             PCG_ROOT_LOGGER.error('Cannot show section')
-            return False
+            return None
         export_formats = ['stl', 'dae', 'obj', 'json']
         if format not in export_formats:
             PCG_ROOT_LOGGER.error('Invalid mesh export format, options={}'.format(
@@ -680,9 +756,8 @@ class Mesh(object):
             PCG_ROOT_LOGGER.error('Export folder does not exist, provided={}'.format(
                 folder))
             return None
-
-        mesh_filename = os.path.join(folder, filename + '.' + format)
-        with open(mesh_filename, 'w+') as mesh_file:
-            trimesh.exchange.export.export_mesh(
-                self._mesh, mesh_file, file_type=format if format != 'stl' else 'stl_ascii')
-        return True
+        
+        mesh_filename = os.path.join(folder, filename + '.' + format)                
+        trimesh.exchange.export.export_mesh(
+            self._mesh, mesh_filename, file_type=format if format != 'stl' else 'stl_ascii')
+        return mesh_filename
