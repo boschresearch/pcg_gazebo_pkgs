@@ -26,7 +26,7 @@ import sys
 import unittest
 import numpy as np
 import rospkg
-from random import random, choice
+from random import random, choice, randint
 import string
 import shutil
 import getpass
@@ -37,6 +37,8 @@ from pcg_gazebo.simulation import Box, Cylinder, Sphere, Joint, SimulationModel
 from pcg_gazebo.simulation.properties import Pose
 from pcg_gazebo.parsers.sdf import Model
 from pcg_gazebo.parsers import parse_sdf, parse_sdf_config
+from pcg_gazebo.parsers.urdf import create_urdf_element
+from pcg_gazebo.parsers.sdf import create_sdf_element
 
 
 INVALID_SIZES = [
@@ -80,7 +82,7 @@ class TestSimulationObjects(unittest.TestCase):
                     tag, params[tag], value))
         
     def check_pose(self, obj, pos, rpy):
-        self.assertEqual(obj.pose.position.tolist(), pos, 
+        self.assertAlmostEqual(np.linalg.norm(obj.pose.position - pos), 0, 7,
             'Position was not parsed correctly, retrieved={}, expected={}'.format(
                 obj.pose.position.tolist(), pos))
         diff = Pose.get_transform(obj.pose.quat, Pose.rpy2quat(*rpy))
@@ -804,6 +806,82 @@ class TestSimulationObjects(unittest.TestCase):
         # Delete generated Gazebo model directory
         shutil.rmtree(model_dir)
 
+    def test_convert_from_urdf(self):
+        # Test correct conversion of joint relative 
+        # poses into absolute link poses
+
+        # Test random sets of poses
+        pose_sets = [
+            [Pose.random() for _ in range(5)],
+            [Pose.random_position() for _ in range(5)],
+            [Pose.random_orientation() for _ in range(5)]
+        ]
+
+        for poses in pose_sets:
+            urdf = create_urdf_element('robot')
+            # Create links
+            for i in range(len(poses) + 1):
+                urdf.add_link('link_{}'.format(i))
+
+            for i in range(len(poses)):
+                joint_urdf = create_urdf_element('joint')
+                joint_urdf.parent.link = 'link_{}'.format(i)
+                joint_urdf.child.link = 'link_{}'.format(i + 1)
+                joint_urdf.origin = poses[i].to_urdf()
+                
+                urdf.add_joint('joint_{}'.format(i), joint_urdf)
+
+            model = SimulationModel.from_urdf(urdf)
+
+            self.assertIsNotNone(model)
+
+            cur_pose = None
+            for i in range(len(poses) + 1):
+                link = model.get_link_by_name('link_{}'.format(i))
+                self.assertIsNotNone(link)
+
+                if i == 0:
+                    self.assertEqual(link.pose, Pose(pos=[0, 0, 0], rot=[0, 0, 0]))
+                else:
+                    if cur_pose is None:
+                        cur_pose = poses[i - 1]
+                    else:
+                        cur_pose = poses[i - 1] + cur_pose
+                    self.check_pose(link, cur_pose.position, cur_pose.rpy) 
+
+    def test_star_urdf_structure(self):
+        urdf = create_urdf_element('robot')
+
+        # Add origin link
+        i = 0
+        urdf.add_link('link_{}'.format(i))
+        i += 1
+
+        for _ in range(3):
+            for j in range(randint(3, 5)):
+                urdf.add_link('link_{}'.format(i))
+
+                joint_urdf = create_urdf_element('joint')
+                if j == 0:
+                    joint_urdf.parent.link = 'link_{}'.format(0)
+                else:
+                    joint_urdf.parent.link = 'link_{}'.format(i - 1)
+                joint_urdf.child.link = 'link_{}'.format(i)
+                joint_urdf.origin = Pose.random().to_urdf()
+                
+                urdf.add_joint('joint_{}'.format(i), joint_urdf)
+                i += 1
+
+        model = SimulationModel.from_urdf(urdf)
+        self.assertIsNotNone(model)
+
+    def test_invalid_disconnected_robot_graph(self):
+        urdf = create_urdf_element('robot')
+        for i in range(3):
+            urdf.add_link('link_{}'.format(i))
+
+        with self.assertRaises(ValueError):
+            model = SimulationModel.from_urdf(urdf)
             
 if __name__ == '__main__':
     import rosunit

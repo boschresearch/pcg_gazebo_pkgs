@@ -216,10 +216,15 @@ class Pose(object):
         sdf.value = self.position.tolist() + self.rpy
         return sdf
 
-    def from_sdf(self, sdf):
-        assert sdf._NAME == 'pose', 'SDF element must be a pose entity'
-        self._pos = sdf.value[0:3]
-        self._quat = Pose.rpy2quat(*sdf.value[3::])
+    @staticmethod
+    def from_sdf(sdf):
+        assert sdf._NAME == 'pose', 'SDF element must be a <pose> entity'
+        return Pose(sdf.value[0:3], Pose.rpy2quat(*sdf.value[3::]))
+
+    @staticmethod
+    def from_urdf(urdf):
+        assert urdf._NAME == 'origin', 'URDF element must be an <origin> entity'
+        return Pose(urdf.xyz, Pose.rpy2quat(*urdf.rpy))
 
     def to_urdf(self):
         urdf = Origin()

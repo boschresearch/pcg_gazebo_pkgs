@@ -86,15 +86,18 @@ class Visual(object):
 
     @pose.setter
     def pose(self, vec):
-        assert isinstance(vec, collections.Iterable), \
-            'Input vector must be iterable'
-        assert len(vec) == 6 or len(vec) == 7, \
-            'Input vector must have either 6 or 7 elements'
-        for item in vec:
-            assert isinstance(item, float) or isinstance(item, int), \
-                'Each pose element must be either a float or an integer'
+        if isinstance(vec, Pose):
+            self._pose = vec
+        else:
+            assert isinstance(vec, collections.Iterable), \
+                'Input vector must be iterable'
+            assert len(vec) == 6 or len(vec) == 7, \
+                'Input vector must have either 6 or 7 elements'
+            for item in vec:
+                assert isinstance(item, float) or isinstance(item, int), \
+                    'Each pose element must be either a float or an integer'
 
-        self._pose = Pose(pos=vec[0:3], rot=vec[3::])
+            self._pose = Pose(pos=vec[0:3], rot=vec[3::])
 
     @property
     def transparency(self):
@@ -224,7 +227,7 @@ class Visual(object):
             visual.enable_property('transparency')
 
         if sdf.pose is not None:
-            visual.pose.from_sdf(sdf.pose)
+            visual.pose = Pose.from_sdf(sdf.pose)
             visual.enable_property('pose')
         
         if sdf.material is not None:
