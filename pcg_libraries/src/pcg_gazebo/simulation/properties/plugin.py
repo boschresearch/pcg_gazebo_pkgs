@@ -175,8 +175,8 @@ class Plugin(object):
     @staticmethod
     def from_sdf(sdf):
         plugin = Plugin()
-        plugin.name = sdf.name.value
-        plugin.filename = sdf.filename.value
+        plugin.name = sdf.name
+        plugin.filename = sdf.filename
         for tag in sdf._value:
             plugin._params[tag] = sdf._value[tag]
         return plugin
