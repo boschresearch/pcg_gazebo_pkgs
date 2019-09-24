@@ -20,6 +20,7 @@ import collections
 from time import time
 from .properties import Inertial, Collision, Visual, \
     Pose, Footprint, Plugin
+from .sensors import Sensor
 from ..log import PCG_ROOT_LOGGER
 from ..parsers.sdf import create_sdf_element
 from ..parsers.sdf_config import create_sdf_config_element
@@ -625,15 +626,14 @@ class Link(object):
                 link.add_visual(sdf.name, sdf)
 
         for tag in self._sensors:
-            sdf = self._sensors[tag].to_sdf()
-            link.add_sensor(tag, sdf)
+            link.add_sensor(tag, self._sensors[tag].to_sdf())
 
         for tag in self._plugins:
             link.add_plugin(tag, self._plugins[tag].to_sdf())   
         
         if self._inertial is not None:
             link.inertial = self._inertial.to_sdf()
-
+            
         if type == 'link':
             link.pose = self.pose.to_sdf()
             return link
@@ -681,7 +681,7 @@ class Link(object):
 
         if sdf.inertial is not None:
             link._inertial = Inertial.from_sdf(sdf.inertial)
-
+                        
         if sdf.visuals is not None:
             for visual in sdf.visuals:
                 if not link.add_visual(Visual.from_sdf(visual)):                    
@@ -690,7 +690,10 @@ class Link(object):
             for collision in sdf.collisions:
                 if not link.add_collision(Collision.from_sdf(collision)):
                     raise AttributeError('Could not import collision element {}'.format(collision.name))
-
+        if sdf.sensors is not None:
+            for sensor in sdf.sensors:
+                if not link.add_sensor(sensor.name, Sensor.from_sdf(sensor)):
+                    raise AttributeError('Could not import sensor element {}'.format(sensor.name))
         return link
 
     def export_to_gazebo_model(self, output_dir, name='model', sdf_version='1.6', 
