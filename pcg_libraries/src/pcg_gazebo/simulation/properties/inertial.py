@@ -57,16 +57,21 @@ class Inertial(object):
 
     @pose.setter
     def pose(self, vec):
-        assert isinstance(vec, collections.Iterable), \
-            'Input vector must be iterable'
-        assert len(vec) == 6 or len(vec) == 7, \
-            'Input vector must have either 6 or 7 elements'
-        for item in vec:
-            assert isinstance(item, float) or isinstance(item, int), \
-                'Each pose element must be either a float or an integer'
-
-        self._pose = Pose(pos=vec[0:3], rot=vec[3::])
-
+        if isinstance(vec, Pose):
+            self._pose = vec
+        else:
+            assert isinstance(vec, collections.Iterable), \
+                'Input pose vector must be iterable'
+            assert len(vec) == 6 or len(vec) == 7, \
+                'Pose must be given as position and Euler angles (x, y, z, ' \
+                'roll, pitch, yaw) or position and quaternions (x, y, z, ' \
+                'qx, qy, qz, qw)'
+            for item in vec:
+                assert isinstance(item, float) or isinstance(item, int), \
+                    'All elements in pose vector must be a float or an integer'        
+            
+            self._pose = Pose(pos=vec[0:3], rot=vec[3::])
+            
     @property
     def ixx(self):
         return self._ixx
@@ -258,7 +263,7 @@ class Inertial(object):
     def to_sdf(self):
         sdf = create_sdf_element('inertial')
         sdf.mass = self._mass
-        sdf.pose = self._pose.to_sdf()
+        sdf.pose = self._pose.to_sdf()        
         sdf.inertia.ixx = self._ixx
         sdf.inertia.iyy = self._iyy
         sdf.inertia.izz = self._izz
@@ -272,7 +277,7 @@ class Inertial(object):
         assert sdf._NAME == 'inertial', 'Input SDF element must be of type inertial'
         inertial = Inertial()
         inertial.mass = sdf.mass.value
-        inertial._pose.from_sdf(sdf.pose)
+        inertial._pose = Pose.from_sdf(sdf.pose)
         inertial.ixx = sdf.inertia.ixx.value
         inertial.iyy = sdf.inertia.iyy.value
         inertial.izz = sdf.inertia.izz.value
