@@ -846,7 +846,7 @@ class TestSimulationObjects(unittest.TestCase):
                     if cur_pose is None:
                         cur_pose = poses[i - 1]
                     else:
-                        cur_pose = poses[i - 1] + cur_pose
+                        cur_pose = cur_pose + poses[i - 1]
                     self.check_pose(link, cur_pose.position, cur_pose.rpy) 
 
     def test_star_urdf_structure(self):
