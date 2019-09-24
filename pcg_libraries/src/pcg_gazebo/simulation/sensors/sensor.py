@@ -19,7 +19,7 @@ from ...parsers.sdf import create_sdf_element
 
 class Sensor(object):
     def __init__(self, name='sensor', always_on=True, update_rate=50, 
-        visualize=False, topic='topic', pose=[0, 0, 0, 0, 0, 0]):
+        visualize=False, topic=None, pose=[0, 0, 0, 0, 0, 0]):
         assert isinstance(always_on, bool) or always_on in [0, 1], \
             'Always on flag must be a boolean'
         assert isinstance(visualize, bool) or always_on in [0, 1], \
@@ -31,9 +31,10 @@ class Sensor(object):
         self._always_on = bool(always_on)
         self._update_rate = update_rate
         self._visualize = bool(visualize)
-        self._topic = topic
+        self._topic = None
         self._plugin = None
         self._name = name
+        self._pose = Pose(pose[0:3], pose[3::])
 
     @property
     def name(self):
@@ -54,6 +55,27 @@ class Sensor(object):
         assert isinstance(flag, bool) or flag in [0, 1], \
             'Always on flag must be a boolean'
         self._always_on = bool(flag)
+
+    @property
+    def pose(self):
+        """`pcg_gazebo.simulation.properties.Pose`: Pose of the object"""
+        return self._pose
+
+    @pose.setter
+    def pose(self, vec):
+        import collections
+        if isinstance(vec, Pose):
+            self._pose = vec
+        else:
+            assert isinstance(vec, collections.Iterable), \
+                'Input vector must be iterable'
+            assert len(vec) == 6 or len(vec) == 7, \
+                'Input vector must have either 6 or 7 elements'
+            for item in vec:
+                assert isinstance(item, float) or isinstance(item, int), \
+                    'Each pose element must be either a float or an integer'
+            
+            self._pose = Pose(pos=vec[0:3], rot=vec[3::])
 
     @property
     def visualize(self):
@@ -103,7 +125,11 @@ class Sensor(object):
         sensor = create_sdf_element('sensor')
         sensor.always_on = self._always_on
         sensor.visualize = self._visualize
-        sensor.topic = self._topic
+        
+        sensor.pose = self._pose.to_sdf()
+
+        if self._topic is not None:
+            sensor.topic = self._topic
         sensor.update_rate = self._update_rate
 
         if self._plugin is not None:            
@@ -111,3 +137,26 @@ class Sensor(object):
             
         return sensor
 
+    @staticmethod
+    def from_sdf(sdf):
+        from .contact import Contact
+        from .ray import Ray
+        from .imu import IMU
+        from .camera import Camera
+
+        if sdf.type == 'contact':
+            sensor = Contact.from_sdf(sdf)            
+        elif sdf.type == 'ray':
+            sensor = Ray.from_sdf(sdf)
+        elif sdf.type == 'imu':
+            sensor = IMU.from_sdf(sdf)
+        elif sdf.type in ['camera', 'depth']:
+            sensor = Camera.from_sdf(sdf)
+        else:            
+            raise NotImplementedError(sdf.name + ' ' + sdf.type)
+
+        if sdf.plugins is not None:
+            assert len(sdf.plugins) == 1, 'Only one plugin per sensor is supported'            
+            sensor._plugin = Plugin.from_sdf(sdf.plugins[0])
+
+        return sensor
