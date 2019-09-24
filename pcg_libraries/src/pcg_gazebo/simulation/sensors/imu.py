@@ -85,6 +85,7 @@ class IMU(Sensor):
         sensor.type = 'imu'
 
         sensor.imu = create_sdf_element('imu')
+        sensor.imu.topic = self.topic
         
         sensor.imu.angular_velocity = create_sdf_element('angular_velocity')
         sensor.imu.angular_velocity.reset(with_optional_elements=True)
@@ -116,4 +117,21 @@ class IMU(Sensor):
         sensor.imu.noise.accel.bias_mean = self._elements['linear_acceleration']['x'].bias_mean
         sensor.imu.noise.accel.bias_stddev = self._elements['linear_acceleration']['x'].bias_stddev
         
+        return sensor
+
+    @staticmethod
+    def from_sdf(sdf):
+        sensor = IMU(name=sdf.name)
+
+        for element in ['angular_velocity', 'linear_acceleration']:
+            for component in ['x', 'y', 'z']:
+                if hasattr(sdf.imu, element):
+                    if hasattr(getattr(sdf.imu, element), component):
+                        noise = getattr(getattr(sdf.imu, element), component).noise 
+                        sensor._elements[element][component] = Noise.from_sdf(noise)
+                        
+        if sdf.plugins is not None:
+            assert len(sdf.plugins) == 1, 'Only one plugin per sensor is supported'            
+            sensor._plugin = Plugin.from_sdf(sdf.plugins[0])
+
         return sensor
