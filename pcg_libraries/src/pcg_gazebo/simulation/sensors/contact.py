@@ -82,7 +82,4 @@ class Contact(Sensor):
         if sdf.plugins is not None:
             assert len(sdf.plugins) == 1, 'Only one plugin per sensor is supported'            
             sensor._plugin = Plugin.from_sdf(sdf.plugins[0])
-        PCG_ROOT_LOGGER.info('Contact sensor created from SDF')
-        PCG_ROOT_LOGGER.info(sdf)
-        PCG_ROOT_LOGGER.info(sensor.to_sdf())
         return sensor
