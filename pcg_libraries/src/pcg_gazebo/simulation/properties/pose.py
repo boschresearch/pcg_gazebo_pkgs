@@ -79,10 +79,11 @@ class Pose(object):
         return Pose(pos=p, rot=q)
 
     def __sub__(self, pose):
-        q = self.get_transform(self.quat, pose.quat)
-        p = np.dot(
-            quaternion_matrix(self.quat)[0:3, 0:3], 
-            pose.position - self.position)
+        q = self.get_transform(pose.quat, self.quat)
+
+        diff_p = self.position - pose.position        
+        p = np.dot(quaternion_matrix(pose.quat)[0:3, 0:3].T, 
+            np.dot(diff_p, quaternion_matrix(pose.quat)[0:3, 0:3]))
         return Pose(pos=p, rot=q)
 
     def __eq__(self, pose):
@@ -103,7 +104,7 @@ class Pose(object):
             'Input vector must be iterable'
         assert len(list(value)) == 3, \
             'Position vector must have 3 elements'
-        self._pos = value
+        self._pos = list(value)
 
     @property
     def x(self):
