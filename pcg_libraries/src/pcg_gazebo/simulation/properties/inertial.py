@@ -15,6 +15,8 @@
 
 from ...parsers.sdf import create_sdf_element
 import collections
+import numpy as np
+from copy import deepcopy
 from .pose import Pose
 
 
@@ -131,6 +133,13 @@ class Inertial(object):
         assert isinstance(value, float) or isinstance(value, int), \
             'Input value must be a float or an integer, provided={}'.format(type(value))
         self._iyz = value
+
+    @property
+    def moi(self):
+        return np.array([
+            [self.ixx, self.ixy, self.ixz],
+            [-self.ixy, self.iyy, self.iyz],
+            [-self.ixz, -self.iyz, self.izz]])
 
     @staticmethod
     def create_inertia(inertia_type, **kwargs):
