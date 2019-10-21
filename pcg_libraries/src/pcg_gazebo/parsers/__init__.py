@@ -125,7 +125,6 @@ def parse_xml(input_xml, type='sdf'):
             PCG_ROOT_LOGGER.error(msg)
             raise Exception(msg)
     
-    PCG_ROOT_LOGGER.info('Parsing XML\n{}'.format(input_xml))
     if os.path.isfile(input_xml):
         filename = input_xml
         assert os.path.isfile(filename), 'File does not exist'
@@ -935,17 +934,16 @@ def urdf2sdf(urdf):
             for link in urdf.links:                
                 sdf_link = urdf2sdf(link)
                 sdf.add_link(sdf_link.name, sdf_link)
-                    
+                                    
         if urdf.joints is not None:
             for joint in urdf.joints:
                 sdf_joint = urdf2sdf(joint)
                 sdf_joint.rm_child('pose')
                 sdf.add_joint(sdf_joint.name, sdf_joint)
-
+                
             # Find the paths from start node to end nodes and 
             # compute the link poses in between            
             for e in end_nodes:
-                cur_pose = Pose()
                 for path in networkx.all_simple_paths(robot_graph, source=start_nodes[0], target=e):                    
                     for i in range(len(path)):
                         if path[i] == start_nodes[0]:
@@ -957,9 +955,9 @@ def urdf2sdf(urdf):
                                 if parent_link.pose is not None:
                                     pose = Pose.from_sdf(parent_link.pose) + Pose.from_urdf(joint.origin)
                                 else:
-                                    pose = Pose.from_urdf(joint.origin) 
-                                cur_pose = Pose(joint.origin.xyz, joint.origin.rpy) + cur_pose
+                                    pose = Pose.from_urdf(joint.origin)                                 
                                 child_link.pose = pose.to_sdf()
+                                
         sdf = merge_massless_links(sdf)
     return sdf
 
@@ -974,11 +972,11 @@ def merge_massless_links(sdf):
         if output_sdf.joints is not None:
             merged_link = None
             joint_name = None
-            for joint in output_sdf.joints:                
+            for joint in output_sdf.joints:         
                 if joint.type == 'fixed':
                     parent_link = output_sdf.get_link_by_name(joint.parent.value)
                     child_link = output_sdf.get_link_by_name(joint.child.value)
-
+                    
                     if parent_link.inertial is None or child_link.inertial is None:                    
                         merged_link = merge_links(parent_link, child_link)                        
                         joint_name = joint.name
@@ -986,6 +984,7 @@ def merge_massless_links(sdf):
             if joint_name is None:
                 PCG_ROOT_LOGGER.info('No fixed joints found for this model <{}>'.format(sdf.name))
                 break
+
             joint = output_sdf.get_joint_by_name(joint_name)
 
             parent_name = joint.parent.value
@@ -1007,6 +1006,12 @@ def merge_massless_links(sdf):
                 if output_sdf.links[i].name == parent_name:
                     output_sdf.links[i] = merged_link
                     break    
+            
+            # Refactor plugin inputs with the old link's name
+            if output_sdf.plugins is not None:
+                for i in range(len(output_sdf.plugins)):
+                    for tag in output_sdf.plugins[i].find_values(child_name):
+                        output_sdf.plugins[i].value[tag] = parent_name
     return output_sdf
 
 def merge_links(parent, child):
@@ -1016,93 +1021,110 @@ def merge_links(parent, child):
 
     if parent.inertial is not None and child.inertial is not None:
         return None
-
-    PCG_ROOT_LOGGER.info('Merging links, parent={}, child={}'.format(
-        parent.name, child.name))
-
+    
+    parent_to_child = True
     if parent.inertial is not None and child.inertial is None:
         new_link = deepcopy(parent)        
-    elif child.inertial is not None and parent.inertial is None:
+        merged_link = deepcopy(child)
+    elif child.inertial is not None and parent.inertial is None:        
+        parent_to_child = False
         new_link = deepcopy(child)
-        new_link.name = parent.name
+        merged_link = deepcopy(parent)
     else:
         PCG_ROOT_LOGGER.warning('Links cannot be merged, parent={}, child={}'.format(
         parent.name, child.name))
-        return None
+        return None    
 
-    if child.visuals is not None:
-        PCG_ROOT_LOGGER.info('Child link <{}> has {} visual blocks'.format(
-            child.name, len(child.visuals)))
-        for visual in child.visuals:
-            pose = Pose()
+    PCG_ROOT_LOGGER.info('Merging link <{}> into link <{}>'.format(
+        merged_link.name, new_link.name))
 
-            if child.pose is not None:
-                pose = pose + Pose.from_sdf(child.pose)
-            if visual.pose is not None:
-                pose = pose + Pose.from_sdf(visual.pose)
-                
-            if parent.pose is not None:
-                pose = Pose.from_sdf(parent.pose) - pose
-
+    def compute_new_pose(ml, obj, nl):
+        pose = Pose.from_sdf(ml.pose) - Pose.from_sdf(nl.pose)
+                        
+        if obj.pose is not None:
+            pose = pose + Pose.from_sdf(obj.pose)
+                            
+        return pose
+    
+    visual_name_refactors = dict()
+    if merged_link.visuals is not None:
+        PCG_ROOT_LOGGER.info('Merged link <{}> has {} visual blocks'.format(
+            merged_link.name, len(merged_link.visuals)))
+        for visual in merged_link.visuals:
+            pose = compute_new_pose(merged_link, visual, new_link)
+            
+            new_visual_name = '{}_{}'.format(merged_link.name, visual.name)
+            visual_name_refactors[visual.name] = new_visual_name
             new_link.add_visual(
-                name='{}_{}'.format(child.name, visual.name),
+                name=new_visual_name,
                 visual=visual)
             new_link.visuals[-1].pose = pose.to_sdf()
             PCG_ROOT_LOGGER.info('Adding visual <{}> to parent link <{}>'.format(
-                new_link.visuals[-1].name, parent.name))
+                new_link.visuals[-1].name, new_link.name))
     else:
-        PCG_ROOT_LOGGER.info('Child link <{}> has no visual blocks'.format(child.name))
+        PCG_ROOT_LOGGER.info('Merged link <{}> has no visual blocks'.format(merged_link.name))
     
-    if child.collisions is not None:
-        PCG_ROOT_LOGGER.info('Child link <{}> has {} collision blocks'.format(
-            child.name, len(child.collisions)))
-        for collision in child.collisions:
-            pose = Pose()
-            if child.pose is not None:
-                pose = Pose.from_sdf(child.pose) + pose
-            if collision.pose is not None:
-                pose = Pose.from_sdf(collision.pose) + pose
-
-            if parent.pose is not None:
-                pose = Pose.from_sdf(parent.pose) - pose
+    collision_name_refactors = dict()
+    if merged_link.collisions is not None:
+        PCG_ROOT_LOGGER.info('Merged link <{}> has {} collision blocks'.format(
+            merged_link.name, len(merged_link.collisions)))
+        for collision in merged_link.collisions:
+            pose = compute_new_pose(merged_link, collision, new_link)
                 
+            new_collision_name = '{}_{}'.format(merged_link.name, collision.name)
+            collision_name_refactors[collision.name] = new_collision_name
             new_link.add_collision(
-                name='{}_{}'.format(child.name, collision.name),
+                name=new_collision_name,
                 collision=collision)
             new_link.collisions[-1].pose = pose.to_sdf()
-            PCG_ROOT_LOGGER.info('Adding collision <{}> to parent link <{}> from child link <{}>'.format(
-                new_link.collisions[-1].name, parent.name, child.name))
+            PCG_ROOT_LOGGER.info('Adding collision <{}> to parent link <{}> from merged link <{}>'.format(
+                new_link.collisions[-1].name, parent.name, merged_link.name))
     else:
-        PCG_ROOT_LOGGER.info('Child link <{}> has no collision blocks'.format(child.name))
+        PCG_ROOT_LOGGER.info('Merged link <{}> has no collision blocks'.format(merged_link.name))
 
-    if child.sensors is not None:
-        PCG_ROOT_LOGGER.info('Child link <{}> has {} sensor blocks'.format(
-            child.name, len(child.sensors)))
-        for sensor in child.sensors:
-            pose = Pose()
-            if child.pose is not None:
-                pose = Pose.from_sdf(child.pose) + pose
-            if sensor.pose is not None:
-                pose = Pose.from_sdf(sensor.pose) + pose
-            
-            if parent.pose is not None:
-                pose = Pose.from_sdf(parent.pose) - pose
+    if merged_link.sensors is not None:
+        PCG_ROOT_LOGGER.info('Merged link <{}> has {} sensor blocks'.format(
+            merged_link.name, len(merged_link.sensors)))
+        for sensor in merged_link.sensors:
+            pose = compute_new_pose(merged_link, sensor, new_link)
 
             new_link.add_sensor(
-                name='{}_{}'.format(child.name, sensor.name),
+                name='{}_{}'.format(merged_link.name, sensor.name),
                 sensor=sensor)
             new_link.sensors[-1].pose = pose.to_sdf()
-            PCG_ROOT_LOGGER.info('Adding sensor <{}> to parent link <{}> from child link <{}>'.format(
-                new_link.sensors[-1].name, parent.name, child.name))
-    else:
-        PCG_ROOT_LOGGER.info('Child link <{}> has no sensor blocks'.format(child.name))
 
-    if child.plugins is not None:
-        PCG_ROOT_LOGGER.info('Child link <{}> has {} link blocks'.format(
-            child.name, len(child.plugins)))
-        for plugin in child.plugins:
+            # Refactor sensors for changes in visual and collision elements
+            if new_link.sensors[-1].type == 'contact':
+                try:
+                    # Replacing the name of the collision body in the sensor
+                    # if the collision body name changed
+                    old_collision_name = new_link.sensors[-1].contact.collision.value
+                    if old_collision_name in collision_name_refactors:
+                        new_link.sensors[-1].contact.collision.value = collision_name_refactors[old_collision_name]
+                except AttributeError as ex:
+                    PCG_ROOT_LOGGER.error('Could not refactor collision body name <{}>'.format())
+            PCG_ROOT_LOGGER.info('Adding sensor <{}> to parent link <{}> from merged link <{}>'.format(
+                new_link.sensors[-1].name, parent.name, merged_link.name))
+    else:
+        PCG_ROOT_LOGGER.info('Merged link <{}> has no sensor blocks'.format(merged_link.name))
+    
+    if merged_link.plugins is not None:
+        PCG_ROOT_LOGGER.info('Merged link <{}> has {} plugin blocks'.format(
+            merged_link.name, len(merged_link.plugins)))        
+        for plugin in merged_link.plugins:
             new_link.add_plugin(plugin.name, plugin)
             PCG_ROOT_LOGGER.info('Adding plugin <{}> to parent link <{}> from child link <{}>'.format(
-                plugin.name, parent.name, child.name))
+                plugin.name, new_link.name, merged_link.name))
+    else:
+        PCG_ROOT_LOGGER.info('Merged link <{}> has no plugin blocks'.format(merged_link.name))
 
+    # If the child link is the one with inertial tensor, handle the name
+    # of the new link
+    if child.inertial is not None and parent.inertial is None:        
+        new_link.name = parent.name
+        if new_link.plugins is not None:
+            for plugin in new_link.plugins:
+                for tag in plugin.find_values(child.name):
+                    plugin.value[tag] = parent.name        
+    
     return new_link
