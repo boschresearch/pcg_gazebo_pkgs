@@ -310,7 +310,7 @@ class ModelGroup(object):
                 
             output = self._models[name].copy()            
             if use_group_pose:
-                output.pose = output.pose + self._pose 
+                output.pose = self._pose + output.pose 
             output.name = prefix + output.name
         else:
             sub_group_name = name.split('/')[0]
@@ -322,7 +322,7 @@ class ModelGroup(object):
                 name=name.replace(sub_group_name + '/', ''), 
                 with_group_prefix=True)
             if use_group_pose:
-                output.pose = output.pose + self._pose                
+                output.pose = self._pose + output.pose                
             output.name = prefix + output.name
         PCG_ROOT_LOGGER.info('Retrieving model <{}> from group <{}>'.format(
             output.name, self.name))
@@ -751,3 +751,6 @@ class ModelGroup(object):
         manifest.export_xml(os.path.join(full_model_dir, manifest_filename))
             
         return full_model_dir
+
+    def spawn(self):
+        pass
