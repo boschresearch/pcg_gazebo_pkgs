@@ -879,7 +879,7 @@ class Link(object):
                 geometries.append(collision.geometry)
                 poses.append(collision.pose)
 
-        combined_pose = self._pose + pose_offset
+        combined_pose = pose_offset + self._pose
 
         for pose, geometry in zip(poses, geometries):            
             geo_pose = combined_pose + pose
@@ -926,7 +926,7 @@ class Link(object):
                 poses.append(collision.pose)
 
         meshes = list()
-        combined_pose = self._pose + pose_offset
+        combined_pose = pose_offset + self._pose
 
         for pose, geometry in zip(poses, geometries):
             geometry_pose = combined_pose + pose
