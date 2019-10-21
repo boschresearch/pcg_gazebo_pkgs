@@ -1312,7 +1312,7 @@ class SimulationModel(object):
 
     def to_gazebo_model(self, output_dir=None, author=None, description=None, 
         sdf_version='1.6', email=None, model_name=None, model_metaname=None, 
-        overwrite=False):
+        overwrite=False, copy_resources=False):
         import os
         import getpass
         from . import is_gazebo_model, get_gazebo_model_path
@@ -1415,7 +1415,7 @@ class SimulationModel(object):
             sdf_version, 
             resource_prefix=model_name,
             model_folder=full_model_dir,
-            copy_resources=True)
+            copy_resources=copy_resources)
             
         sdf.export_xml(
             os.path.join(full_model_dir, model_sdf_filename), 
