@@ -34,8 +34,9 @@ import rospy
 import argparse
 import os
 import sys
-from pcg_gazebo.parsers import urdf2sdf, parse_urdf
+from pcg_gazebo.parsers import urdf2sdf, parse_urdf, parse_xacro
 from pcg_gazebo.parsers.sdf import create_sdf_element
+from pcg_gazebo.simulation import SimulationModel
 
 
 if __name__ == '__main__':
@@ -58,6 +59,17 @@ if __name__ == '__main__':
     parser.add_argument(
         '--output-parameter', '-r', type=str,
         help='Output ROS parameter to store the converted SDF file')
+    parser.add_argument(
+        '--output-gazebo-model-path', '-gp', type=str,
+        help='Output path for the Gazebo model',
+        default=os.path.join(os.path.expanduser('~'), '.gazebo', 'models'))
+    parser.add_argument(
+        '--create-gazebo-model', '-g',
+        action='store_true', 
+        help='Export SDF as a static Gazebo model')
+    parser.add_argument(
+        '--model-name', '-m', type=str,
+        help='Name of the model being generated')
     parser.add_argument(
         '--print', action='store_true', 
         help='Print the file')
@@ -88,7 +100,10 @@ if __name__ == '__main__':
             assert os.path.isfile(args.filename), \
                 'Invalid file, filename={}'.format(args.filename)
 
-            urdf = parse_urdf(args.filename)
+            if '.xacro' in args.filename:
+                urdf = parse_xacro(args.filename, output_type='urdf')
+            else:
+                urdf = parse_urdf(args.filename)
         elif args.xml:
             urdf = parse_urdf(args.xml)
         elif args.input_topic:
@@ -121,3 +136,19 @@ if __name__ == '__main__':
             rospy.set_param(args.output_parameter, sdf.to_xml_as_str(pretty_print=True, version=args.sdf_version))
         except Exception as ex:
             print('Error setting ROS parameter {}, message={}'.format(args.output_parameter, ex))
+    if args.create_gazebo_model:
+        assert args.model_name is not None, 'Model has no name'
+        model_dir = args.output_gazebo_model_path
+        assert os.path.isdir(model_dir), 'Invalid directory={}'.format(model_dir)
+        print('Creating static Gazebo model <{}> at: {}'.format(args.model_name, model_dir))
+
+        model = SimulationModel.from_sdf(sdf)
+        model_dir = model.to_gazebo_model(
+            output_dir=model_dir, 
+            overwrite=True,
+            copy_resources=False)
+
+        print('Gazebo model <{}> generated from stored in {}'.format(args.model_name, model_dir))
+        urdf.export_xml(os.path.join(model_dir, args.model_name + '.urdf'))
+        print('URDF file exported to {}'.format(os.path.join(model_dir, args.model_name + '.urdf')))
+
