@@ -192,7 +192,7 @@ class XMLBase(object):
     def _add_child_element(self, tag, value):
         if not self._has_custom_elements:
             assert tag in self._CHILDREN_CREATORS, \
-                '{} child not found for {}'.format(tag, self._NAME)
+                '<{}> child not found for <{}>'.format(tag, self._NAME)
         assert value is not None, 'Input value cannot be None'
             
         if self.has_value():
