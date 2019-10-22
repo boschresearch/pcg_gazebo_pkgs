@@ -1015,9 +1015,10 @@ class SimulationModel(object):
             model.pose = Pose.from_sdf(sdf.pose)
         # Parse links
         if sdf.links:
-            for link_sdf in sdf.links:                
+            for link_sdf in sdf.links:                           
                 model.add_link(
                     link_sdf.name, Link.from_sdf(link_sdf))
+                
         # Parse joints
         if sdf.joints:
             for joint_sdf in sdf.joints:                
@@ -1311,7 +1312,7 @@ class SimulationModel(object):
 
     def to_gazebo_model(self, output_dir=None, author=None, description=None, 
         sdf_version='1.6', email=None, model_name=None, model_metaname=None, 
-        overwrite=False):
+        overwrite=False, copy_resources=False):
         import os
         import getpass
         from . import is_gazebo_model, get_gazebo_model_path
@@ -1365,7 +1366,7 @@ class SimulationModel(object):
                     'Cannot create another model with name <{}>,'
                     ' existing model with the same name can be '
                     'found at {}'.format(model_name, existing_model_path))
-                return False
+                return None
             elif os.path.join(os.path.expanduser('~'), '.gazebo', 'models') in existing_model_path and \
                 not overwrite and \
                 output_dir != os.path.dirname(existing_model_path):
@@ -1373,13 +1374,13 @@ class SimulationModel(object):
                     'Another model with name <{}> can be found at {}'
                     ' and will not be overwritten'.format(
                         model_name, existing_model_path))
-                return False
+                return None
             elif output_dir == os.path.dirname(existing_model_path) and not overwrite:
                 PCG_ROOT_LOGGER.error(
                     'Another model with name <{}> in the same output '
                     'directory {} and will not be overwritten'.format(
                         model_name, existing_model_path))
-                return False
+                return None
 
         full_model_dir = os.path.join(output_dir, model_name)
         
@@ -1414,13 +1415,13 @@ class SimulationModel(object):
             sdf_version, 
             resource_prefix=model_name,
             model_folder=full_model_dir,
-            copy_resources=True)
+            copy_resources=copy_resources)
             
         sdf.export_xml(
             os.path.join(full_model_dir, model_sdf_filename), 
             sdf_version)
         
-        return True
+        return full_model_dir
             
 
 

@@ -143,6 +143,15 @@ class Model(XMLBase):
                     return elem
         return None
 
+    def remove_link_by_name(self, name):
+        if self.links is None:
+            return False
+        for i in range(len(self.links)):
+            if self.links[i].name == name:
+                del self.links[i]
+                break
+        return True
+
     def add_joint(self, name, joint=None):
         if self.joints is not None:
             for elem in self.joints:
@@ -164,6 +173,15 @@ class Model(XMLBase):
                 if elem.name == name:
                     return elem
         return None
+
+    def remove_joint_by_name(self, name):
+        if self.joints is None:
+            return False
+        for i in range(len(self.joints)):
+            if self.joints[i].name == name:
+                del self.joints[i]
+                break
+        return True
 
     def add_model(self, name, model=None):
         if self.models is not None:
@@ -211,3 +229,14 @@ class Model(XMLBase):
                 if elem.name == name:
                     return elem
         return None
+
+    def has_massless_links(self):
+        if self.links is None:
+            return False
+
+        for link in self.links:
+            if link.inertial is None:
+                return True
+            if link.inertial.mass.value == 0:
+                return True
+        return False

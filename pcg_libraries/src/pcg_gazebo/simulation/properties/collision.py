@@ -529,6 +529,7 @@ class Collision(object):
     def to_sdf(self, resource_prefix='', model_folder=None, 
         copy_resources=False):
         collision = create_sdf_element('collision')
+        collision.name = self.name
         collision.geometry = self._geometry.to_sdf(
             mesh_filename=self.name if len(resource_prefix) == 0 else '{}_{}'.format(resource_prefix, self.name), 
             model_folder=model_folder, 

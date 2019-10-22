@@ -272,7 +272,7 @@ class AssetsManager(_CollectionManager):
             except ValueError as ex:            
                 model = ModelGroup.from_gazebo_model(tag)            
         elif self.is_model_group_generator(tag):
-            model = self._collection[tag].run(group_name=tag, *args, **kwargs)    
+            model = self._collection[tag].run(group_name=tag, *args, **kwargs)                
         elif self.is_factory_input(tag):
             from .creators import config2models
             model = SimulationModel.from_sdf(config2models(self._collection[tag])[0])

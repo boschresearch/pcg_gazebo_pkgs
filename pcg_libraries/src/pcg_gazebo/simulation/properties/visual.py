@@ -197,6 +197,7 @@ class Visual(object):
     def to_sdf(self, resource_prefix='', model_folder=None, 
         copy_resources=False):
         visual = create_sdf_element('visual')
+        visual.name = self.name
         visual.geometry = self._geometry.to_sdf(
             mesh_filename=self.name if len(resource_prefix) == 0 else '{}_{}'.format(resource_prefix, self.name), 
             model_folder=model_folder,

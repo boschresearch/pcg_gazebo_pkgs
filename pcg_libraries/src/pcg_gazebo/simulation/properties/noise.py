@@ -99,3 +99,18 @@ class Noise(object):
         sdf.precision = self._precision
         return sdf
     
+    @staticmethod
+    def from_sdf(sdf):
+        noise = Noise()
+        noise.type = sdf.type.value
+        if sdf.mean is not None:
+            noise.mean = sdf.mean.value
+        if sdf.stddev is not None:
+            noise.stddev = sdf.stddev.value
+        if sdf.bias_mean is not None:
+            noise.bias_mean = sdf.bias_mean.value
+        if sdf.bias_stddev is not None:
+            noise.bias_stddev = sdf.bias_stddev.value
+        if sdf.precision is not None:
+            noise.precision = sdf.precision.value
+        return noise

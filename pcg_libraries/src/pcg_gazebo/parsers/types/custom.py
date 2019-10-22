@@ -54,7 +54,7 @@ class XMLCustom(XMLBase):
         if not isinstance(self._value, dict):
             print('Value must be a dict')
             return False
-        return True
+        return True    
 
     def get_formatted_value_as_str(self):
         assert self.is_valid(), 'Invalid scalar value'
@@ -70,3 +70,13 @@ class XMLCustom(XMLBase):
 
         self._get_elem_as_xml(base, self._value)
         return base
+
+    def is_value(self, tag):
+        return tag in self._value
+
+    def find_values(self, pattern):
+        output_tags = list()
+        for tag in self._value:
+            if pattern == self._value[tag]:
+                output_tags.append(tag)
+        return output_tags

@@ -552,7 +552,7 @@ class TestModelGroup(unittest.TestCase):
         self.assertEqual(len(sdf_includes), 0)
 
         # Convert to default Gazebo model
-        self.assertTrue(group.to_gazebo_model())
+        self.assertIsNotNone(group.to_gazebo_model())
         default_dir = os.path.join(os.path.expanduser('~'), '.gazebo', 'models')
         model_dir = os.path.join(default_dir, group.name)
 
@@ -599,7 +599,7 @@ class TestModelGroup(unittest.TestCase):
         group.name = generate_random_string(5)
         
         # Export group with individually exported models
-        self.assertTrue(group.to_gazebo_model(nested=False))
+        self.assertIsNotNone(group.to_gazebo_model(nested=False))
 
         # Check if model folders exist
         self.assertTrue(os.path.isdir(os.path.join(default_dir, group.name)))

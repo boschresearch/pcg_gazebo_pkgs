@@ -1634,10 +1634,8 @@ class TestModelFactory(unittest.TestCase):
         
         model = extrude(**model_config)
         
-        model.to_gazebo_model()
-        model_dir = os.path.join(
-            os.path.expanduser('~'), '.gazebo', 'models', name)
-
+        model_dir = model.to_gazebo_model()
+        
         self.assertTrue(os.path.isdir(model_dir))
 
         shutil.rmtree(model_dir)

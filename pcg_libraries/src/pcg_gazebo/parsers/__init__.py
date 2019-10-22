@@ -52,6 +52,8 @@ def parse_urdf(input_xml):
     `pcg_gazebo.parsers.types.XMLBase` object.
     """
     urdf = parse_xml(input_xml, type='urdf')
+    if urdf.xml_element_name == 'robot':
+        urdf.update_materials()
     return urdf
 
 
@@ -71,6 +73,29 @@ def parse_sdf_config(input_xml):
     sdf_config = parse_xml(input_xml, type='sdf_config')
     return sdf_config
     
+
+def parse_xacro(input_xml, output_type='urdf'):
+    import os
+    import subprocess
+    
+    assert os.path.isfile(input_xml), \
+        'Input {} is not a valid xacro file'.format(input_xml)
+
+    cmd = 'xacro {}'.format(input_xml)    
+    output = subprocess.check_output(cmd.split())
+    xml = output.decode()
+
+    if output_type == 'urdf':
+        output_xml = parse_urdf(xml)
+    elif output_type == 'sdf':
+        output_xml = parse_sdf(xml)
+    elif output_type == 'sdf_config':
+        output_xml = parse_sdf_config(xml)
+    else:
+        output_xml = xml
+
+    return output_xml
+
 
 def parse_xml(input_xml, type='sdf'):
     """Parse an XML file into an `collections.OrderedDict`.
@@ -100,7 +125,6 @@ def parse_xml(input_xml, type='sdf'):
             PCG_ROOT_LOGGER.error(msg)
             raise Exception(msg)
     
-    PCG_ROOT_LOGGER.info('Parsing XML\n{}'.format(input_xml))
     if os.path.isfile(input_xml):
         filename = input_xml
         assert os.path.isfile(filename), 'File does not exist'
@@ -656,7 +680,7 @@ def urdf2sdf(urdf):
                                 link.gazebo = gazebo
                                 break
                     if urdf.get_joint_by_name(gazebo.reference):
-                        for joint in urdf.joint:
+                        for joint in urdf.joints:
                             if joint.name == gazebo.reference:
                                 joint.gazebo = gazebo
                                 break
@@ -696,7 +720,7 @@ def urdf2sdf(urdf):
         sdf.izz.value = urdf.izz
         sdf.ixy.value = urdf.ixy
         sdf.ixz.value = urdf.ixz
-        sdf.iyz.value = urdf.iyz
+        sdf.iyz.value = urdf.iyz         
     elif urdf._NAME == 'box':
         sdf.size.value = urdf.size
     elif urdf._NAME == 'cylinder':
@@ -704,13 +728,13 @@ def urdf2sdf(urdf):
         sdf.radius.value = urdf.radius
     elif urdf._NAME == 'sphere':
         sdf.radius.value = urdf.radius
-    elif urdf._NAME == 'mesh':
-        sdf.uri.value = urdf.filename
+    elif urdf._NAME == 'mesh':        
         uri = Path(urdf.filename)
         if uri.model_uri is not None:
-            sdf.uri.value = uri.model_uri
+            sdf.uri = uri.model_uri
         else:
-            sdf.uri.value = uri.file_uri
+            sdf.uri = uri.file_uri
+        sdf.scale = urdf.scale
     elif urdf._NAME == 'origin':
         sdf.value = urdf.xyz + urdf.rpy
     elif urdf._NAME == 'geometry':        
@@ -738,11 +762,11 @@ def urdf2sdf(urdf):
         sdf.geometry = urdf2sdf(urdf.geometry)
         if urdf.origin:
             sdf.pose = urdf2sdf(urdf.origin)
-    elif urdf._NAME == 'inertial':
+    elif urdf._NAME == 'inertial':        
         sdf.mass = urdf2sdf(urdf.mass)
         sdf.inertia = urdf2sdf(urdf.inertia)
-        if urdf.origin:
-            sdf.pose = urdf2sdf(urdf.origin)
+        if urdf.origin is not None:
+            sdf.pose = urdf2sdf(urdf.origin)        
     elif urdf._NAME == 'joint':
         sdf.name = urdf.name        
 
@@ -879,71 +903,228 @@ def urdf2sdf(urdf):
 
         # Create a graph to find the connections between 
         # links and compute the relative pose between them
-
         robot_graph = networkx.DiGraph()
 
         if urdf.links is not None:
             for link in urdf.links:                
                 # Add link as a node
-                robot_graph.add_node(link.name)
+                robot_graph.add_node(link.name)                
         
         if urdf.joints is not None:
             for joint in urdf.joints:
                 # Add connection between links as an edge
                 robot_graph.add_edge(
                     joint.parent.link, joint.child.link, label=joint.name)
-                    
+                                    
         # Test if the robot graph is connected
         for n in robot_graph.nodes():
             if robot_graph.out_degree(n) + robot_graph.in_degree(n) == 0:
                 raise ValueError('Link <{}> is not connected by any joint'.format(n))
-
-        print('nodes=')
-        for n in robot_graph.nodes():
-            print(' - {}'.format(n))
-        print('edges=')
-        for n in robot_graph.edges():
-            print(' - {}'.format(n))
-
-        print(networkx.get_edge_attributes(robot_graph, 'label'))
-        print(networkx.to_edgelist(robot_graph))           
-
-        start_nodes = [n for n in robot_graph.nodes_iter() \
+        
+        start_nodes = [n for n in robot_graph.nodes() \
             if robot_graph.out_degree(n) > 0 and robot_graph.in_degree(n) == 0] 
-        end_nodes = [n for n in robot_graph.nodes_iter() \
+        end_nodes = [n for n in robot_graph.nodes() \
             if robot_graph.out_degree(n) == 0 and robot_graph.in_degree(n) > 0]
 
-        assert len(start_nodes) == 1, 'The URDF structure should have only one start node'
+        assert len(start_nodes) == 1, \
+            'The URDF structure should have only one start node' \
+                ', n_start_nodes={}'.format(len(start_nodes))
 
         if urdf.links is not None:
             for link in urdf.links:                
                 sdf_link = urdf2sdf(link)
                 sdf.add_link(sdf_link.name, sdf_link)
-                    
+                                    
         if urdf.joints is not None:
             for joint in urdf.joints:
                 sdf_joint = urdf2sdf(joint)
                 sdf_joint.rm_child('pose')
                 sdf.add_joint(sdf_joint.name, sdf_joint)
-
+                
             # Find the paths from start node to end nodes and 
-            # compute the link poses in between
+            # compute the link poses in between            
             for e in end_nodes:
-                cur_pose = Pose()
-                for path in networkx.all_simple_paths(robot_graph, source=start_nodes[0], target=e):
+                for path in networkx.all_simple_paths(robot_graph, source=start_nodes[0], target=e):                    
                     for i in range(len(path)):
                         if path[i] == start_nodes[0]:
                             continue
                         for joint in urdf.joints:
                             if joint.parent.link == path[i - 1] and joint.child.link == path[i]:
                                 parent_link = sdf.get_link_by_name(joint.parent.link)
-                                child_link = sdf.get_link_by_name(joint.child.link)
-
+                                child_link = sdf.get_link_by_name(joint.child.link)                                
                                 if parent_link.pose is not None:
-                                    pose = Pose.from_urdf(joint.origin) + Pose.from_sdf(parent_link.pose)
+                                    pose = Pose.from_sdf(parent_link.pose) + Pose.from_urdf(joint.origin)
                                 else:
-                                    pose = Pose.from_urdf(joint.origin) 
-                                cur_pose = Pose(joint.origin.xyz, joint.origin.rpy) + cur_pose
+                                    pose = Pose.from_urdf(joint.origin)                                 
                                 child_link.pose = pose.to_sdf()
-
+                                
+        sdf = merge_massless_links(sdf)
     return sdf
+
+
+def merge_massless_links(sdf):
+    from copy import deepcopy
+    if sdf.joints is None:
+        return sdf
+
+    output_sdf = deepcopy(sdf)
+    while output_sdf.has_massless_links():
+        if output_sdf.joints is not None:
+            merged_link = None
+            joint_name = None
+            for joint in output_sdf.joints:         
+                if joint.type == 'fixed':
+                    parent_link = output_sdf.get_link_by_name(joint.parent.value)
+                    child_link = output_sdf.get_link_by_name(joint.child.value)
+                    
+                    if parent_link.inertial is None or child_link.inertial is None:                    
+                        merged_link = merge_links(parent_link, child_link)                        
+                        joint_name = joint.name
+                        break
+            if joint_name is None:
+                PCG_ROOT_LOGGER.info('No fixed joints found for this model <{}>'.format(sdf.name))
+                break
+
+            joint = output_sdf.get_joint_by_name(joint_name)
+
+            parent_name = joint.parent.value
+            child_name = joint.child.value
+
+            # Remove joint
+            output_sdf.remove_joint_by_name(joint.name)
+
+            # Find all the links connected to the now merged link
+            for joint in output_sdf.joints:
+                if joint.parent.value == child_name:
+                    joint.parent = parent_name
+                    
+            # Remove link
+            output_sdf.remove_link_by_name(child_name)         
+
+            # Replace old parent link with merged link
+            for i in range(len(output_sdf.links)):
+                if output_sdf.links[i].name == parent_name:
+                    output_sdf.links[i] = merged_link
+                    break    
+            
+            # Refactor plugin inputs with the old link's name
+            if output_sdf.plugins is not None:
+                for i in range(len(output_sdf.plugins)):
+                    for tag in output_sdf.plugins[i].find_values(child_name):
+                        output_sdf.plugins[i].value[tag] = parent_name
+    return output_sdf
+
+def merge_links(parent, child):
+    from copy import deepcopy
+    import numpy as np
+    from ..simulation.properties import Pose
+
+    if parent.inertial is not None and child.inertial is not None:
+        return None
+    
+    parent_to_child = True
+    if parent.inertial is not None and child.inertial is None:
+        new_link = deepcopy(parent)        
+        merged_link = deepcopy(child)
+    elif child.inertial is not None and parent.inertial is None:        
+        parent_to_child = False
+        new_link = deepcopy(child)
+        merged_link = deepcopy(parent)
+    else:
+        PCG_ROOT_LOGGER.warning('Links cannot be merged, parent={}, child={}'.format(
+        parent.name, child.name))
+        return None    
+
+    PCG_ROOT_LOGGER.info('Merging link <{}> into link <{}>'.format(
+        merged_link.name, new_link.name))
+
+    def compute_new_pose(ml, obj, nl):
+        pose = Pose.from_sdf(ml.pose) - Pose.from_sdf(nl.pose)
+                        
+        if obj.pose is not None:
+            pose = pose + Pose.from_sdf(obj.pose)
+                            
+        return pose
+    
+    visual_name_refactors = dict()
+    if merged_link.visuals is not None:
+        PCG_ROOT_LOGGER.info('Merged link <{}> has {} visual blocks'.format(
+            merged_link.name, len(merged_link.visuals)))
+        for visual in merged_link.visuals:
+            pose = compute_new_pose(merged_link, visual, new_link)
+            
+            new_visual_name = '{}_{}'.format(merged_link.name, visual.name)
+            visual_name_refactors[visual.name] = new_visual_name
+            new_link.add_visual(
+                name=new_visual_name,
+                visual=visual)
+            new_link.visuals[-1].pose = pose.to_sdf()
+            PCG_ROOT_LOGGER.info('Adding visual <{}> to parent link <{}>'.format(
+                new_link.visuals[-1].name, new_link.name))
+    else:
+        PCG_ROOT_LOGGER.info('Merged link <{}> has no visual blocks'.format(merged_link.name))
+    
+    collision_name_refactors = dict()
+    if merged_link.collisions is not None:
+        PCG_ROOT_LOGGER.info('Merged link <{}> has {} collision blocks'.format(
+            merged_link.name, len(merged_link.collisions)))
+        for collision in merged_link.collisions:
+            pose = compute_new_pose(merged_link, collision, new_link)
+                
+            new_collision_name = '{}_{}'.format(merged_link.name, collision.name)
+            collision_name_refactors[collision.name] = new_collision_name
+            new_link.add_collision(
+                name=new_collision_name,
+                collision=collision)
+            new_link.collisions[-1].pose = pose.to_sdf()
+            PCG_ROOT_LOGGER.info('Adding collision <{}> to parent link <{}> from merged link <{}>'.format(
+                new_link.collisions[-1].name, parent.name, merged_link.name))
+    else:
+        PCG_ROOT_LOGGER.info('Merged link <{}> has no collision blocks'.format(merged_link.name))
+
+    if merged_link.sensors is not None:
+        PCG_ROOT_LOGGER.info('Merged link <{}> has {} sensor blocks'.format(
+            merged_link.name, len(merged_link.sensors)))
+        for sensor in merged_link.sensors:
+            pose = compute_new_pose(merged_link, sensor, new_link)
+
+            new_link.add_sensor(
+                name='{}_{}'.format(merged_link.name, sensor.name),
+                sensor=sensor)
+            new_link.sensors[-1].pose = pose.to_sdf()
+
+            # Refactor sensors for changes in visual and collision elements
+            if new_link.sensors[-1].type == 'contact':
+                try:
+                    # Replacing the name of the collision body in the sensor
+                    # if the collision body name changed
+                    old_collision_name = new_link.sensors[-1].contact.collision.value
+                    if old_collision_name in collision_name_refactors:
+                        new_link.sensors[-1].contact.collision.value = collision_name_refactors[old_collision_name]
+                except AttributeError as ex:
+                    PCG_ROOT_LOGGER.error('Could not refactor collision body name <{}>'.format())
+            PCG_ROOT_LOGGER.info('Adding sensor <{}> to parent link <{}> from merged link <{}>'.format(
+                new_link.sensors[-1].name, parent.name, merged_link.name))
+    else:
+        PCG_ROOT_LOGGER.info('Merged link <{}> has no sensor blocks'.format(merged_link.name))
+    
+    if merged_link.plugins is not None:
+        PCG_ROOT_LOGGER.info('Merged link <{}> has {} plugin blocks'.format(
+            merged_link.name, len(merged_link.plugins)))        
+        for plugin in merged_link.plugins:
+            new_link.add_plugin(plugin.name, plugin)
+            PCG_ROOT_LOGGER.info('Adding plugin <{}> to parent link <{}> from child link <{}>'.format(
+                plugin.name, new_link.name, merged_link.name))
+    else:
+        PCG_ROOT_LOGGER.info('Merged link <{}> has no plugin blocks'.format(merged_link.name))
+
+    # If the child link is the one with inertial tensor, handle the name
+    # of the new link
+    if child.inertial is not None and parent.inertial is None:        
+        new_link.name = parent.name
+        if new_link.plugins is not None:
+            for plugin in new_link.plugins:
+                for tag in plugin.find_values(child.name):
+                    plugin.value[tag] = parent.name        
+    
+    return new_link

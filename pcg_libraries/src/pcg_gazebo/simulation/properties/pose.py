@@ -59,12 +59,12 @@ class Pose(object):
                 raise ValueError(msg)
 
         self._is_updated = True
-
+     
     def __str__(self):
-        msg = 'Position (x, y, z) [m]: {}, {}, {}\n'.format(self.x, self.y, self.z)  
-        msg += '\t - x: {}\n'.format(self.x)
-        msg += '\t - y: {}\n'.format(self.y)
-        msg += '\t - z: {}\n'.format(self.z)
+        msg = 'Position (x, y, z) [m]: {}, {}, {}\n'.format(*self._pos)  
+        msg += '\t - x: {}\n'.format(self._pos[0])
+        msg += '\t - y: {}\n'.format(self._pos[1])
+        msg += '\t - z: {}\n'.format(self._pos[2])
         rpy = self.rpy
         msg +=  'Orientation rpy (roll, pitch, yaw) (degrees): \n'
         msg += '\t - Roll: {}\n'.format(rpy[0] * 180 / np.pi)
@@ -79,9 +79,11 @@ class Pose(object):
         return Pose(pos=p, rot=q)
 
     def __sub__(self, pose):
-        q = self.get_transform(self.quat, pose.quat)
-        p = np.array(self.position) - np.dot(
-            quaternion_matrix(self.quat)[0:3, 0:3], pose.position)
+        q = self.get_transform(pose.quat, self.quat)
+
+        diff_p = self.position - pose.position        
+        p = np.dot(quaternion_matrix(pose.quat)[0:3, 0:3].T, 
+            np.dot(diff_p, quaternion_matrix(pose.quat)[0:3, 0:3]))
         return Pose(pos=p, rot=q)
 
     def __eq__(self, pose):
@@ -102,7 +104,7 @@ class Pose(object):
             'Input vector must be iterable'
         assert len(list(value)) == 3, \
             'Position vector must have 3 elements'
-        self._pos = value
+        self._pos = list(value)
 
     @property
     def x(self):
@@ -219,12 +221,12 @@ class Pose(object):
     @staticmethod
     def from_sdf(sdf):
         assert sdf._NAME == 'pose', 'SDF element must be a <pose> entity'
-        return Pose(sdf.value[0:3], Pose.rpy2quat(*sdf.value[3::]))
-
+        return Pose(sdf.value[0:3], sdf.value[3::])
+        
     @staticmethod
     def from_urdf(urdf):
         assert urdf._NAME == 'origin', 'URDF element must be an <origin> entity'
-        return Pose(urdf.xyz, Pose.rpy2quat(*urdf.rpy))
+        return Pose(urdf.xyz, urdf.rpy)
 
     def to_urdf(self):
         urdf = Origin()

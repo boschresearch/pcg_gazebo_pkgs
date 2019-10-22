@@ -16,6 +16,7 @@
 from .sensor import Sensor
 from ..properties import Plugin
 from ...parsers.sdf import create_sdf_element
+from ...log import PCG_ROOT_LOGGER
 
 
 class Contact(Sensor):
@@ -35,6 +36,7 @@ class Contact(Sensor):
     def collision_element_name(self, value):
         assert isinstance(value, str), 'Collision element name must be a string'
         assert len(value) > 0, 'Collision element name string cannot be empty'
+        self._collision_element_name = value
 
     def add_ros_plugin(self, name='bumper', robot_namespace='', topic_name='bumper', 
         frame_name='world'):
@@ -51,8 +53,33 @@ class Contact(Sensor):
 
         sensor.contact = create_sdf_element('contact')
         sensor.contact.reset(mode='sensor', with_optional_elements=True)
-
+        
         sensor.contact.topic = self._topic
         sensor.contact.collision = self._collision_element_name
 
+        return sensor
+
+    @staticmethod
+    def from_sdf(sdf):
+        sensor = Contact(name=sdf.name)
+
+        if sdf.always_on is not None:
+            sensor.always_on = sdf.always_on.value
+        if sdf.visualize is not None:
+            sensor.visualize = sdf.visualize.value
+        if sdf.topic is not None:
+            sensor.topic = sdf.topic.value
+        if sdf.pose is not None:
+            sensor.pose = sdf.pose.value
+
+        assert sdf.contact is not None, 'No contact properties for sensor'
+        assert sdf.contact.collision is not None
+        assert sdf.contact.topic is not None
+
+        sensor.collision_element_name = sdf.contact.collision.value
+        sensor.topic = sdf.contact.topic.value
+        
+        if sdf.plugins is not None:
+            assert len(sdf.plugins) == 1, 'Only one plugin per sensor is supported'            
+            sensor._plugin = Plugin.from_sdf(sdf.plugins[0])
         return sensor

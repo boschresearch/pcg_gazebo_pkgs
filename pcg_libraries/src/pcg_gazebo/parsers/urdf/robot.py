@@ -18,6 +18,7 @@ from .link import Link
 from .joint import Joint
 from .transmission import Transmission
 from .gazebo import Gazebo
+from .material import Material
 
 
 class Robot(XMLBase):
@@ -28,7 +29,8 @@ class Robot(XMLBase):
         link=dict(creator=Link, n_elems='+', optional=True),
         joint=dict(creator=Joint, n_elems='+', optional=True),
         gazebo=dict(creator=Gazebo, n_elems='+', optional=True),
-        transmission=dict(creator=Transmission, n_elems='+', optional=True)
+        transmission=dict(creator=Transmission, n_elems='+', optional=True),
+        material=dict(creator=Material, n_elems='+', optional=True)
     )
 
     _ATTRIBUTES = dict(
@@ -65,6 +67,10 @@ class Robot(XMLBase):
     def transmissions(self):
         return self._get_child_element('transmission')
 
+    @property
+    def materials(self):
+        return self._get_child_element('material')
+
     def add_link(self, name, link=None):
         if self.links is not None:
             for elem in self.links:
@@ -77,6 +83,7 @@ class Robot(XMLBase):
             link = Link()
             self._add_child_element('link', link)
         self.children['link'][-1].name = name
+        self.update_materials()
 
     def get_link_by_name(self, name):
         if self.links is None:
@@ -139,3 +146,39 @@ class Robot(XMLBase):
                 if elem.name == name:
                     return elem
         return None
+
+    def add_material(self, name, material=None):
+        if self.materials is not None:
+            for elem in self.materials:
+                if elem.name == name:
+                    print('Materials element with name {} already exists'.format(name))
+                    return
+        if material is not None:
+            self._add_child_element('material', material)
+        else:
+            material = Material()
+            self._add_child_element('material', material)
+        self.children['material'][-1].name = name
+        self.update_materials()
+
+    def get_material_by_name(self, name):
+        if self.materials is None:
+            return None
+        else:
+            for elem in self.materials:
+                if elem.name == name:
+                    return elem
+        return None
+
+    def update_materials(self):
+        if self.links is None or self.materials is None:
+            return
+
+        for link in self.children['link']:
+            if link.visuals:
+                for visual in link.children['visual']:
+                    if visual.material is not None:
+                        mat = self.get_material_by_name(visual.material.name)
+                        if mat is not None:
+                            if visual.material.color is not None: 
+                                visual.material.color = mat.color                  

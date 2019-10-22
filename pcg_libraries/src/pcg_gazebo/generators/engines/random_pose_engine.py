@@ -474,11 +474,12 @@ class RandomPoseEngine(Engine):
 
                 model.pose = pose
                 
-                while not self.is_model_in_workspace(model):
-                    self._logger.info('Model outside of the workspace or in collision with other objects!')
-                    pose = self._get_random_pose(model_name)
-                    self._logger.info('\t Generated random pose: {}'.format(pose))
-                    model.pose = pose
+                if self._workspace is not None:
+                    while not self.is_model_in_workspace(model):
+                        self._logger.info('Model outside of the workspace or in collision with other objects!')
+                        pose = self._get_random_pose(model_name)
+                        self._logger.info('\t Generated random pose: {}'.format(pose))
+                        model.pose = pose
                     
                 # Enforce positioning constraints
                 model = self.apply_local_constraints(model)

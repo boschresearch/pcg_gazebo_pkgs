@@ -725,8 +725,6 @@ class Mesh(object):
         if uri_type is None:
             if self._uri.model_uri is not None:
                 mesh.uri = self._uri.model_uri
-            elif self._uri.package_uri is not None:
-                mesh.uri = self._uri.package_uri
             elif self._uri.file_uri is not None:
                 mesh.uri = self._uri.file_uri
         else:

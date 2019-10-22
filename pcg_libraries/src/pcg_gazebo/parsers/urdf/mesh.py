@@ -21,7 +21,8 @@ class Mesh(XMLBase):
     _TYPE = 'urdf'
 
     _ATTRIBUTES = dict(
-        filename=''
+        filename='',
+        scale='1 1 1'
     )
 
     def __init__(self):
@@ -42,9 +43,26 @@ class Mesh(XMLBase):
                 'Filename must be a string'
         self.attributes['filename'] = value
 
+    @property
+    def scale(self):
+        value = []
+        for num in self.attributes['scale'].split():
+            value.append(float(num))
+        return value
+
+    @scale.setter
+    def scale(self, value):
+        assert isinstance(value, list), 'Input must be a list'
+        assert len(value) == 3, 'Input vector must have 3 elements'
+        for elem in value:
+            assert isinstance(elem, float) or isinstance(elem, int)
+        output_str = ' '.join(['{}'] * len(value))
+        self.attributes['scale'] = output_str.format(*value)
+
     def to_sdf(self):
         from ..sdf import create_sdf_element
         
         obj = create_sdf_element('mesh')
         obj.uri = self.filename
+        obj.scale = self.scale
         return obj

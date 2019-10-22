@@ -310,7 +310,7 @@ class ModelGroup(object):
                 
             output = self._models[name].copy()            
             if use_group_pose:
-                output.pose = output.pose + self._pose 
+                output.pose = self._pose + output.pose 
             output.name = prefix + output.name
         else:
             sub_group_name = name.split('/')[0]
@@ -322,7 +322,7 @@ class ModelGroup(object):
                 name=name.replace(sub_group_name + '/', ''), 
                 with_group_prefix=True)
             if use_group_pose:
-                output.pose = output.pose + self._pose                
+                output.pose = self._pose + output.pose                
             output.name = prefix + output.name
         PCG_ROOT_LOGGER.info('Retrieving model <{}> from group <{}>'.format(
             output.name, self.name))
@@ -650,7 +650,7 @@ class ModelGroup(object):
                     'Cannot create another model with name <{}>,'
                     ' existing model with the same name can be '
                     'found at {}'.format(model_name, existing_model_path))
-                return False
+                return None
             elif os.path.join(os.path.expanduser('~'), '.gazebo', 'models') in existing_model_path and \
                 not overwrite and \
                 output_dir != os.path.dirname(existing_model_path):
@@ -658,20 +658,20 @@ class ModelGroup(object):
                     'Another model with name <{}> can be found at {}'
                     ' and will not be overwritten'.format(
                         model_name, existing_model_path))
-                return False
+                return None
             elif output_dir == os.path.dirname(existing_model_path) and not overwrite:
                 PCG_ROOT_LOGGER.error(
                     'Another model with name <{}> in the same output '
                     'directory {} and will not be overwritten'.format(
                         model_name, existing_model_path))
-                return False        
+                return None        
         
         if self.n_models > 0 and self.n_lights > 0:
             PCG_ROOT_LOGGER.error(
                 'To export a model group as a model including'
                 ' other entities, the model must have either '
                 'models or lights, not both')
-            return False
+            return None
         
         if self.n_lights > 0:
             # Convert model group to SDF element with 
@@ -750,4 +750,7 @@ class ModelGroup(object):
         # Export manifest file
         manifest.export_xml(os.path.join(full_model_dir, manifest_filename))
             
-        return True
+        return full_model_dir
+
+    def spawn(self):
+        pass
