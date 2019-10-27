@@ -216,71 +216,74 @@ class Physics(object):
         if sdf.max_contacts is not None:
             physics.max_contacts = sdf.max_contacts.value
         
-        if sdf.type == 'ode':            
-            if sdf.ode.solver is not None:
-                solver_param_names = [
-                    'type', 
-                    'iters',
-                    'use_dynamic_moi_rescaling',
-                    'precon_iters',
-                    'sor',
-                    'min_step_size',
-                    'friction_model']
+        if sdf.type == 'ode':           
+            if sdf.ode is not None: 
+                if sdf.ode.solver is not None:
+                    solver_param_names = [
+                        'type', 
+                        'iters',
+                        'use_dynamic_moi_rescaling',
+                        'precon_iters',
+                        'sor',
+                        'min_step_size',
+                        'friction_model']
 
-                for param_name in solver_param_names:
-                    if getattr(sdf.ode.solver, param_name) is not None:                
-                        setattr(physics, param_name, getattr(sdf.ode.solver, param_name).value)
-            if sdf.ode.constraints is not None:
-                const_param_names = [
-                    'cfm',
-                    'erp',
-                    'contact_surface_layer',
-                    'contact_max_correcting_vel']                        
+                    for param_name in solver_param_names:
+                        if getattr(sdf.ode.solver, param_name) is not None:                
+                            setattr(physics, param_name, getattr(sdf.ode.solver, param_name).value)
+                if sdf.ode.constraints is not None:
+                    const_param_names = [
+                        'cfm',
+                        'erp',
+                        'contact_surface_layer',
+                        'contact_max_correcting_vel']                        
 
-                for param_name in const_param_names:
-                    if getattr(sdf.ode.constraints, param_name) is not None:                
-                        setattr(physics, param_name, getattr(sdf.ode.constraints, param_name).value)
+                    for param_name in const_param_names:
+                        if getattr(sdf.ode.constraints, param_name) is not None:                
+                            setattr(physics, param_name, getattr(sdf.ode.constraints, param_name).value)
         elif sdf.type == 'bullet':
-            if sdf.bullet.solver is not None:
-                solver_param_names = [
-                    'type', 
-                    'iters',
-                    'sor',
-                    'min_step_size']
+            if sdf.bullet is not None:
+                if sdf.bullet.solver is not None:
+                    solver_param_names = [
+                        'type', 
+                        'iters',
+                        'sor',
+                        'min_step_size']
 
-                for param_name in solver_param_names:
-                    if getattr(sdf.bullet.solver, param_name) is not None:                
-                        setattr(physics, param_name, getattr(sdf.bullet.solver, param_name).value)
-            if sdf.bullet.constraints is not None:
-                const_param_names = [
-                    'cfm',
-                    'erp',
-                    'contact_surface_layer',
-                    'split_impulse',
-                    'split_impulse_penetration_threshold']                        
+                    for param_name in solver_param_names:
+                        if getattr(sdf.bullet.solver, param_name) is not None:                
+                            setattr(physics, param_name, getattr(sdf.bullet.solver, param_name).value)
+                if sdf.bullet.constraints is not None:
+                    const_param_names = [
+                        'cfm',
+                        'erp',
+                        'contact_surface_layer',
+                        'split_impulse',
+                        'split_impulse_penetration_threshold']                        
 
-                for param_name in const_param_names:
-                    if getattr(sdf.bullet.constraints, param_name) is not None:                
-                        setattr(physics, param_name, getattr(sdf.bullet.constraints, param_name).value)
+                    for param_name in const_param_names:
+                        if getattr(sdf.bullet.constraints, param_name) is not None:                
+                            setattr(physics, param_name, getattr(sdf.bullet.constraints, param_name).value)
         elif sdf.type == 'simbody':
-            param_names = ['min_step_size', 'accuracy', 'max_transient_velocity']
-            for param_name in param_names:
-                if getattr(sdf.simbody, param_name) is not None:                
-                    setattr(physics, param_name, getattr(sdf.simbody, param_name).value)
-            if sdf.simbody.contact is not None:         
-                param_names = [
-                    'stiffness',
-                    'dissipation',
-                    'plastic_coef_restitution',
-                    'plastic_impact_velocity',
-                    'static_friction',
-                    'dynamic_friction',
-                    'viscous_friction',
-                    'override_impact_capture_velocity',
-                    'override_stiction_transition_velocity']
-
+            if sdf.simbody is not None:
+                param_names = ['min_step_size', 'accuracy', 'max_transient_velocity']
                 for param_name in param_names:
-                    if getattr(sdf.simbody.contact, param_name) is not None:                
-                        setattr(physics, param_name, getattr(sdf.simbody.contact, param_name).value)
+                    if getattr(sdf.simbody, param_name) is not None:                
+                        setattr(physics, param_name, getattr(sdf.simbody, param_name).value)
+                if sdf.simbody.contact is not None:         
+                    param_names = [
+                        'stiffness',
+                        'dissipation',
+                        'plastic_coef_restitution',
+                        'plastic_impact_velocity',
+                        'static_friction',
+                        'dynamic_friction',
+                        'viscous_friction',
+                        'override_impact_capture_velocity',
+                        'override_stiction_transition_velocity']
+
+                    for param_name in param_names:
+                        if getattr(sdf.simbody.contact, param_name) is not None:                
+                            setattr(physics, param_name, getattr(sdf.simbody.contact, param_name).value)
 
         return physics

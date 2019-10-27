@@ -135,6 +135,19 @@ class World(object):
         """`dict`: Model groups"""       
         return self._model_groups
 
+    def set_as_ground_plane(self, model_name):
+        if '/' not in model_name and 'default' in self._model_groups:
+            return self._model_groups['default'].set_as_ground_plane(model_name)
+        else:
+            group_name = model_name.split('/')[0]          
+            sub_model_name = model_name.replace('{}/'.format('group_name'), '')
+            if group_name not in self._model_groups:
+                PCG_ROOT_LOGGER.error('Model group <{}> for model <{}> does not exist'.format(
+                    group_name, model_name))
+                return False
+            return self._model_groups[group_name].set_as_ground_plane(sub_model_name)
+        return True
+
     def reset_physics(self, engine='ode', *args, **kwargs):
         """Reset the physics engine to its default configuration.
         
@@ -466,7 +479,7 @@ class World(object):
         > *Returns*
         
         `pcg_gazebo.parsers.sdf.World` instance.
-        """
+        """        
         if sdf._NAME != 'world':
             msg = 'SDF element must be of type <world>'
             PCG_ROOT_LOGGER.error(msg)
@@ -506,13 +519,16 @@ class World(object):
         if sdf.includes is not None:
             for inc in sdf.includes:
                 try:
-                    if '/' in inc.name.value:
-                        group_name = inc.name.value.split('/')[0]
-                        inc_name = inc.name.value.replace(group_name + '/', '')
+                    if inc.name is not None:
+                        if '/' in inc.name.value:
+                            group_name = inc.name.value.split('/')[0]
+                            inc_name = inc.name.value.replace(group_name + '/', '')
+                        else:
+                            group_name = 'default'
+                            inc_name = inc.name.value   
+                        inc.name.value = inc_name
                     else:
                         group_name = 'default'
-                        inc_name = inc.name.value   
-                    inc.name.value = inc_name
                     world.add_include(inc, group=group_name)
                 except ValueError as ex:
                     PCG_ROOT_LOGGER.error('Cannot import model <{}>, message={}'.format(

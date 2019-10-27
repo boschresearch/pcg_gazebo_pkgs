@@ -123,7 +123,7 @@ def get_footprint(model, step_x=0.001, step_y=0.001, x_limits=None,
             continue
         
         ray_locations = MultiPoint(locations)
-        mesh_footprint = ray_locations.buffer(np.max([step_x, step_y]))
+        mesh_footprint = ray_locations.buffer(1.5 * np.max([step_x, step_y]))
         footprint.append(mesh_footprint)
 
     footprint = unary_union(footprint)
@@ -134,7 +134,8 @@ def get_footprint(model, step_x=0.001, step_y=0.001, x_limits=None,
 
 
 def get_occupied_area(model, step_x, step_y, z_levels=None, x_limits=None, y_limits=None, 
-    z_limits=None, horizontal_only=False, model_name=None, mesh_type='collision'):
+    z_limits=None, horizontal_only=False, model_name=None, mesh_type='collision',
+    is_ground_plane=False):
     start_time = time()
     PCG_ROOT_LOGGER.info('get_occupied_area(), model={}'.format(model_name))    
     PCG_ROOT_LOGGER.info('get_occupied_area(), mesh_type={}'.format(mesh_type))    
@@ -195,6 +196,9 @@ def get_occupied_area(model, step_x, step_y, z_levels=None, x_limits=None, y_lim
 
     if z_levels is None:
         z_levels = np.linspace(z_limits[0], z_limits[1], 10)
+
+    if is_ground_plane:
+        z_levels = [z_limits[0]] + z_levels
         
     z_levels = np.array(z_levels)
     n_levels = z_levels.size
@@ -203,7 +207,7 @@ def get_occupied_area(model, step_x, step_y, z_levels=None, x_limits=None, y_lim
         z_levels >= model_z_limits[0], z_levels <= model_z_limits[1]))[0]]
 
     if z_levels.size == 0:
-        PCG_ROOT_LOGGER.error(
+        PCG_ROOT_LOGGER.warning(
             'All Z height levels were outside'
             ' of the model height range!, model={}, '
             'model Z limits={}, Z level limits={}'.format(
@@ -271,6 +275,7 @@ def get_occupied_area(model, step_x, step_y, z_levels=None, x_limits=None, y_lim
     if not horizontal_only:
         def _find_footprint_with_rays(xvec, yvec):
             x, y = np.meshgrid(x_samples, y_samples)
+            PCG_ROOT_LOGGER.info('Finding footprint with vertical rays, model={}, # rays={}'.format(model_name, x.size))
             footprint_areas = list()
 
             ray_origins = np.vstack((
@@ -290,21 +295,23 @@ def get_occupied_area(model, step_x, step_y, z_levels=None, x_limits=None, y_lim
                 
                 locations = locations[:, 0:2]    
                 locations = np.unique(locations, axis=0)
+                locations = np.vstack((ray_intersections, locations))
 
                 points = MultiPoint(locations)
                 # Dilate points and add them to the occupied area
                 footprint_areas.append(points.buffer(np.max([step_x, step_y])))
+            PCG_ROOT_LOGGER.info('Vertical ray tracing done, model={}'.format(model_name))
             return footprint_areas
 
         x_samples = np.arange(x_limits[0], x_limits[1] + step_x, step_x)
         y_samples = np.arange(y_limits[0], y_limits[1] + step_y, step_y)
 
-        if x_samples.shape[0] * y_samples.shape[0] > 5e5:        
-            try:
+        if x_samples.shape[0] * y_samples.shape[0] > 1e5:        
+            try:                
                 # Extract only the unique point intersections
                 ray_intersections = np.unique(ray_intersections, axis=0)                
                 # Generating ray origins from the maximum Z level limit
-                PCG_ROOT_LOGGER.info('Performing triangularization, model={}'.format(model_name))
+                PCG_ROOT_LOGGER.info('Performing triangulation, model={}'.format(model_name))
                 triangles = triangulate(MultiPoint(ray_intersections))
                 PCG_ROOT_LOGGER.info('# triangles={}, model={}'.format(
                     len(triangles), model_name))
@@ -315,6 +322,7 @@ def get_occupied_area(model, step_x, step_y, z_levels=None, x_limits=None, y_lim
                 ray_directions = np.array([[0, 0, -1] for _ in range(ray_origins.shape[0])])
 
                 idx = None
+                PCG_ROOT_LOGGER.info('Checking triangles centroids for intersections with mesh, model={}'.format(model_name))
                 for mesh in meshes:
                     locations, index_ray, index_tri = mesh.ray.intersects_location(
                         ray_origins=ray_origins,
@@ -326,10 +334,13 @@ def get_occupied_area(model, step_x, step_y, z_levels=None, x_limits=None, y_lim
                     else:
                         idx = np.unique(np.hstack((idx, np.array(index_ray))))
                             
-                occupied_areas = occupied_areas + [triangles[i].buffer(0.001) for i in idx]                
+                PCG_ROOT_LOGGER.info('Triangles filtered for intersections, model={}, # triangles={}'.format(
+                    model_name, idx.shape[0]))
+                occupied_areas = occupied_areas + [triangles[i] for i in idx]                
+                PCG_ROOT_LOGGER.info('Finished triangulation, model={}'.format(model_name))
             except ValueError as ex:
                 PCG_ROOT_LOGGER.warning(
-                    'Triangularization failed, using vertical rays'
+                    'triangulation failed, using vertical rays'
                     ' instead, model={}, message={}'.format(model_name, ex))
                 occupied_areas = occupied_areas + _find_footprint_with_rays(x_samples, y_samples)            
         else:
@@ -338,7 +349,7 @@ def get_occupied_area(model, step_x, step_y, z_levels=None, x_limits=None, y_lim
             occupied_areas = occupied_areas + _find_footprint_with_rays(x_samples, y_samples)            
     else:
         PCG_ROOT_LOGGER.info('Using only horizontal rays, model={}'.format(model_name))
-                                 
+        
     # Combine all occupied areas    
     occupied_areas = unary_union(occupied_areas)    
 
@@ -347,7 +358,7 @@ def get_occupied_area(model, step_x, step_y, z_levels=None, x_limits=None, y_lim
         np.max([step_x, step_y]) / 2).buffer(-np.max([step_x, step_y]) / 2)
 
     # Remove interior polygons, only if model is not a ground plane model
-    if not model.is_ground_plane:
+    if not is_ground_plane:
         if isinstance(occupied_areas, Polygon): 
             for interior_poly in occupied_areas.interiors:                    
                 interior_poly = Polygon(interior_poly)
@@ -388,7 +399,6 @@ def _get_occupied_area_proc(args):
         horizontal_only=args[4],
         model_name=args[5],
         mesh_type=args[6])
-
     return occupied_areas
 
 
@@ -452,7 +462,7 @@ def generate_occupancy_grid_with_ray(models, z_levels, x_limits=None, y_limits=N
 
     pool = Pool(n_processes)
     
-    if len(models):
+    if len(models):    
         results = pool.map(
                 _get_occupied_area_proc, 
                 ([
@@ -496,10 +506,9 @@ def generate_occupancy_grid_with_ray(models, z_levels, x_limits=None, y_limits=N
             step_y, 
             z_levels, 
             horizontal_only=False, 
-            mesh_type=mesh_type)
+            mesh_type=mesh_type,
+            is_ground_plane=True)
         occupancy_output['ground_plane'][model_name] = model_occupied_area
-
-    # Combine all occupied areas
-    occupancy_map = unary_union(model_occupied_areas)
-
+    
+    PCG_ROOT_LOGGER.info('Computation of occupancy grid finished')
     return occupancy_output

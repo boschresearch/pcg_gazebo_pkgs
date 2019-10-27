@@ -74,10 +74,10 @@ def create_logger(name, log_filename=None, output_dir=None,
             file_hdlr.setFormatter(
                 logging.Formatter(
                     '%(asctime)s | %(levelname)s | %(module)s | %(message)s'))
-            file_hdlr.setLevel(logging.INFO)
+            file_hdlr.setLevel(logging.ERROR)
 
             logger.addHandler(file_hdlr)
-            logger.setLevel(logging.INFO)
+            logger.setLevel(logging.ERROR)
     return logger
 
 
