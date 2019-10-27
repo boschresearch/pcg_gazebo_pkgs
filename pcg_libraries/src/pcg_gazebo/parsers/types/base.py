@@ -232,9 +232,10 @@ class XMLBase(object):
                                 for att in data[elem]:
                                     assert att in obj.attributes or hasattr(obj, att), 'No attribute <{}> for <{}>'.format(elem, tag)
                             else:
-                                assert obj.is_valid_element(elem), \
-                                    'No element <{}> for <{}>, input={}'.format(
-                                        elem, tag, value, data[elem])
+                                if not obj.is_valid_element(elem):
+                                    PCG_ROOT_LOGGER.warning('No element <{}> for <{}>, input={}'.format(
+                                        elem, tag, value, data[elem]))
+                                continue
                         # Copy element
                         obj = deepcopy(value)
             else:
@@ -249,7 +250,9 @@ class XMLBase(object):
                             for att in value[elem]:
                                 assert att in obj.attributes or hasattr(obj, att), 'No attribute <{}> for <{}>, input={}'.format(att, tag, value[elem])
                         else:                                                                    
-                            assert obj.is_valid_element(elem), 'No element <{}> for <{}>, input={}'.format(elem, tag, value[elem])
+                            if not obj.is_valid_element(elem):
+                                PCG_ROOT_LOGGER.warning('No element <{}> for <{}>, input={}'.format(elem, tag, value[elem]))
+                                continue
                                         
                     for elem in value:
                         if elem == 'attributes':
