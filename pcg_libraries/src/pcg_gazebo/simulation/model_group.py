@@ -113,6 +113,21 @@ class ModelGroup(object):
         """`int`: Number of lights"""
         return len(self._lights)
 
+    def set_as_ground_plane(self, model_name):        
+        if model_name in self._models:
+            self._models[model_name].set_as_ground_plane()
+        else:
+            if '/' in model_name:
+                group_name = model_name.split('/')[0]
+                sub_model_name = model_name.replace('{}/'.format('group_name'), '')
+                if group_name in self._models:
+                    return self._models[group_name].set_as_ground_plane(model_name)
+                else:
+                    return False
+            else:
+                return False
+        return True
+
     def reset_models(self):
         """Reset the list of models."""
         self._models = dict()
@@ -308,7 +323,8 @@ class ModelGroup(object):
                     name, self.name))
                 return None
                 
-            output = self._models[name].copy()            
+            output = self._models[name].copy()        
+            output.is_ground_plane = self._models[name].is_ground_plane
             if use_group_pose:
                 output.pose = self._pose + output.pose 
             output.name = prefix + output.name

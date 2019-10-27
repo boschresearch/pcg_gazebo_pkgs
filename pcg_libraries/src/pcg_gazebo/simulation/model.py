@@ -193,10 +193,13 @@ class SimulationModel(object):
     def plugins(self):
         return self._plugins
 
+    def set_as_ground_plane(self):
+        self._is_ground_plane = True
+
     def copy(self):
         model = SimulationModel.from_sdf(self.to_sdf())
         model.static = self.static
-        model.is_gazebo_model = self.is_gazebo_model
+        model._is_gazebo_model = self._is_gazebo_model
         model._source_model_name = self._source_model_name
         return model
 
