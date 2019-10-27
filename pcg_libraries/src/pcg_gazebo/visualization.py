@@ -157,6 +157,7 @@ def plot_footprint(footprint, fig=None, ax=None, fig_width=800, fig_height=400,
                 fig_width=fig_width, 
                 fig_height=fig_height,
                 match_aspect=True)
+        
     elif fig is not None and ax is None:
         if use_matplotlib:
             ax = fig.gca()
@@ -399,129 +400,142 @@ def plot_occupancy_grid(models, occupied_thresh=0.65,
     min_axis_y = None
     max_axis_y = None
 
-    if with_ground_plane and len(occupancy_output['ground_plane']) > 0:
-        ax.patch.set_facecolor(unavailable_color)
-        PCG_ROOT_LOGGER.info(
-            'Adding ground plane models as free-space in the occupancy grid')
-
-        for tag in occupancy_output['ground_plane']:
-            if is_excluded(tag):
-                PCG_ROOT_LOGGER.info('Model {} is excluded from final map'.format(tag))            
-                continue
-            patch = descartes.PolygonPatch(
-                occupancy_output['ground_plane'][tag], 
-                facecolor=free_color, 
-                edgecolor=free_color, 
-                alpha=1,
-                linestyle='solid')
-            ax.add_patch(patch)
+    if occupancy_output is not None:
+        if with_ground_plane and len(occupancy_output['ground_plane']) > 0:
+            ax.patch.set_facecolor(unavailable_color)
             PCG_ROOT_LOGGER.info(
-                'Ground-plane model <{}> added to occupancy grid'.format(tag))
+                'Adding ground plane models as free-space in the occupancy grid')
 
-            if axis_x_limits is None:
-                if min_axis_x is None:
-                    min_axis_x = occupancy_output['ground_plane'][tag].bounds[0]
-                else:
-                    min_axis_x = min(min_axis_x, occupancy_output['ground_plane'][tag].bounds[0])
+            for tag in occupancy_output['ground_plane']:
+                if is_excluded(tag):
+                    PCG_ROOT_LOGGER.info('Model {} is excluded from final map'.format(tag))            
+                    continue
+                patch = descartes.PolygonPatch(
+                    occupancy_output['ground_plane'][tag], 
+                    facecolor=free_color, 
+                    edgecolor=free_color, 
+                    alpha=1,
+                    linestyle='solid')
+                ax.add_patch(patch)
 
-                if max_axis_x is None:
-                    max_axis_x = occupancy_output['ground_plane'][tag].bounds[2]
-                else:
-                    max_axis_x = max(max_axis_x, occupancy_output['ground_plane'][tag].bounds[2])
+                PCG_ROOT_LOGGER.info(
+                    'Ground-plane model <{}> added to occupancy grid'.format(tag))
+
+                if axis_x_limits is None:
+                    if min_axis_x is None:
+                        min_axis_x = occupancy_output['ground_plane'][tag].bounds[0]
+                    else:
+                        min_axis_x = min(min_axis_x, occupancy_output['ground_plane'][tag].bounds[0])
+
+                    if max_axis_x is None:
+                        max_axis_x = occupancy_output['ground_plane'][tag].bounds[2]
+                    else:
+                        max_axis_x = max(max_axis_x, occupancy_output['ground_plane'][tag].bounds[2])
+                
+                if axis_y_limits is None:
+                    if min_axis_y is None:
+                        min_axis_y = occupancy_output['ground_plane'][tag].bounds[1]
+                    else:
+                        min_axis_y = min(min_axis_y, occupancy_output['ground_plane'][tag].bounds[1])
+
+                    if max_axis_y is None:
+                        max_axis_y = occupancy_output['ground_plane'][tag].bounds[3]
+                    else:
+                        max_axis_y = max(max_axis_y, occupancy_output['ground_plane'][tag].bounds[3])
+        else:
+            PCG_ROOT_LOGGER.info('Ignoring ground plane from the occupancy grid')
+            ax.set_facecolor(free_color)
+
+        if 'static' in occupancy_output:
+            if len(occupancy_output['static']) > 0:
+                PCG_ROOT_LOGGER.info('Adding static models as occupied areas')
+                
+                for tag in occupancy_output['static']:            
+                    if is_excluded(tag):
+                        PCG_ROOT_LOGGER.info('Model {} is excluded from final map'.format(tag))            
+                        continue                    
+
+                    if occupancy_output['static'][tag].is_empty:
+                        PCG_ROOT_LOGGER.warning('Model footprint <{}> is empty'.format(tag))                    
+                        continue
+
+                    patch = descartes.PolygonPatch(
+                            occupancy_output['static'][tag], 
+                            facecolor=occupied_color, 
+                            edgecolor=occupied_color, 
+                            alpha=1,
+                            linestyle='solid')
+                    ax.add_patch(patch)
+                    PCG_ROOT_LOGGER.info(
+                        'Static model <{}> added to occupancy grid'.format(tag))                    
+
+                    if axis_x_limits is None:
+                        if min_axis_x is None:
+                            min_axis_x = occupancy_output['static'][tag].bounds[0]
+                        else:
+                            min_axis_x = min(min_axis_x, occupancy_output['static'][tag].bounds[0])
+
+                        if max_axis_x is None:
+                            max_axis_x = occupancy_output['static'][tag].bounds[2]
+                        else:
+                            max_axis_x = max(max_axis_x, occupancy_output['static'][tag].bounds[2])
+                    
+                    if axis_y_limits is None:
+                        if min_axis_y is None:
+                            min_axis_y = occupancy_output['static'][tag].bounds[1]
+                        else:
+                            min_axis_y = min(min_axis_y, occupancy_output['static'][tag].bounds[1])
+
+                        if max_axis_y is None:
+                            max_axis_y = occupancy_output['static'][tag].bounds[3]
+                        else:
+                            max_axis_y = max(max_axis_y, occupancy_output['static'][tag].bounds[3])
+
+        if not static_models_only and len(occupancy_output['non_static']) > 0:
+            PCG_ROOT_LOGGER.info('Adding non-static models as occupied areas')
             
-            if axis_y_limits is None:
-                if min_axis_y is None:
-                    min_axis_y = occupancy_output['ground_plane'][tag].bounds[1]
-                else:
-                    min_axis_y = min(min_axis_y, occupancy_output['ground_plane'][tag].bounds[1])
+            for tag in occupancy_output['non_static']:
+                if is_excluded(tag):
+                    PCG_ROOT_LOGGER.info('Model {} is excluded from final map'.format(tag))            
+                    continue
 
-                if max_axis_y is None:
-                    max_axis_y = occupancy_output['ground_plane'][tag].bounds[3]
-                else:
-                    max_axis_y = max(max_axis_y, occupancy_output['ground_plane'][tag].bounds[3])
-    else:
-        PCG_ROOT_LOGGER.info('Ignoring ground plane from the occupancy grid')
-        ax.set_facecolor(free_color)
+                if occupancy_output['non_static'][tag].is_empty:
+                    PCG_ROOT_LOGGER.warning('Model footprint <{}> is empty'.format(tag))                    
+                    continue
 
-    if len(occupancy_output['static']) > 0:
-        PCG_ROOT_LOGGER.info('Adding static models as occupied areas')
-        
-        for tag in occupancy_output['static']:            
-            if is_excluded(tag):
-                PCG_ROOT_LOGGER.info('Model {} is excluded from final map'.format(tag))            
-                continue
-            patch = descartes.PolygonPatch(
-                occupancy_output['static'][tag], 
-                facecolor=occupied_color, 
-                edgecolor=occupied_color, 
-                alpha=1,
-                linestyle='solid')
-            ax.add_patch(patch)
-            PCG_ROOT_LOGGER.info(
-                'Static model <{}> added to occupancy grid'.format(tag))
+                patch = descartes.PolygonPatch(
+                    occupancy_output['non_static'][tag], 
+                    facecolor=occupied_color, 
+                    edgecolor=occupied_color, 
+                    alpha=1,
+                    linestyle='solid')
+                ax.add_patch(patch)
+                PCG_ROOT_LOGGER.info(
+                    'Non-static model <{}> added to occupancy grid'.format(tag))
 
-            if axis_x_limits is None:
-                if min_axis_x is None:
-                    min_axis_x = occupancy_output['static'][tag].bounds[0]
-                else:
-                    min_axis_x = min(min_axis_x, occupancy_output['static'][tag].bounds[0])
+                if axis_x_limits is None:
+                    if min_axis_x is None:
+                        min_axis_x = occupancy_output['non_static'][tag].bounds[0]
+                    else:
+                        min_axis_x = min(min_axis_x, occupancy_output['non_static'][tag].bounds[0])
 
-                if max_axis_x is None:
-                    max_axis_x = occupancy_output['static'][tag].bounds[2]
-                else:
-                    max_axis_x = max(max_axis_x, occupancy_output['static'][tag].bounds[2])
-            
-            if axis_y_limits is None:
-                if min_axis_y is None:
-                    min_axis_y = occupancy_output['static'][tag].bounds[1]
-                else:
-                    min_axis_y = min(min_axis_y, occupancy_output['static'][tag].bounds[1])
+                    if max_axis_x is None:
+                        max_axis_x = occupancy_output['non_static'][tag].bounds[2]
+                    else:
+                        max_axis_x = max(max_axis_x, occupancy_output['non_static'][tag].bounds[2])
+                
+                if axis_y_limits is None:
+                    if min_axis_y is None:
+                        min_axis_y = occupancy_output['non_static'][tag].bounds[1]
+                    else:
+                        min_axis_y = min(min_axis_y, occupancy_output['non_static'][tag].bounds[1])
 
-                if max_axis_y is None:
-                    max_axis_y = occupancy_output['static'][tag].bounds[3]
-                else:
-                    max_axis_y = max(max_axis_y, occupancy_output['static'][tag].bounds[3])
-
-    if not static_models_only and len(occupancy_output['non_static']) > 0:
-        PCG_ROOT_LOGGER.info('Adding non-static models as occupied areas')
-        
-        for tag in occupancy_output['non_static']:
-            if is_excluded(tag):
-                PCG_ROOT_LOGGER.info('Model {} is excluded from final map'.format(tag))            
-                continue
-            patch = descartes.PolygonPatch(
-                occupancy_output['non_static'][tag], 
-                facecolor=occupied_color, 
-                edgecolor=occupied_color, 
-                alpha=1,
-                linestyle='solid')
-            ax.add_patch(patch)
-            PCG_ROOT_LOGGER.info(
-                'Non-static model <{}> added to occupancy grid'.format(tag))
-
-            if axis_x_limits is None:
-                if min_axis_x is None:
-                    min_axis_x = occupancy_output['non_static'][tag].bounds[0]
-                else:
-                    min_axis_x = min(min_axis_x, occupancy_output['non_static'][tag].bounds[0])
-
-                if max_axis_x is None:
-                    max_axis_x = occupancy_output['non_static'][tag].bounds[2]
-                else:
-                    max_axis_x = max(max_axis_x, occupancy_output['non_static'][tag].bounds[2])
-            
-            if axis_y_limits is None:
-                if min_axis_y is None:
-                    min_axis_y = occupancy_output['non_static'][tag].bounds[1]
-                else:
-                    min_axis_y = min(min_axis_y, occupancy_output['non_static'][tag].bounds[1])
-
-                if max_axis_y is None:
-                    max_axis_y = occupancy_output['non_static'][tag].bounds[3]
-                else:
-                    max_axis_y = max(max_axis_y, occupancy_output['non_static'][tag].bounds[3])
-    else:
-        PCG_ROOT_LOGGER.info('Ignore non-static models')
+                    if max_axis_y is None:
+                        max_axis_y = occupancy_output['non_static'][tag].bounds[3]
+                    else:
+                        max_axis_y = max(max_axis_y, occupancy_output['non_static'][tag].bounds[3])
+        else:
+            PCG_ROOT_LOGGER.info('Ignore non-static models')
 
     #ax.set_frame_on(False)
     ax.axis('equal')
@@ -536,28 +550,33 @@ def plot_occupancy_grid(models, occupied_thresh=0.65,
     ax.spines['bottom'].set_visible(False)
     ax.spines['left'].set_visible(False)
 
-    if axis_x_limits is not None:
-        ax.set_xlim(axis_x_limits)
-    else:        
-        ax.set_xlim([min_axis_x - 0.1, max_axis_x + 0.1])
+    if None not in [axis_x_limits, min_axis_x]:
+        if axis_x_limits is not None:
+            ax.set_xlim(axis_x_limits)
+        else:        
+            ax.set_xlim([min_axis_x - 0.1, max_axis_x + 0.1])
             
-    if axis_y_limits is not None:
-        ax.set_ylim(axis_y_limits)
-    else:        
-        ax.set_ylim([min_axis_y - 0.1, max_axis_y + 0.1])          
+    if None not in [axis_y_limits, min_axis_y]:
+        if axis_y_limits is not None:
+            ax.set_ylim(axis_y_limits)
+        else:        
+            ax.set_ylim([min_axis_y - 0.1, max_axis_y + 0.1])          
 
     fig.canvas.draw()
 
     if os.path.isdir(output_folder):
         if '.pgm' in output_filename:            
             filename = os.path.join(output_folder, output_filename)          
-            filename_svg = os.path.join(output_folder, output_filename.replace('.pgm', '.svg'))          
+            filename_svg = os.path.join(output_folder, output_filename.replace('.pgm', '.svg'))     
+            has_ground_plane = True
+            if occupancy_output is not None:
+                has_ground_plane = len(occupancy_output['ground_plane']) > 0
             plt.savefig(
                 filename_svg, 
                 dpi=dpi,
                 bbox_inches='tight',                 
-                facecolor=unavailable_color if with_ground_plane and len(occupancy_output['ground_plane']) > 0 else free_color,
-                edgecolor=unavailable_color if with_ground_plane and len(occupancy_output['ground_plane']) > 0 else free_color)
+                facecolor=unavailable_color if with_ground_plane and has_ground_plane else free_color,
+                edgecolor=unavailable_color if with_ground_plane and has_ground_plane else free_color)
 
             store_fig_as_pgm(output_folder, output_filename, plt.get_current_fig_manager().canvas)
 
