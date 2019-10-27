@@ -180,6 +180,7 @@ from .samples import Samples
 from .save import Save
 from .scale import Scale
 from .scan import Scan
+from .scene import Scene
 from .script import Script
 from .sdf import SDF
 from .self_collide import SelfCollide
@@ -188,6 +189,7 @@ from .shader import Shader
 from .simbody import Simbody
 from .size import Size
 from .skin import Skin
+from .sky import Sky
 from .slip import Slip
 from .slip1 import Slip1
 from .slip2 import Slip2
@@ -207,6 +209,8 @@ from .static import Static
 from .stddev import StdDev
 from .stiffness import Stiffness
 from .submesh import SubMesh
+from .sunrise import Sunrise
+from .sunset import Sunset
 from .surface_radius import SurfaceRadius
 from .surface import Surface
 from .threshold import Threshold

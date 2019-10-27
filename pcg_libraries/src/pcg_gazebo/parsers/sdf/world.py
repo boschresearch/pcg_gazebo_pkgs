@@ -20,6 +20,7 @@ from .include import Include
 from .gravity import Gravity
 from .plugin import Plugin
 from .light import Light
+from .scene import Scene
 
 
 class World(XMLBase):
@@ -32,7 +33,8 @@ class World(XMLBase):
         model=dict(creator=Model, n_elems='+', optional=True),
         include=dict(creator=Include, n_elems='+', optional=True),
         plugin=dict(creator=Plugin, n_elems='+', optional=True),
-        light=dict(creator=Light, n_elems='+', optional=True)
+        light=dict(creator=Light, n_elems='+', optional=True),
+        scene=dict(creator=Scene, optional=True)
     )
 
     _ATTRIBUTES = dict(
@@ -53,6 +55,14 @@ class World(XMLBase):
         assert len(value) > 0
 
         self.attributes['name'] = value
+
+    @property
+    def scene(self):
+        return self._get_child_element('scene')
+    
+    @scene.setter
+    def scene(self, value):
+        self._add_child_element('scene', value)
 
     @property
     def physics(self):
