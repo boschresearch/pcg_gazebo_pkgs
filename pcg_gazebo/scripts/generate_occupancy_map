@@ -226,12 +226,9 @@ if __name__ == '__main__':
     for model_name in gp_models:
         if model_name in world.models:
             print('Flagging model {} as ground plane'.format(model_name))
-            world.models[model_name].is_ground_plane = True
-
+            world.set_as_ground_plane(model_name)
+    
     print('Generating occupancy grid')
-    print('List of models:')    
-    for tag in world.models:
-        print('\t - {}'.format(tag))
 
     if args.exclude_contains:
         print('Excluding models that include the following keywords: {}'.format(
