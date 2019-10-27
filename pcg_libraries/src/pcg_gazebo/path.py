@@ -36,19 +36,7 @@ class Path(object):
             PCG_ROOT_LOGGER.error(msg)
             raise ValueError(uri)
 
-        if PCG_RESOURCES_ROOT_DIR not in self._absolute_uri:
-            self._resolve_gazebo_model()
-            self._resolve_ros_package()
-
         PCG_ROOT_LOGGER.info('URI {} resolved={}'.format(uri, self.absolute_uri))
-        PCG_ROOT_LOGGER.info('\t - Original URI={}'.format(self.original_uri))
-        PCG_ROOT_LOGGER.info('\t - Absolute URI={}'.format(self.absolute_uri))
-        PCG_ROOT_LOGGER.info('\t - ROS package={}'.format(self.ros_package))
-        PCG_ROOT_LOGGER.info('\t - Gazebo model={}'.format(self.gazebo_model))
-        PCG_ROOT_LOGGER.info('\t - File URI={}'.format(self.file_uri))
-        PCG_ROOT_LOGGER.info('\t - Package URI={}'.format(self.package_uri))
-        PCG_ROOT_LOGGER.info('\t - Model URI={}'.format(self.model_uri))
-        PCG_ROOT_LOGGER.info('\t - ROS package URI={}'.format(self.ros_package_uri))
 
     @property
     def original_uri(self):
@@ -60,10 +48,14 @@ class Path(object):
 
     @property
     def ros_package(self):
+        if self._ros_pkg is None:
+            self._resolve_ros_package()
         return self._ros_pkg
 
     @property
     def gazebo_model(self):
+        if self._gazebo_model is None:
+            self._resolve_gazebo_model()
         return self._gazebo_model
 
     @property
