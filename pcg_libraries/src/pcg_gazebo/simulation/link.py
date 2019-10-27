@@ -915,7 +915,7 @@ class Link(object):
             
         geometries = list()
         poses = list()
-
+        
         if mesh_type == 'visual':
             for visual in self._visuals:
                 geometries.append(visual.geometry)
@@ -931,9 +931,9 @@ class Link(object):
         for pose, geometry in zip(poses, geometries):
             geometry_pose = combined_pose + pose
             
-            mesh = geometry.get_mesh(geometry_pose.position, geometry_pose.quat)
-            if mesh is not None:
-                meshes.append(mesh) 
+            geo_meshes = geometry.get_mesh(geometry_pose.position, geometry_pose.quat)
+            if geo_meshes is not None:
+                meshes += geo_meshes
 
         return meshes
 
