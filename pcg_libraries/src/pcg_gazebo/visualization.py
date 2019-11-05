@@ -287,9 +287,10 @@ def plot_footprints(models, fig=None, ax=None, mesh_type='visual', fig_width=800
     return fig
 
 
-def create_scene(models, mesh_type='collision', add_pseudo_color=False, alpha=0.5):
+def create_scene(models, mesh_type='collision', add_pseudo_color=False, alpha=0.5, add_axis=True):
     scene = trimesh.scene.Scene()
-    scene.add_geometry(trimesh.creation.axis())
+    if add_axis:
+        scene.add_geometry(trimesh.creation.axis())
 
     if isinstance(models, list):
         meshes = list()

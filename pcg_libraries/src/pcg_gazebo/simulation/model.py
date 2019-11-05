@@ -1208,12 +1208,12 @@ class SimulationModel(object):
 
         return meshes
 
-    def create_scene(self, mesh_type='collision', add_pseudo_color=True):
+    def create_scene(self, mesh_type='collision', add_pseudo_color=True, add_axis=True):
         from ..visualization import create_scene
-        return create_scene([self], mesh_type, add_pseudo_color)   
+        return create_scene([self], mesh_type, add_pseudo_color, add_axis=add_axis)   
 
-    def show(self, mesh_type='collision', add_pseudo_color=True):
-        scene = self.create_scene(mesh_type, add_pseudo_color)     
+    def show(self, mesh_type='collision', add_pseudo_color=True, add_axis=True):
+        scene = self.create_scene(mesh_type, add_pseudo_color, add_axis)     
         scene.show()
 
     def plot_footprint(self, fig=None, ax=None, fig_width=20, fig_height=20,
