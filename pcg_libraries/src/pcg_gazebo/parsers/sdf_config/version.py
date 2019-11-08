@@ -20,13 +20,8 @@ class Version(XMLString):
     _NAME = 'version'
     _TYPE = 'sdf_config'
 
-    _VALUE_OPTIONS = ['1.4', '1.5', '1.6']
-
     def __init__(self, default='none'):
         XMLString.__init__(self, default)
 
     def _set_value(self, value):
-        assert str(value) in self._VALUE_OPTIONS, \
-            'Invalid SDF version, received={}, options={}'.format(
-                value, self._VALUE_OPTIONS)
         self._value = str(value)
