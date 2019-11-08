@@ -293,11 +293,18 @@ def convert_from_string(str_input_xml):
             return False
         return len(s) % 2 == 0
 
+    def is_numeric(s):
+        import sys
+        if sys.version_info[0] > 2:
+            return str(s).isdigit()
+        else:
+            return s.isdigit()
+
     if is_hex(str_input_xml):
         value = int(str_input_xml, 0)        
     elif isinstance(str_input_xml, list):        
         value = str_input_xml
-    elif str_input_xml.isnumeric():        
+    elif is_numeric(str_input_xml):        
         value = int(str_input_xml)
     elif str_input_xml in ['true', 'false', 'True', 'False']:        
         value = True if str_input_xml in ['true', 'True'] else False
