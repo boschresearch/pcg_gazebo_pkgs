@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-function(jinja2sdf)
+function(pcg_convert_jinja_to_sdf)
     set(one_value_keywords INPUT_TEMPLATE_FILENAME 
         OUTPUT_SDF_FILENAME 
         OUTPUT_SDF_DIR 

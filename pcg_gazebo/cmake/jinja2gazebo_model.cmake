@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-function(jinja2gazebo_model)
+function(pcg_convert_jinja_to_gazebo_model)
     set(one_value_keywords 
         INPUT_TEMPLATE_FILENAME 
         MODEL_NAME
@@ -110,7 +110,7 @@ function(jinja2gazebo_model)
         --param=author_email=${ARG_AUTHOR_EMAIL} 
         --param=sdf_filename=model.sdf --sdf-config)
 
-    jinja2sdf(
+    pcg_convert_jinja_to_sdf(
         INPUT_TEMPLATE_FILENAME ${ARG_INPUT_TEMPLATE_FILENAME}
         OUTPUT_SDF_DIR ${ARG_OUTPUT_MODEL_DIR}/${ARG_MODEL_NAME}
         OUTPUT_SDF_FILENAME model.sdf

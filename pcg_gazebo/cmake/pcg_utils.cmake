@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-macro(listdir OUTPUT CURDIR)
+macro(pcg_listdir OUTPUT CURDIR)
     file(GLOB ITEMS RELATIVE ${CURDIR} ${CURDIR}/*)
     set(DIRLIST "")
 

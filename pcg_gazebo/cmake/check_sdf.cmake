@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-macro(check_sdf INPUT_FILENAME)    
+macro(pcg_check_sdf INPUT_FILENAME)    
     if(NOT EXISTS ${INPUT_FILENAME})
         message(SEND_ERROR "Input filename has not been provided")
     else()

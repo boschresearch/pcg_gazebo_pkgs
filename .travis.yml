@@ -20,7 +20,7 @@ env:
     - ROS_REPOSITORY_PATH=http://packages.ros.org/ros/ubuntu
     - NOT_TEST_BUILD=false
     - NOT_TEST_INSTALL=true
-    - BEFORE_SCRIPT="python2 -m pip install pip --upgrade && python2 -m pip install python-fcl && apt update && apt install libgeos++-dev"
+    - BEFORE_SCRIPT="python2 -m pip install pip --upgrade && python2 -m pip install python-fcl"
 matrix:
   include:
     # - env: BEFORE_SCRIPT="apt update && apt install libspatialindex-dev && pip install pip --upgrade" ROS_DISTRO=melodic 
