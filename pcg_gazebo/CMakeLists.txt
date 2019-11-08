@@ -3,7 +3,7 @@ project(pcg_gazebo)
 
 find_package(catkin REQUIRED)
 
-catkin_package()
+catkin_package(CFG_EXTRAS ${PROJECT_NAME}-extras.cmake)
 
 #############
 ## Install ##
@@ -25,9 +25,15 @@ install(PROGRAMS
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-install(DIRECTORY launch
-        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-PATTERN "*~" EXCLUDE)
+install(
+  DIRECTORY launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+  PATTERN "*~" EXCLUDE)
+
+install(
+  DIRECTORY cmake
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+  PATTERN ${PROJECT_NAME}-extras.cmake* EXCLUDE)
 
 if (CATKIN_ENABLE_TESTING)
   find_package(roslaunch REQUIRED)
