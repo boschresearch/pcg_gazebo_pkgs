@@ -16,7 +16,7 @@ limitations under the License.
 #}
 
 {% macro pose_gt(
-    namespace='',
+    robot_namespace='',
     name='pose_gt',
     base_link='base_link', 
     topic_name='groundtruth', 
@@ -27,7 +27,7 @@ limitations under the License.
 %}    
     {% if ros_version == 1 %}
         <plugin name="{{ name }}" filename="libgazebo_ros_p3d.so">
-            <robotNamespace>{{ namespace }}</robotNamespace>
+            <robotNamespace>{{ robot_namespace }}</robotNamespace>
             <alwaysOn>true</alwaysOn>
             <updateRate>{{ update_rate }}</updateRate>
             <bodyName>{{ base_link }}</bodyName>
@@ -72,7 +72,7 @@ limitations under the License.
 
 {% macro ros_control(
     name='gazebo_ros_control',
-    robot_namespace='',
+    robot_robot_namespace='',
     robot_param='/robot_description',
     robot_sim_type='gazebo_ros_control/DefaultRobotHWSim',
     control_period=none,
@@ -84,7 +84,7 @@ limitations under the License.
 
     {% if ros_version == 1 %}
         <plugin name="{{ name }}" filename="libgazebo_ros_control.so">
-            <robotNamespace>{{ robot_namespace }}</robotNamespace>
+            <robotNamespace>{{ robot_robot_namespace }}</robotNamespace>
             <robotParam>{{ robot_param }}</robotParam>
             <updateRate>{{ update_rate }}</updateRate>
             <robotSimType>{{ robot_sim_type }}</robotSimType>        
