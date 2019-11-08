@@ -16,7 +16,8 @@ import os
 import argparse
 import yaml
 import rospy
-from pcg_gazebo.parsers import parse_sdf, parse_urdf, parse_sdf_config
+from pcg_gazebo.parsers import parse_sdf, parse_urdf, parse_sdf_config, \
+    convert_from_string
 from pcg_gazebo.utils import load_yaml, process_jinja_template
 
 
@@ -29,7 +30,7 @@ if __name__ == '__main__':
         '--param-file', '-f', type=str,
         help='YAML file with parameters to be rendered in the final output')
     parser.add_argument(
-        '--output-filename', '-o', type=str, default='out.xml',
+        '--output-filename', '-o', type=str, 
         help='Output file to store the parsed file')
     parser.add_argument(
         '--include-dir', '-d', type=str,
@@ -46,16 +47,19 @@ if __name__ == '__main__':
     parser.add_argument(
         '--urdf', action='store_true', 
         help='Output template is an URDF file and will be verified')
+    
     args = parser.parse_args(rospy.myargv()[1:])
-
+    
     assert isinstance(args.input_template, str), \
         'Input template must be a valid string'
-    assert isinstance(args.output_filename, str), \
-        'Output filename must be a valid string'
-
+    
     print('Input template: {}'.format(args.input_template))
-    print('Output filename: {}'.format(args.output_filename))
-
+    
+    if args.output_filename is None:
+        print('No output filename provided, file output will be printed')
+    else:
+        print('Output filename: {}'.format(args.output_filename))
+    
     if args.include_dir is not None and os.path.isdir(args.include_dir):
         include_dir = args.include_dir
         print('Directory for Jinja include files: {}'.format(args.include_dir))
@@ -75,31 +79,36 @@ if __name__ == '__main__':
             for item in args.param:
                 param = item.split('=')
                 assert len(param) == 2, 'Parameter must be provided as <param_name>=<param_value>'
-                params[param[0]] = param[1]
+                params[param[0]] = convert_from_string(param[1])
                 print('Jinja input parameter: {}={}'.format(param[0], param[1]))
 
     if len(params) > 0:
         print('Parameters:')
         for tag in sorted(params.keys()):
-            print('{}: {}'.format(tag, params[tag]))
+            print('\t - {}: {}'.format(tag, params[tag]))
 
     output_xml = process_jinja_template(args.input_template, parameters=params) 
-
+    output = None
     if args.sdf:
         # Parsing SDF file to verify its consistency
-        sdf = parse_sdf(output_xml)
-        sdf.export_xml(args.output_filename)
+        output = parse_sdf(output_xml)
     elif args.urdf:
         # Parsing URDF file to verify its consistency
-        urdf = parse_urdf(output_xml)
-        urdf.export_xml(args.output_filename)
-    elif args.sdf:
+        output = parse_urdf(output_xml)
+    elif args.sdf_config:
         # Parsing SDF model configuration file to verify its consistency
-        sdf_config = parse_sdf_config(output_xml)
-        sdf_config.export_xml(args.output_filename)    
+        output = parse_sdf_config(output_xml)    
     else:
         with open(args.output_filename, 'w+') as output_file:
             output_file.write(output_xml)
+       
+    if output is not None:
+        if args.output_filename is not None:
+            output.export_xml(args.output_filename)
+        else:
+            print(output)
+    else:
+        raise Exception('Jinja template parser returned an empty file')
 
 
 
