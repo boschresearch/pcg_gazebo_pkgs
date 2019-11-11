@@ -26,9 +26,12 @@ class XMLInteger(XMLBase):
         self._value = default
 
     def _set_value(self, value):
-        assert not isinstance(value, bool), 'Input value cannot be a boolean'
+        assert not isinstance(value, bool), \
+            '[{}] Input value cannot be a boolean'.format(
+                self.xml_element_name)
         assert isinstance(value, float) or isinstance(value, int), \
-            'Input value must be a float or an integer, received={}'.format(value)
+            '[{}] Input value must be a float or an integer, received={}'.format(
+                self.xml_element_name, value)
         if isinstance(value, float):
             assert value.is_integer()
         self._value = int(value)
