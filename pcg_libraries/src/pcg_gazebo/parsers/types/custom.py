@@ -80,3 +80,15 @@ class XMLCustom(XMLBase):
             if pattern == self._value[tag]:
                 output_tags.append(tag)
         return output_tags
+
+    def replace_parameter_value(self, old_value, new_value):
+        self._replace_value_in_dict(self._value, old_value, new_value)
+
+    @staticmethod
+    def _replace_value_in_dict(data, old_value, new_value):
+        print(data)
+        for tag in data:
+            if isinstance(data[tag], dict):
+                XMLCustom._replace_value_in_dict(data[tag], old_value, new_value)
+            elif data[tag] == old_value:
+                    data[tag] = new_value

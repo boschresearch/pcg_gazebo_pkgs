@@ -31,8 +31,8 @@ class XMLBoolean(XMLBase):
         if value in ['true', 'false']:
             value = True if value == 'true' else False
         assert isinstance(value, bool), \
-            'Input value must be a boolean, 0 or 1, type={}, name={}, received={}'.format(
-                self._TYPE, self._NAME, type(value))
+            '[{}] Input value must be a boolean, 0 or 1, type={}, name={}, received={}'.format(
+                self.xml_element_name, self._TYPE, self._NAME, type(value))
         self._value = bool(value)
 
     def reset(self):

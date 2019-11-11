@@ -63,6 +63,17 @@ class Plugin(object):
     def has_param(self, name):
         return name in self._params
 
+    def replace_parameter_value(self, old_value, new_value):
+        self._replace_value_in_dict(self._params, old_value, new_value)
+
+    @staticmethod
+    def _replace_value_in_dict(data, old_value, new_value):
+        for tag in data:
+            if isinstance(data[tag], dict):
+                Plugin._replace_value_in_dict(data[tag], old_value, new_value)
+            elif data[tag] == old_value:
+                    data[tag] = new_value
+
     def init_gazebo_ros_p3d_plugin(self, name='p3d', robot_namespace='', 
         body_name=None, topic_name='/groundtruth', frame_name='world', 
         xyz_offset=[0, 0, 0], rpy_offset=[0, 0, 0], gaussian_noise=0, 

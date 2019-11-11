@@ -12,16 +12,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+@[if DEVELSPACE]@
+set(@(PROJECT_NAME)_CMAKE_DIR @(CMAKE_CURRENT_SOURCE_DIR)/cmake)
+@[else]@
+set(pcg_gazebo_CMAKE_DIR ${@(PROJECT_NAME)_DIR})
+@[end if]@
 
-from ..types import XMLString
-
-
-class Version(XMLString):
-    _NAME = 'version'
-    _TYPE = 'sdf_config'
-
-    def __init__(self, default='none'):
-        XMLString.__init__(self, default)
-
-    def _set_value(self, value):
-        self._value = str(value)
+# Include cmake modules
+file(GLOB ITEMS ${@(PROJECT_NAME)_CMAKE_DIR}/*.cmake)
+foreach(ITEM ${ITEMS})
+    include(${ITEM})    
+endforeach()

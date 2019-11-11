@@ -203,17 +203,60 @@ class SimulationModel(object):
         model._source_model_name = self._source_model_name
         return model
 
-    def merge(self, model):
-        for tag in model.links:            
-            self.add_link(tag, link=model.links[tag])
-            pose = model.pose + self.get_link_by_name(tag).pose
-            self.get_link_by_name(tag).pose = pose
-            
-        for tag in model.joints:
-            self.add_joint(tag, joint=model.joints[tag])
-
+    def merge(self, model):                           
+        # Merge plugins
         for tag in model.plugins:
-            self.add_plugin(tag, plugin=model.plugins[tag])
+            self.add_plugin(model.name + '_' + tag, plugin=model.plugins[tag])
+
+        for tag in model.joints:
+            refactored_joint_name = model.name + '/' + tag
+            self.add_joint(
+                refactored_joint_name, joint=model.joints[tag])
+
+            # Refactor joint names found in plugins
+            for plugin_tag in self.plugins:
+                self.plugins[plugin_tag].replace_parameter_value(
+                    tag, refactored_joint_name)            
+                
+        for tag in model.links:            
+            refactored_link_name = model.name + '/' + tag
+            
+            self.add_link(refactored_link_name, link=model.links[tag])            
+            new_link_pose = model.pose + self.get_link_by_name(refactored_link_name).pose
+            self.get_link_by_name(refactored_link_name).pose = new_link_pose
+
+            # Refactor the link name in the joints
+            for joint_tag in self.joints:
+                if self.joints[joint_tag].parent == tag:
+                    self.joints[joint_tag].parent = refactored_link_name
+                # Using Gazebo's naming convention for links in nested models
+                # Find the sublinks and refactor their names in the joints
+                # with the new merged refactored link name
+                if '::' in self.joints[joint_tag].parent:
+                    nested_model_link_name = self.joints[joint_tag].parent.split('::')[-1]
+                    if nested_model_link_name == tag:
+                        self.joints[joint_tag].parent = refactored_link_name
+                if self.joints[joint_tag].child == tag:
+                    self.joints[joint_tag].child = refactored_link_name
+                if '::' in self.joints[joint_tag].child:
+                    nested_model_link_name = self.joints[joint_tag].child.split('::')[-1]
+                    if nested_model_link_name == tag:
+                        self.joints[joint_tag].child = refactored_link_name
+        
+            for plugin_tag in self.plugins:
+                self.plugins[plugin_tag].replace_parameter_value(
+                    tag, refactored_link_name)       
+
+    def merge_nested_models(self):
+        model = self.copy()
+        for tag in model.models:
+            sub_model = model.models[tag].merge_nested_models()
+            model.merge(sub_model)
+        model.reset_nested_models()
+        return model
+
+    def reset_nested_models(self):
+        self._models = dict()
 
     def set_random_orientation(self):        
         self._pose.quat = Pose.random_quaternion()

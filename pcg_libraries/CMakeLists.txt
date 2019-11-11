@@ -34,7 +34,7 @@ if(CATKIN_ENABLE_TESTING)
         test/test_inertia.py                    
         test/test_jinja_sdf_file_generation.py  
         test/test_load_yaml.py
-        test/test_mesh_property.py  
+        # test/test_mesh_property.py  
         test/test_model_factory.py  
         test/test_model_group_generator.py
         test/test_model_group.py

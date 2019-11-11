@@ -152,7 +152,7 @@ def parse_xml_str(xml_str, type='sdf'):
     
     `collections.OrderedDict`: Dictionary where the XML tags are the keys.
     """
-    import xmltodict
+    import xmltodict    
     parsed_xml = xmltodict.parse(xml_str)
     return parse_xml_dict(parsed_xml, type)
 
@@ -293,11 +293,18 @@ def convert_from_string(str_input_xml):
             return False
         return len(s) % 2 == 0
 
+    def is_numeric(s):
+        import sys
+        if sys.version_info[0] > 2:
+            return str(s).isdigit()
+        else:
+            return s.isdigit()
+
     if is_hex(str_input_xml):
         value = int(str_input_xml, 0)        
     elif isinstance(str_input_xml, list):        
         value = str_input_xml
-    elif str_input_xml.isnumeric():        
+    elif is_numeric(str_input_xml):        
         value = int(str_input_xml)
     elif str_input_xml in ['true', 'false', 'True', 'False']:        
         value = True if str_input_xml in ['true', 'True'] else False
@@ -321,16 +328,17 @@ def convert_from_string(str_input_xml):
         except ValueError:
             value = str(str_input_xml)
 
-    return value
+    return value if value is not None else str_input_xml
 
 
 def expand_nested_models(sdf):
     from ..simulation.properties import Pose
     from ..simulation import get_gazebo_model_sdf
+    from ..simulation import SimulationModel
     from copy import deepcopy
     
     if sdf.xml_element_name == 'model':
-        if sdf.includes is None:
+        if sdf.includes is None and sdf.models is None:
             return sdf
     elif sdf.xml_element_name == 'sdf':
         if sdf.models is None:
@@ -339,58 +347,13 @@ def expand_nested_models(sdf):
         assert len(sdf.models) == 1, 'Only one model per SDF will be parsed'
         return expand_nested_models(sdf.models[0])        
         
-    input_sdf = deepcopy(sdf)
-    
-    for inc in input_sdf.includes:
-        model_name = inc.uri.value.replace('model://', '')        
-        nested_sdf = get_gazebo_model_sdf(model_name)        
-        if nested_sdf is None:
-            msg = 'Nested model <{}> could not be found'.format(model_name)
-            PCG_ROOT_LOGGER.error(msg)
-            raise ValueError(msg)
-        # Expand the nested models in case there are any
-        if nested_sdf.xml_element_name == 'sdf':
-            assert nested_sdf.models is not None, \
-                'No models found in included model <{}>'.format(model_name)
-            assert len(nested_sdf.models) == 1, \
-                'Only one model per SDF file can be parsed'
-
-            model = expand_nested_models(nested_sdf.models[0])
-        elif nested_sdf.xml_element_name == 'model':
-            model = expand_nested_models(nested_sdf)
-
-        if inc.pose is not None:
-            include_pose = Pose(inc.pose.value[0:3], inc.pose.value[3::])
-        else:
-            include_pose = Pose()
-
-        if model.pose is not None:
-            model_pose = Pose(model.pose.value[0:3], model.pose.value[3::])
-        else:
-            model_pose = Pose()
-
-        if model.links is not None:
-            for link in model.links:
-                if link.pose is not None:
-                    link_pose = Pose(link.pose.value[0:3], link.pose.value[3::])
-                else:
-                    link_pose = Pose()
-                link_name = inc.name.value + '::' + link.name
-
-                nested_link = deepcopy(link)
-                nested_link.name = link_name
-                nested_link.pose = (include_pose + model_pose + link_pose).to_sdf()
-                input_sdf.add_link(link_name, nested_link)
-        if model.joints is not None:
-            for joint in model.joints:
-                joint_name = inc.name.value + '::' + joint.name
-                nested_joint = deepcopy(joint)
-                nested_joint.name = joint_name
-                input_sdf.add_joint(joint_name, nested_joint)
-
-    input_sdf.rm_child('include')
-
-    return input_sdf
+    if (sdf.models is not None and len(sdf.models) > 0) or \
+        (sdf.includes is not None and len(sdf.includes) > 0):
+        model = SimulationModel.from_sdf(sdf).merge_nested_models()    
+        return model.to_sdf(type='model')
+    else:
+        return None
+        
 
 def sdf2urdf(sdf):
     """Recursively convert a SDF `pcg_gazebo` element and its child elements 
@@ -1010,8 +973,9 @@ def merge_massless_links(sdf):
             # Refactor plugin inputs with the old link's name
             if output_sdf.plugins is not None:
                 for i in range(len(output_sdf.plugins)):
-                    for tag in output_sdf.plugins[i].find_values(child_name):
-                        output_sdf.plugins[i].value[tag] = parent_name
+                    output_sdf.plugins[i].replace_parameter_value(
+                        child_name, parent_name)
+
     return output_sdf
 
 def merge_links(parent, child):

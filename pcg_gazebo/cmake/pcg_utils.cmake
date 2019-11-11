@@ -13,15 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from ..types import XMLString
+macro(pcg_listdir OUTPUT CURDIR)
+    file(GLOB ITEMS RELATIVE ${CURDIR} ${CURDIR}/*)
+    set(DIRLIST "")
 
-
-class Version(XMLString):
-    _NAME = 'version'
-    _TYPE = 'sdf_config'
-
-    def __init__(self, default='none'):
-        XMLString.__init__(self, default)
-
-    def _set_value(self, value):
-        self._value = str(value)
+    foreach(ITEM ${ITEMS})
+        if(IS_DIRECTORY ${CURDIR}/${ITEM})
+            list(APPEND DIRLIST ${ITEM})
+        endif()
+    endforeach()
+    set(${OUTPUT} ${DIRLIST})
+endmacro()

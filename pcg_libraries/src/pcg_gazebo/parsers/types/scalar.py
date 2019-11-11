@@ -29,8 +29,9 @@ class XMLScalar(XMLBase):
     def _set_value(self, value):
         assert not isinstance(value, bool), 'Input value cannot be a boolean'
         assert isinstance(value, float) or isinstance(value, int), \
-            'Input value must be either a float or an integer for {},' \
-            ' received={}, type={}'.format(self._NAME, value, type(value))
+            '[{}] Input value must be either a float or an integer for {},' \
+            ' received={}, type={}'.format(
+                self.xml_element_name, self._NAME, value, type(value))
         self._value = float(value)
 
     def reset(self):

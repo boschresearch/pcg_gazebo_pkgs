@@ -12,16 +12,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+macro(pcg_check_urdf INPUT_FILENAME)    
+    if(NOT EXISTS ${INPUT_FILENAME})
+        message(SEND_ERROR "Input filename has not been provided")
+    else()
+        message(STATUS "Checking URDF file for errors: ${INPUT_FILENAME}")
+    endif()
 
-from ..types import XMLString
-
-
-class Version(XMLString):
-    _NAME = 'version'
-    _TYPE = 'sdf_config'
-
-    def __init__(self, default='none'):
-        XMLString.__init__(self, default)
-
-    def _set_value(self, value):
-        self._value = str(value)
+    execute_process(COMMAND rosrun pcg_gazebo urdflint --filename ${INPUT_FILENAME})
+endmacro()
