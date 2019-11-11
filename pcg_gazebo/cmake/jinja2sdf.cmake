@@ -19,7 +19,8 @@ function(pcg_convert_jinja_to_sdf)
         JINJA_INPUT_PARAMETERS_YAML_FILE
         GENERATE_URDF
         OUTPUT_URDF_FILENAME
-        OUTPUT_URDF_DIR)
+        OUTPUT_URDF_DIR
+        MERGE_NESTED_MODELS)
     set(multi_value_keywords JINJA_INPUT_PARAMETERS)
 
     cmake_parse_arguments(ARG "${options}" "${one_value_keywords}" "${multi_value_keywords}" ${ARGN})
@@ -63,18 +64,66 @@ function(pcg_convert_jinja_to_sdf)
         set(TEMPLATE_PARAMETERS_FILENAME "")
         message(STATUS "No template parameters YAML file provided")
     endif()
-    
-    execute_process(COMMAND rosrun pcg_gazebo process_jinja_template 
-        --input-template ${ARG_INPUT_TEMPLATE_FILENAME} 
-        --output-filename ${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME} 
-        ${ARG_JINJA_INPUT_PARAMETERS} ${TEMPLATE_PARAMETERS_FILENAME} --sdf)     
+
+    if(NOT DEFINED ARG_MERGE_NESTED_MODELS)
+        set(ARG_MERGE_NESTED_MODELS false)
+    endif()
+
+    if(ARG_MERGE_NESTED_MODELS)
+        set(MERGE_NESTED_MODELS_OPT "--merge-nested-models")
+    else()
+        set(MERGE_NESTED_MODELS_OPT "")
+    endif()
         
+    string(REGEX REPLACE "/" "_" MODEL_SDF_TARGET_STR "MODEL_SDF_TARGET_${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}")
+
+    set(MODEL_SDF_FAKE "${CMAKE_CURRENT_BINARY_DIR}/${MODEL_SDF_TARGET_STR}_model.sdf.fake")
+
+    if(EXISTS ${MODEL_SDF_FAKE})
+        message(FATAL_ERROR "File \"${MODEL_SDF_FAKE}\" found, this should never be created, remove!")
+    endif()    
+
+    add_custom_target(
+        ${MODEL_SDF_TARGET_STR} ALL
+        DEPENDS ${MODEL_SDF_FAKE})
+
+    add_custom_command(
+        OUTPUT 
+            ${MODEL_SDF_FAKE}
+            ${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}
+        COMMAND rosrun pcg_gazebo process_jinja_template 
+            --input-template ${ARG_INPUT_TEMPLATE_FILENAME} 
+            --output-filename ${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}                 
+            ${ARG_JINJA_INPUT_PARAMETERS} ${TEMPLATE_PARAMETERS_FILENAME} --sdf ${MERGE_NESTED_MODELS_OPT}
+    )
+
+    unset(MODEL_SDF_FAKE)        
+            
     message(STATUS "Output generated file: ${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}")
 
     if(ARG_GENERATE_URDF)
         message(STATUS "Output converted URDF file: ${ARG_OUTPUT_URDF_DIR}/${ARG_OUTPUT_URDF_FILENAME}")
-        execute_process(COMMAND rosrun pcg_gazebo sdf2urdf
-            --filename ${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}
-            --output-filename ${ARG_OUTPUT_URDF_DIR}/${ARG_OUTPUT_URDF_FILENAME})
+
+        string(REGEX REPLACE "/" "_" MODEL_URDF_TARGET_STR "MODEL_URDF_TARGET_${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}")
+
+        set(MODEL_URDF_FAKE "${CMAKE_CURRENT_BINARY_DIR}/${MODEL_SDF_TARGET_STR}_model.urdf.fake")
+
+        if(EXISTS ${MODEL_URDF_FAKE})
+            message(FATAL_ERROR "File \"${MODEL_URDF_FAKE}\" found, this should never be created, remove!")
+        endif()    
+
+        add_custom_target(
+            ${MODEL_URDF_TARGET_STR} ALL
+            DEPENDS ${MODEL_URDF_FAKE})
+
+        add_custom_command(
+            OUTPUT
+                ${MODEL_URDF_FAKE}
+                ${ARG_OUTPUT_URDF_DIR}/${ARG_OUTPUT_URDF_FILENAME}
+            COMMAND rosrun pcg_gazebo sdf2urdf
+                --filename ${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}
+                --output-filename ${ARG_OUTPUT_URDF_DIR}/${ARG_OUTPUT_URDF_FILENAME}
+            DEPENDS 
+                ${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME})
     endif()
 endfunction()
