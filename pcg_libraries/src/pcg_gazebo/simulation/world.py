@@ -84,7 +84,7 @@ class World(object):
 
     @property
     def engine(self):
-        """`str`: Name identififier of the physics engine"""
+        """`str`: Name identifier of the physics engine"""
         return self._engine
 
     @property
