@@ -80,9 +80,11 @@ from .frame import Frame
 from .friction_model import FrictionModel
 from .friction import Friction
 from .friction2 import Friction2
+from .fullscreen import Fullscreen
 from .geometry import Geometry
 from .granularity import Granularity
 from .gravity import Gravity
+from .gui import GUI
 from .height import Height
 from .horizontal_fov import HorizontalFOV
 from .horizontal import Horizontal

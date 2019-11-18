@@ -21,6 +21,8 @@ from .clip import Clip
 from .save import Save
 from .depth_camera import DepthCamera
 from .distortion import Distortion
+from .pose import Pose
+from .name import Name
 
 
 class Camera(XMLBase):
@@ -28,22 +30,33 @@ class Camera(XMLBase):
     _TYPE = 'sdf'
 
     _CHILDREN_CREATORS = dict(
-        noise=dict(creator=Noise, default=['gaussian'], optional=True),
-        horizontal_fov=dict(creator=HorizontalFOV),
-        image=dict(creator=Image, default=['camera']),
-        clip=dict(creator=Clip), 
-        save=dict(creator=Save, optional=True),
-        depth_camera=dict(creator=DepthCamera, optional=True),
-        distortion=dict(creator=Distortion, optional=True)
+        noise=dict(creator=Noise, default=['gaussian'], optional=True, mode='sensor'),
+        horizontal_fov=dict(creator=HorizontalFOV, mode='sensor'),
+        image=dict(creator=Image, default=['camera'], mode='sensor'),
+        clip=dict(creator=Clip, mode='sensor'), 
+        save=dict(creator=Save, optional=True, mode='sensor'),
+        depth_camera=dict(creator=DepthCamera, optional=True, mode='sensor'),
+        distortion=dict(creator=Distortion, optional=True, mode='sensor'),
+        pose=dict(creator=Pose, optional=True, mode='gui'),
+        name=dict(creator=Name, optional=True, mode='gui')
     )
 
     _ATTRIBUTES = dict(
         name='default'
     )
+    
+    _MODES = ['sensor', 'gui']
 
-    def __init__(self):
+    def __init__(self, mode):
         XMLBase.__init__(self)
-        self.reset()
+        self.reset(mode)
+
+    @property
+    def attributes(self):
+        if self._mode == 'gui':
+            return dict()
+        else:
+            return self._attributes
 
     @property
     def name(self):
@@ -51,6 +64,8 @@ class Camera(XMLBase):
 
     @name.setter
     def name(self, value):
+        if self._mode != 'sensor':
+            self.reset(mode='sensor')
         assert isinstance(value, str), 'Name should be a string'
         assert len(value) > 0, 'Name should not be an empty string'
         self.attributes['name'] = value
@@ -61,6 +76,8 @@ class Camera(XMLBase):
 
     @noise.setter
     def noise(self, value):
+        if self._mode != 'sensor':
+            self.reset(mode='sensor')
         self._add_child_element('noise', value)
 
     @property
@@ -69,6 +86,8 @@ class Camera(XMLBase):
 
     @horizontal_fov.setter
     def horizontal_fov(self, value):
+        if self._mode != 'sensor':
+            self.reset(mode='sensor')
         self._add_child_element('horizontal_fov', value)
 
     @property
@@ -77,6 +96,8 @@ class Camera(XMLBase):
 
     @image.setter
     def image(self, value):
+        if self._mode != 'sensor':
+            self.reset(mode='sensor')
         self._add_child_element('image', value)
 
     @property
@@ -85,6 +106,8 @@ class Camera(XMLBase):
 
     @clip.setter
     def clip(self, value):
+        if self._mode != 'sensor':
+            self.reset(mode='sensor')
         self._add_child_element('clip', value)
 
     @property
@@ -93,6 +116,8 @@ class Camera(XMLBase):
 
     @save.setter
     def save(self, value):
+        if self._mode != 'sensor':
+            self.reset(mode='sensor')
         self._add_child_element('save', value)
 
     @property
@@ -101,6 +126,8 @@ class Camera(XMLBase):
 
     @depth_camera.setter
     def depth_camera(self, value):
+        if self._mode != 'sensor':
+            self.reset(mode='sensor')
         self._add_child_element('depth_camera', value)
 
     @property
@@ -109,4 +136,26 @@ class Camera(XMLBase):
 
     @distortion.setter
     def distortion(self, value):
+        if self._mode != 'sensor':
+            self.reset(mode='sensor')
         self._add_child_element('distortion', value)
+
+    @property
+    def pose(self):
+        return self._get_child_element('pose')
+    
+    @pose.setter
+    def pose(self, value):
+        if self._mode != 'gui':
+            self.reset(mode='gui')
+        self._add_child_element('pose', value)
+
+    @property
+    def name(self):
+        return self._get_child_element('name')
+    
+    @name.setter
+    def name(self, value):
+        if self._mode != 'gui':
+            self.reset(mode='gui')
+        self._add_child_element('name', value)
