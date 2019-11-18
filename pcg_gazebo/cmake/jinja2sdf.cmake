@@ -13,17 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 function(pcg_convert_jinja_to_sdf)
-    set(one_value_keywords INPUT_TEMPLATE_FILENAME 
+    set(ONE_VALUE_KEYWORDS INPUT_TEMPLATE_FILENAME 
         OUTPUT_SDF_FILENAME 
         OUTPUT_SDF_DIR 
         JINJA_INPUT_PARAMETERS_YAML_FILE
         GENERATE_URDF
         OUTPUT_URDF_FILENAME
         OUTPUT_URDF_DIR
-        MERGE_NESTED_MODELS)
-    set(multi_value_keywords JINJA_INPUT_PARAMETERS)
+        MERGE_NESTED_MODELS
+        OVERWRITE)
+    set(MULTI_VALUE_KEYWORDS JINJA_INPUT_PARAMETERS)
 
-    cmake_parse_arguments(ARG "${options}" "${one_value_keywords}" "${multi_value_keywords}" ${ARGN})
+    cmake_parse_arguments(ARG "${OPTIONS}" "${ONE_VALUE_KEYWORDS}" "${MULTI_VALUE_KEYWORDS}" ${ARGN})
 
     if(NOT DEFINED ARG_INPUT_TEMPLATE_FILENAME)
         message(SEND_ERROR "Input template Jinja template has not been provided")
@@ -74,56 +75,71 @@ function(pcg_convert_jinja_to_sdf)
     else()
         set(MERGE_NESTED_MODELS_OPT "")
     endif()
+
+    if(NOT DEFINED ARG_OVERWRITE)
+        set(ARG_OVERWRITE false)
+    endif()
         
-    string(REGEX REPLACE "/" "_" MODEL_SDF_TARGET_STR "MODEL_SDF_TARGET_${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}")
 
-    set(MODEL_SDF_FAKE "${CMAKE_CURRENT_BINARY_DIR}/${MODEL_SDF_TARGET_STR}_model.sdf.fake")
+    if(EXISTS "${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}" AND NOT ${ARG_OVERWRITE})
+        message(STATUS 
+            "Output SDF file \"${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}\" already exists. To generate the SDF file again, delete the file or set the OVERWRITE to true")
+    else()
+        string(REGEX REPLACE "/" "_" MODEL_SDF_TARGET_STR "MODEL_SDF_TARGET_${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}")
 
-    if(EXISTS ${MODEL_SDF_FAKE})
-        message(FATAL_ERROR "File \"${MODEL_SDF_FAKE}\" found, this should never be created, remove!")
-    endif()    
+        set(MODEL_SDF_FAKE "${CMAKE_CURRENT_BINARY_DIR}/${MODEL_SDF_TARGET_STR}_model.sdf.fake")
 
-    add_custom_target(
-        ${MODEL_SDF_TARGET_STR} ALL
-        DEPENDS ${MODEL_SDF_FAKE})
-
-    add_custom_command(
-        OUTPUT 
-            ${MODEL_SDF_FAKE}
-            ${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}
-        COMMAND rosrun pcg_gazebo process_jinja_template 
-            --input-template ${ARG_INPUT_TEMPLATE_FILENAME} 
-            --output-filename ${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}                 
-            ${ARG_JINJA_INPUT_PARAMETERS} ${TEMPLATE_PARAMETERS_FILENAME} --sdf ${MERGE_NESTED_MODELS_OPT}
-    )
-
-    unset(MODEL_SDF_FAKE)        
-            
-    message(STATUS "Output generated file: ${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}")
-
-    if(ARG_GENERATE_URDF)
-        message(STATUS "Output converted URDF file: ${ARG_OUTPUT_URDF_DIR}/${ARG_OUTPUT_URDF_FILENAME}")
-
-        string(REGEX REPLACE "/" "_" MODEL_URDF_TARGET_STR "MODEL_URDF_TARGET_${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}")
-
-        set(MODEL_URDF_FAKE "${CMAKE_CURRENT_BINARY_DIR}/${MODEL_SDF_TARGET_STR}_model.urdf.fake")
-
-        if(EXISTS ${MODEL_URDF_FAKE})
-            message(FATAL_ERROR "File \"${MODEL_URDF_FAKE}\" found, this should never be created, remove!")
+        if(EXISTS ${MODEL_SDF_FAKE})
+            message(FATAL_ERROR "File \"${MODEL_SDF_FAKE}\" found, this should never be created, remove!")
         endif()    
 
         add_custom_target(
-            ${MODEL_URDF_TARGET_STR} ALL
-            DEPENDS ${MODEL_URDF_FAKE})
+            ${MODEL_SDF_TARGET_STR} ALL
+            DEPENDS ${MODEL_SDF_FAKE})
 
         add_custom_command(
-            OUTPUT
-                ${MODEL_URDF_FAKE}
-                ${ARG_OUTPUT_URDF_DIR}/${ARG_OUTPUT_URDF_FILENAME}
-            COMMAND rosrun pcg_gazebo sdf2urdf
-                --filename ${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}
-                --output-filename ${ARG_OUTPUT_URDF_DIR}/${ARG_OUTPUT_URDF_FILENAME}
-            DEPENDS 
-                ${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME})
+            OUTPUT 
+                ${MODEL_SDF_FAKE}
+                ${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}
+            COMMAND rosrun pcg_gazebo process_jinja_template 
+                --input-template ${ARG_INPUT_TEMPLATE_FILENAME} 
+                --output-filename ${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}                 
+                ${ARG_JINJA_INPUT_PARAMETERS} ${TEMPLATE_PARAMETERS_FILENAME} --sdf ${MERGE_NESTED_MODELS_OPT}
+        )
+
+        unset(MODEL_SDF_FAKE)        
+                
+        message(STATUS "Output generated file: ${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}")
+    endif()
+
+    if(ARG_GENERATE_URDF)
+        if(EXISTS "${ARG_OUTPUT_URDF_DIR}/${ARG_OUTPUT_URDF_FILENAME}" AND NOT ${ARG_OVERWRITE})
+            message(STATUS 
+                "Output URDF file \"${ARG_OUTPUT_URDF_DIR}/${ARG_OUTPUT_URDF_FILENAME}\" already exists. To generate the URDF file again, delete the file or set the OVERWRITE to true")
+        else()
+            message(STATUS "Output converted URDF file: ${ARG_OUTPUT_URDF_DIR}/${ARG_OUTPUT_URDF_FILENAME}")
+
+            string(REGEX REPLACE "/" "_" MODEL_URDF_TARGET_STR "MODEL_URDF_TARGET_${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}")
+
+            set(MODEL_URDF_FAKE "${CMAKE_CURRENT_BINARY_DIR}/${MODEL_URDF_TARGET_STR}_model.urdf.fake")
+
+            if(EXISTS ${MODEL_URDF_FAKE})
+                message(FATAL_ERROR "File \"${MODEL_URDF_FAKE}\" found, this should never be created, remove!")
+            endif()    
+
+            add_custom_target(
+                ${MODEL_URDF_TARGET_STR} ALL
+                DEPENDS ${MODEL_URDF_FAKE})
+
+            add_custom_command(
+                OUTPUT
+                    ${MODEL_URDF_FAKE}
+                    ${ARG_OUTPUT_URDF_DIR}/${ARG_OUTPUT_URDF_FILENAME}
+                COMMAND rosrun pcg_gazebo sdf2urdf
+                    --filename ${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}
+                    --output-filename ${ARG_OUTPUT_URDF_DIR}/${ARG_OUTPUT_URDF_FILENAME}
+                DEPENDS 
+                    ${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME})
+        endif()
     endif()
 endfunction()

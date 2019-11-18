@@ -5,7 +5,7 @@ assets:
   assets:
   - tag: full_crate
     type: model_generator
-    description: !find pcg_examples/config/model_generators/full_crate.yaml
+    description: !find pcg_examples/config/model_generators/full_crate.yml
 engines: 
 - engine_name: fixed_pose
   models:

@@ -86,7 +86,6 @@ class XMLCustom(XMLBase):
 
     @staticmethod
     def _replace_value_in_dict(data, old_value, new_value):
-        print(data)
         for tag in data:
             if isinstance(data[tag], dict):
                 XMLCustom._replace_value_in_dict(data[tag], old_value, new_value)
