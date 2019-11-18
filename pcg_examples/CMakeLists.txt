@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(pcg_examples)
 
-find_package(catkin REQUIRED COMPONENTS gazebo_ros)
+find_package(catkin REQUIRED COMPONENTS 
+    gazebo_ros
+    pcg_gazebo)
 
 catkin_package(
 #  INCLUDE_DIRS include
@@ -9,6 +11,36 @@ catkin_package(
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
 )
+
+# Use the PCG world configurations to generate the Gazebo 
+# worlds with object pose randomization
+file(GLOB WORLD_CONFIGS 
+    ${CMAKE_CURRENT_LIST_DIR}/config/world_generator/worlds/*.yml)
+
+foreach(WORLD_CONFIG ${WORLD_CONFIGS})
+    get_filename_component(WORLD_NAME "${WORLD_CONFIG}" NAME_WE)                
+
+    pcg_generate_world_from_config(
+        CONFIG_FILENAME ${WORLD_CONFIG}
+        OUTPUT_WORLD_FILENAME ${CMAKE_CURRENT_LIST_DIR}/worlds/${WORLD_NAME}.world
+    )
+endforeach()
+
+# Use the PCG model group configuration to generate
+# static Gazebo models
+file(GLOB MODEL_CONFIGS 
+    ${CMAKE_CURRENT_LIST_DIR}/templates/models/*.sdf.jinja)
+
+foreach(MODEL_CONFIG ${MODEL_CONFIGS})
+    get_filename_component(MODEL_NAME "${MODEL_CONFIG}" NAME_WE)                
+
+    pcg_convert_jinja_to_gazebo_model(
+        INPUT_TEMPLATE_FILENAME ${MODEL_CONFIG}
+        MODEL_NAME ${MODEL_NAME}
+        OUTPUT_MODEL_DIR ${CMAKE_CURRENT_LIST_DIR}/models
+        SDF_VERSION "1.6"
+        MODEL_VERSION 1.0)
+endforeach()
 
 #############
 ## Install ##
