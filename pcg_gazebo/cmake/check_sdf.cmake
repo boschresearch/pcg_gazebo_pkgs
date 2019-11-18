@@ -19,5 +19,18 @@ macro(pcg_check_sdf INPUT_FILENAME)
         message(STATUS "Checking SDF file for errors: ${INPUT_FILENAME}")
     endif()
 
-    execute_process(COMMAND rosrun pcg_gazebo sdflint --filename ${INPUT_FILENAME})
+    string(REGEX REPLACE "/" "_" MODEL_SDF_LINT_STR "MODEL_SDF_LINT_TARGET_${INPUT_FILENAME}")
+
+    set(MODEL_SDF_LINT_FAKE "${CMAKE_CURRENT_BINARY_DIR}/${MODEL_SDF_LINT_STR}_model.sdf.fake")
+
+    add_custom_target(
+        ${MODEL_SDF_LINT_STR} ALL
+        DEPENDS ${MODEL_SDF_LINT_FAKE})
+
+    add_custom_command(
+        OUTPUT ${MODEL_SDF_LINT_FAKE}
+        COMMAND rosrun pcg_gazebo sdflint --filename ${INPUT_FILENAME}
+    )
+
+    unset(MODEL_SDF_LINT_FAKE)
 endmacro()

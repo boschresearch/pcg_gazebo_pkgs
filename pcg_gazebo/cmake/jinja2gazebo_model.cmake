@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 function(pcg_convert_jinja_to_gazebo_model)
-    set(one_value_keywords 
+    set(ONE_VALUE_KEYWORDS 
         INPUT_TEMPLATE_FILENAME 
         MODEL_NAME
         MODEL_METANAME
@@ -25,10 +25,11 @@ function(pcg_convert_jinja_to_gazebo_model)
         DESCRIPTION
         GENERATE_URDF
         JINJA_INPUT_PARAMETERS_YAML_FILE
-        MERGE_NESTED_MODELS)
-    set(multi_value_keywords JINJA_INPUT_PARAMETERS)
+        MERGE_NESTED_MODELS
+        OVERWRITE)
+    set(MULTI_VALUE_KEYWORDS JINJA_INPUT_PARAMETERS)
 
-    cmake_parse_arguments(ARG "${options}" "${one_value_keywords}" "${multi_value_keywords}" ${ARGN})
+    cmake_parse_arguments(ARG "${OPTIONS}" "${ONE_VALUE_KEYWORDS}" "${MULTI_VALUE_KEYWORDS}" ${ARGN})
 
     if(NOT DEFINED ARG_INPUT_TEMPLATE_FILENAME)
         message(SEND_ERROR "Input template Jinja template has not been provided")
@@ -57,9 +58,7 @@ function(pcg_convert_jinja_to_gazebo_model)
     endif() 
 
     if(NOT DEFINED ARG_AUTHOR_NAME)
-        execute_process(COMMAND bash -c "whoami" OUTPUT_VARIABLE ARG_AUTHOR_NAME)
-        # Remove break line
-        string(REGEX REPLACE "\n$" "" ARG_AUTHOR_NAME "${ARG_AUTHOR_NAME}")
+        set(ARG_AUTHOR_NAME "$ENV{USERNAME}")
     endif()
 
     message(STATUS "Model <${ARG_MODEL_NAME}>: Author ${ARG_AUTHOR_NAME}")
@@ -103,43 +102,52 @@ function(pcg_convert_jinja_to_gazebo_model)
 
     message(STATUS "Model <${ARG_MODEL_NAME}>: Merge nested models? ${ARG_MERGE_NESTED_MODELS}")
 
-    # Create model directory        
-    message(STATUS "Creating ${ARG_OUTPUT_MODEL_DIR}/${ARG_MODEL_NAME}")
-    file(MAKE_DIRECTORY ${ARG_OUTPUT_MODEL_DIR}/${ARG_MODEL_NAME})
-
-    execute_process(
-        COMMAND bash -c "rospack find pcg_libraries" 
-        OUTPUT_VARIABLE MODEL_CONFIG_TEMPLATE_DIR)
-
-    # Remove break line
-    string(REGEX REPLACE "\n$" "" MODEL_CONFIG_TEMPLATE_DIR "${MODEL_CONFIG_TEMPLATE_DIR}")
-        
-    set(MODEL_CONFIG_FAKE "${CMAKE_CURRENT_BINARY_DIR}/${ARG_MODEL_NAME}_model.config.fake")
-
-    if(EXISTS ${MODEL_CONFIG_FAKE})
-        message(FATAL_ERROR "File \"${MODEL_CONFIG_FAKE}\" found, this should never be created, remove!")
+    if(NOT DEFINED ARG_OVERWRITE)
+        set(ARG_OVERWRITE false)
     endif()
-    
-    add_custom_target(
-        MODEL_CONFIG_TARGET_${ARG_MODEL_NAME} ALL
-        DEPENDS ${MODEL_CONFIG_FAKE})
 
-    add_custom_command(
-        OUTPUT 
-            ${MODEL_CONFIG_FAKE}
-            ${ARG_OUTPUT_MODEL_DIR}/${ARG_MODEL_NAME}/model.config
-        COMMAND rosrun pcg_gazebo process_jinja_template 
-            --input-template ${MODEL_CONFIG_TEMPLATE_DIR}/sdf/model.config.jinja 
-            --output-filename ${ARG_OUTPUT_MODEL_DIR}/${ARG_MODEL_NAME}/model.config 
-            --param=model_name=${ARG_MODEL_METANAME} 
-            --param=version=${ARG_MODEL_VERSION} 
-            --param=sdf_version=${ARG_SDF_VERSION} 
-            --param=author_name=${ARG_AUTHOR_NAME} 
-            --param=author_email=${ARG_AUTHOR_EMAIL} 
-            --param=sdf_filename=model.sdf --sdf-config
-    )
+    if(EXISTS ${ARG_OUTPUT_MODEL_DIR}/${ARG_MODEL_NAME}/model.config AND NOT ${ARG_OVERWRITE})
+        message(STATUS 
+            "Output model configuration file \"${ARG_OUTPUT_MODEL_DIR}/${ARG_MODEL_NAME}/model.config\" already exists. To generate the it again, delete the file or set the OVERWRITE to true")
+    else()
+        # Create model directory        
+        message(STATUS "Creating ${ARG_OUTPUT_MODEL_DIR}/${ARG_MODEL_NAME}")
+        file(MAKE_DIRECTORY ${ARG_OUTPUT_MODEL_DIR}/${ARG_MODEL_NAME})
 
-    unset(MODEL_CONFIG_FAKE)
+        execute_process(
+            COMMAND bash -c "rospack find pcg_libraries" 
+            OUTPUT_VARIABLE MODEL_CONFIG_TEMPLATE_DIR)
+
+        # Remove break line
+        string(REGEX REPLACE "\n$" "" MODEL_CONFIG_TEMPLATE_DIR "${MODEL_CONFIG_TEMPLATE_DIR}")
+            
+        set(MODEL_CONFIG_FAKE "${CMAKE_CURRENT_BINARY_DIR}/${ARG_MODEL_NAME}_model.config.fake")
+
+        if(EXISTS ${MODEL_CONFIG_FAKE})
+            message(FATAL_ERROR "File \"${MODEL_CONFIG_FAKE}\" found, this should never be created, remove!")
+        endif()
+        
+        add_custom_target(
+            MODEL_CONFIG_TARGET_${ARG_MODEL_NAME} ALL
+            DEPENDS ${MODEL_CONFIG_FAKE})
+
+        add_custom_command(
+            OUTPUT 
+                ${MODEL_CONFIG_FAKE}
+                ${ARG_OUTPUT_MODEL_DIR}/${ARG_MODEL_NAME}/model.config
+            COMMAND rosrun pcg_gazebo process_jinja_template 
+                --input-template ${MODEL_CONFIG_TEMPLATE_DIR}/sdf/model.config.jinja 
+                --output-filename ${ARG_OUTPUT_MODEL_DIR}/${ARG_MODEL_NAME}/model.config 
+                --param=model_name=${ARG_MODEL_METANAME} 
+                --param=version=${ARG_MODEL_VERSION} 
+                --param=sdf_version=${ARG_SDF_VERSION} 
+                --param=author_name=${ARG_AUTHOR_NAME} 
+                --param=author_email=${ARG_AUTHOR_EMAIL} 
+                --param=sdf_filename=model.sdf --sdf-config
+        )
+
+        unset(MODEL_CONFIG_FAKE)
+    endif()
 
     pcg_convert_jinja_to_sdf(
         INPUT_TEMPLATE_FILENAME ${ARG_INPUT_TEMPLATE_FILENAME}
@@ -150,5 +158,6 @@ function(pcg_convert_jinja_to_gazebo_model)
         GENERATE_URDF ${ARG_GENERATE_URDF}
         OUTPUT_URDF_DIR ${ARG_OUTPUT_MODEL_DIR}/${ARG_MODEL_NAME}
         MERGE_NESTED_MODELS ${ARG_MERGE_NESTED_MODELS}
-        OUTPUT_URDF_FILENAME model.urdf)
+        OUTPUT_URDF_FILENAME model.urdf
+        OVERWRITE ${ARG_OVERWRITE})
 endfunction()

@@ -19,5 +19,18 @@ macro(pcg_check_urdf INPUT_FILENAME)
         message(STATUS "Checking URDF file for errors: ${INPUT_FILENAME}")
     endif()
 
-    execute_process(COMMAND rosrun pcg_gazebo urdflint --filename ${INPUT_FILENAME})
+    string(REGEX REPLACE "/" "_" MODEL_URDF_LINT_STR "MODEL_URDF_LINT_TARGET_${INPUT_FILENAME}")
+
+    set(MODEL_URDF_LINT_FAKE "${CMAKE_CURRENT_BINARY_DIR}/${MODEL_URDF_LINT_STR}_model.urdf.fake")
+
+    add_custom_target(
+        ${MODEL_URDF_LINT_STR} ALL
+        DEPENDS ${MODEL_URDF_LINT_FAKE})
+
+    add_custom_command(
+        OUTPUT ${MODEL_URDF_LINT_FAKE}
+        COMMAND rosrun pcg_gazebo urdflint --filename ${INPUT_FILENAME}
+    )
+
+    unset(MODEL_URDF_LINT_FAKE)
 endmacro()
