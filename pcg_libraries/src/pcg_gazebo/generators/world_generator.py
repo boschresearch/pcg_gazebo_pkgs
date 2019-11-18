@@ -642,7 +642,7 @@ class WorldGenerator:
             engine = self._engines.get(tag)
             if engine.label != 'fixed_pose':
                 PCG_ROOT_LOGGER.info('Running engine, type={}'.format(engine.label))
-                engine.set_fixed_pose_models(fixed_pose_models)
+                engine.set_fixed_pose_models(list(self._world.models.values()))
                 models = engine.run()
                 if models is not None:
                     for model in models:
