@@ -306,6 +306,17 @@ class Mesh(object):
                 meshes = [self._mesh]
             else:
                 raise ValueError('Mesh object is not a valid trimesh object')
+
+        if self._scale != [1, 1, 1]:
+            # Apply scaling to the meshes
+            scale_matrix = np.eye(4)
+            for i in range(3):
+                scale_matrix[i, i] = self._scale[i]
+
+            for i in range(len(meshes)):
+                new_mesh = meshes[i].copy()
+                new_mesh.apply_transform(scale_matrix)
+                meshes[i] = new_mesh
         return meshes
 
     def apply_transform(self, position, rot):
