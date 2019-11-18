@@ -41,7 +41,7 @@ class XMLBase(object):
 
     def __init__(self):
         # Block attributes
-        self.attributes = dict()
+        self._attributes = dict()
         # Children of this block
         self.children = dict()
         # Value
@@ -78,10 +78,10 @@ class XMLBase(object):
     def __eq__(self, other):
         if self._NAME != other._NAME:
             return False
-        for tag in self.attributes:
+        for tag in self._attributes:
             if tag not in other.attributes:
                 return False
-            if self.attributes[tag] != other.attributes[tag]:
+            if self._attributes[tag] != other.attributes[tag]:
                 return False
 
         if self._value is not None and other._value is not None:
@@ -98,6 +98,11 @@ class XMLBase(object):
             if self.children[tag] != other.children[tag]:
                 return False
         return True        
+
+    @property
+    def attributes(self):
+        """`dict`: XML properties"""
+        return self._attributes
 
     @property
     def xml_element_name(self):
@@ -487,9 +492,9 @@ class XMLBase(object):
             self._mode = mode
 
         if len(self._ATTRIBUTES):
-            self.attributes = dict()
+            self._attributes = dict()
             for k in self._ATTRIBUTES:
-                self.attributes[k] = self._ATTRIBUTES[k]
+                self._attributes[k] = self._ATTRIBUTES[k]
 
         if len(self._CHILDREN_CREATORS) > 0:
             self.children = dict()
@@ -608,7 +613,7 @@ class XMLBase(object):
                                 data[child][-1]['attributes'] = elem.attributes
             if root:
                 output[self._NAME] = data
-                if len(self.attributes):
+                if len(self._attributes):
                     output[self._NAME]['attributes'] = self.attributes
                 return output
             else:
