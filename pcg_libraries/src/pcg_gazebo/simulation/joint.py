@@ -23,6 +23,7 @@ class Joint(object):
         name='joint', 
         parent=None, 
         child=None, 
+        pose=[0, 0, 0, 0, 0, 0],
         joint_type='fixed',
         axis_xyz=[0, 0, 1],
         damping=0, 
@@ -38,7 +39,7 @@ class Joint(object):
         self._name = name
 
         self._pose = Pose()
-
+        
         assert isinstance(parent, str), \
             'Parent must be a string, received={}'.format(type(parent))
         assert len(parent) > 0, 'Parent cannot be an empty string'
@@ -73,6 +74,7 @@ class Joint(object):
             velocity=velocity,
             effort=effort
         )
+        self.pose = pose
         
     @property
     def name(self):
