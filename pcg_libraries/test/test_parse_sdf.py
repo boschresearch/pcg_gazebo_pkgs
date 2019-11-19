@@ -45,7 +45,7 @@ class TestParseSDF(unittest.TestCase):
         
         # Exclude special cases
         exclude = ['empty', 'format', 'friction_model', 'collision', 
-            'measure_direction', 'localization']
+            'measure_direction', 'localization', 'view_controller']
 
         for tag in string_test_cases:
             if tag in exclude:
