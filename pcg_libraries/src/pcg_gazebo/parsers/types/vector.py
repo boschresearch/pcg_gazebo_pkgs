@@ -23,8 +23,11 @@ class XMLVector(XMLBase):
     def __init__(self, size=None):
         XMLBase.__init__(self)
         assert size is not None, 'Vector size cannot be None'
-        assert isinstance(size, int), 'Vector size input must be an integer'
-        assert size > 0, 'Size must be greater than zero'
+        assert isinstance(size, int), \
+            '[{}] Vector size input must be an integer, received={}'.format(
+                self.xml_element_name, size)
+        assert size > 0, '[{}] Size must be greater than zero'.format(
+            self.xml_element_name)
         self._size = size
         self._value = [0 for _ in range(self._size)]
 
