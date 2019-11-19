@@ -454,7 +454,8 @@ class XMLBase(object):
         return is_valid
 
     def get_formatted_value_as_str(self):
-        raise NotImplementedError()
+        raise NotImplementedError('[{}] has not implemented this method'.format(
+            self.xml_element_name))
 
     def has_value(self):
         return self._value is not None
