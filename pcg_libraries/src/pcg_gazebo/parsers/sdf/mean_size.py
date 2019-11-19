@@ -12,21 +12,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-import collections
-from ..types import XMLVector
+from ..types import XMLScalar
 
 
-class Ambient(XMLVector):
-    _NAME = 'ambient'
+class MeanSize(XMLScalar):
+    _NAME = 'mean_size'
     _TYPE = 'sdf'
 
-    def __init__(self, default=[0, 0, 0, 1]):
-        XMLVector.__init__(self, 4)
-        self._default = default
-        self._value = default
+    def __init__(self, default=0):
+        XMLScalar.__init__(self, default)
 
     def _set_value(self, value):
-        assert self._is_array(value) and self._is_numeric_vector(value, [0, 1]), \
-            'Invalid ambient vector'
-        XMLVector._set_value(self, value)
+        assert value >= 0 and value <= 1, \
+            '[{}] Size must be in the interval [0, 1]'.format(
+                self.xml_element_name)
+        XMLScalar._set_value(self, value)

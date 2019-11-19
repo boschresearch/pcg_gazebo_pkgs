@@ -99,12 +99,6 @@ function(pcg_generate_world_from_config)
                 ${VERBOSE_OPT} ${WITH_SUN_OPT} ${WITH_GROUND_PLANE_OPT}
         )
 
-        if(EXISTS ${ARG_OUTPUT_WORLD_FILENAME})
-            message(STATUS "World file \"${ARG_OUTPUT_WORLD_FILENAME}\" successfully generated")
-        else()
-            message(WARNING "World file \"${ARG_OUTPUT_WORLD_FILENAME}\" COULD NOT be generated")
-        endif()
-    
         unset(WORLD_GEN_FAKE)        
         
     endif()

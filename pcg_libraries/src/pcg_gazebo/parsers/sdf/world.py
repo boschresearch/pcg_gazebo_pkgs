@@ -21,6 +21,7 @@ from .gravity import Gravity
 from .plugin import Plugin
 from .light import Light
 from .scene import Scene
+from .gui import GUI
 
 
 class World(XMLBase):
@@ -34,7 +35,8 @@ class World(XMLBase):
         include=dict(creator=Include, n_elems='+', optional=True),
         plugin=dict(creator=Plugin, n_elems='+', optional=True),
         light=dict(creator=Light, n_elems='+', optional=True),
-        scene=dict(creator=Scene, optional=True)
+        scene=dict(creator=Scene, optional=True),
+        gui=dict(creator=GUI, optional=True)
     )
 
     _ATTRIBUTES = dict(
@@ -50,11 +52,18 @@ class World(XMLBase):
         return self.attributes['name']
 
     @name.setter
-    def name(self, value):
-        assert isinstance(value, str)
-        assert len(value) > 0
-
+    def name(self, value):                
+        assert isinstance(value, str), 'Name should be a string'
+        assert len(value) > 0, 'Name cannot be an empty string'
         self.attributes['name'] = value
+
+    @property
+    def gui(self):
+        return self._get_child_element('gui')
+    
+    @gui.setter
+    def gui(self, value):
+        self._add_child_element('gui', value)
 
     @property
     def scene(self):

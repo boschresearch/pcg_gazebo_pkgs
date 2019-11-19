@@ -15,6 +15,10 @@
 from ..types import XMLBase
 from .sky import Sky
 from .ambient import Ambient
+from .background import Background
+from .shadows import Shadows
+from .grid import Grid
+from .origin_visual import OriginVisual
 
 
 class Scene(XMLBase):
@@ -22,8 +26,12 @@ class Scene(XMLBase):
     _TYPE = 'sdf'
 
     _CHILDREN_CREATORS = dict(
+        ambient=dict(creator=Ambient, default=[[0.4, 0.4, 0.4, 1]]),
+        background=dict(creator=Background, default=[[0.7, 0.7, 0.7, 1]]),
         sky=dict(creator=Sky, optional=True),
-        ambient=dict(creator=Ambient, default=[[0.4, 0.4, 0.4, 1]])
+        shadows=dict(creator=Shadows, default=[True], optional=True),
+        grid=dict(creator=Grid, default=[True], optional=True),
+        origin_visual=dict(creator=OriginVisual, default=[True], optional=True)
     )
 
     def __init__(self):
@@ -45,3 +53,35 @@ class Scene(XMLBase):
     @ambient.setter
     def ambient(self, value):
         self._add_child_element('ambient', value)
+    
+    @property
+    def background(self):
+        return self._get_child_element('background')
+    
+    @background.setter
+    def background(self, value):
+        self._add_child_element('background', value)    
+
+    @property
+    def shadows(self):
+        return self._get_child_element('shadows')
+    
+    @shadows.setter
+    def shadows(self, value):
+        self._add_child_element('shadows', value)
+
+    @property
+    def grid(self):
+        return self._get_child_element('grid')
+    
+    @grid.setter
+    def grid(self, value):
+        self._add_child_element('grid', value)
+
+    @property
+    def origin_visual(self):
+        return self._get_child_element('origin_visual')
+    
+    @origin_visual.setter
+    def origin_visual(self, value):
+        self._add_child_element('origin_visual', value)

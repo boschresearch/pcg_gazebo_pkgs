@@ -14,6 +14,7 @@
 # limitations under the License.
 import rospy
 import os
+import sys
 import datetime
 from time import sleep, time
 from .. import visualization
@@ -617,7 +618,6 @@ class WorldGenerator:
             self._world.reset_models()
             PCG_ROOT_LOGGER.info('List of models is now empty')
 
-        fixed_pose_models = list()
         models = list()
         # Run the fixed pose engines first
         PCG_ROOT_LOGGER.info('Run fixed-pose engines')
@@ -632,9 +632,7 @@ class WorldGenerator:
                             self._world.add_model(model.name, model)
                         else:
                             PCG_ROOT_LOGGER.info('Adding model group {} to world'.format(model.name))
-                            self._world.add_model_group(model, model.name)
-                        fixed_pose_models.append(model)
-                        
+                            self._world.add_model_group(model, model.name)                      
         
         # Run all other engines
         PCG_ROOT_LOGGER.info('Run other engines')
@@ -642,7 +640,7 @@ class WorldGenerator:
             engine = self._engines.get(tag)
             if engine.label != 'fixed_pose':
                 PCG_ROOT_LOGGER.info('Running engine, type={}'.format(engine.label))
-                engine.set_fixed_pose_models(fixed_pose_models)
+                engine.set_fixed_pose_models(list(self._world.models.values()))
                 models = engine.run()
                 if models is not None:
                     for model in models:
@@ -790,3 +788,19 @@ class WorldGenerator:
         PCG_ROOT_LOGGER.info('Plotting footprints: finished')
 
         return fig
+
+    def init_from_sdf(self, sdf_input):                
+        if is_sdf_element(sdf_input):
+            sdf = sdf_input
+        else:
+            from ..parsers import parse_sdf
+            sdf = parse_sdf(sdf_input)
+
+        self._world = World.from_sdf(sdf)
+
+    def init_from_jinja(self, jinja_filename, params=dict()):
+        from ..utils import process_jinja_template
+        output_xml = process_jinja_template(jinja_filename, parameters=params)
+        sdf = parse_sdf(output_xml)
+
+        self._world = World.from_sdf(sdf)

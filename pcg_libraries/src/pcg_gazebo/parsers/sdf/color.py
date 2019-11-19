@@ -12,21 +12,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-import collections
 from ..types import XMLVector
 
 
-class Ambient(XMLVector):
-    _NAME = 'ambient'
+class Color(XMLVector):
+    _NAME = 'color'
     _TYPE = 'sdf'
 
-    def __init__(self, default=[0, 0, 0, 1]):
+    def __init__(self, default=[1, 1, 1, 1]):
         XMLVector.__init__(self, 4)
-        self._default = default
-        self._value = default
-
-    def _set_value(self, value):
-        assert self._is_array(value) and self._is_numeric_vector(value, [0, 1]), \
-            'Invalid ambient vector'
-        XMLVector._set_value(self, value)
