@@ -479,8 +479,12 @@ class World(object):
         > *Returns*
         
         `pcg_gazebo.parsers.sdf.World` instance.
-        """        
-        if sdf._NAME != 'world':
+        """                
+        if sdf.xml_element_name == 'sdf':
+            if sdf.world is not None:
+                sdf = sdf.world
+                
+        if sdf.xml_element_name != 'world':            
             msg = 'SDF element must be of type <world>'
             PCG_ROOT_LOGGER.error(msg)
             raise ValueError(msg)
