@@ -17,8 +17,8 @@ import collections
 from ..types import XMLVector
 
 
-class Ambient(XMLVector):
-    _NAME = 'ambient'
+class Background(XMLVector):
+    _NAME = 'background'
     _TYPE = 'sdf'
 
     def __init__(self, default=[0, 0, 0, 1]):
@@ -28,5 +28,5 @@ class Ambient(XMLVector):
 
     def _set_value(self, value):
         assert self._is_array(value) and self._is_numeric_vector(value, [0, 1]), \
-            'Invalid ambient vector'
+            'Invalid background vector'
         XMLVector._set_value(self, value)

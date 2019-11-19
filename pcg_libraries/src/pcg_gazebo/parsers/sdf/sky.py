@@ -16,6 +16,7 @@ from ..types import XMLBase
 from .time import Time
 from .sunrise import Sunrise
 from .sunset import Sunset
+from .clouds import Clouds
 
 
 class Sky(XMLBase):
@@ -25,7 +26,8 @@ class Sky(XMLBase):
     _CHILDREN_CREATORS = dict(
         time=dict(creator=Time, default=[10], optional=True),
         sunrise=dict(creator=Sunrise, default=[6], optional=True),
-        sunset=dict(creator=Sunset, default=[20], optional=True)
+        sunset=dict(creator=Sunset, default=[20], optional=True),
+        clouds=dict(creator=Clouds, optional=True)
     )
 
     def __init__(self):
@@ -55,3 +57,11 @@ class Sky(XMLBase):
     @sunset.setter
     def sunset(self, value):
         self._add_child_element('sunset', value)
+
+    @property
+    def clouds(self):
+        return self._get_child_element('clouds')
+    
+    @clouds.setter
+    def clouds(self, value):
+        self._add_child_element('clouds', value)

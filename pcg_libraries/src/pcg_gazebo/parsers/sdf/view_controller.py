@@ -12,21 +12,20 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-import collections
-from ..types import XMLVector
+from ..types import XMLString
 
 
-class Ambient(XMLVector):
-    _NAME = 'ambient'
+class ViewController(XMLString):
+    _NAME = 'view_controller'
     _TYPE = 'sdf'
 
-    def __init__(self, default=[0, 0, 0, 1]):
-        XMLVector.__init__(self, 4)
-        self._default = default
-        self._value = default
+    _VALUE_OPTIONS = ['orbit', 'fps']
+
+    def __init__(self, default='orbit'):
+        XMLString.__init__(self, default)
 
     def _set_value(self, value):
-        assert self._is_array(value) and self._is_numeric_vector(value, [0, 1]), \
-            'Invalid ambient vector'
-        XMLVector._set_value(self, value)
+        assert value in self._VALUE_OPTIONS, \
+            '[{}] options are {}'.format(self.xml_element_name, 
+            self._VALUE_OPTIONS)
+        self._value = value

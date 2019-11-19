@@ -23,6 +23,7 @@ from .depth_camera import DepthCamera
 from .distortion import Distortion
 from .pose import Pose
 from .name import Name
+from .view_controller import ViewController
 
 
 class Camera(XMLBase):
@@ -38,7 +39,8 @@ class Camera(XMLBase):
         depth_camera=dict(creator=DepthCamera, optional=True, mode='sensor'),
         distortion=dict(creator=Distortion, optional=True, mode='sensor'),
         pose=dict(creator=Pose, optional=True, mode='gui'),
-        name=dict(creator=Name, optional=True, mode='gui')
+        name=dict(creator=Name, optional=True, mode='gui'),
+        view_controller=dict(creator=ViewController, optional=True, mode='gui')
     )
 
     _ATTRIBUTES = dict(
@@ -52,20 +54,11 @@ class Camera(XMLBase):
         self.reset(mode)
 
     @property
-    def attributes(self):
-        if self._mode == 'gui':
-            return dict()
-        else:
-            return self._attributes
-
-    @property
     def name(self):
         return self.attributes['name']
 
     @name.setter
     def name(self, value):
-        if self._mode != 'sensor':
-            self.reset(mode='sensor')
         assert isinstance(value, str), 'Name should be a string'
         assert len(value) > 0, 'Name should not be an empty string'
         self.attributes['name'] = value
@@ -151,11 +144,11 @@ class Camera(XMLBase):
         self._add_child_element('pose', value)
 
     @property
-    def name(self):
-        return self._get_child_element('name')
+    def view_controller(self):
+        return self._get_child_element('view_controller')
     
-    @name.setter
-    def name(self, value):
+    @view_controller.setter
+    def view_controller(self, value):
         if self._mode != 'gui':
             self.reset(mode='gui')
-        self._add_child_element('name', value)
+        self._add_child_element('view_controller', value)

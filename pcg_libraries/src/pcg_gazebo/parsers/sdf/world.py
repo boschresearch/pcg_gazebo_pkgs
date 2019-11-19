@@ -52,10 +52,9 @@ class World(XMLBase):
         return self.attributes['name']
 
     @name.setter
-    def name(self, value):
-        assert isinstance(value, str)
-        assert len(value) > 0
-
+    def name(self, value):                
+        assert isinstance(value, str), 'Name should be a string'
+        assert len(value) > 0, 'Name cannot be an empty string'
         self.attributes['name'] = value
 
     @property
