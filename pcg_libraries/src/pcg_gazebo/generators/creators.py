@@ -17,6 +17,7 @@ import sys
 import numpy as np
 import collections
 import itertools
+from .components import HingedDoor
 from ..log import PCG_ROOT_LOGGER
 from ..simulation import SimulationModel
 from multiprocessing.pool import Pool
@@ -770,6 +771,32 @@ def room(polygon, wall_height=2, wall_thickness=0.1, cap_style='square',
             models[0].add_link(**floor_link_parameters)    
     return models
     
+def hinged_door(door_mesh_filename=None, width=0.6, 
+    thickness=0.04, height=2.0, mass=10,
+    set_origin_to_ground=True, fix_to_world=True, 
+    hand_convention='LH', max_opening_angle=np.pi/2, 
+    name='door', frame_mesh_filename=None,
+    with_frame=True, frame_width=0.05,
+    frame_height=0.05, frame_depth=0.05):
+    door = HingedDoor(
+        door_mesh_filename=door_mesh_filename,
+        width=width,
+        thickness=thickness,
+        height=height,
+        mass=mass,
+        set_origin_to_ground=set_origin_to_ground,
+        fix_to_world=fix_to_world,
+        hand_convention=hand_convention,
+        max_opening_angle=max_opening_angle,
+        name=name,
+        frame_mesh_filename=frame_mesh_filename,
+        with_frame=with_frame,
+        frame_width=frame_width,
+        frame_height=frame_height,
+        frame_depth=frame_depth
+    )
+    return door
+
 def config2models(config):
     """Parse the input `dict` configuration and calls the respective
     model factory.
@@ -800,6 +827,8 @@ def config2models(config):
         models.append(mesh(**config['args']))
     elif config['type'] == 'extrude':
         models.append(extrude(**config['args']))
+    elif config['type'] == 'hinged_door':
+        models.append(hinged_door(**config['args']))
 
     return [model.to_sdf() for model in models]
 
