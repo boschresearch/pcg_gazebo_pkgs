@@ -16,17 +16,18 @@ import collections
 
 class Axis(object):
     def __init__(self, xyz=[0, 0, 1], lower_limit=-1e16, upper_limit=1e16, 
-        velocity_limit=0, effort_limit=0, damping=0, friction=0, spring_reference=0,
-        spring_stiffness=0):
+        velocity_limit=-1, effort_limit=-1, damping=0, friction=0, spring_reference=0,
+        spring_stiffness=0, use_parent_model_frame=False):
         self._xyz = [0, 0, 1]        
-        self._lower_limit = -1e16
-        self._upper_limit = 1e16
-        self._velocity_limit = -1
-        self._effort_limit = -1
-        self._damping = 0
-        self._friction = 0
-        self._spring_reference = 0
-        self._spring_stiffness = 0
+        self._lower_limit = lower_limit
+        self._upper_limit = upper_limit
+        self._velocity_limit = velocity_limit
+        self._effort_limit = effort_limit
+        self._damping = damping
+        self._friction = friction
+        self._spring_reference = spring_reference
+        self._spring_stiffness = spring_stiffness
+        self._use_parent_model_frame = use_parent_model_frame
         
         self.set_axis(xyz)
         self.set_limits(lower_limit, upper_limit, velocity_limit, effort_limit)
@@ -68,6 +69,10 @@ class Axis(object):
     def spring_stiffness(self):
         return self._spring_stiffness
 
+    @property
+    def use_parent_model_frame(self):
+        return self._use_parent_model_frame
+
     def set_axis(self, vec):
         assert isinstance(vec, collections.Iterable), \
             'Input vector must be a list or an array'
@@ -101,6 +106,9 @@ class Axis(object):
         self._spring_reference = spring_reference
         self._spring_stiffness
 
+    def set_use_parent_model_frame(self, flag=False):
+        self._use_parent_model_frame = flag
+
     def to_sdf(self, is_axis_2=False):
         from ...parsers.sdf import create_sdf_element
 
@@ -116,6 +124,30 @@ class Axis(object):
             friction=self._friction,
             spring_reference=self._spring_reference,
             spring_stiffness=self._spring_stiffness)
+        axis.use_parent_model_frame = self._use_parent_model_frame
         return axis
 
+    @staticmethod
+    def from_sdf(sdf):
+        assert sdf is not None, 'Input SDF element is invalid'
+        assert sdf.xml_element_name in ['axis', 'axis2'], 'Invalid SDF axis element'
+
+        axis = Axis()
+        if sdf.xyz is not None:
+            axis.set_axis(sdf.xyz.value)            
+        if sdf.limit is not None:
+            axis.set_limits(
+                sdf.limit.lower.value,
+                sdf.limit.upper.value,
+                -1 if sdf.limit.velocity is None else sdf.limit.velocity.value,
+                -1 if sdf.limit.effort is None else sdf.limit.effort.value
+            )
+        if sdf.dynamics is not None:
+            axis.set_dynamics(
+                0 if sdf.dynamics.damping is None else sdf.dynamics.damping.value,
+                0 if sdf.dynamics.friction is None else sdf.dynamics.friction.value,
+                0 if sdf.dynamics.spring_reference is None else sdf.dynamics.spring_reference.value,
+                0 if sdf.dynamics.spring_stiffness is None else sdf.dynamics.spring_stiffness.value
+            )
+        return axis
     # TODO Add ODE and Bullet specific physics parameters
