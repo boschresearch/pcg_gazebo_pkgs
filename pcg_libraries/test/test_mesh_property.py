@@ -22,6 +22,7 @@ PKG = 'pcg_libraries'
 roslib.load_manifest(PKG)
 
 import os
+import sys
 import unittest
 import numpy as np
 from pcg_gazebo.simulation.properties import Mesh
@@ -98,6 +99,8 @@ class TestSimulationObjectProperties(unittest.TestCase):
                     tag, bounds[tag] + MONKEY_OFFSET, mesh.bounds[tag]))    
     
     def test_cube_mesh_collada(self):
+        if sys.version_info[0] == 2:
+            return
         with self.assertRaises(ValueError):
             mesh = Mesh(filename=CUBE_FILENAME_PREFIX + '.abc', load_mesh=True)
 
