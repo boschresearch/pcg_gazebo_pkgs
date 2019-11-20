@@ -844,3 +844,18 @@ class Mesh(object):
         trimesh.exchange.export.export_mesh(
             self._mesh, mesh_filename, file_type=format if format != 'stl' else 'stl_ascii')
         return mesh_filename
+
+    def plane_fit(self):
+        if not self.load_mesh():
+            PCG_ROOT_LOGGER.error('Cannot show section')
+            return None
+        
+        center, normal = trimesh.points.plane_fit(self.vertices)
+        return center, normal
+
+    def major_axis(self):
+        if not self.load_mesh():
+            PCG_ROOT_LOGGER.error('Cannot show section')
+            return None
+        axis = trimesh.points.major_axis(self.vertices)
+        return axis
