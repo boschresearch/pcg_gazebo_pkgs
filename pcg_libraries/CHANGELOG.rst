@@ -2,8 +2,8 @@
 Changelog for package pcg_libraries
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.2 (2019-11-21)
+------------------
 * Allow tests with DAE files only with Python 3.x
   Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
 * Enabling again tests that required libspatialindex-dev

@@ -2,8 +2,8 @@
 Changelog for package pcg_examples
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.2 (2019-11-21)
+------------------
 * Add missing test depedencies
   Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
 * Add tests for model and world generation

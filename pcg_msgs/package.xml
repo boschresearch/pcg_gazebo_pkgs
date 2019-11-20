@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>pcg_msgs</name>
-  <version>0.1.1</version>
+  <version>0.1.2</version>
   <description>Definition of messages and services for the PCG project</description>
 
   <maintainer email="musa.marcusso@de.bosch.com">Musa Morena Marcusso Manhaes</maintainer>

@@ -2,8 +2,8 @@
 Changelog for package pcg_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.2 (2019-11-21)
+------------------
 * Merge pull request `#45 <https://github.com/boschresearch/pcg_gazebo_pkgs/issues/45>`_ from boschresearch/feature/import_world_file_in_world_generator
   Feature/import world file in world generator
 * Contributors: Musa Morena Marcusso Manhaes
