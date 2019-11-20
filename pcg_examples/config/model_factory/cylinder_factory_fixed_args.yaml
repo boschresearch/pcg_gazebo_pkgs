@@ -2,28 +2,28 @@
   args:
     length: [1, 2, 3]
     radius: 0.3
-    name: cylinder_static_var_length
+    name: pcg_cylinder_static_var_length
     use_permutation: true
     color: xkcd
 - type: cylinder_factory
   args:
     length: 0.4
     radius: [0.1, 0.4, 0.5]
-    name: cylinder_static_var_radius
+    name: pcg_cylinder_static_var_radius
     use_permutation: true
     color: xkcd
 - type: cylinder_factory
   args:
     length: [0.3, 0.5]
     radius: [0.2, 0.4]
-    name: cylinder_static_permutate_radius_length
+    name: pcg_cylinder_static_permutate_radius_length
     use_permutation: true
     color: xkcd
 - type: cylinder_factory
   args:
     length: [0.3, 0.5]
     radius: [0.2, 0.4]
-    name: cylinder_static_no_permutation_radius_length
+    name: pcg_cylinder_static_no_permutation_radius_length
     use_permutation: false
     color: xkcd
 - type: cylinder_factory
@@ -31,7 +31,7 @@
     length: [1, 2, 3]
     radius: 0.3
     mass: 10
-    name: cylinder_dynamic_var_length
+    name: pcg_cylinder_dynamic_var_length
     use_permutation: true
     color: xkcd
 - type: cylinder_factory
@@ -39,7 +39,7 @@
     length: 0.4
     radius: [0.1, 0.4, 0.5]
     mass: 15
-    name: cylinder_dynamic_var_radius
+    name: pcg_cylinder_dynamic_var_radius
     use_permutation: true
     color: xkcd
 - type: cylinder_factory
@@ -47,7 +47,7 @@
     length: [0.3, 0.5]
     radius: [0.2, 0.4]
     mass: [5, 2]
-    name: cylinder_dynamic_permutate_radius_length_mass
+    name: pcg_cylinder_dynamic_permutate_radius_length_mass
     use_permutation: true
     color: xkcd
 - type: cylinder_factory
@@ -55,6 +55,6 @@
     length: [0.3, 0.5]
     radius: [0.2, 0.4]
     mass: [6, 9]
-    name: cylinder_dynamic_no_permutation_radius_length_mass
+    name: pcg_cylinder_dynamic_no_permutation_radius_length_mass
     use_permutation: false
     color: xkcd
