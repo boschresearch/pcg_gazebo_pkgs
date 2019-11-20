@@ -2,6 +2,38 @@
 Changelog for package pcg_libraries
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Allow tests with DAE files only with Python 3.x
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Enabling again tests that required libspatialindex-dev
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add call for hinged door creator from dict
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add method to create door from mesh
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add functions to compute plane fit and major axis
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add input to set use_parent_model_frame for new joint
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add use_parent_model_frame flag and parse SDF elements
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add method to set use_parent_model_frame flag
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add hinged door abstraction from SimulationModel
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Fix access to link bounds
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add methods to remove links and joints by name
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add pose input for joint constructor
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Merge pull request `#45 <https://github.com/boschresearch/pcg_gazebo_pkgs/issues/45>`_ from boschresearch/feature/import_world_file_in_world_generator
+  Feature/import world file in world generator
+* Fix SDF parsing test for elements with restricted number of string inputs
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Contributors: Musa Morena Marcusso Manhaes
+
 0.1.1 (2019-11-19)
 ------------------
 * Delete data from CHANGELOGs to fix catkin_prepare_release issue not getting tags

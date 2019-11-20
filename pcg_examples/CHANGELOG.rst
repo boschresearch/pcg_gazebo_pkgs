@@ -2,6 +2,24 @@
 Changelog for package pcg_examples
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add missing test depedencies
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add tests for model and world generation
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add model factory examples for hinged doors
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add door mesh
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Convert meshes from DAE to STL
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add unique name to models with pcg\_ prefix
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Merge pull request `#45 <https://github.com/boschresearch/pcg_gazebo_pkgs/issues/45>`_ from boschresearch/feature/import_world_file_in_world_generator
+  Feature/import world file in world generator
+* Contributors: Musa Morena Marcusso Manhaes
+
 0.1.1 (2019-11-19)
 ------------------
 * Delete data from CHANGELOGs to fix catkin_prepare_release issue not getting tags
