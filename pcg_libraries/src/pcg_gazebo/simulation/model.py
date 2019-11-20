@@ -662,7 +662,7 @@ class SimulationModel(object):
 
     def add_joint(self, name, parent='', child='', joint_type='', 
         pose=[0, 0, 0, 0, 0, 0], axis_limits=dict(), axis_xyz=None, 
-        axis_dynamics=dict(), joint=None):
+        axis_dynamics=dict(), joint=None, use_parent_model_frame=False):
         if name in self._joints:
             self._logger.error('Joint with name {} already exists'.format(name))
             return False
@@ -673,7 +673,8 @@ class SimulationModel(object):
                 parent=parent, 
                 child=child, 
                 joint_type=joint_type,
-                pose=pose)
+                pose=pose,
+                use_parent_model_frame=use_parent_model_frame)
             if len(axis_limits):
                 joint.set_axis_limits(**axis_limits)
             if len(axis_dynamics):
