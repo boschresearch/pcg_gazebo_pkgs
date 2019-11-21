@@ -300,9 +300,9 @@ def convert_from_string(str_input_xml):
         else:
             return s.isdigit()
 
-    if is_hex(str_input_xml):
-        value = int(str_input_xml, 0)        
-    elif isinstance(str_input_xml, list):        
+    # if is_hex(str_input_xml):
+    #     value = int(str_input_xml, 0)        
+    if isinstance(str_input_xml, list):        
         value = str_input_xml
     elif is_numeric(str_input_xml):        
         value = int(str_input_xml)
