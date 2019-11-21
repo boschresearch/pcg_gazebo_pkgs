@@ -18,7 +18,7 @@
   <test_depend>rosunit</test_depend>
 
   <export>
-    <gazebo_ros gazebo_model_path="${prefix}/models"/>
+    <gazebo_ros gazebo_model_path="${prefix}/models/from_template:${prefix}/models/model_factory"/>
   </export>
   
 </package>
