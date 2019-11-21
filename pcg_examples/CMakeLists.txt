@@ -37,9 +37,32 @@ foreach(MODEL_CONFIG ${MODEL_CONFIGS})
     pcg_convert_jinja_to_gazebo_model(
         INPUT_TEMPLATE_FILENAME ${MODEL_CONFIG}
         MODEL_NAME ${MODEL_NAME}
-        OUTPUT_MODEL_DIR ${CMAKE_CURRENT_LIST_DIR}/models
+        OUTPUT_MODEL_DIR ${CMAKE_CURRENT_LIST_DIR}/models/from_template
         SDF_VERSION "1.6"
         MODEL_VERSION 1.0)
+endforeach()
+
+# Generate static Gazebo models using the model factory
+file(GLOB MODEL_CONFIGS
+    ${CMAKE_CURRENT_LIST_DIR}/config/model_factory/hinged_doors_*.yaml)
+
+foreach(MODEL_CONFIG ${MODEL_CONFIGS})
+    pcg_generate_model_from_config(
+        CONFIG_FILENAME ${MODEL_CONFIG}
+        OUTPUT_MODEL_DIR ${CMAKE_CURRENT_LIST_DIR}/models/model_factory
+        OVERWRITE false
+    )
+endforeach()
+
+file(GLOB MODEL_CONFIGS
+    ${CMAKE_CURRENT_LIST_DIR}/config/model_factory/mesh_*.yaml)
+
+foreach(MODEL_CONFIG ${MODEL_CONFIGS})
+    pcg_generate_model_from_config(
+        CONFIG_FILENAME ${MODEL_CONFIG}
+        OUTPUT_MODEL_DIR ${CMAKE_CURRENT_LIST_DIR}/models/model_factory
+        OVERWRITE false
+    )
 endforeach()
 
 #############
