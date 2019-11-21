@@ -3,7 +3,7 @@
     visual_mesh: package://pcg_examples/meshes/monkey.stl
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: false
-    name: monkey_dynamic_no_approx_collision
+    name: pcg_monkey_dynamic_no_approx_collision
     mass: 10
     color: xkcd
     use_approximated_inertia: false
@@ -17,7 +17,7 @@
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: true
     approximated_collision_model: box
-    name: monkey_dynamic_with_approx_collision_box
+    name: pcg_monkey_dynamic_with_approx_collision_box
     mass: 10
     color: xkcd
     use_approximated_inertia: true
@@ -28,7 +28,7 @@
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: true
     approximated_collision_model: cylinder
-    name: monkey_dynamic_with_approx_collision_cylinder
+    name: pcg_monkey_dynamic_with_approx_collision_cylinder
     mass: 10    
     color: xkcd
     use_approximated_inertia: true
@@ -39,7 +39,7 @@
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: true
     approximated_collision_model: sphere
-    name: monkey_dynamic_with_approx_collision_sphere
+    name: pcg_monkey_dynamic_with_approx_collision_sphere
     mass: 10
     color: xkcd
     use_approximated_inertia: true
@@ -49,7 +49,7 @@
     visual_mesh: package://pcg_examples/meshes/monkey_offset.stl
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: false
-    name: monkey_offset_dynamic_no_approx_collision
+    name: pcg_monkey_offset_dynamic_no_approx_collision
     mass: 10
     color: xkcd
     use_approximated_inertia: false
@@ -63,7 +63,7 @@
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: true
     approximated_collision_model: box
-    name: monkey_offset_dynamic_with_approx_collision_box
+    name: pcg_monkey_offset_dynamic_with_approx_collision_box
     mass: 10
     color: xkcd
     use_approximated_inertia: true
@@ -74,7 +74,7 @@
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: true
     approximated_collision_model: cylinder
-    name: monkey_offset_dynamic_with_approx_collision_cylinder
+    name: pcg_monkey_offset_dynamic_with_approx_collision_cylinder
     mass: 10    
     color: xkcd
     use_approximated_inertia: true
@@ -85,7 +85,7 @@
     visual_mesh_scale: [1, 1, 1]
     use_approximated_collision: true
     approximated_collision_model: sphere
-    name: monkey_offset_dynamic_with_approx_collision_sphere
+    name: pcg_monkey_offset_dynamic_with_approx_collision_sphere
     mass: 10
     color: xkcd
     use_approximated_inertia: true
