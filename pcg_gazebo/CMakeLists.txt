@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(pcg_gazebo)
 
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED COMPONENTS rospack pcg_libraries)
 
 catkin_package(CFG_EXTRAS ${PROJECT_NAME}-extras.cmake)
 
