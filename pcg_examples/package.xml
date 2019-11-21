@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>pcg_examples</name>
-  <version>0.1.1</version>
+  <version>0.1.2</version>
   <description>The pcg_examples package</description>
 
   <maintainer email="musa.marcusso@de.bosch.com">Musa Morena Marcusso Manhaes</maintainer>
@@ -13,6 +13,9 @@
   <buildtool_depend>catkin</buildtool_depend>
   <depend>gazebo_ros</depend>
   <depend>pcg_gazebo</depend>
+
+  <test_depend>rostest</test_depend>
+  <test_depend>rosunit</test_depend>
 
   <export>
     <gazebo_ros gazebo_model_path="${prefix}/models"/>

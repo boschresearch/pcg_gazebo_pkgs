@@ -35,6 +35,14 @@ URL:       https://gist.github.com/joshbode/569627ced3076931b02f
 License:   MIT License
 Copyright: Copyright (c) 2018 Josh Bode
 
+pcg_examples/meshes/door.obj, pcg_examples/meshes/door.mtl, pcg_examples/meshes/door.png:
+
+Name:       OrangeDoors (meshes only)
+Version:    1.0
+URL:        https://app.ignitionrobotics.org/openrobotics/fuel/models/OrangeDoors
+License:    CC0 1.0 Universal (CC0 1.0) Public Domain Dedication 
+Copyright:  Copyright (c) Randall Munroe
+
 --------------------------------------------------------------------------
 Licenses
 --------------------------------------------------------------------------
@@ -125,3 +133,35 @@ PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIG
 HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+--------------------------------------------------------------------------
+
+d. OrangeDoors (meshes only)
+
+CC0 1.0 Universal (CC0 1.0) Public Domain Dedication 
+
+Copyright (c) Roselle Carmen
+
+No Copyright
+
+The person who associated a work with this deed has dedicated the work to the 
+public domain by waiving all of his or her rights to the work worldwide under 
+copyright law, including all related and neighboring rights, to the extent 
+allowed by law.
+
+You can copy, modify, distribute and perform the work, even for commercial 
+purposes, all without asking permission. See Other Information below.
+
+
+Other Information
+
+In no way are the patent or trademark rights of any person affected by CC0, 
+nor are the rights that other persons may have in the work or in how the work 
+is used, such as publicity or privacy rights.
+
+Unless expressly stated otherwise, the person who associated a work with this 
+deed makes no warranties about the work, and disclaims liability for all uses 
+of the work, to the fullest extent permitted by applicable law.
+
+When using or citing the work, you should not imply endorsement by the author 
+or the affirmer.

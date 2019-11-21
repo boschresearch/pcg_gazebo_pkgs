@@ -2,6 +2,6 @@
   args:
     size: [2, 2, 2]
     mass: 10
-    name: box
     pose: [0, 0, 1, 0, 0, 0]    
     color: random
+    name: pcg_box_dynamic

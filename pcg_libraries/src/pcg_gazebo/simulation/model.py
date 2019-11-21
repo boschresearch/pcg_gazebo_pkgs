@@ -574,7 +574,6 @@ class SimulationModel(object):
         self.is_gazebo_model = False
         return True
 
-
     def add_link(self, name='link', link=None, visual_mesh=None, 
         collision_mesh=None, use_approximated_collision=False, 
         approximated_collision_model='box', visual_mesh_scale=[1, 1, 1], 
@@ -621,6 +620,17 @@ class SimulationModel(object):
         self.is_gazebo_model = False
         return True
 
+    def rm_link(self, link_name):
+        if link_name in self._links:
+            del self._links[link_name]
+            PCG_ROOT_LOGGER.info('[{}] Link <{}> removed'.format(
+                self.name, link_name))
+            return True
+        else:
+            PCG_ROOT_LOGGER.info('[{}] Link <{}> does not exist'.format(
+                self.name, link_name))
+            return False
+            
     def add_model(self, name, model=None):
         if name in self.models:
             self._logger.error('Nested model with name {} already exists'.format(name))
@@ -639,14 +649,32 @@ class SimulationModel(object):
         self.is_gazebo_model = False
         return True
 
-    def add_joint(self, name, parent='', child='', joint_type='', axis_limits=dict(), 
-        axis_xyz=None, axis_dynamics=dict(), joint=None):
+    def rm_joint(self, joint_name):
+        if joint_name in self._links:
+            del self._joints[joint_name]
+            PCG_ROOT_LOGGER.info('[{}] Joint <{}> removed'.format(
+                self.name, joint_name))
+            return True
+        else:
+            PCG_ROOT_LOGGER.info('[{}] Joint <{}> does not exist'.format(
+                self.name, joint_name))
+            return False
+
+    def add_joint(self, name, parent='', child='', joint_type='', 
+        pose=[0, 0, 0, 0, 0, 0], axis_limits=dict(), axis_xyz=None, 
+        axis_dynamics=dict(), joint=None, use_parent_model_frame=False):
         if name in self._joints:
             self._logger.error('Joint with name {} already exists'.format(name))
             return False
         
         if joint is None:
-            joint = Joint(name, parent, child, joint_type)
+            joint = Joint(
+                name=name, 
+                parent=parent, 
+                child=child, 
+                joint_type=joint_type,
+                pose=pose,
+                use_parent_model_frame=use_parent_model_frame)
             if len(axis_limits):
                 joint.set_axis_limits(**axis_limits)
             if len(axis_dynamics):

@@ -954,9 +954,9 @@ class Link(object):
         bounds = None
         for mesh in meshes:
             if bounds is None:
-                bounds = mesh.bounds()
+                bounds = mesh.bounds
             else:
-                cur_bounds = mesh.bounds()
+                cur_bounds = mesh.bounds
                 for i in range(3):
                     bounds[0, i] = min(bounds[0, i], cur_bounds[0, i])
                 for i in range(3):

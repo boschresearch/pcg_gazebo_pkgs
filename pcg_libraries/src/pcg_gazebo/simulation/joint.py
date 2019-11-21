@@ -12,6 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import collections
 from ..parsers.sdf import Joint as JointSDF
 from ..parsers.sdf import create_sdf_element
 from .properties import Axis, Pose
@@ -23,6 +24,7 @@ class Joint(object):
         name='joint', 
         parent=None, 
         child=None, 
+        pose=[0, 0, 0, 0, 0, 0],
         joint_type='fixed',
         axis_xyz=[0, 0, 1],
         damping=0, 
@@ -32,13 +34,14 @@ class Joint(object):
         lower=-1e16, 
         upper=1e16, 
         velocity=-1, 
-        effort=-1):        
+        effort=-1,
+        use_parent_model_frame=False):        
         assert isinstance(name, str), 'Name must be a string'
         assert len(name) > 0, 'Name cannot be an empty string'
         self._name = name
 
         self._pose = Pose()
-
+        
         assert isinstance(parent, str), \
             'Parent must be a string, received={}'.format(type(parent))
         assert len(parent) > 0, 'Parent cannot be an empty string'
@@ -73,6 +76,8 @@ class Joint(object):
             velocity=velocity,
             effort=effort
         )
+        self.set_use_parent_model_frame(use_parent_model_frame)
+        self.pose = pose
         
     @property
     def name(self):
@@ -121,18 +126,18 @@ class Joint(object):
 
     @pose.setter
     def pose(self, vec):
-        import collections
-        assert isinstance(vec, collections.Iterable), \
-            'Input pose vector must be iterable'
-        assert len(vec) == 6 or len(vec) == 7, \
-            'Pose must be given as position and Euler angles (x, y, z, ' \
-            'roll, pitch, yaw) or position and quaternions (x, y, z, ' \
-            'qw, qx, qy, qz)'
-        for item in vec:
-            assert isinstance(item, float) or isinstance(item, int), \
-                'All elements in pose vector must be a float or an integer'        
-        
-        self._pose = Pose(pos=vec[0:3], rot=vec[3::])
+        if isinstance(vec, Pose):
+            self._pose = vec
+        else:
+            assert isinstance(vec, collections.Iterable), \
+                'Input vector must be iterable'
+            assert len(vec) == 6 or len(vec) == 7, \
+                'Input vector must have either 6 or 7 elements'
+            for item in vec:
+                assert isinstance(item, float) or isinstance(item, int), \
+                    'Each pose element must be either a float or an integer'
+            
+            self._pose = Pose(pos=vec[0:3], rot=vec[3::])
         
     @property
     def axes(self):
@@ -168,6 +173,11 @@ class Joint(object):
         self._axis[index].set_dynamics(damping, friction, spring_reference, spring_stiffness)
         return True
 
+    def set_use_parent_model_frame(self, flag, index=0):
+        if index < len(self._axis):
+            self._axis[index].set_use_parent_model_frame(flag)
+        return True
+
     def to_sdf(self):
         joint_sdf = JointSDF()
         joint_sdf.name = self._name
@@ -193,43 +203,11 @@ class Joint(object):
 
         # Set model pose
         if sdf.pose is not None:
-            joint.pose.from_sdf(sdf.pose)
+            joint.pose = Pose.from_sdf(sdf.pose)
 
         if sdf.axis is not None:
-            if sdf.axis.xyz is not None:
-                joint.set_axis_xyz(sdf.axis.xyz.value)
-            if sdf.axis.limit is not None:
-                joint.set_axis_limits(
-                    sdf.axis.limit.lower.value,
-                    sdf.axis.limit.upper.value,
-                    -1 if sdf.axis.limit.velocity is None else sdf.axis.limit.velocity.value,
-                    -1 if sdf.axis.limit.effort is None else sdf.axis.limit.effort.value
-                )
-            if sdf.axis.dynamics is not None:
-                joint.set_axis_dynamics(
-                    0 if sdf.axis.dynamics.damping is None else sdf.axis.dynamics.damping.value,
-                    0 if sdf.axis.dynamics.friction is None else sdf.axis.dynamics.friction.value,
-                    0 if sdf.axis.dynamics.spring_reference is None else sdf.axis.dynamics.spring_reference.value,
-                    0 if sdf.axis.dynamics.spring_stiffness is None else sdf.axis.dynamics.spring_stiffness.value
-                )
-        
+            joint._axis[0] = Axis.from_sdf(sdf.axis)
         if sdf.axis2 is not None:
-            if sdf.axis2.xyz is not None:
-                joint.set_axis_xyz(sdf.axis2.xyz.value, index=1)
-            if sdf.axis2.limit is not None:
-                joint.set_axis_limits(
-                    sdf.axis2.limit.lower.value,
-                    sdf.axis2.limit.upper.value,
-                    -1 if sdf.axis2.limit.velocity is None else sdf.axis2.limit.velocity.value,
-                    -1 if sdf.axis2.limit.effort is None else sdf.axis2.limit.effort.value,
-                    index=1
-                )
-            if sdf.axis2.dynamics is not None:
-                joint.set_axis_dynamics(
-                    0 if sdf.axis2.dynamics.damping is None else sdf.axis2.dynamics.damping.value,
-                    0 if sdf.axis2.dynamics.friction is None else sdf.axis2.dynamics.friction.value,
-                    0 if sdf.axis2.dynamics.spring_reference is None else sdf.axis2.dynamics.spring_reference.value,
-                    0 if sdf.axis2.dynamics.spring_stiffness is None else sdf.axis2.dynamics.spring_stiffness.value
-                )
-
+            joint._axis[1] = Axis.from_sdf(sdf.axis2)        
+            
         return joint
