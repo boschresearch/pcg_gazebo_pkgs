@@ -12,7 +12,6 @@
 
   <buildtool_depend>catkin</buildtool_depend>  
 
-  <depend>rospack</depend>
   <depend>pcg_libraries</depend>
 
   <exec_depend>std_msgs</exec_depend>
@@ -27,6 +26,9 @@
   <exec_depend>python-simplejson</exec_depend>
   <exec_depend>pcg_msgs</exec_depend>
   <exec_depend>visualization_msgs</exec_depend>
+
+  <build_export_depend>rosbash</build_export_depend>
+  <build_export_depend>rospack</build_export_depend>
 
   <test_depend>roslaunch</test_depend>
 </package>
