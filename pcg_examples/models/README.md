@@ -1,1 +1,0 @@
-Run `rosrun pcg_examples generate_gazebo_models_from_templates` to generate the static Gazebo models from Jinja templates in this folder.
