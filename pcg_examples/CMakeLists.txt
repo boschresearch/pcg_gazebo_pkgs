@@ -17,8 +17,10 @@ catkin_package(
 #############
 
 install(PROGRAMS
-    scripts/generate_gazebo_models_from_templates
-    scripts/generate_pcg_world_files
+    scripts/gen_model_from_factory_config
+    scripts/gen_model_from_template    
+    scripts/launch_pcg_world
+    scripts/spawn_model_from_factory_config
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
