@@ -2,8 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(pcg_examples)
 
 find_package(catkin REQUIRED COMPONENTS 
-    gazebo_ros
-    pcg_gazebo)
+    gazebo_ros)
 
 catkin_package(
 #  INCLUDE_DIRS include
