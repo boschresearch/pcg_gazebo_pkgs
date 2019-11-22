@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="pcg_monkey_static_no_approx_collision">
+    <allow_auto_disable>0</allow_auto_disable>
+    <static>1</static>
+    <pose frame="">0 0 0 0 -0 0</pose>
+    <link name="pcg_monkey_static_no_approx_collision">
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>file:///home/mam0box/catkin_ws/src/pcg_gazebo_pkgs/pcg_examples/meshes/monkey.stl</uri>
+          </mesh>
+        </geometry>
+        <max_contacts>20</max_contacts>
+        <pose frame="">-0 -0 -0 0 -0 0</pose>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>file:///home/mam0box/catkin_ws/src/pcg_gazebo_pkgs/pcg_examples/meshes/monkey.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.00784314 0.34902 0.0588235 1</diffuse>
+          <ambient>0.00784314 0.34902 0.0588235 1</ambient>
+        </material>
+        <cast_shadows>1</cast_shadows>
+        <transparency>0.0</transparency>
+        <pose frame="">-0 -0 -0 0 -0 0</pose>
+      </visual>
+      <pose frame="">0 0 0 0 -0 0</pose>
+    </link>
+    <self_collide>0</self_collide>
+  </model>
+</sdf>

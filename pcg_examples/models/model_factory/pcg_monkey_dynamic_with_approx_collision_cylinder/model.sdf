@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="pcg_monkey_dynamic_with_approx_collision_cylinder">
+    <allow_auto_disable>0</allow_auto_disable>
+    <static>0</static>
+    <pose frame="">0 0 0 0 -0 0</pose>
+    <link name="pcg_monkey_dynamic_with_approx_collision_cylinder">
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <length>1.80494179124</length>
+            <radius>1.23957973033</radius>
+          </cylinder>
+        </geometry>
+        <max_contacts>20</max_contacts>
+        <pose frame="">-0 -0.00317994 -0 0 -0 0</pose>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>file:///home/mam0box/catkin_ws/src/pcg_gazebo_pkgs/pcg_examples/meshes/monkey.stl</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.866667 0.521569 0.843137 1</diffuse>
+          <ambient>0.866667 0.521569 0.843137 1</ambient>
+        </material>
+        <cast_shadows>1</cast_shadows>
+        <transparency>0.0</transparency>
+        <pose frame="">-0 -0 -0 0 -0 0</pose>
+      </visual>
+      <pose frame="">0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose frame="">0 0 0 0 -0 0</pose>
+        <mass>10.0</mass>
+        <inertia>
+          <ixz>0.0</ixz>
+          <ixx>6.55625712445</ixx>
+          <ixy>0.0</ixy>
+          <izz>7.6828037768</izz>
+          <iyy>6.55625712445</iyy>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+    </link>
+    <self_collide>0</self_collide>
+  </model>
+</sdf>
