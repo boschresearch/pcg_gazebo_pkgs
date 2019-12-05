@@ -13,7 +13,7 @@ descartes
 pyglet
 python-fcl
 PyYAML
-pycollada
+pycollada==0.6
 networkx
 scipy
 pybind11

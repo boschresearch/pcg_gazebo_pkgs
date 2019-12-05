@@ -108,6 +108,7 @@ if __name__ == '__main__':
                 else:
                     output.models[0] = new_merged_model
 
+    
     elif args.urdf:
         # Parsing URDF file to verify its consistency
         output = parse_urdf(output_xml)
@@ -123,8 +124,6 @@ if __name__ == '__main__':
             output.export_xml(args.output_filename)
         else:
             print(output)
-    else:
-        raise Exception('Jinja template parser returned an empty file')
-
+    
 
 

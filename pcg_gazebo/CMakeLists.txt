@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(pcg_gazebo)
 
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED COMPONENTS pcg_libraries)
 
 catkin_package(CFG_EXTRAS ${PROJECT_NAME}-extras.cmake)
 
@@ -22,6 +22,9 @@ install(PROGRAMS
     scripts/view_mesh
     scripts/view_gazebo_model
     scripts/list_gazebo_models
+    scripts/urdflint
+    scripts/sdflint
+    scripts/process_jinja_template
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

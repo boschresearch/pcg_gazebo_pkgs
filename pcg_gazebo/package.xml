@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>pcg_gazebo</name>
-  <version>0.1.2</version>
+  <version>0.2.0</version>
   <description>Scripts to run the PCG library</description>
 
   <maintainer email="musa.marcusso@de.bosch.com">Musa Morena Marcusso Manhaes</maintainer>
@@ -12,7 +12,8 @@
 
   <buildtool_depend>catkin</buildtool_depend>  
 
-  <exec_depend>pcg_libraries</exec_depend>
+  <depend>pcg_libraries</depend>
+
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>gazebo_msgs</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
@@ -25,6 +26,9 @@
   <exec_depend>python-simplejson</exec_depend>
   <exec_depend>pcg_msgs</exec_depend>
   <exec_depend>visualization_msgs</exec_depend>
+
+  <build_export_depend>rosbash</build_export_depend>
+  <build_export_depend>rospack</build_export_depend>
 
   <test_depend>roslaunch</test_depend>
 </package>

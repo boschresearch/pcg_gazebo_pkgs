@@ -2,6 +2,23 @@
 Changelog for package pcg_libraries
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.2.0 (2019-12-05)
+------------------
+* Set pycollada v0.6 as requirement to solve parsing bug
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Reinstate is_hex test for input string conversion
+* Set log level to ERROR
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Fix the creation of directory during build
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Disable hex test for strings
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add method to return the convex hull of the model's footprint
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Merge pull request `#46 <https://github.com/boschresearch/pcg_gazebo_pkgs/issues/46>`_ from boschresearch/feature/hinged_door_creator
+  Feature/hinged door creator
+* Contributors: Musa Morena Marcusso Manhaes
+
 0.1.2 (2019-11-21)
 ------------------
 * Allow tests with DAE files only with Python 3.x

@@ -1253,6 +1253,24 @@ class SimulationModel(object):
         self._logger.info('Footprint computed for model <{}>'.format(self.name))
         return footprints
 
+    def get_footprint_convex_hull(self, mesh_type='collision'):
+        from shapely.geometry import MultiPoint
+
+        meshes = self.get_meshes(mesh_type=mesh_type)
+        
+        vertices = None
+        for mesh in meshes:
+            if vertices is None:
+                vertices = mesh.vertices[:, 0:2]
+            else:
+                vertices = np.vstack((vertices, mesh.vertices[:, 0:2]))
+            
+        try:
+            combined_poly = MultiPoint(vertices).convex_hull
+            return combined_poly.convex_hull
+        except:
+            return None
+
     def get_meshes(self, mesh_type='collision', pose_offset=None):
         if mesh_type not in ['collision', 'visual']:
             msg = 'Mesh type to compute the footprints must be either collision or visual' \

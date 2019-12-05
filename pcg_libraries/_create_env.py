@@ -40,7 +40,7 @@ if __name__ == '__main__':
 
                 if not pkg_exists:
 
-                    cmd = 'python{}.{} -m pip install {} --upgrade --user'.format(
+                    cmd = 'python{}.{} -m pip install {} --upgrade --ignore-installed --user'.format(
                         sys.version_info[0], 
                         sys.version_info[1],
                         pkg
