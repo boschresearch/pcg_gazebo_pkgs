@@ -22,6 +22,9 @@ install(PROGRAMS
     scripts/view_mesh
     scripts/view_gazebo_model
     scripts/list_gazebo_models
+    scripts/urdflint
+    scripts/sdflint
+    scripts/process_jinja_template
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
