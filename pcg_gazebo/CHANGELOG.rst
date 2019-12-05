@@ -2,6 +2,22 @@
 Changelog for package pcg_gazebo
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add missing executable scripts
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Remove duplicated export to XML
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add rosbash to dependency
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Fix the creation of directory during build
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add CMake function to convert model factory configuration into a static Gazebo model
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Merge pull request `#46 <https://github.com/boschresearch/pcg_gazebo_pkgs/issues/46>`_ from boschresearch/feature/hinged_door_creator
+  Feature/hinged door creator
+* Contributors: Musa Morena Marcusso Manhaes
+
 0.1.2 (2019-11-21)
 ------------------
 * Merge pull request `#45 <https://github.com/boschresearch/pcg_gazebo_pkgs/issues/45>`_ from boschresearch/feature/import_world_file_in_world_generator
