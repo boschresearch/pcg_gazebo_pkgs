@@ -2,8 +2,8 @@
 Changelog for package pcg_libraries
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.0 (2019-12-05)
+------------------
 * Set pycollada v0.6 as requirement to solve parsing bug
   Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
 * Reinstate is_hex test for input string conversion

@@ -2,8 +2,8 @@
 Changelog for package pcg_examples
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.0 (2019-12-05)
+------------------
 * Remove pcg_gazebo from the list of build dependencies
   Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
 * Add missing scripts for installation

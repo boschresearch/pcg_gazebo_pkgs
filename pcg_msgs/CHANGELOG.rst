@@ -2,8 +2,8 @@
 Changelog for package pcg_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.0 (2019-12-05)
+------------------
 * Merge pull request `#46 <https://github.com/boschresearch/pcg_gazebo_pkgs/issues/46>`_ from boschresearch/feature/hinged_door_creator
   Feature/hinged door creator
 * Contributors: Musa Morena Marcusso Manhaes
