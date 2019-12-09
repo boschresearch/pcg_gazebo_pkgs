@@ -24,6 +24,7 @@ from .creators import *
 from .occupancy import *
 from .patterns import *
 from .mesh import *
+from .shapes import *
 from .assets_manager import AssetsManager
 from .engine_manager import EngineManager
 from .constraints_manager import ConstraintsManager
