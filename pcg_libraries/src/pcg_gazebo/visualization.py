@@ -32,7 +32,8 @@ except ImportError as ex:
 import os
 import numpy as np
 import trimesh
-from shapely.geometry import Polygon, MultiPolygon
+from shapely.geometry import Polygon, MultiPolygon, \
+    LineString, MultiLineString, Point, MultiPoint
 from multiprocessing.pool import ThreadPool
 
 
@@ -40,19 +41,114 @@ def _get_footprints(inputs):
     fp = inputs[0].get_footprint(mesh_type=inputs[1], z_limits=inputs[2])    
     return fp
 
-def _plot_polygon(fig, polygon, alpha=0.5, line_width=2, legend=None, color=None,
-    line_style='solid'):
-    vertices = np.concatenate([np.asarray(polygon.exterior)[:, :2]] + 
-                              [np.asarray(r)[:, :2] for r in polygon.interiors])
+def get_axes(fig=None, engine='matplotlib', fig_width=20, fig_height=15):
+    if fig is None:
+        fig = get_figure(engine=engine, fig_width=fig_width, 
+            fig_height=fig_height)
 
-    fig.patch(
-        vertices[:, 0], 
-        vertices[:, 1], 
-        alpha=alpha, 
-        line_width=line_width, 
-        legend=legend,
-        color=color,
-        line_dash=line_style)
+    ax = fig.add_subplot(111)       
+    return fig, ax
+
+def get_figure(engine='matplotlib', fig_width=20, fig_height=15):
+    if engine == 'matplotlib':
+        assert MATPLOTLIB_AVAILABLE, 'matplotlib is not available!'
+    elif engine == 'bokeh':
+        assert BOKEH_AVAILABLE, 'bokeh is not available!'
+    else:
+        raise ValueError('Plotting engine <{}> is not available'.format(engine))
+
+    use_matplotlib = engine == 'matplotlib' or not BOKEH_AVAILABLE
+    if use_matplotlib:
+        fig = plt.figure(figsize=(fig_width, fig_height))
+    else:        
+        fig = figure(fig_width=fig_width, fig_height=fig_height)
+    return fig
+
+def plot_shapely_geometry(polygon=None, fig=None, ax=None, alpha=0.5, 
+    line_width=2, legend=None, color=None, line_style='solid', 
+    use_matplotlib=True, fig_width=20, fig_height=15, marker_style='o', 
+    grid=True):       
+    if not use_matplotlib:
+        assert BOKEH_AVAILABLE, 'Bokeh is not available!'
+        if fig is None:
+            fig = get_figure(engine='bokeh', fig_width=fig_width, fig_height=fig_height)
+        if isinstance(polygon, (Polygon, MultiPolygon)):
+            vertices = np.concatenate([np.asarray(polygon.exterior)[:, :2]] + 
+                [np.asarray(r)[:, :2] for r in polygon.interiors])        
+            fig.patch(
+                vertices[:, 0], 
+                vertices[:, 1], 
+                alpha=alpha, 
+                line_width=line_width, 
+                legend=legend,
+                color=color,
+                line_dash=line_style)
+    else:
+        if ax is None: 
+            fig, ax = get_axes(
+                fig=fig, 
+                engine='matplotlib', 
+                fig_width=fig_width, 
+                fig_height=fig_height)
+            
+        if isinstance(polygon, Polygon):
+            patch = descartes.PolygonPatch(
+                polygon, 
+                facecolor=color, 
+                edgecolor='black', 
+                alpha=alpha, 
+                zorder=2,
+                linestyle=line_style,
+                label=legend)
+            ax.add_patch(patch)
+        elif isinstance(polygon, MultiPolygon):
+            for geo in polygon.geoms:
+                plot_shapely_geometry(
+                    ax=ax, 
+                    polygon=geo, 
+                    alpha=alpha, 
+                    line_width=line_width, 
+                    legend=legend, 
+                    color=color, 
+                    line_style=line_style, 
+                    use_matplotlib=use_matplotlib)                
+        elif isinstance(polygon, LineString):
+            # Plot coordinates
+            x, y = polygon.xy
+            ax.plot(x, y, marker=marker_style, color=color, zorder=2)
+            # Plot lines
+            ax.plot(x, y, color=color, alpha=alpha, linewidth=line_width, zorder=2)
+        elif isinstance(polygon, MultiLineString):
+            for geo in polygon.geoms:
+                plot_shapely_geometry(
+                    ax=ax, 
+                    polygon=geo, 
+                    alpha=alpha, 
+                    line_width=line_width, 
+                    marker_style=marker_style,
+                    legend=legend, 
+                    color=color, 
+                    line_style=line_style, 
+                    use_matplotlib=use_matplotlib) 
+        elif isinstance(polygon, Point):
+            # Plot coordinates
+            x, y = polygon.xy
+            ax.plot(x, y, marker=marker_style, color=color, zorder=2)
+        elif isinstance(polygon, MultiPoint):
+            for point in polygon.geoms:
+                plot_shapely_geometry(
+                    ax=ax, 
+                    polygon=point, 
+                    alpha=alpha, 
+                    line_width=line_width, 
+                    marker_style=marker_style,
+                    legend=legend, 
+                    color=color, 
+                    use_matplotlib=use_matplotlib)
+
+        ax.axis('equal') 
+        ax.grid(grid)
+    return fig, ax
 
 def plot_workspace(workspace, fig=None, ax=None, fig_width=800, fig_height=400, 
     color=None, alpha=0.5, line_width=2, legend=None, line_style='dashed', 
@@ -85,7 +181,7 @@ def plot_workspace(workspace, fig=None, ax=None, fig_width=800, fig_height=400,
                 label=legend)
             ax.add_patch(patch)
         else:
-            _plot_polygon(fig, geo, alpha, line_width, legend, color, line_style)
+            plot_shapely_geometry(fig, geo, alpha, line_width, legend, color, line_style)
     elif isinstance(geo, MultiPolygon):
         for g in geo.geoms:
             if use_matplotlib:
@@ -99,8 +195,8 @@ def plot_workspace(workspace, fig=None, ax=None, fig_width=800, fig_height=400,
                     label=legend)
                 ax.add_patch(patch)
             else:
-                _plot_polygon(fig, g, alpha, line_width, legend, color, line_style)
-
+                plot_shapely_geometry(fig, g, alpha, line_width, legend, color, line_style)
+    return fig, ax
 
 def plot_workspaces(workspaces, fig=None, ax=None, fig_width=800, fig_height=400,
     alpha=1, line_width=2, line_style='dashed', engine='bokeh', colormap='viridis'):
@@ -199,7 +295,7 @@ def plot_footprint(footprint, fig=None, ax=None, fig_width=800, fig_height=400,
                     ax.add_patch(patch)
                     use_legend_label = False
                 else:
-                    _plot_polygon(fig, fp, alpha, line_width, legend, color, line_style)
+                    plot_shapely_geometry(fig, fp, alpha, line_width, legend, color, line_style)
     
     return fig
     
