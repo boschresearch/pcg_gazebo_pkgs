@@ -19,3 +19,4 @@ scipy
 pybind11
 MeshPy
 triangle
+alphashape
