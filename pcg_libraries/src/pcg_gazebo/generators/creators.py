@@ -36,7 +36,8 @@ def _parse_factory_input_as_vector(var):
     List of variables as `list` or `numpy.array` if the inputs are numeric.
     `None` if the type of `var` is not supported.
     """
-    if isinstance(var, float) or isinstance(var, int):
+    if isinstance(var, float) or isinstance(var, int) or isinstance(var, np.int64) or \
+        isinstance(var, np.float64):
         PCG_ROOT_LOGGER.info('Variable provided as scalar={}'.format(
             var))
         return np.array([var])
@@ -104,7 +105,6 @@ def box(size, mass=0, name='box', pose=[0, 0, 0, 0, 0, 0], color=None,
     A box-shaped `pcg_gazebo.simulation.SimulationModel` instance.
     """
     from ..simulation import Box
-
     input_mass = float(_parse_factory_input_as_vector(mass)[0])
     input_size = _parse_factory_input_as_vector(size).tolist()
     input_pose = _parse_factory_input_as_vector(pose).tolist()
@@ -124,7 +124,8 @@ def box(size, mass=0, name='box', pose=[0, 0, 0, 0, 0, 0], color=None,
         color=color,
         visual_parameters=visual_parameters,
         collision_parameters=input_col_params)
-    if mass <= 0:
+
+    if input_mass <= 0:
         model.static = True
     
     model.pose = input_pose
@@ -272,7 +273,8 @@ def sphere(radius, mass=0, name='sphere', pose=[0, 0, 0, 0, 0, 0],
         color=color,
         visual_parameters=visual_parameters,
         collision_parameters=input_col_params)
-    if mass <= 0:
+
+    if input_mass <= 0:
         model.static = True
     model.pose = input_pose
     return model
@@ -322,7 +324,8 @@ def cylinder(length, radius, mass=0, name='cylinder', pose=[0, 0, 0, 0, 0, 0],
         color=color,
         visual_parameters=visual_parameters,
         collision_parameters=input_col_params)
-    if mass <= 0:
+
+    if input_mass <= 0:
         model.static = True
     model.pose = input_pose
     return model
