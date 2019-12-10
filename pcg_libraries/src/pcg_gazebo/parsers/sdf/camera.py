@@ -49,7 +49,7 @@ class Camera(XMLBase):
     
     _MODES = ['sensor', 'gui']
 
-    def __init__(self, mode):
+    def __init__(self, mode='sensor'):
         XMLBase.__init__(self)
         self.reset(mode)
 
