@@ -80,7 +80,8 @@ class Plane(Link):
     def visual(self):
         return self._visuals[0]
 
-    def to_sdf(self, type='model', name='plane', sdf_version='1.6'):
+    def to_sdf(self, type='model', name='plane', sdf_version='1.6',
+        resource_prefix='', model_folder=None, copy_resources=False):
         assert type in ['plane', 'geometry', 'collision', 'visual', 'link',
                         'model', 'sdf'], 'Invalid type of the output SDF structure'
         if type in ['collision', 'visual', 'link', 'model']:
@@ -98,7 +99,8 @@ class Plane(Link):
         if type == 'geometry':
             return self._collisions[0].geometry.to_sdf()
 
-        return Link.to_sdf(self, type, name, sdf_version)
+        return Link.to_sdf(self, type, name, sdf_version, resource_prefix, 
+            model_folder, copy_resources)
 
     def update_collision(self):
         self._collisions[0].set_geometry(
