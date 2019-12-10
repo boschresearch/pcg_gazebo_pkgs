@@ -31,7 +31,7 @@ class Sensor(object):
         self._always_on = bool(always_on)
         self._update_rate = update_rate
         self._visualize = bool(visualize)
-        self._topic = None
+        self._topic = topic
         self._plugin = None
         self._name = name
         self._pose = Pose(pose[0:3], pose[3::])
