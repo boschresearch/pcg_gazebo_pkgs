@@ -309,11 +309,18 @@ class ModelGroup(object):
 
     def create_scene(self, mesh_type='collision', add_pseudo_color=True):
         from ..visualization import create_scene
-        return create_scene(self.get_models(with_group_prefix=True).values(), mesh_type, add_pseudo_color)   
+        return create_scene(
+            list(self.get_models(with_group_prefix=True).values()), 
+            mesh_type, add_pseudo_color)   
 
     def show(self, mesh_type='collision', add_pseudo_color=True):
+        from trimesh.viewer.notebook import in_notebook
         scene = self.create_scene(mesh_type, add_pseudo_color)     
-        scene.show()
+        if not in_notebook():
+            scene.show()
+        else:
+            from trimesh.viewer import SceneViewer
+            return SceneViewer(scene)
 
     def get_model(self, name, with_group_prefix=True, use_group_pose=True):
         prefix = self.prefix if with_group_prefix else ''

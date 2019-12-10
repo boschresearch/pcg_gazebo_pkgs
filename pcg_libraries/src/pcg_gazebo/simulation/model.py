@@ -1302,9 +1302,14 @@ class SimulationModel(object):
         return create_scene([self], mesh_type, add_pseudo_color)   
 
     def show(self, mesh_type='collision', add_pseudo_color=True):
+        from trimesh.viewer.notebook import in_notebook
         scene = self.create_scene(mesh_type, add_pseudo_color)     
-        scene.show()
-
+        if not in_notebook():
+            scene.show()
+        else:
+            from trimesh.viewer import SceneViewer
+            return SceneViewer(scene)
+            
     def plot_footprint(self, fig=None, ax=None, fig_width=20, fig_height=20,
         mesh_type='collision', z_limits=None, colormap='magma', grid=True, 
         ignore_ground_plane=True, line_width=1, line_style='solid', alpha=0.5, 

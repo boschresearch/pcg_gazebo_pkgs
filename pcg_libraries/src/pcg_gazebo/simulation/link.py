@@ -968,5 +968,10 @@ class Link(object):
         return create_scene([self], mesh_type, add_pseudo_color)   
 
     def show(self, mesh_type='collision', add_pseudo_color=True):
+        from trimesh.viewer.notebook import in_notebook
         scene = self.create_scene(mesh_type, add_pseudo_color)     
-        scene.show()
+        if not in_notebook():
+            scene.show()
+        else:
+            from trimesh.viewer import SceneViewer
+            return SceneViewer(scene)
