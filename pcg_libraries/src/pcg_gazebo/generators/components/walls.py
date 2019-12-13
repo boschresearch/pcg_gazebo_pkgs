@@ -374,7 +374,7 @@ class Walls(SimulationModel):
         for tag in self._links:
             for visual in self._links[tag].visuals:
                 visual.cast_shadows = False
-                visual.set_material_script('Gazebo/Grey')
+                visual.set_material_script('Gazebo/DarkGrey')
                     
         return True
 

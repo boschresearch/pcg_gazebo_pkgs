@@ -36,7 +36,7 @@ then install the dependencies (replace `kinetic` for the ROS distribution you ar
 
 ```
 cd ~/catkin_ws
-rosdep install --from-paths src --ignore-src --rosdistro=kinetic -y -r
+rosdep install --from-paths src --ignore-src -r -y
 ```
 
 and install an additional dependency from `trimesh`
