@@ -82,7 +82,8 @@ class Box(Link):
         """
         return self._visuals[0]
 
-    def to_sdf(self, type='model', name='box', sdf_version='1.6'):
+    def to_sdf(self, type='model', name='box', sdf_version='1.6', 
+            resource_prefix='', model_folder=None, copy_resources=False):
         """Convert object to an SDF element. The object can be converted
         to different SDF elements according to the `type` input
 
@@ -118,7 +119,8 @@ class Box(Link):
         if type == 'geometry':
             return self._collisions[0].geometry.to_sdf()
 
-        return Link.to_sdf(self, type, name, sdf_version)
+        return Link.to_sdf(self, type, name, sdf_version, resource_prefix, 
+            model_folder, copy_resources)
 
     def add_inertial(self, mass):
         """Initialize mass and moments of inertia for box model.

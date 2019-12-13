@@ -2,6 +2,52 @@
 Changelog for package pcg_libraries
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.1 (2019-12-13)
+------------------
+* Remove alpha shape functionality until dependency issue is solved
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Contributors: Musa Morena Marcusso Manhaes
+
+0.3.0 (2019-12-13)
+------------------
+* Update installation instructions with rosdep
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Fix spacing between functions
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Fix name of the flags to plot reference geometries along with floorplan
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Implementation of spawn() for model groups
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Test for type of joint before adding axis
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Use pyglet for rendering meshes in notebooks due to lack of support for Javascript in Jupyter
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add input for mesh resources in SDF conversion
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Store the input topic value for sensor unit
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Create SDF camera using the sensor mode
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Set camera element per default as a sensor
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add input for mesh resource configuration for primitives
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Test input for numpy scalar variables
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add default grey color to generated walls
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add plotter for Shapely geometries
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add wall Gazebo model constructor
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add alphashape to requirements
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Add 2D shapes creator
+  Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
+* Merge pull request `#47 <https://github.com/boschresearch/pcg_gazebo_pkgs/issues/47>`_ from boschresearch/feature/cmake_function_generate_static_model_from_config
+  Feature/cmake function generate static model from config
+* Contributors: Musa Morena Marcusso Manhaes
+
 0.2.0 (2019-12-05)
 ------------------
 * Set pycollada v0.6 as requirement to solve parsing bug

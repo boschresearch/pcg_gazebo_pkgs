@@ -259,7 +259,7 @@ class Camera(Sensor):
         sensor = Sensor.to_sdf(self)
         sensor.type = self._type
 
-        sensor.camera = create_sdf_element('camera')
+        sensor.camera = create_sdf_element('camera', 'sensor')
         sensor.camera.reset(with_optional_elements=True)
         sensor.camera.name = self._camera_name
         sensor.camera.noise = self._noise.to_sdf()

@@ -309,11 +309,18 @@ class ModelGroup(object):
 
     def create_scene(self, mesh_type='collision', add_pseudo_color=True):
         from ..visualization import create_scene
-        return create_scene(self.get_models(with_group_prefix=True).values(), mesh_type, add_pseudo_color)   
+        return create_scene(
+            list(self.get_models(with_group_prefix=True).values()), 
+            mesh_type, add_pseudo_color)   
 
     def show(self, mesh_type='collision', add_pseudo_color=True):
+        from trimesh.viewer.notebook import in_notebook
         scene = self.create_scene(mesh_type, add_pseudo_color)     
-        scene.show()
+        if not in_notebook():
+            scene.show()
+        else:
+            from trimesh.viewer import SceneViewer
+            return SceneViewer(scene)
 
     def get_model(self, name, with_group_prefix=True, use_group_pose=True):
         prefix = self.prefix if with_group_prefix else ''
@@ -768,5 +775,58 @@ class ModelGroup(object):
             
         return full_model_dir
 
-    def spawn(self):
-        pass
+    def spawn(self, gazebo_proxy=None, robot_namespace=None, pos=[0, 0, 0], 
+        rot=[0, 0, 0], reference_frame='world', timeout=30, replace=True, 
+        nested=False):
+        from ..task_manager import GazeboProxy, is_gazebo_running
+        from time import sleep, time
+
+        if not isinstance(gazebo_proxy, GazeboProxy):
+            gazebo_proxy = GazeboProxy()
+
+        if not nested:
+            models = self.get_models(with_group_prefix=True)
+            for tag in models:
+                success = models[tag].spawn(
+                    gazebo_proxy=gazebo_proxy,
+                    pos=pos,
+                    rot=rot, 
+                    reference_frame=reference_frame,
+                    timeout=timeout,
+                    replace=replace
+                )
+
+                if not success:
+                    return False
+            return True
+        else:
+            sdf = self.to_sdf(type='sdf', use_include=False)
+            assert sdf is not None, 'Could not convert model group to SDF'
+
+            if robot_namespace is None:
+                robot_namespace = self.name
+
+            assert timeout >= 0, 'Timeout should be equal or greater than zero'
+            start_time = time()
+            while not gazebo_proxy.is_init() and time() - start_time < timeout:
+                self._logger.info('Waiting for Gazebo to start...')
+                sleep(0.5)
+
+            if not is_gazebo_running(
+                ros_master_uri=gazebo_proxy.ros_config.ros_master_uri):
+                self._logger.error('Gazebo is not running!')
+                return False
+
+            if replace and robot_namespace in gazebo_proxy.get_model_names():
+                self._logger.info('Deleting existing model first')
+                if gazebo_proxy.delete_model(robot_namespace):
+                    self._logger.info('Done')
+                else:
+                    self._logger.error('Failed to delete existing model')
+                    return False
+            return gazebo_proxy.spawn_sdf_model(
+                robot_namespace,
+                sdf.to_xml_as_str(),
+                pos,
+                rot,
+                reference_frame)

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>pcg_gazebo</name>
-  <version>0.2.0</version>
+  <version>0.3.1</version>
   <description>Scripts to run the PCG library</description>
 
   <maintainer email="musa.marcusso@de.bosch.com">Musa Morena Marcusso Manhaes</maintainer>

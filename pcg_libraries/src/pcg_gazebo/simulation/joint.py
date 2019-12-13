@@ -205,9 +205,10 @@ class Joint(object):
         if sdf.pose is not None:
             joint.pose = Pose.from_sdf(sdf.pose)
 
-        if sdf.axis is not None:
-            joint._axis[0] = Axis.from_sdf(sdf.axis)
-        if sdf.axis2 is not None:
-            joint._axis[1] = Axis.from_sdf(sdf.axis2)        
+        if sdf.type != 'fixed':
+            if sdf.axis is not None:
+                joint._axis[0] = Axis.from_sdf(sdf.axis)
+            if sdf.axis2 is not None:
+                joint._axis[1] = Axis.from_sdf(sdf.axis2)        
             
         return joint

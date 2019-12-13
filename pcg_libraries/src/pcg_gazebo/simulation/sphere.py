@@ -65,7 +65,8 @@ class Sphere(Link):
         """
         return self._visuals[0]
 
-    def to_sdf(self, type='model', name='sphere', sdf_version='1.6'):
+    def to_sdf(self, type='model', name='sphere', sdf_version='1.6',
+        resource_prefix='', model_folder=None, copy_resources=False):
         """Convert object to an SDF element. The object can be converted
         to different SDF elements according to the `type` input
 
@@ -101,7 +102,8 @@ class Sphere(Link):
         if type == 'geometry':
             return self._collisions[0].geometry.to_sdf()
 
-        return Link.to_sdf(self, type, name, sdf_version)
+        return Link.to_sdf(self, type, name, sdf_version, resource_prefix, 
+            model_folder, copy_resources)
 
     def add_inertial(self, mass, hollow=False):
         """Initialize mass and moments of inertia for sphere model.

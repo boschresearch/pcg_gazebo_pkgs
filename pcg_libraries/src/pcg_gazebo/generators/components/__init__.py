@@ -14,3 +14,4 @@
 # limitations under the License.
 
 from .hinged_door import HingedDoor
+from .walls import Walls
