@@ -379,8 +379,8 @@ class Walls(SimulationModel):
         return True
 
     def plot_floorplan(self, fig=None, ax=None, fig_width=20, fig_height=15, 
-        use_matplotlib=True, add_floorplan_reference_geometry_geometries=False, 
-        add_interior_geometries=True, alpha=1.0, line_width=2, 
+        use_matplotlib=True, plot_reference=False, 
+        plot_interior=True, alpha=1.0, line_width=2, 
         line_style='solid', reference_geo_color='tab:blue', 
         wall_geo_color='tab:gray', interior_geo_color='tab:pink'):               
         for tag in self._wall_polygons:
@@ -395,7 +395,7 @@ class Walls(SimulationModel):
                 alpha=alpha,
                 line_width=line_width,
                 line_style=line_style)
-        if add_interior_geometries:
+        if plot_interior:
             for tag in self._interior_polygons:
                 fig, ax = plot_shapely_geometry(
                     fig=fig,
@@ -404,24 +404,22 @@ class Walls(SimulationModel):
                     use_matplotlib=use_matplotlib,
                     fig_height=fig_height,
                     fig_width=fig_width,
-                    polygon=self._interior_polygons
-                    [tag],
+                    polygon=self._interior_polygons[tag],
                     alpha=0.3,
                     line_width=line_width,
                     line_style=line_style)
 
-        if add_floorplan_reference_geometry_geometries:
+        if plot_reference:
             fig, ax = self.plot_reference_geometries(
                     fig=fig,
                     ax=ax, 
-                    color=wall_geo_color,
+                    color=reference_geo_color,
                     use_matplotlib=use_matplotlib,
                     fig_height=fig_height,
                     fig_width=fig_width,
-                    polygon=geo,
+                    line_style='dashed',
                     alpha=0.5,
-                    line_width=line_width,
-                    line_style=line_style)
+                    line_width=3)
 
         return fig, ax
 
