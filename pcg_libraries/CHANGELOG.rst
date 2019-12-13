@@ -2,8 +2,8 @@
 Changelog for package pcg_libraries
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.1 (2019-12-13)
+------------------
 * Remove alpha shape functionality until dependency issue is solved
   Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
 * Contributors: Musa Morena Marcusso Manhaes
