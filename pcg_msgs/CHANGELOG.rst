@@ -2,8 +2,8 @@
 Changelog for package pcg_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.0 (2019-12-13)
+------------------
 * Merge pull request `#47 <https://github.com/boschresearch/pcg_gazebo_pkgs/issues/47>`_ from boschresearch/feature/cmake_function_generate_static_model_from_config
   Feature/cmake function generate static model from config
 * Contributors: Musa Morena Marcusso Manhaes

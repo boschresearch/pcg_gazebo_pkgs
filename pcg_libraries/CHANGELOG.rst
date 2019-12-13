@@ -2,8 +2,8 @@
 Changelog for package pcg_libraries
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.0 (2019-12-13)
+------------------
 * Update installation instructions with rosdep
   Signed-off-by: Musa Morena Marcusso Manhaes <musa.marcusso@de.bosch.com>
 * Fix spacing between functions
