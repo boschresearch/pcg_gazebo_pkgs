@@ -41,6 +41,7 @@ def _get_footprints(inputs):
     fp = inputs[0].get_footprint(mesh_type=inputs[1], z_limits=inputs[2])    
     return fp
 
+
 def get_axes(fig=None, engine='matplotlib', fig_width=20, fig_height=15):
     if fig is None:
         fig = get_figure(engine=engine, fig_width=fig_width, 
@@ -48,6 +49,7 @@ def get_axes(fig=None, engine='matplotlib', fig_width=20, fig_height=15):
 
     ax = fig.add_subplot(111)       
     return fig, ax
+
 
 def get_figure(engine='matplotlib', fig_width=20, fig_height=15):
     if engine == 'matplotlib':
@@ -63,6 +65,7 @@ def get_figure(engine='matplotlib', fig_width=20, fig_height=15):
     else:        
         fig = figure(fig_width=fig_width, fig_height=fig_height)
     return fig
+
 
 def plot_shapely_geometry(polygon=None, fig=None, ax=None, alpha=0.5, 
     line_width=2, legend=None, color=None, line_style='solid', 
@@ -150,6 +153,7 @@ def plot_shapely_geometry(polygon=None, fig=None, ax=None, alpha=0.5,
         ax.grid(grid)
     return fig, ax
 
+
 def plot_workspace(workspace, fig=None, ax=None, fig_width=800, fig_height=400, 
     color=None, alpha=0.5, line_width=2, legend=None, line_style='dashed', 
     engine='bokeh'):
@@ -197,6 +201,7 @@ def plot_workspace(workspace, fig=None, ax=None, fig_width=800, fig_height=400,
             else:
                 plot_shapely_geometry(fig, g, alpha, line_width, legend, color, line_style)
     return fig, ax
+    
 
 def plot_workspaces(workspaces, fig=None, ax=None, fig_width=800, fig_height=400,
     alpha=1, line_width=2, line_style='dashed', engine='bokeh', colormap='viridis'):
