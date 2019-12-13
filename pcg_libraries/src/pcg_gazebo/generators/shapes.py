@@ -16,7 +16,6 @@ import numpy as np
 from shapely.geometry import Polygon, MultiPolygon, \
     Point, MultiPoint, LineString, MultiLineString
 from shapely.ops import triangulate, unary_union
-import alphashape as ashape
 
 
 def rectangle(x_center, y_center, delta_x, delta_y):
@@ -61,14 +60,6 @@ def triangulate_points(points):
     elif isinstance(points, MultiPoint):
         pp = points
     return unary_union(triangulate(pp))
-
-
-def alphashape(points, alpha=1.0):
-    if isinstance(points, list):
-        pp = MultiPoint(points)
-    elif isinstance(points, MultiPoint):
-        pp = points
-    return ashape.alphashape(pp, alpha)
 
 
 def circle(x_center=0, y_center=0, radius=1):
