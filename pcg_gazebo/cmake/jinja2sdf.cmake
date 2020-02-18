@@ -101,7 +101,7 @@ function(pcg_convert_jinja_to_sdf)
             OUTPUT 
                 ${MODEL_SDF_FAKE}
                 ${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}
-            COMMAND rosrun pcg_gazebo process_jinja_template 
+            COMMAND pcg-process-jinja-template 
                 --input-template ${ARG_INPUT_TEMPLATE_FILENAME} 
                 --output-filename ${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}                 
                 ${ARG_JINJA_INPUT_PARAMETERS} ${TEMPLATE_PARAMETERS_FILENAME} --sdf ${MERGE_NESTED_MODELS_OPT}
@@ -135,7 +135,7 @@ function(pcg_convert_jinja_to_sdf)
                 OUTPUT
                     ${MODEL_URDF_FAKE}
                     ${ARG_OUTPUT_URDF_DIR}/${ARG_OUTPUT_URDF_FILENAME}
-                COMMAND rosrun pcg_gazebo sdf2urdf
+                COMMAND pcg-sdf2urdf
                     --filename ${ARG_OUTPUT_SDF_DIR}/${ARG_OUTPUT_SDF_FILENAME}
                     --output-filename ${ARG_OUTPUT_URDF_DIR}/${ARG_OUTPUT_URDF_FILENAME}
                 DEPENDS 

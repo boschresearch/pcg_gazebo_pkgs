@@ -92,7 +92,7 @@ function(pcg_generate_world_from_config)
             OUTPUT 
                 ${WORLD_GEN_FAKE}
                 ${ARG_OUTPUT_WORLD_FILENAME}
-            COMMAND rosrun pcg_gazebo generate_pcg_world 
+            COMMAND pcg-generate-world 
                 --config-file ${ARG_CONFIG_FILENAME} 
                 --output-world-file ${ARG_OUTPUT_WORLD_FILENAME}
                 --physics ${ARG_PHYSICS_ENGINE}

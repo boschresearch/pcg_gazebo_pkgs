@@ -29,7 +29,7 @@ macro(pcg_check_sdf INPUT_FILENAME)
 
     add_custom_command(
         OUTPUT ${MODEL_SDF_LINT_FAKE}
-        COMMAND rosrun pcg_gazebo sdflint --filename ${INPUT_FILENAME}
+        COMMAND pcg-sdflint --filename ${INPUT_FILENAME}
     )
 
     unset(MODEL_SDF_LINT_FAKE)

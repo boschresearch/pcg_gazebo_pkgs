@@ -56,7 +56,7 @@ function(pcg_generate_model_from_config)
     add_custom_command(
         OUTPUT 
             ${RUN_MODEL_FACTORY_FAKE}
-        COMMAND rosrun pcg_gazebo run_model_factory 
+        COMMAND pcg-run-model-factory 
             --config-file ${ARG_CONFIG_FILENAME} 
             --store-dir ${ARG_OUTPUT_MODEL_DIR}                 
             --store-model ${OVERWRITE_MODELS_OPT}

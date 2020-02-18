@@ -131,7 +131,7 @@ function(pcg_convert_jinja_to_gazebo_model)
             OUTPUT 
                 ${MODEL_CONFIG_FAKE}
                 ${ARG_OUTPUT_MODEL_DIR}/${ARG_MODEL_NAME}/model.config
-            COMMAND mkdir -p ${ARG_OUTPUT_MODEL_DIR}/${ARG_MODEL_NAME} && rosrun pcg_gazebo process_jinja_template 
+            COMMAND mkdir -p ${ARG_OUTPUT_MODEL_DIR}/${ARG_MODEL_NAME} && pcg-process-jinja-template 
                 --input-template ${MODEL_CONFIG_TEMPLATE_DIR}/sdf/model.config.jinja 
                 --output-filename ${ARG_OUTPUT_MODEL_DIR}/${ARG_MODEL_NAME}/model.config 
                 --param=model_name=${ARG_MODEL_METANAME} 

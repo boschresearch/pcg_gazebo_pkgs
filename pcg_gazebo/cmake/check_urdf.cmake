@@ -29,7 +29,7 @@ macro(pcg_check_urdf INPUT_FILENAME)
 
     add_custom_command(
         OUTPUT ${MODEL_URDF_LINT_FAKE}
-        COMMAND rosrun pcg_gazebo urdflint --filename ${INPUT_FILENAME}
+        COMMAND pcg-urdflint --filename ${INPUT_FILENAME}
     )
 
     unset(MODEL_URDF_LINT_FAKE)
