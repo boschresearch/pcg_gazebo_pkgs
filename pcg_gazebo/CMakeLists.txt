@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(pcg_gazebo)
 
-find_package(catkin REQUIRED COMPONENTS pcg_libraries)
+find_package(catkin REQUIRED)
 
 catkin_package(CFG_EXTRAS ${PROJECT_NAME}-extras.cmake)
 
