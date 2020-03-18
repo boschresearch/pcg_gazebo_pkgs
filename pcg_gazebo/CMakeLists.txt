@@ -10,7 +10,7 @@ catkin_package(CFG_EXTRAS ${PROJECT_NAME}-extras.cmake)
 #############
 
 install(
-  DIRECTORY launch
+  DIRECTORY templates
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
   PATTERN "*~" EXCLUDE)
 
