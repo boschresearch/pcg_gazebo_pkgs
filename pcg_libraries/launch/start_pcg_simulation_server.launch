@@ -1,9 +1,0 @@
-<launch>
-    <group ns="pcg">
-        <node type="pcg_simulation_server"
-            pkg="pcg_libraries"
-            name="pcg_simulation_server"
-            output="screen">
-        </node>
-    </group>
-</launch>

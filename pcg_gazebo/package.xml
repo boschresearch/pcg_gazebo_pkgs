@@ -12,20 +12,8 @@
 
   <buildtool_depend>catkin</buildtool_depend>  
 
-  <depend>pcg_libraries</depend>
+  <depend>python3-pcg-gazebo-pip</depend>
 
-  <exec_depend>std_msgs</exec_depend>
-  <exec_depend>gazebo_msgs</exec_depend>
-  <exec_depend>geometry_msgs</exec_depend>
-  <exec_depend>rospy</exec_depend>
-  <exec_depend>tf2_ros</exec_depend>
-  <exec_depend>python-yaml</exec_depend>
-  <exec_depend>std_srvs</exec_depend>
-  <exec_depend>python-jinja2</exec_depend>
-  <exec_depend>python-numpy</exec_depend>
-  <exec_depend>python-simplejson</exec_depend>
-  <exec_depend>pcg_msgs</exec_depend>
-  <exec_depend>visualization_msgs</exec_depend>
 
   <build_export_depend>rosbash</build_export_depend>
   <build_export_depend>rospack</build_export_depend>

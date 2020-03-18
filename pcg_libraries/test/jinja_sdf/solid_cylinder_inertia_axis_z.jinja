@@ -1,3 +1,0 @@
-<?xml version="1.0" ?>
-{% import 'pcg_libraries'|find_ros_package ~ '/sdf/inertias.sdf.jinja' as inertias %}
-{{ inertias.solid_cylinder_inertia(mass, radius, length, "z") }}
